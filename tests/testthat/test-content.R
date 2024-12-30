@@ -324,3 +324,27 @@ test_that("an error is raised when terminate_jobs() calls a bad URL", {
     )
   })
 })
+
+test_that("get_job_log() gets job logs", {
+  with_mock_api({
+    client <- Connect$new(server = "http://connect.example", api_key = "not-a-key")
+    item <- content_item(client, "8f37d6e0")
+    log <- get_job_log(item, "uJhnmtV11bLS66kk")
+    expect_identical(
+      log,
+      tibble::tibble(
+        source = c("stderr", "stderr", "stderr"),
+        timestamp = structure(
+          c(1733512169.9480169, 1733512169.9480703, 1733512169.9480758),
+          tzone = "UTC",
+          class = c("POSIXct", "POSIXt")
+        ),
+        data = c(
+          "[rsc-session] Content GUID: 8f37d6e0",
+          "[rsc-session] Content ID: 52389",
+          "[rsc-session] Bundle ID: 127015"
+        )
+      )
+    )
+  })
+})

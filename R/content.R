@@ -695,6 +695,15 @@ get_job <- function(content, key) {
   parse_connectapi_typed(list(job), connectapi_ptypes$job)
 }
 
+get_job_log <- function(content, key) {
+  validate_R6_class(content, "Content")
+
+  error_if_less_than(content$connect$version, "2022.10.0")
+
+  res <- content$connect$GET(v1_url("content", content$content$guid, "jobs", key, "log"))
+  parse_connectapi_typed(res$entries, connectapi_ptypes$job_log)
+}
+
 #' Terminate Jobs
 #'
 #' Register a job kill order for one or more jobs associated with a content

@@ -238,5 +238,10 @@ connectapi_ptypes <- list(
     content_guid = NA_character_,
     path = NA_character_,
     created_time = NA_datetime_
+  ),
+  job_log = tibble::tibble(
+    source = NA_character_,
+    timestamp = NA_datetime_,
+    data = NA_character_
   )
 )

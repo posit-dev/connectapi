@@ -1,0 +1,19 @@
+{
+    "entries": [
+        {
+            "source": "stderr",
+            "timestamp": "2024-12-06T19:09:29.948016766Z",
+            "data": "[rsc-session] Content GUID: 8f37d6e0"
+        },
+        {
+            "source": "stderr",
+            "timestamp": "2024-12-06T19:09:29.948070345Z",
+            "data": "[rsc-session] Content ID: 52389"
+        },
+        {
+            "source": "stderr",
+            "timestamp": "2024-12-06T19:09:29.948075747Z",
+            "data": "[rsc-session] Bundle ID: 127015"
+        }
+    ]
+}
