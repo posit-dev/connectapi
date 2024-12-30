@@ -169,8 +169,8 @@ parse_connect_rfc3339 <- function(x) {
     # Times with and without offsets require different formats.
     format_string <- ifelse(
       grepl("Z$", .x),
-      "%Y-%m-%dT%H:%M:%SZ",
-      "%Y-%m-%dT%H:%M:%S%z"
+      "%Y-%m-%dT%H:%M:%OSZ",
+      "%Y-%m-%dT%H:%M:%OS%z"
     )
     as.POSIXct(strptime(.x, format = format_string, tz = "UTC"))
   })
