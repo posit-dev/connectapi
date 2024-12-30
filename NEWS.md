@@ -1,5 +1,15 @@
 # connectapi (development version)
 
+## New features
+
+- New `get_job_log()` function which lets you get the log for a given job.
+  (#341)
+
+## Newly deprecated
+
+- `get_job()` (singular) is now deprecated, its functionality taken care of by
+  other functions, including `get_job_log()`.
+
 # connectapi 0.5.0
 
 ## Breaking changes
