@@ -52,6 +52,7 @@ Other content functions:
 \code{\link{get_bundles}()},
 \code{\link{get_image}()},
 \code{\link{get_job}()},
+\code{\link{get_job_log}()},
 \code{\link{get_jobs}()},
 \code{\link{get_thumbnail}()},
 \code{\link{get_vanity_url}()},

@@ -695,15 +695,6 @@ get_job <- function(content, key) {
   parse_connectapi_typed(list(job), connectapi_ptypes$job)
 }
 
-get_job_log <- function(content, key) {
-  validate_R6_class(content, "Content")
-
-  error_if_less_than(content$connect$version, "2022.10.0")
-
-  res <- content$connect$GET(v1_url("content", content$content$guid, "jobs", key, "log"))
-  parse_connectapi_typed(res$entries, connectapi_ptypes$job_log)
-}
-
 #' Terminate Jobs
 #'
 #' Register a job kill order for one or more jobs associated with a content
@@ -754,6 +745,31 @@ terminate_jobs <- function(content, keys = NULL) {
   # Errors will not have the job_key.
   res_df$job_key <- keys
   res_df
+}
+
+#' Get Job Log
+#'
+#' Get the log output for a job. Requires Connect 2022.10.0 or newer.
+#'
+#' @param content A Content object, as returned by `content_item()`
+#' @param key A job key, which you can find using `get_jobs()`.
+#'
+#' @return A data frame with the requested log. Each row represents an entry.
+#'
+#' - `source`: `stdout` or `stderr`
+#' - `timestamp`: The time of the entry.
+#' - `data`: The logged text.
+#'
+#' @family job functions
+#' @family content functions
+#' @export
+get_job_log <- function(content, key) {
+  validate_R6_class(content, "Content")
+
+  error_if_less_than(content$connect$version, "2022.10.0")
+
+  res <- content$connect$GET(v1_url("content", content$content$guid, "jobs", key, "log"))
+  parse_connectapi_typed(res$entries, connectapi_ptypes$job_log)
 }
 
 #' Set RunAs User

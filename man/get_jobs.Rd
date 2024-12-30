@@ -63,6 +63,7 @@ not return the complete set of information provided by newer versions.
 \seealso{
 Other job functions: 
 \code{\link{get_job}()},
+\code{\link{get_job_log}()},
 \code{\link{terminate_jobs}()}
 
 Other content functions: 
@@ -80,6 +81,7 @@ Other content functions:
 \code{\link{get_environment}()},
 \code{\link{get_image}()},
 \code{\link{get_job}()},
+\code{\link{get_job_log}()},
 \code{\link{get_thumbnail}()},
 \code{\link{get_vanity_url}()},
 \code{\link{git}},
