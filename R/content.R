@@ -682,7 +682,7 @@ get_jobs <- function(content) {
 #' @family content functions
 #' @export
 get_job <- function(content, key) {
-  lifecycle::deprecate_warn("0.3.1", "get_job()", "delete_thumbnail()")
+  lifecycle::deprecate_warn("0.6", "get_job()", "get_job_log()")
   scoped_experimental_silence()
   validate_R6_class(content, "Content")
 
