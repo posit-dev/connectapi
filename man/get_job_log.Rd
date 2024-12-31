@@ -4,12 +4,15 @@
 \alias{get_job_log}
 \title{Get Job Log}
 \usage{
-get_job_log(content, key)
+get_job_log(content, key, max_log_lines = NULL)
 }
 \arguments{
 \item{content}{A Content object, as returned by \code{content_item()}}
 
-\item{key}{A job key, which you can find using \code{get_jobs()}.}
+\item{key}{A job key, which you can find using \code{get_jobs()}}
+
+\item{max_log_lines}{The maximum number of log lines to return. If NULL
+(default), Connect returns a max of 5000 lines.}
 }
 \value{
 A data frame with the requested log. Each row represents an entry.

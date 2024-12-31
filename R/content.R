@@ -766,7 +766,10 @@ terminate_jobs <- function(content, keys = NULL) {
 #' Get the log output for a job. Requires Connect 2022.10.0 or newer.
 #'
 #' @param content A Content object, as returned by `content_item()`
-#' @param key A job key, which you can find using `get_jobs()`.
+#' @param key A job key, which you can find using `get_jobs()`
+#' @param max_log_lines Optional. An integer indicating the maximum number of
+#' log lines to return. If `NULL` (default), Connect returns a maximum of 5000
+#' lines.
 #'
 #' @return A data frame with the requested log. Each row represents an entry.
 #'
@@ -787,12 +790,17 @@ terminate_jobs <- function(content, keys = NULL) {
 #' @family job functions
 #' @family content functions
 #' @export
-get_job_log <- function(content, key) {
+get_job_log <- function(content, key, max_log_lines = NULL) {
   validate_R6_class(content, "Content")
 
   error_if_less_than(content$connect$version, "2022.10.0")
 
-  res <- content$connect$GET(v1_url("content", content$content$guid, "jobs", key, "log"))
+  query <- list(maxLogLines = max_log_lines)
+  print(query)
+  res <- content$connect$GET(
+    v1_url("content", content$content$guid, "jobs", key, "log"),
+    query = query
+  )
   parse_connectapi_typed(res$entries, connectapi_ptypes$job_log)
 }
 

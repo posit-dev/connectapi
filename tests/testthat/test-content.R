@@ -346,5 +346,10 @@ test_that("get_job_log() gets job logs", {
         )
       )
     )
+
+    expect_GET(
+      get_job_log(item, "uJhnmtV11bLS66kk", max_log_lines = 10),
+      "http://connect.example/__api__/v1/content/8f37d6e0/jobs/uJhnmtV11bLS66kk/log?maxLogLines=10"
+    )
   })
 })
