@@ -32,6 +32,14 @@ request returns an error.
 Register a job kill order for one or more jobs associated with a content
 item. Requires Connect 2022.10.0 or newer.
 }
+\examples{
+\dontrun{
+client <- connect()
+item <- content_item(client, "951bf3ad-82d0-4bca-bba8-9b27e35c49fa")
+result <- terminate_jobs(item)
+}
+
+}
 \seealso{
 Other job functions: 
 \code{\link{get_job}()},

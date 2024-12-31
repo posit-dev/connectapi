@@ -60,6 +60,14 @@ not return the complete set of information provided by newer versions.
 \item On Connect instances earlier than 2022.10.0, these columns will contain \code{NA} values.
 }
 }
+\examples{
+\dontrun{
+client <- connect()
+item <- content_item(client, "951bf3ad-82d0-4bca-bba8-9b27e35c49fa")
+jobs <- get_jobs(item)
+}
+
+}
 \seealso{
 Other job functions: 
 \code{\link{get_job}()},

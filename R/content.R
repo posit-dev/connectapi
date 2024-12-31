@@ -660,6 +660,13 @@ content_ensure <- function(
 #' @note
 #' 1. On Connect instances earlier than 2022.10.0, these columns will contain `NA` values.
 #'
+#' @examples
+#' \dontrun{
+#' client <- connect()
+#' item <- content_item(client, "951bf3ad-82d0-4bca-bba8-9b27e35c49fa")
+#' jobs <- get_jobs(item)
+#' }
+#'
 #' @family job functions
 #' @family content functions
 #' @export
@@ -718,6 +725,13 @@ get_job <- function(content, key) {
 #' Note that `app_id`, `app_guid`, `job_id`, and `result` are `NA` if the
 #' request returns an error.
 #'
+#' @examples
+#' \dontrun{
+#' client <- connect()
+#' item <- content_item(client, "951bf3ad-82d0-4bca-bba8-9b27e35c49fa")
+#' result <- terminate_jobs(item)
+#' }
+#'
 #' @family job functions
 #' @family content functions
 #' @export
@@ -759,6 +773,16 @@ terminate_jobs <- function(content, keys = NULL) {
 #' - `source`: `stdout` or `stderr`
 #' - `timestamp`: The time of the entry.
 #' - `data`: The logged text.
+#'
+#' @examples
+#' \dontrun{
+#' client <- connect()
+#' item <- content_item(client, "951bf3ad-82d0-4bca-bba8-9b27e35c49fa")
+#' jobs <- get_jobs(item)
+#' key <- jobs$key[1]
+#' log <- get_job_log(item, key)
+#' }
+#'
 #'
 #' @family job functions
 #' @family content functions

@@ -22,6 +22,17 @@ A data frame with the requested log. Each row represents an entry.
 \description{
 Get the log output for a job. Requires Connect 2022.10.0 or newer.
 }
+\examples{
+\dontrun{
+client <- connect()
+item <- content_item(client, "951bf3ad-82d0-4bca-bba8-9b27e35c49fa")
+jobs <- get_jobs(item)
+key <- jobs$key[1]
+log <- get_job_log(item, key)
+}
+
+
+}
 \seealso{
 Other job functions: 
 \code{\link{get_job}()},
