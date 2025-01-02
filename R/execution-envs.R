@@ -46,6 +46,7 @@ ExecutionEnv <- R6::R6Class(
   )
 )
 
+#' @export
 `[[.ExecutionEnv` <- function(x, name) {
   data <- get("data", envir = x)
   if (name %in% names(data)) {
@@ -54,6 +55,7 @@ ExecutionEnv <- R6::R6Class(
   get(name, envir = x)
 }
 
+#' @export
 `$.ExecutionEnv` <- function(x, name) {
   x[[name]]
 }

@@ -16,6 +16,7 @@ Other R6 classes:
 \code{\link{Bundle}},
 \code{\link{Content}},
 \code{\link{Environment}},
+\code{\link{ExecutionEnv}},
 \code{\link{PositConnect}},
 \code{\link{Task}},
 \code{\link{Vanity}},

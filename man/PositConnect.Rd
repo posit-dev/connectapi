@@ -32,6 +32,7 @@ Other R6 classes:
 \code{\link{Content}},
 \code{\link{ContentTask}},
 \code{\link{Environment}},
+\code{\link{ExecutionEnv}},
 \code{\link{Task}},
 \code{\link{Vanity}},
 \code{\link{Variant}},
