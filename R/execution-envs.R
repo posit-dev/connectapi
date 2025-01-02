@@ -64,7 +64,7 @@ get_execution_envs <- function(connect) {
   res <- connect$GET(v1_url("environments"))
   envs <- list()
   for (env in res) {
-    envs <- append(envs, ExecutionEnv$new(client, env))
+    envs <- append(envs, ExecutionEnv$new(connect, env))
   }
   return(envs)
 }
