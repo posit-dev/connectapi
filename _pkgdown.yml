@@ -1,4 +1,4 @@
-url: https://pkgs.rstudio.com/connectapi/
+url: https://posit-dev.github.io/connectapi/
 
 template:
   bootstrap: 5

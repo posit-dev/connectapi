@@ -209,5 +209,5 @@ Please open an issue or PR! We would love to have your contribution!
 
 Please note that the connectapi project is released with a [Contributor
 Code of
-Conduct](https://pkgs.rstudio.com/connectapi/CODE_OF_CONDUCT.html). By
+Conduct](https://posit-dev.github.io/connectapi/CODE_OF_CONDUCT.html). By
 contributing to this project, you agree to abide by its terms.
