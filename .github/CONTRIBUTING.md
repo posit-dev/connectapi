@@ -15,9 +15,9 @@ This has some additional requirements.
 
 - You need a valid Connect license key or file. Put the contents of the license key, or the path to the license file, in the `RSC_LICENSE` environment variable.
 - You need Docker.
-- If you're running on an ARM (non-Intel) Mac, `export DOCKER_DEFAULT_PLATFORM=linux/amd64` 
+- If you're running on an ARM (non-Intel) Mac, `export DOCKER_DEFAULT_PLATFORM=linux/amd64`
 - Run `connectapi:::build_test_env()` to set up the Connect processes in docker
-- By default, this will run against a contemporary version of Connect. To test against an older version, set the environment variable `CONNECT_VERSION` to something else and then run `build_test_env()`. 
+- By default, this will run against a contemporary version of Connect. To test against an older version, set the environment variable `CONNECT_VERSION` to something else and then run `build_test_env()`.
 - Set `CONNECTAPI_INTEGRATED=true` in the environment to enable running the integration tests (they're skipped by default).
 - Run them with `source("tests/test-integrated.R")`
 
@@ -35,7 +35,7 @@ If you’ve found a bug, please file an issue that illustrates the bug with a mi
 
 ### Pull request process
 
-*   Fork the package and clone onto your computer. If you haven't done this before, we recommend using `usethis::create_from_github("rstudio/connectapi", fork = TRUE)`.
+*   Fork the package and clone onto your computer. If you haven't done this before, we recommend using `usethis::create_from_github("posit-dev/connectapi", fork = TRUE)`.
 
 *   Install all development dependencies with `devtools::install_dev_deps()`, and then make sure the package passes R CMD check by running `devtools::check()`.
     If R CMD check doesn't pass cleanly, it's a good idea to ask for help before continuing.

@@ -7,7 +7,7 @@ test_that("git deployment works", {
   scoped_experimental_silence()
   cont0 <- deploy_repo(
     test_conn_1,
-    "https://github.com/rstudio/connectapi",
+    "https://github.com/posit-dev/connectapi",
     "main",
     "tests/testthat/examples/static"
   )
@@ -17,7 +17,7 @@ test_that("git deployment works", {
   new_name <- uuid::UUIDgenerate()
   cont1 <- deploy_repo(
     test_conn_1,
-    "https://github.com/rstudio/connectapi",
+    "https://github.com/posit-dev/connectapi",
     "main",
     "tests/testthat/examples/static",
     new_name,
@@ -48,7 +48,7 @@ test_that("repo_check_branches works", {
     "not found"
   )
 
-  br <- repo_check_branches(test_conn_1, "https://github.com/rstudio/connectapi")
+  br <- repo_check_branches(test_conn_1, "https://github.com/posit-dev/connectapi")
   expect_true("main" %in% br)
 })
 
@@ -59,7 +59,7 @@ test_that("repo_check_branches_ref works", {
     "not found"
   )
 
-  br <- repo_check_branches_ref(test_conn_1, "https://github.com/rstudio/connectapi")
+  br <- repo_check_branches_ref(test_conn_1, "https://github.com/posit-dev/connectapi")
   expect_type(br, "character")
   expect_true("main" %in% names(br))
   expect_false("main" %in% br)
@@ -73,7 +73,7 @@ test_that("repo_check_manifest_dirs works", {
     "not found"
   )
 
-  drs <- repo_check_manifest_dirs(test_conn_1, "https://github.com/rstudio/connectapi", "main")
+  drs <- repo_check_manifest_dirs(test_conn_1, "https://github.com/posit-dev/connectapi", "main")
   expect_true("tests/testthat/examples/static" %in% drs)
 })
 
@@ -83,7 +83,7 @@ test_that("deploy_repo_enable works", {
   new_name <- uuid::UUIDgenerate()
   cont1 <- deploy_repo(
     test_conn_1,
-    "https://github.com/rstudio/connectapi",
+    "https://github.com/posit-dev/connectapi",
     "main",
     "tests/testthat/examples/static",
     new_name,
@@ -109,7 +109,7 @@ test_that("deploy_repo_update works", {
   new_name <- uuid::UUIDgenerate()
   cont1 <- deploy_repo(
     test_conn_1,
-    "https://github.com/rstudio/connectapi",
+    "https://github.com/posit-dev/connectapi",
     "main",
     "tests/testthat/examples/static",
     new_name,
@@ -124,7 +124,7 @@ test_that("deploy_repo_update works", {
   wrong_branch <- uuid::UUIDgenerate()
   cont2 <- deploy_repo(
     test_conn_1,
-    "https://github.com/rstudio/connectapi",
+    "https://github.com/posit-dev/connectapi",
     "master-not-a-real-branch",
     "tests/testthat/examples/static",
     wrong_branch,
