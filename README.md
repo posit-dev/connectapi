@@ -8,9 +8,9 @@ maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lif
 [![CRAN
 status](https://www.r-pkg.org/badges/version/connectapi)](https://cran.r-project.org/package=connectapi)
 [![Codecov test
-coverage](https://codecov.io/gh/rstudio/connectapi/branch/main/graph/badge.svg)](https://app.codecov.io/gh/rstudio/connectapi?branch=main)
+coverage](https://codecov.io/gh/posit-dev/connectapi/branch/main/graph/badge.svg)](https://app.codecov.io/gh/posit-dev/connectapi?branch=main)
 [![R build
-status](https://github.com/rstudio/connectapi/workflows/R-CMD-check/badge.svg)](https://github.com/rstudio/connectapi/actions)
+status](https://github.com/posit-dev/connectapi/workflows/R-CMD-check/badge.svg)](https://github.com/posit-dev/connectapi/actions)
 <!-- badges: end -->
 
 # connectapi <img src='man/figures/logo.svg' align="right" height="139" />
@@ -32,7 +32,7 @@ install.packages("connectapi")
 To install the development version:
 
 ``` r
-remotes::install_github('rstudio/connectapi')
+remotes::install_github('posit-dev/connectapi')
 ```
 
 ## Client
@@ -209,5 +209,5 @@ Please open an issue or PR! We would love to have your contribution!
 
 Please note that the connectapi project is released with a [Contributor
 Code of
-Conduct](https://pkgs.rstudio.com/connectapi/CODE_OF_CONDUCT.html). By
+Conduct](https://posit-dev.github.io/connectapi/CODE_OF_CONDUCT.html). By
 contributing to this project, you agree to abide by its terms.
