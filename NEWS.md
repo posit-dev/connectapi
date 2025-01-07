@@ -124,7 +124,7 @@
 - `Content$tag_delete()` removes the tag from the target content item rather
   than removing the tag entirely. (#194)
 - `audit_r_versions()` returns a bar chart instead of a histogram (#179)
-- Fix issue with `NULL` or `length 1` job outputs ([#193](https://github.com/posit-dev/connectapi/issues/193))
+- Fix issue with `NULL` or `length 1` job outputs (#193)
 - Timestamp parsing now correctly preserves time components (#259)
 
 # connectapi 0.1.3.1
@@ -140,13 +140,13 @@
 # connectapi 0.1.2
 
 - Update docs to illustrate customizing HTTP requests
-([#168](https://github.com/posit-dev/connectapi/pull/168))
+(#168)
 - Fix issue with HTML documentation to retain on CRAN
-([#164](https://github.com/posit-dev/connectapi/pull/164))
+(#164)
 - Fix typo in `min_data_version` parameter for usage data functions
-([#166](https://github.com/posit-dev/connectapi/pull/166))
+(#166)
 - Bump Connect tested version to 2022.09.0
-  ([#170](https://github.com/posit-dev/connectapi/pull/170))
+  (#170)
 
 # connectapi 0.1.1.1
 
@@ -154,7 +154,7 @@
 
 - BREAKING: the following functions now require RStudio Connect 1.8.6 or later
 (because they are no longer experimental, as of that release).
-([#128](https://github.com/posit-dev/connectapi/pulls/12))
+(#128)
     - `set_vanity_url()`, `get_vanity_url()`, `swap_vanity_url()`
     - `get_tags()`, `get_tag_data()`, `get_content_tags()`, `create_tag()`,
     `create_tag_tree()`, `delete_tag()`, `get_content_tags()`,
@@ -165,16 +165,16 @@
 - BREAKING: `Connect$new()` now takes a `server` argument (instead of `host`)
     - The same is true of the `connect()` function, although we warn about
     argument deprecation in that case.
-    ([#125](https://github.com/posit-dev/connectapi/pulls/125))
+    (#125)
 - BREAKING: `set_environment_new()` and `set_environment_remove()` no longer
   take a `.version` argument, and output data structure is a bit different (a
   list of names). They now use the public API, which changes the interface a bit.
   Also, intricacies of how to set / remove environment variables are changed (i.e.
   setting `VAR=NA` will remove `VAR`).
-  ([#141](https://github.com/posit-dev/connectapi/pull/141))
+  (#141)
 - BREAKING: `get_vanity_url()` and `set_vanity_url()` are now no longer
   experimental functions.
-  ([#113](https://github.com/posit-dev/connectapi/pulls/113)) However:
+  (#113) However:
     - `get_vanity_url()` now returns a character string representing the vanity
     url in use (or NULL if not defined)
     - `set_vanity_url()` still returns a `Vanity` R6 object, but
@@ -184,15 +184,15 @@
 - BREAKING: Several `content_*` and other APIs have moved from experimental to
   "v1" variants. This means they have stabilized, but with several subtle breaking
   changes that could impact your scripts.
-  ([#115](https://github.com/posit-dev/connectapi/pulls/115))
+  (#115)
     - i.e. `bundle_id` has become `id` in some response data. In others, `url` has become `content_url`.
     - The R6 method `content$get_bundles()` no longer takes a `page_number`
     argument, and the `get_bundles(limit)` argument is now deprecated
-    ([#129](https://github.com/posit-dev/connectapi/pulls/129))
+    (#129)
     - `Connect$download_bundle` is now deprecated in favor of
     `Content$bundle_download()`, and `delete_bundle()` now takes a `Content`
     item instead of `Connect`.
-    ([#153](https://github.com/posit-dev/connectapi/pull/153))
+    (#153)
 - BREAKING: `acl_*()` functions are deprecated in favor of
   `get_content_permissions()`, `content_add_user()`, and friends.
 - BREAKING: `Connect$PUT()`, `Connect$POST()` and `Connect$PATCH()` endpoints
@@ -203,29 +203,29 @@
 ### Other Changes
 
 - `users_create_remote()` gains an `exact` argument to simplify complex cases
-  ([#135](https://github.com/posit-dev/connectapi/issues/135)). Long term, we should
+  (#135). Long term, we should
   solicit feedback on whether this function attempts to do too much.
 - Add helpers for common content modification actions: `content_update()`,
   `content_update_access_type()` and `content_update_owner()`
 - Fix an issue with relative paths in `bundle_dir()`
   ([`@slodge`](https://github.com/slodge))
-  ([#118](https://github.com/posit-dev/connectapi/issues/118),
-  [#121](https://github.com/posit-dev/connectapi/issues/121))
+  (#118,
+  #121)
 - Add `overwrite=` parameter to `download_bundle()`
 - Add HTTP request customization options, and related documentation
-  ([#101](https://github.com/posit-dev/connectapi/pull/101))
-- Add git deployment ([#112](https://github.com/posit-dev/connectapi/issues/112))
+  (#101)
+- Add git deployment (#112)
 - Switch `Task` class to `ContentTask`
     - R6 does not support multiple inheritance, so we keep the `Task` interface up-to-date on
       `ContentTask` and `VariantTask` manually
 - Improve several print methods
-([#18](https://github.com/posit-dev/connectapi/issues/18),
-[#19](https://github.com/posit-dev/connectapi/issues/19))
+(#18,
+#19)
 - Protect against bad bundles
-([#13](https://github.com/posit-dev/connectapi/issues/13))
-- Error if an empty API key is defined ([#16](https://github.com/posit-dev/connectapi/issues/16))
+(#13)
+- Error if an empty API key is defined (#16)
 - Add a few `content_list_*` helpers
-  ([#130](https://github.com/posit-dev/connectapi/pulls/130)):
+  (#130):
   - `content_list_with_permissions` returns a `content_list` with a "permission"
     column that includes who has access
   - `content_list_by_tag` allows fetching just a `content_list` for a particular tag
@@ -233,7 +233,7 @@
     whether a user or group GUID has access
 - Add a `user_guid_from_username()` function to convert `session$user` or other
   usernames to a user GUID
-  ([#130](https://github.com/posit-dev/connectapi/pulls/130))
+  (#130)
 
 # connectapi 0.1.0.9018
 
