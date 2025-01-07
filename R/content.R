@@ -111,7 +111,7 @@ Content <- R6::R6Class(
           x
         })
       }
-      parsed
+      purrr::map(parsed, ~ purrr::list_modify(.x, app_guid = self$content$guid))
     },
     #' @description Return a single job for this content.
     #' @param key The job key.

@@ -257,8 +257,8 @@ test_that("get_jobs() using the old and new endpoints returns sensible results",
 
   # Columns we expect to be identical
   common_cols <- c(
-    "id", "pid", "key", "app_id", "variant_id", "bundle_id", "start_time",
-    "end_time", "tag", "exit_code", "hostname"
+    "id", "pid", "key", "app_id", "app_guid", "variant_id", "bundle_id",
+    "start_time", "end_time", "tag", "exit_code", "hostname"
   )
   expect_identical(
     jobs_v1[common_cols],
