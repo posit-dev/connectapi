@@ -4,6 +4,8 @@
 
 - New `get_job_log()` function which lets you get the log for a given job.
   (#341)
+- New `get_job_list()` function returns a list of jobs for a content item.
+  (#341)
 
 ## Newly deprecated
 

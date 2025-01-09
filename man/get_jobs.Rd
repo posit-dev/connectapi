@@ -15,8 +15,7 @@ get_job_list(content)
 \value{
 \itemize{
 \item \code{get_jobs()}: A data frame with a row representing each job.
-\item \code{get_job_list()}: A list of lists, each representing a job.
-This output is used by \code{get_job_log()}
+\item \code{get_job_list()}: A list with each element representing a job.
 }
 
 Jobs contain the following fields:
@@ -75,6 +74,7 @@ not return the complete set of information provided by newer versions.
 client <- connect()
 item <- content_item(client, "951bf3ad-82d0-4bca-bba8-9b27e35c49fa")
 jobs <- get_jobs(item)
+job_list <- get_job_list(item)
 }
 
 }
