@@ -2,15 +2,24 @@
 % Please edit documentation in R/content.R
 \name{get_jobs}
 \alias{get_jobs}
+\alias{get_job_list}
 \title{Get Jobs}
 \usage{
 get_jobs(content)
+
+get_job_list(content)
 }
 \arguments{
 \item{content}{A Content object, as returned by \code{content_item()}}
 }
 \value{
-A data frame with a row for each job, with the following columns:
+\itemize{
+\item \code{get_jobs()}: A data frame with a row representing each job.
+\item \code{get_job_list()}: A list of lists, each representing a job.
+This output is used by \code{get_job_log()}
+}
+
+Jobs contain the following fields:
 \itemize{
 \item \code{id}: The job identifier.
 \item \code{ppid}: The job's parent process identifier (see Note 1).
@@ -18,7 +27,8 @@ A data frame with a row for each job, with the following columns:
 \item \code{key}: The job's unique key identifier.
 \item \code{remote_id}: The job's identifier for off-host execution configurations
 (see Note 1).
-\item \code{app_id}: The job's parent content identifier
+\item \code{app_id}: The job's parent content identifier.
+\item \code{app_guid}: The job's parent content GUID.
 \item \code{variant_id}: The identifier of the variant owning this job.
 \item \code{bundle_id}: The identifier of a content bundle linked to this job.
 \item \code{start_time}: The timestamp (RFC3339) indicating when this job started.
@@ -57,7 +67,7 @@ not return the complete set of information provided by newer versions.
 }
 \note{
 \enumerate{
-\item On Connect instances earlier than 2022.10.0, these columns will contain \code{NA} values.
+\item On Connect instances earlier than 2022.10.0, these fields will contain \code{NA} values.
 }
 }
 \examples{

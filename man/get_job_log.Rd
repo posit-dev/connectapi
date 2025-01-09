@@ -4,15 +4,14 @@
 \alias{get_job_log}
 \title{Get Job Log}
 \usage{
-get_job_log(content, key, max_log_lines = NULL)
+get_job_log(job, max_log_lines = NULL)
 }
 \arguments{
-\item{content}{A Content object, as returned by \code{content_item()}}
+\item{job}{A job, represented by an element from the list returned by \code{get_job_list()}.}
 
-\item{key}{A job key, which you can find using \code{get_jobs()}}
-
-\item{max_log_lines}{The maximum number of log lines to return. If NULL
-(default), Connect returns a max of 5000 lines.}
+\item{max_log_lines}{Optional. An integer indicating the maximum number of
+log lines to return. If \code{NULL} (default), Connect returns a maximum of 5000
+lines.}
 }
 \value{
 A data frame with the requested log. Each row represents an entry.
@@ -29,9 +28,9 @@ Get the log output for a job. Requires Connect 2022.10.0 or newer.
 \dontrun{
 client <- connect()
 item <- content_item(client, "951bf3ad-82d0-4bca-bba8-9b27e35c49fa")
-jobs <- get_jobs(item)
-key <- jobs$key[1]
-log <- get_job_log(item, key)
+jobs <- get_job_list(item)
+target_job <- jobs[[1]]
+log <- get_job_log(target_job)
 }
 
 
