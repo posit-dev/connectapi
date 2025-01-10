@@ -413,7 +413,7 @@ deploy_current <- function(content) {
 
 #' Set the Vanity URL
 #'
-#' Sets the Vanity URL for a piece of content.
+#' Set the vanity URL for a piece of content.
 #'
 #' @param content A Content object
 #' @param url The path component of the URL
@@ -453,7 +453,7 @@ set_vanity_url <- function(content, url, force = FALSE) {
 
 #' Delete the Vanity URL
 #'
-#' Deletes the Vanity URL for a piece of content.
+#' Delete the vanity URL for a piece of content.
 #'
 #' @param content A Content object
 #'
@@ -471,7 +471,7 @@ delete_vanity_url <- function(content) {
 
 #' Get the Vanity URL
 #'
-#' Gets the Vanity URL for a piece of content.
+#' Get the vanity URL for a piece of content.
 #'
 #' @param content A Content object
 #'
@@ -501,23 +501,24 @@ get_vanity_url <- function(content) {
   return(van$path)
 }
 
-#' Swap the Vanity URL
+#' Swap Vanity URLs
 #'
-#' Swaps the Vanity URLs between two pieces of content
+#' Swap the vanity URLs of two pieces of content.
 #'
 #' @param content_a A Content object
 #' @param content_b A Content object
 #'
 #' @family content functions
 #' @export
-swap_vanity_url <- function(content_a, content_b) {
-  warn_experimental("swap_vanity_url")
-  scoped_experimental_silence()
+swap_vanity_urls <- function(content_a, content_b) {
   # TODO: Add prompt if in an interactive session
   # TODO: Add pretty print output of what is happening
   # TODO: Test error cases super thoroughly!!
   # TODO: Do a "dry run" of sorts...? Check privileges... etc...
   # TODO: Do the changes within a TryCatch so we can undo...?
+
+  validate_R6_class(content_a, "Content")
+  validate_R6_class(content_b, "Content")
 
   vanity_a <- get_vanity_url(content_a)
   vanity_b <- get_vanity_url(content_b)
@@ -541,6 +542,18 @@ swap_vanity_url <- function(content_a, content_b) {
     list(
       content_a = vanity_a,
       content_b = vanity_b
+    )
+  )
+}
+
+#' @export
+swap_vanity_url <- function(from, to) {
+  lifecycle::deprecate_warn("0.6.0", "swap_vanity_url()", "swap_vanity_urls()")
+  res <- swap_vanity_urls(from, to)
+  return(
+    list(
+      from = res[["content_a"]],
+      to = res[["content_b"]]
     )
   )
 }
