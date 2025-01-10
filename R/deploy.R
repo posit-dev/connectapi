@@ -505,12 +505,12 @@ get_vanity_url <- function(content) {
 #'
 #' Swaps the Vanity URLs between two pieces of content
 #'
-#' @param from_content A Content object
-#' @param to_content A Content object
+#' @param content_a A Content object
+#' @param content_b A Content object
 #'
 #' @family content functions
 #' @export
-swap_vanity_url <- function(from_content, to_content) {
+swap_vanity_url <- function(content_a, content_b) {
   warn_experimental("swap_vanity_url")
   scoped_experimental_silence()
   # TODO: Add prompt if in an interactive session
@@ -518,38 +518,29 @@ swap_vanity_url <- function(from_content, to_content) {
   # TODO: Test error cases super thoroughly!!
   # TODO: Do a "dry run" of sorts...? Check privileges... etc...
   # TODO: Do the changes within a TryCatch so we can undo...?
-  # TODO: Need a way to "unset" a vanity URL
 
-  from_vanity <- get_vanity_url(from_content)
-  to_vanity <- get_vanity_url(to_content)
+  vanity_a <- get_vanity_url(content_a)
+  vanity_b <- get_vanity_url(content_b)
 
-  if (is.null(from_vanity) && is.null(to_vanity)) {
-    warning("Neither content has a Vanity URL. Exiting")
+  if (is.null(vanity_a) && is.null(vanity_b)) {
+    warning("Neither content has a vanity URL")
   } else {
-    # swapping vanity URLs
-    tmp_vanity <- paste0("vanity-url-swap-", create_random_name(length = 50))
-
-    if (!is.null(from_vanity)) {
-      set_vanity_url(from_content, tmp_vanity)
-    } else {
-      set_vanity_url(to_content, tmp_vanity)
+    delete_vanity_url(content_a)
+    delete_vanity_url(content_b)
+    if (!is.null(vanity_a)) {
+      set_vanity_url(content_b, vanity_a)
     }
-
-    if (!is.null(from_vanity)) {
-      set_vanity_url(to_content, from_vanity)
+    if (!is.null(vanity_b)) {
+      set_vanity_url(content_a, vanity_b)
     }
-    if (!is.null(to_vanity)) {
-      set_vanity_url(from_content, to_vanity)
-    }
-
-    from_vanity <- get_vanity_url(from_content)
-    to_vanity <- get_vanity_url(to_content)
+    vanity_a <- get_vanity_url(content_a)
+    vanity_b <- get_vanity_url(content_b)
   }
 
   return(
     list(
-      from = from_vanity,
-      to = to_vanity
+      content_a = vanity_a,
+      content_b = vanity_b
     )
   )
 }
