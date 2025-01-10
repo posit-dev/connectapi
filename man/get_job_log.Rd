@@ -29,8 +29,7 @@ Get the log output for a job. Requires Connect 2022.10.0 or newer.
 client <- connect()
 item <- content_item(client, "951bf3ad-82d0-4bca-bba8-9b27e35c49fa")
 jobs <- get_job_list(item)
-target_job <- jobs[[1]]
-log <- get_job_log(target_job)
+log <- get_job_log(jobs[[1]])
 }
 
 
