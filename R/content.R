@@ -619,6 +619,17 @@ content_ensure <- function(
 #' Note that Connect versions below 2022.10.0 use a legacy endpoint, and will
 #' not return the complete set of information provided by newer versions.
 #'
+#' `get_jobs()` returns job data as a data frame, whereas `get_jobs_list()`
+#' returns job data in a list.
+#'
+#' You might get job data as a data frame if you want to perform some
+#' calculations about job data (e.g. counting server processes over time), or if
+#' you want to filter jobs to find a specific key.
+#'
+#' The objects in list returned by `get_jobs_list()` are useful if you want to
+#' take an action on a job, such as getting its process log with
+#' `get_job_log()`.
+#'
 #' @param content A Content object, as returned by `content_item()`
 #'
 #' @return
@@ -779,6 +790,9 @@ get_job_list <- function(content) {
 #' Get Job Log
 #'
 #' Get the log output for a job. Requires Connect 2022.10.0 or newer.
+#'
+#' Note: The output of `get_jobs()` cannot be used with `get_job_log()`.
+#' Please use an object from the list returned by `get_job_list()`.
 #'
 #' @param job A job, represented by an element from the list returned by `get_job_list()`.
 #' @param max_log_lines Optional. An integer indicating the maximum number of

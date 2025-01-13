@@ -277,30 +277,18 @@ with_mock_api({
     job_list <- get_job_list(item)
 
     expect_equal(
-      job_list[[1]],
-      list(
-        id = "40793542", ppid = "2611431", pid = "2611448", key = "waaTO7v75I84S1hQ",
-        remote_id = NULL, app_id = "52389", variant_id = "0",
-        bundle_id = "127015", start_time = "2024-12-05T16:22:51Z",
-        end_time = NULL, last_heartbeat_time = "2024-12-05T15:23:41Z",
-        queued_time = NULL, queue_name = NULL, tag = "run_app", exit_code = NULL,
-        status = 0L, hostname = "dogfood01", cluster = NULL, image = NULL,
-        run_as = "rstudio-connect", app_guid = "8f37d6e0", client = client
-      )
+      purrr::map_chr(job_list, "id"),
+      c("40793542", "40669829", "40097386", "40096649", "40080413", "39368207")
     )
 
     expect_equal(
-      job_list[[length(job_list)]],
-      list(
-        id = "39368207", ppid = "2434183", pid = "2434200", key = "HbdzgOJrMmMTq6vu",
-        remote_id = NULL, app_id = "52389", variant_id = "0",
-        bundle_id = "127015", start_time = "2024-11-15T17:03:00Z",
-        end_time = "2024-11-15T17:06:23Z", last_heartbeat_time = "2024-11-15T17:06:20Z",
-        queued_time = NULL, queue_name = NULL, tag = "run_app",
-        exit_code = 0L, status = 2L, hostname = "dogfood02",
-        cluster = NULL, image = NULL, run_as = "rstudio-connect",
-        app_guid = "8f37d6e0", client = client
-      )
+      purrr::map_chr(job_list, "app_guid"),
+      rep("8f37d6e0", 6)
+    )
+
+    expect_equal(
+      purrr::map(job_list, "client"),
+      list(client, client, client, client, client, client)
     )
   })
 })
@@ -368,6 +356,7 @@ test_that("get_job_log() gets job logs", {
     client <- Connect$new(server = "http://connect.example", api_key = "not-a-key")
     item <- content_item(client, "8f37d6e0")
     job_list <- get_job_list(item)
+    # This job's log is present at {mock_dir}/v1/content/8f37d6e0/jobs/mxPGVOMVk6f8dso2/log.json.
     job <- purrr::keep(job_list, ~ .x$key == "mxPGVOMVk6f8dso2")[[1]]
     log <- get_job_log(job)
     expect_identical(

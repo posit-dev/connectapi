@@ -24,6 +24,10 @@ A data frame with the requested log. Each row represents an entry.
 \description{
 Get the log output for a job. Requires Connect 2022.10.0 or newer.
 }
+\details{
+Note: The output of \code{get_jobs()} cannot be used with \code{get_job_log()}.
+Please use an object from the list returned by \code{get_job_list()}.
+}
 \examples{
 \dontrun{
 client <- connect()
