@@ -351,14 +351,14 @@ test_that("an error is raised when terminate_jobs() calls a bad URL", {
   })
 })
 
-test_that("get_job_log() gets job logs", {
+test_that("get_log() gets job logs", {
   with_mock_api({
     client <- Connect$new(server = "http://connect.example", api_key = "not-a-key")
     item <- content_item(client, "8f37d6e0")
     job_list <- get_job_list(item)
     # This job's log is present at {mock_dir}/v1/content/8f37d6e0/jobs/mxPGVOMVk6f8dso2/log.json.
     job <- purrr::keep(job_list, ~ .x$key == "mxPGVOMVk6f8dso2")[[1]]
-    log <- get_job_log(job)
+    log <- get_log(job)
     expect_identical(
       log,
       tibble::tibble(
@@ -377,7 +377,7 @@ test_that("get_job_log() gets job logs", {
     )
 
     expect_GET(
-      get_job_log(job, max_log_lines = 10),
+      get_log(job, max_log_lines = 10),
       "http://connect.example/__api__/v1/content/8f37d6e0/jobs/mxPGVOMVk6f8dso2/log?maxLogLines=10"
     )
   })

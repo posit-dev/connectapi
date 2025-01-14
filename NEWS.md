@@ -2,7 +2,7 @@
 
 ## New features
 
-- New `get_job_log()` function which lets you get the log for a given job.
+- New `get_log()` function which lets you get the log for a given job.
   (#341)
 - New `get_job_list()` function returns a list of jobs for a content item.
   (#341)
@@ -10,7 +10,7 @@
 ## Newly deprecated
 
 - `get_job()` (singular) is now deprecated, its functionality taken care of by
-  other functions, including `get_job_log()`.
+  other functions, including `get_log()`.
 
 # connectapi 0.5.0
 

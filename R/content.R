@@ -628,7 +628,7 @@ content_ensure <- function(
 #'
 #' The objects in list returned by `get_jobs_list()` are useful if you want to
 #' take an action on a job, such as getting its process log with
-#' `get_job_log()`.
+#' `get_log()`.
 #'
 #' @param content A Content object, as returned by `content_item()`
 #'
@@ -708,7 +708,7 @@ get_jobs <- function(content) {
 #' @family content functions
 #' @export
 get_job <- function(content, key) {
-  lifecycle::deprecate_warn("0.6", "get_job()", "get_job_log()")
+  lifecycle::deprecate_warn("0.6", "get_job()", "get_log()")
   scoped_experimental_silence()
   validate_R6_class(content, "Content")
 
@@ -791,7 +791,7 @@ get_job_list <- function(content) {
 #'
 #' Get the log output for a job. Requires Connect 2022.10.0 or newer.
 #'
-#' Note: The output of `get_jobs()` cannot be used with `get_job_log()`.
+#' Note: The output of `get_jobs()` cannot be used with `get_log()`.
 #' Please use an object from the list returned by `get_job_list()`.
 #'
 #' @param job A job, represented by an element from the list returned by `get_job_list()`.
@@ -810,14 +810,14 @@ get_job_list <- function(content) {
 #' client <- connect()
 #' item <- content_item(client, "951bf3ad-82d0-4bca-bba8-9b27e35c49fa")
 #' jobs <- get_job_list(item)
-#' log <- get_job_log(jobs[[1]])
+#' log <- get_log(jobs[[1]])
 #' }
 #'
 #'
 #' @family job functions
 #' @family content functions
 #' @export
-get_job_log <- function(job, max_log_lines = NULL) {
+get_log <- function(job, max_log_lines = NULL) {
   error_if_less_than(job$client$version, "2022.10.0")
 
   query <- list(maxLogLines = max_log_lines)
