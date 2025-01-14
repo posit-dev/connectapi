@@ -49,7 +49,9 @@ such as a FastAPI app or a Quarto render.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_jobs</span><span class="op">(</span><span class="va">content</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_jobs</span><span class="op">(</span><span class="va">content</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">get_job_list</span><span class="op">(</span><span class="va">content</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -62,13 +64,17 @@ such as a FastAPI app or a Quarto render.</p>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data frame with a row for each job, with the following columns:</p><ul><li><p><code>id</code>: The job identifier.</p></li>
+
+<ul><li><p><code>get_jobs()</code>: A data frame with a row representing each job.</p></li>
+<li><p><code>get_job_list()</code>: A list with each element representing a job.</p></li>
+</ul><p>Jobs contain the following fields:</p><ul><li><p><code>id</code>: The job identifier.</p></li>
 <li><p><code>ppid</code>: The job's parent process identifier (see Note 1).</p></li>
 <li><p><code>pid</code>: The job's process identifier.</p></li>
 <li><p><code>key</code>: The job's unique key identifier.</p></li>
 <li><p><code>remote_id</code>: The job's identifier for off-host execution configurations
 (see Note 1).</p></li>
-<li><p><code>app_id</code>: The job's parent content identifier</p></li>
+<li><p><code>app_id</code>: The job's parent content identifier.</p></li>
+<li><p><code>app_guid</code>: The job's parent content GUID.</p></li>
 <li><p><code>variant_id</code>: The identifier of the variant owning this job.</p></li>
 <li><p><code>bundle_id</code>: The identifier of a content bundle linked to this job.</p></li>
 <li><p><code>start_time</code>: The timestamp (RFC3339) indicating when this job started.</p></li>
@@ -100,16 +106,25 @@ a clustered environment such as Kubernetes (see Note 1).</p></li>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Note that Connect versions below 2022.10.0 use a legacy endpoint, and will
 not return the complete set of information provided by newer versions.</p>
+<p><code>get_jobs()</code> returns job data as a data frame, whereas <code>get_jobs_list()</code>
+returns job data in a list.</p>
+<p>You might get job data as a data frame if you want to perform some
+calculations about job data (e.g. counting server processes over time), or if
+you want to filter jobs to find a specific key.</p>
+<p>The objects in list returned by <code>get_jobs_list()</code> are useful if you want to
+take an action on a job, such as getting its process log with
+<code><a href="get_log.html">get_log()</a></code>.</p>
     </div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
 
-<ol><li><p>On Connect instances earlier than 2022.10.0, these columns will contain <code>NA</code> values.</p></li>
+<ol><li><p>On Connect instances earlier than 2022.10.0, these fields will contain <code>NA</code> values.</p></li>
 </ol></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>Other job functions:
 <code><a href="get_job.html">get_job</a>()</code>,
+<code><a href="get_log.html">get_log</a>()</code>,
 <code><a href="terminate_jobs.html">terminate_jobs</a>()</code></p>
 <p>Other content functions:
 <code><a href="content_delete.html">content_delete</a>()</code>,
@@ -126,6 +141,7 @@ not return the complete set of information provided by newer versions.</p>
 <code><a href="environment.html">get_environment</a>()</code>,
 <code><a href="get_image.html">get_image</a>()</code>,
 <code><a href="get_job.html">get_job</a>()</code>,
+<code><a href="get_log.html">get_log</a>()</code>,
 <code><a href="get_thumbnail.html">get_thumbnail</a>()</code>,
 <code><a href="get_vanity_url.html">get_vanity_url</a>()</code>,
 <code><a href="git.html">git</a></code>,
@@ -140,6 +156,17 @@ not return the complete set of information provided by newer versions.</p>
 <code><a href="verify_content_name.html">verify_content_name</a>()</code></p></div>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="va">client</span> <span class="op">&lt;-</span> <span class="fu"><a href="connect.html">connect</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">item</span> <span class="op">&lt;-</span> <span class="fu"><a href="content_item.html">content_item</a></span><span class="op">(</span><span class="va">client</span>, <span class="st">"951bf3ad-82d0-4bca-bba8-9b27e35c49fa"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">jobs</span> <span class="op">&lt;-</span> <span class="fu">get_jobs</span><span class="op">(</span><span class="va">item</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">job_list</span> <span class="op">&lt;-</span> <span class="fu">get_job_list</span><span class="op">(</span><span class="va">item</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 
