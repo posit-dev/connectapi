@@ -2,15 +2,23 @@
 % Please edit documentation in R/content.R
 \name{get_jobs}
 \alias{get_jobs}
+\alias{get_job_list}
 \title{Get Jobs}
 \usage{
 get_jobs(content)
+
+get_job_list(content)
 }
 \arguments{
 \item{content}{A Content object, as returned by \code{content_item()}}
 }
 \value{
-A data frame with a row for each job, with the following columns:
+\itemize{
+\item \code{get_jobs()}: A data frame with a row representing each job.
+\item \code{get_job_list()}: A list with each element representing a job.
+}
+
+Jobs contain the following fields:
 \itemize{
 \item \code{id}: The job identifier.
 \item \code{ppid}: The job's parent process identifier (see Note 1).
@@ -18,7 +26,8 @@ A data frame with a row for each job, with the following columns:
 \item \code{key}: The job's unique key identifier.
 \item \code{remote_id}: The job's identifier for off-host execution configurations
 (see Note 1).
-\item \code{app_id}: The job's parent content identifier
+\item \code{app_id}: The job's parent content identifier.
+\item \code{app_guid}: The job's parent content GUID.
 \item \code{variant_id}: The identifier of the variant owning this job.
 \item \code{bundle_id}: The identifier of a content bundle linked to this job.
 \item \code{start_time}: The timestamp (RFC3339) indicating when this job started.
@@ -54,15 +63,36 @@ such as a FastAPI app or a Quarto render.
 \details{
 Note that Connect versions below 2022.10.0 use a legacy endpoint, and will
 not return the complete set of information provided by newer versions.
+
+\code{get_jobs()} returns job data as a data frame, whereas \code{get_jobs_list()}
+returns job data in a list.
+
+You might get job data as a data frame if you want to perform some
+calculations about job data (e.g. counting server processes over time), or if
+you want to filter jobs to find a specific key.
+
+The objects in list returned by \code{get_jobs_list()} are useful if you want to
+take an action on a job, such as getting its process log with
+\code{get_log()}.
 }
 \note{
 \enumerate{
-\item On Connect instances earlier than 2022.10.0, these columns will contain \code{NA} values.
+\item On Connect instances earlier than 2022.10.0, these fields will contain \code{NA} values.
 }
+}
+\examples{
+\dontrun{
+client <- connect()
+item <- content_item(client, "951bf3ad-82d0-4bca-bba8-9b27e35c49fa")
+jobs <- get_jobs(item)
+job_list <- get_job_list(item)
+}
+
 }
 \seealso{
 Other job functions: 
 \code{\link{get_job}()},
+\code{\link{get_log}()},
 \code{\link{terminate_jobs}()}
 
 Other content functions: 
@@ -80,6 +110,7 @@ Other content functions:
 \code{\link{get_environment}()},
 \code{\link{get_image}()},
 \code{\link{get_job}()},
+\code{\link{get_log}()},
 \code{\link{get_thumbnail}()},
 \code{\link{get_vanity_url}()},
 \code{\link{git}},

@@ -257,8 +257,8 @@ test_that("get_jobs() using the old and new endpoints returns sensible results",
 
   # Columns we expect to be identical
   common_cols <- c(
-    "id", "pid", "key", "app_id", "variant_id", "bundle_id", "start_time",
-    "end_time", "tag", "exit_code", "hostname"
+    "id", "pid", "key", "app_id", "app_guid", "variant_id", "bundle_id",
+    "start_time", "end_time", "tag", "exit_code", "hostname"
   )
   expect_identical(
     jobs_v1[common_cols],
@@ -269,6 +269,32 @@ test_that("get_jobs() using the old and new endpoints returns sensible results",
   expect_equal(jobs_v1$status, c(0L, 0L, 2L, 2L, 2L, 2L))
   expect_equal(jobs_v0$status, c(0L, 0L, NA, NA, NA, NA))
 })
+
+with_mock_api({
+  test_that("get_job_list() returns expected data", {
+    client <- Connect$new(server = "http://connect.example", api_key = "not-a-key")
+    item <- content_item(client, "8f37d6e0")
+    job_list <- get_job_list(item)
+
+    expect_equal(
+      purrr::map_chr(job_list, "id"),
+      c("40793542", "40669829", "40097386", "40096649", "40080413", "39368207")
+    )
+
+    expect_equal(
+      purrr::map_chr(job_list, "app_guid"),
+      rep("8f37d6e0", 6)
+    )
+
+    expect_equal(
+      purrr::map(job_list, "client"),
+      list(client, client, client, client, client, client)
+    )
+  })
+})
+
+
+
 
 with_mock_api({
   client <- Connect$new(server = "http://connect.example", api_key = "not-a-key")
@@ -321,6 +347,38 @@ test_that("an error is raised when terminate_jobs() calls a bad URL", {
   with_mock_dir("2024.07.0", {
     expect_error(
       terminate_jobs(item, "waaTO7v75I84S1hQ")
+    )
+  })
+})
+
+test_that("get_log() gets job logs", {
+  with_mock_api({
+    client <- Connect$new(server = "http://connect.example", api_key = "not-a-key")
+    item <- content_item(client, "8f37d6e0")
+    job_list <- get_job_list(item)
+    # This job's log is present at {mock_dir}/v1/content/8f37d6e0/jobs/mxPGVOMVk6f8dso2/log.json.
+    job <- purrr::keep(job_list, ~ .x$key == "mxPGVOMVk6f8dso2")[[1]]
+    log <- get_log(job)
+    expect_identical(
+      log,
+      tibble::tibble(
+        source = c("stderr", "stderr", "stderr"),
+        timestamp = structure(
+          c(1733512169.9480169, 1733512169.9480703, 1733512169.9480758),
+          tzone = "UTC",
+          class = c("POSIXct", "POSIXt")
+        ),
+        data = c(
+          "[rsc-session] Content GUID: 8f37d6e0",
+          "[rsc-session] Content ID: 52389",
+          "[rsc-session] Bundle ID: 127015"
+        )
+      )
+    )
+
+    expect_GET(
+      get_log(job, max_log_lines = 10),
+      "http://connect.example/__api__/v1/content/8f37d6e0/jobs/mxPGVOMVk6f8dso2/log?maxLogLines=10"
     )
   })
 })

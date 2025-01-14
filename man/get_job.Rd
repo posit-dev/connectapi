@@ -19,6 +19,7 @@ associated with a \code{content_item}, such as a FastAPI app or a Quarto render.
 \seealso{
 Other job functions: 
 \code{\link{get_jobs}()},
+\code{\link{get_log}()},
 \code{\link{terminate_jobs}()}
 
 Other content functions: 
@@ -36,6 +37,7 @@ Other content functions:
 \code{\link{get_environment}()},
 \code{\link{get_image}()},
 \code{\link{get_jobs}()},
+\code{\link{get_log}()},
 \code{\link{get_thumbnail}()},
 \code{\link{get_vanity_url}()},
 \code{\link{git}},
