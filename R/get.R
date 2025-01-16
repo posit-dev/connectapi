@@ -612,13 +612,14 @@ get_procs <- function(src) {
 #' for more information.
 #'
 #' @export
-get_oauth_credentials <- function(connect, user_session_token) {
+get_oauth_credentials <- function(connect, user_session_token, requested_token_type = NULL) {
   validate_R6_class(connect, "Connect")
   url <- v1_url("oauth", "integrations", "credentials")
   body <- list(
     grant_type = "urn:ietf:params:oauth:grant-type:token-exchange",
     subject_token_type = "urn:posit:connect:user-session-token",
-    subject_token = user_session_token
+    subject_token = user_session_token,
+    requested_token_type = requested_token_type
   )
   connect$POST(
     url,

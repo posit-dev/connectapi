@@ -920,6 +920,7 @@ Connect <- R6::R6Class(
 connect <- function(
     server = Sys.getenv(paste0(prefix, "_SERVER"), NA_character_),
     api_key = Sys.getenv(paste0(prefix, "_API_KEY"), NA_character_),
+    token = NULL,
     prefix = "CONNECT",
     ...,
     .check_is_fatal = TRUE) {
@@ -932,6 +933,15 @@ connect <- function(
     }
   }
   con <- Connect$new(server = server, api_key = api_key)
+
+  if (!is.null(token)) {
+    viewer_creds <- get_oauth_credentials(
+      con,
+      user_session_token = token,
+      requested_token_type = "urn:posit:connect:api-key"
+    )
+    con <- Connect$new(server = server, api_key = viewer_creds$access_token)
+  }
 
   tryCatch(
     {
