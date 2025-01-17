@@ -137,16 +137,17 @@ test_that("Viewer client can successfully be created running on Connect", {
   })
 })
 
-test_that("Viewer client uses api key when running locally", {
+test_that("Viewer client uses fallback api key when running locally", {
   with_mock_api({
     withr::local_envvar(
       CONNECT_SERVER = "https://connect.example",
       CONNECT_API_KEY = "fake"
     )
 
+    # With default fallback
     expect_message(
       client <- connect(token = NULL),
-      "Called with `token` but not running on Connect. Continuing with API key."
+      "Called with `token` but not running on Connect. Continuing with fallback API key."
     )
 
     expect_equal(
@@ -156,6 +157,21 @@ test_that("Viewer client uses api key when running locally", {
     expect_equal(
       client$api_key,
       "fake"
+    )
+
+    # With explicitly-defined fallback
+    expect_message(
+      client <- connect(token = NULL, fallback_visitor_api_key = "fallback_fake"),
+      "Called with `token` but not running on Connect. Continuing with fallback API key."
+    )
+
+    expect_equal(
+      client$server,
+      "https://connect.example"
+    )
+    expect_equal(
+      client$api_key,
+      "fallback_fake"
     )
   })
 })

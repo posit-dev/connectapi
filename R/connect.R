@@ -894,7 +894,7 @@ Connect <- R6::R6Class(
 #'
 #' When running on Connect, the client's environment will contain default
 #' `CONNECT_SERVER` and `CONNECT_API_KEY` variables. The API key's permissions
-#' will be scoped to the publishing user's account.
+#' are scoped to the publishing user's account.
 #'
 #' To create a client with permissions scoped to the content viewer's account,
 #' call `connect()` passing a user session token from content session headers
@@ -908,6 +908,10 @@ Connect <- R6::R6Class(
 #' @param token Optional. A user session token. When running on a Connect server,
 #'   creates a client using the content viewer's account. Running locally, the
 #'   created client uses the provided API key.
+#' @param token_fallback_api_key Optional. When a `token` is provided, but
+#'   content is running locally, this API key is used to create the client.
+#'   By default, the primary `api_key` is used, but by providing a different
+#'   key you can test a visitor client with differently-scoped permissions.
 #' @param prefix The prefix used to determine environment variables
 #' @param ... Additional arguments. Not used at present
 #' @param .check_is_fatal Whether to fail if "check" requests fail. Useful in
@@ -921,8 +925,15 @@ Connect <- R6::R6Class(
 #' \dontrun{
 #' client <- connect()
 #'
-#' # Running on Connect, create a client using the content visitor's account.
-#' client <- connect(token = session$request$HTTP_POSIT_CONNECT_USER_SESSION_TOKEN)
+#' # Running in Connect, create a client using the content visitor's account.
+#' # This example assumes code is being executed in a Shiny app's `server`
+#' # function with a `session` object available.
+#' token <- session$request$HTTP_POSIT_CONNECT_USER_SESSION_TOKEN
+#' client <- connect(token = token)
+#'
+#' # Use with a differently-scoped API key
+#' fallback_key <- Sys.getenv("VIEWER_SCOPED_API_KEY")
+#' client <- connect(token = token, token_fallback_api_key = fallback_key)
 #' }
 #'
 #' @examplesIf identical(Sys.getenv("IN_PKGDOWN"), "true")
@@ -935,8 +946,9 @@ Connect <- R6::R6Class(
 connect <- function(
     server = Sys.getenv(paste0(prefix, "_SERVER"), NA_character_),
     api_key = Sys.getenv(paste0(prefix, "_API_KEY"), NA_character_),
-    prefix = "CONNECT",
     token,
+    fallback_visitor_api_key = api_key,
+    prefix = "CONNECT",
     ...,
     .check_is_fatal = TRUE) {
   if (is.null(api_key) || is.na(api_key) || nchar(api_key) == 0) {
@@ -960,9 +972,10 @@ connect <- function(
       )
       con <- Connect$new(server = server, api_key = visitor_creds$access_token)
     } else {
+      con <- Connect$new(server = server, api_key = fallback_visitor_api_key)
       message(paste0(
         "Called with `token` but not running on Connect. ",
-        "Continuing with API key."
+        "Continuing with fallback API key."
       ))
     }
   }
