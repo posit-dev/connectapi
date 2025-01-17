@@ -145,7 +145,7 @@ test_that("Viewer client uses api key when running locally", {
     )
 
     expect_message(
-      client <- zconnect(token = NULL),
+      client <- connect(token = NULL),
       "Called with `token` but not running on Connect. Continuing with API key."
     )
 
@@ -160,3 +160,17 @@ test_that("Viewer client uses api key when running locally", {
   })
 })
 
+test_that("Viewer client code path errs with older Connect version", {
+  with_mock_dir("2024.09.0", {
+    withr::local_envvar(
+      CONNECT_SERVER = "https://connect.example",
+      CONNECT_API_KEY = "fake",
+      RSTUDIO_PRODUCT = "CONNECT"
+    )
+
+    expect_error(
+      client <- connect(token = "my-token"),
+      "This feature requires Posit Connect version 2025.01.0 but you are using 2024.09.0"
+    )
+  })
+})

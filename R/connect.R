@@ -950,6 +950,7 @@ connect <- function(
   con <- Connect$new(server = server, api_key = api_key)
 
   if (!missing(token)) {
+    error_if_less_than(con$version, "2025.01.0")
     if (Sys.getenv("RSTUDIO_PRODUCT") == "CONNECT") {
       message()
       visitor_creds <- get_oauth_credentials(
