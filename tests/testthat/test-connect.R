@@ -115,3 +115,48 @@ test_that("client$version is returns version when server settings exposes it", {
     expect_equal(con$version, "2024.09.0")
   })
 })
+
+test_that("Viewer client can successfully be created running on Connect", {
+  with_mock_api({
+    withr::local_envvar(
+      CONNECT_SERVER = "https://connect.example",
+      CONNECT_API_KEY = "fake",
+      RSTUDIO_PRODUCT = "CONNECT"
+    )
+
+    client <- connect(token = "my-token")
+
+    expect_equal(
+      client$server,
+      "https://connect.example"
+    )
+    expect_equal(
+      client$api_key,
+      "viewer-api-key"
+    )
+  })
+})
+
+test_that("Viewer client uses api key when running locally", {
+  with_mock_api({
+    withr::local_envvar(
+      CONNECT_SERVER = "https://connect.example",
+      CONNECT_API_KEY = "fake"
+    )
+
+    expect_message(
+      client <- zconnect(token = NULL),
+      "Called with `token` but not running on Connect. Continuing with API key."
+    )
+
+    expect_equal(
+      client$server,
+      "https://connect.example"
+    )
+    expect_equal(
+      client$api_key,
+      "fake"
+    )
+  })
+})
+

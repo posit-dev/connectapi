@@ -8,6 +8,7 @@ connect(
   server = Sys.getenv(paste0(prefix, "_SERVER"), NA_character_),
   api_key = Sys.getenv(paste0(prefix, "_API_KEY"), NA_character_),
   prefix = "CONNECT",
+  token,
   ...,
   .check_is_fatal = TRUE
 )
@@ -21,6 +22,10 @@ to environment variable CONNECT_API_KEY}
 
 \item{prefix}{The prefix used to determine environment variables}
 
+\item{token}{Optional. A user session token. When running on a Connect server,
+creates a client using the content viewer's account. Running locally, the
+created client uses the provided API key.}
+
 \item{...}{Additional arguments. Not used at present}
 
 \item{.check_is_fatal}{Whether to fail if "check" requests fail. Useful in
@@ -31,13 +36,26 @@ succeed.}
 A Posit Connect R6 object that can be passed along to methods
 }
 \description{
-Creates a connection to Posit Connect using the server URL and an api key.
+Creates a connection to Posit Connect using the server URL and an API key.
 Validates the connection and checks that the version of the server is
 compatible with the current version of the package.
 }
+\details{
+When running on Connect, the client's environment will contain default
+\code{CONNECT_SERVER} and \code{CONNECT_API_KEY} variables. The API key's permissions
+will be scoped to the publishing user's account.
+
+To create a client with permissions scoped to the content viewer's account,
+call \code{connect()} passing a user session token from content session headers
+to the \code{token} argument. To do this, you must first add a Connect API
+integration in your published content's Access sidebar.
+}
 \examples{
 \dontrun{
-connect()
+client <- connect()
+
+# Running on Connect, create a client using the content visitor's account.
+client <- connect(token = session$request$HTTP_POSIT_CONNECT_USER_SESSION_TOKEN)
 }
 
 \dontshow{if (identical(Sys.getenv("IN_PKGDOWN"), "true")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

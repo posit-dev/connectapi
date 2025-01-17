@@ -888,14 +888,26 @@ Connect <- R6::R6Class(
 
 #' Create a connection to Posit Connect
 #'
-#' Creates a connection to Posit Connect using the server URL and an api key.
+#' Creates a connection to Posit Connect using the server URL and an API key.
 #' Validates the connection and checks that the version of the server is
 #' compatible with the current version of the package.
+#'
+#' When running on Connect, the client's environment will contain default
+#' `CONNECT_SERVER` and `CONNECT_API_KEY` variables. The API key's permissions
+#' will be scoped to the publishing user's account.
+#'
+#' To create a client with permissions scoped to the content viewer's account,
+#' call `connect()` passing a user session token from content session headers
+#' to the `token` argument. To do this, you must first add a Connect API
+#' integration in your published content's Access sidebar.
 #'
 #' @param server The URL for accessing Posit Connect. Defaults to environment
 #'   variable CONNECT_SERVER
 #' @param api_key The API Key to authenticate to Posit Connect with. Defaults
 #'   to environment variable CONNECT_API_KEY
+#' @param token Optional. A user session token. When running on a Connect server,
+#'   creates a client using the content viewer's account. Running locally, the
+#'   created client uses the provided API key.
 #' @param prefix The prefix used to determine environment variables
 #' @param ... Additional arguments. Not used at present
 #' @param .check_is_fatal Whether to fail if "check" requests fail. Useful in
@@ -907,7 +919,10 @@ Connect <- R6::R6Class(
 #'
 #' @examples
 #' \dontrun{
-#' connect()
+#' client <- connect()
+#'
+#' # Running on Connect, create a client using the content visitor's account.
+#' client <- connect(token = session$request$HTTP_POSIT_CONNECT_USER_SESSION_TOKEN)
 #' }
 #'
 #' @examplesIf identical(Sys.getenv("IN_PKGDOWN"), "true")
@@ -920,8 +935,8 @@ Connect <- R6::R6Class(
 connect <- function(
     server = Sys.getenv(paste0(prefix, "_SERVER"), NA_character_),
     api_key = Sys.getenv(paste0(prefix, "_API_KEY"), NA_character_),
-    token = NULL,
     prefix = "CONNECT",
+    token,
     ...,
     .check_is_fatal = TRUE) {
   if (is.null(api_key) || is.na(api_key) || nchar(api_key) == 0) {
@@ -934,13 +949,21 @@ connect <- function(
   }
   con <- Connect$new(server = server, api_key = api_key)
 
-  if (!is.null(token)) {
-    viewer_creds <- get_oauth_credentials(
-      con,
-      user_session_token = token,
-      requested_token_type = "urn:posit:connect:api-key"
-    )
-    con <- Connect$new(server = server, api_key = viewer_creds$access_token)
+  if (!missing(token)) {
+    if (Sys.getenv("RSTUDIO_PRODUCT") == "CONNECT") {
+      message()
+      visitor_creds <- get_oauth_credentials(
+        con,
+        user_session_token = token,
+        requested_token_type = "urn:posit:connect:api-key"
+      )
+      con <- Connect$new(server = server, api_key = visitor_creds$access_token)
+    } else {
+      message(paste0(
+        "Called with `token` but not running on Connect. ",
+        "Continuing with API key."
+      ))
+    }
   }
 
   tryCatch(
@@ -963,6 +986,8 @@ connect <- function(
 
   con
 }
+
+# viewer_client <- function(access_token)
 
 check_debug <- function(res) {
   # Check for deprecation warnings from the server.

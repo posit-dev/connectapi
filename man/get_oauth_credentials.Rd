@@ -4,7 +4,7 @@
 \alias{get_oauth_credentials}
 \title{Perform an OAuth credential exchange to obtain a viewer's OAuth access token.}
 \usage{
-get_oauth_credentials(connect, user_session_token)
+get_oauth_credentials(connect, user_session_token, requested_token_type = NULL)
 }
 \arguments{
 \item{connect}{A Connect R6 object.}
