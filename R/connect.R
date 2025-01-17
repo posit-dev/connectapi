@@ -963,7 +963,7 @@ connect <- function(
 
   if (!missing(token)) {
     error_if_less_than(con$version, "2025.01.0")
-    if (Sys.getenv("RSTUDIO_PRODUCT") == "CONNECT") {
+    if (on_connect()) {
       message()
       visitor_creds <- get_oauth_credentials(
         con,

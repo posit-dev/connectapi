@@ -194,3 +194,9 @@ endpoint_does_not_exist <- function(res) {
       !("code" %in% names(httr::content(res, as = "parsed")))
   )
 }
+
+# Returns `TRUE` if we're running on Connect as determined by the
+# `RSTUDIO_PRODUCT` env var, else `FALSE`.
+on_connect <- function() {
+  Sys.getenv("RSTUDIO_PRODUCT") == "CONNECT"
+}
