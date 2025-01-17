@@ -11,7 +11,10 @@ get_oauth_credentials(connect, user_session_token, requested_token_type = NULL)
 
 \item{user_session_token}{The content viewer's session token. This token
 can only be obtained when the content is running on a Connect server. The token
-identifies the user who is viewing the content interactively on the Connect server.
+identifies the user who is viewing the content interactively on the Connect server.}
+
+\item{requested_token_type}{Optional. You may pass \code{"urn:posit:connect:api-key"} to
+request an ephemeral Connect API key scoped to the content viewer's account.
 
 Read this value from the HTTP header: \code{Posit-Connect-User-Session-Token}}
 }

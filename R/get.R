@@ -585,6 +585,9 @@ get_procs <- function(src) {
 #' @param user_session_token The content viewer's session token. This token
 #' can only be obtained when the content is running on a Connect server. The token
 #' identifies the user who is viewing the content interactively on the Connect server.
+#' @param requested_token_type Optional. You may pass `"urn:posit:connect:api-key"` to
+#' request an ephemeral Connect API key scoped to the content viewer's account.
+#'
 #'
 #' Read this value from the HTTP header: `Posit-Connect-User-Session-Token`
 #'
