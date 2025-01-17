@@ -947,7 +947,7 @@ connect <- function(
     server = Sys.getenv(paste0(prefix, "_SERVER"), NA_character_),
     api_key = Sys.getenv(paste0(prefix, "_API_KEY"), NA_character_),
     token,
-    fallback_visitor_api_key = api_key,
+    token_fallback_api_key = api_key,
     prefix = "CONNECT",
     ...,
     .check_is_fatal = TRUE) {
@@ -972,7 +972,7 @@ connect <- function(
       )
       con <- Connect$new(server = server, api_key = visitor_creds$access_token)
     } else {
-      con <- Connect$new(server = server, api_key = fallback_visitor_api_key)
+      con <- Connect$new(server = server, api_key = token_fallback_api_key)
       message(paste0(
         "Called with `token` but not running on Connect. ",
         "Continuing with fallback API key."
