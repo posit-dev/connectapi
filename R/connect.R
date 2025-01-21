@@ -970,9 +970,9 @@ connect <- function(
         user_session_token = token,
         requested_token_type = "urn:posit:connect:api-key"
       )
-      con <- Connect$new(server = server, api_key = visitor_creds$access_token)
+      con <- connect(server = server, api_key = visitor_creds$access_token)
     } else {
-      con <- Connect$new(server = server, api_key = token_fallback_api_key)
+      con <- connect(server = server, api_key = token_fallback_api_key)
       message(paste0(
         "Called with `token` but not running on Connect. ",
         "Continuing with fallback API key."
@@ -1000,8 +1000,6 @@ connect <- function(
 
   con
 }
-
-# viewer_client <- function(access_token)
 
 check_debug <- function(res) {
   # Check for deprecation warnings from the server.
