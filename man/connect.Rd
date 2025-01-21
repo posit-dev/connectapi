@@ -7,8 +7,9 @@
 connect(
   server = Sys.getenv(paste0(prefix, "_SERVER"), NA_character_),
   api_key = Sys.getenv(paste0(prefix, "_API_KEY"), NA_character_),
-  prefix = "CONNECT",
   token,
+  token_fallback_api_key = api_key,
+  prefix = "CONNECT",
   ...,
   .check_is_fatal = TRUE
 )
@@ -20,11 +21,16 @@ variable CONNECT_SERVER}
 \item{api_key}{The API Key to authenticate to Posit Connect with. Defaults
 to environment variable CONNECT_API_KEY}
 
-\item{prefix}{The prefix used to determine environment variables}
-
 \item{token}{Optional. A user session token. When running on a Connect server,
 creates a client using the content viewer's account. Running locally, the
 created client uses the provided API key.}
+
+\item{token_fallback_api_key}{Optional. When a \code{token} is provided, but
+content is running locally, this API key is used to create the client.
+By default, the primary \code{api_key} is used, but by providing a different
+key you can test a visitor client with differently-scoped permissions.}
+
+\item{prefix}{The prefix used to determine environment variables}
 
 \item{...}{Additional arguments. Not used at present}
 
@@ -43,7 +49,7 @@ compatible with the current version of the package.
 \details{
 When running on Connect, the client's environment will contain default
 \code{CONNECT_SERVER} and \code{CONNECT_API_KEY} variables. The API key's permissions
-will be scoped to the publishing user's account.
+are scoped to the publishing user's account.
 
 To create a client with permissions scoped to the content viewer's account,
 call \code{connect()} passing a user session token from content session headers
@@ -54,8 +60,15 @@ integration in your published content's Access sidebar.
 \dontrun{
 client <- connect()
 
-# Running on Connect, create a client using the content visitor's account.
-client <- connect(token = session$request$HTTP_POSIT_CONNECT_USER_SESSION_TOKEN)
+# Running in Connect, create a client using the content visitor's account.
+# This example assumes code is being executed in a Shiny app's `server`
+# function with a `session` object available.
+token <- session$request$HTTP_POSIT_CONNECT_USER_SESSION_TOKEN
+client <- connect(token = token)
+
+# Use with a differently-scoped API key
+fallback_key <- Sys.getenv("VIEWER_SCOPED_API_KEY")
+client <- connect(token = token, token_fallback_api_key = fallback_key)
 }
 
 \dontshow{if (identical(Sys.getenv("IN_PKGDOWN"), "true")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
