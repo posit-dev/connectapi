@@ -579,12 +579,15 @@ get_procs <- function(src) {
   return(tbl_data)
 }
 
-#' Perform an OAuth credential exchange to obtain a viewer's OAuth access token.
+#' Perform an OAuth credential exchange to obtain a visitor's OAuth access token.
 #'
 #' @param connect A Connect R6 object.
-#' @param user_session_token The content viewer's session token. This token
+#' @param user_session_token The content visitor's session token. This token
 #' can only be obtained when the content is running on a Connect server. The token
 #' identifies the user who is viewing the content interactively on the Connect server.
+#' @param requested_token_type Optional. You may pass `"urn:posit:connect:api-key"` to
+#' request an ephemeral Connect API key scoped to the content visitor's account.
+#'
 #'
 #' Read this value from the HTTP header: `Posit-Connect-User-Session-Token`
 #'
@@ -612,13 +615,14 @@ get_procs <- function(src) {
 #' for more information.
 #'
 #' @export
-get_oauth_credentials <- function(connect, user_session_token) {
+get_oauth_credentials <- function(connect, user_session_token, requested_token_type = NULL) {
   validate_R6_class(connect, "Connect")
   url <- v1_url("oauth", "integrations", "credentials")
   body <- list(
     grant_type = "urn:ietf:params:oauth:grant-type:token-exchange",
     subject_token_type = "urn:posit:connect:user-session-token",
-    subject_token = user_session_token
+    subject_token = user_session_token,
+    requested_token_type = requested_token_type
   )
   connect$POST(
     url,

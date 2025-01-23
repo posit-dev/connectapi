@@ -2,16 +2,19 @@
 % Please edit documentation in R/get.R
 \name{get_oauth_credentials}
 \alias{get_oauth_credentials}
-\title{Perform an OAuth credential exchange to obtain a viewer's OAuth access token.}
+\title{Perform an OAuth credential exchange to obtain a visitor's OAuth access token.}
 \usage{
-get_oauth_credentials(connect, user_session_token)
+get_oauth_credentials(connect, user_session_token, requested_token_type = NULL)
 }
 \arguments{
 \item{connect}{A Connect R6 object.}
 
-\item{user_session_token}{The content viewer's session token. This token
+\item{user_session_token}{The content visitor's session token. This token
 can only be obtained when the content is running on a Connect server. The token
-identifies the user who is viewing the content interactively on the Connect server.
+identifies the user who is viewing the content interactively on the Connect server.}
+
+\item{requested_token_type}{Optional. You may pass \code{"urn:posit:connect:api-key"} to
+request an ephemeral Connect API key scoped to the content visitor's account.
 
 Read this value from the HTTP header: \code{Posit-Connect-User-Session-Token}}
 }
@@ -19,7 +22,7 @@ Read this value from the HTTP header: \code{Posit-Connect-User-Session-Token}}
 The OAuth credential exchange response.
 }
 \description{
-Perform an OAuth credential exchange to obtain a viewer's OAuth access token.
+Perform an OAuth credential exchange to obtain a visitor's OAuth access token.
 }
 \details{
 Please see https://docs.posit.co/connect/user/oauth-integrations/#obtaining-a-viewer-oauth-access-token
