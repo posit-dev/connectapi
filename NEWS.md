@@ -7,7 +7,7 @@
 - New `get_job_list()` function returns a list of jobs for a content item.
   (#341)
 - New `token` parameter to `connect()` function allows you to create a Connect
-  client with permissions scoped to the content viewer when running on a Connect
+  client with permissions scoped to the content visitor when running on a Connect
   server. (#362)
 
 ## Newly deprecated

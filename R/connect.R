@@ -896,7 +896,7 @@ Connect <- R6::R6Class(
 #' `CONNECT_SERVER` and `CONNECT_API_KEY` variables. The API key's permissions
 #' are scoped to the publishing user's account.
 #'
-#' To create a client with permissions scoped to the content viewer's account,
+#' To create a client with permissions scoped to the content visitor's account,
 #' call `connect()` passing a user session token from content session headers
 #' to the `token` argument. To do this, you must first add a Connect API
 #' integration in your published content's Access sidebar.
@@ -906,7 +906,7 @@ Connect <- R6::R6Class(
 #' @param api_key The API Key to authenticate to Posit Connect with. Defaults
 #'   to environment variable CONNECT_API_KEY
 #' @param token Optional. A user session token. When running on a Connect server,
-#'   creates a client using the content viewer's account. Running locally, the
+#'   creates a client using the content visitor's account. Running locally, the
 #'   created client uses the provided API key.
 #' @param token_fallback_api_key Optional. When a `token` is provided, but
 #'   content is running locally, this API key is used to create the client.
@@ -931,8 +931,8 @@ Connect <- R6::R6Class(
 #' token <- session$request$HTTP_POSIT_CONNECT_USER_SESSION_TOKEN
 #' client <- connect(token = token)
 #'
-#' # Use with a differently-scoped API key
-#' fallback_key <- Sys.getenv("VIEWER_SCOPED_API_KEY")
+#' # Test locally with an API key using a different role.
+#' fallback_key <- Sys.getenv("VIEWER_ROLE_API_KEY")
 #' client <- connect(token = token, token_fallback_api_key = fallback_key)
 #' }
 #'

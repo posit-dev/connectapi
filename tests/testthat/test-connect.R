@@ -116,7 +116,7 @@ test_that("client$version is returns version when server settings exposes it", {
   })
 })
 
-test_that("Viewer client can successfully be created running on Connect", {
+test_that("Visitor client can successfully be created running on Connect", {
   with_mock_api({
     withr::local_envvar(
       CONNECT_SERVER = "https://connect.example",
@@ -132,12 +132,12 @@ test_that("Viewer client can successfully be created running on Connect", {
     )
     expect_equal(
       client$api_key,
-      "viewer-api-key"
+      "visitor-api-key"
     )
   })
 })
 
-test_that("Viewer client uses fallback api key when running locally", {
+test_that("Visitor client uses fallback api key when running locally", {
   with_mock_api({
     withr::local_envvar(
       CONNECT_SERVER = "https://connect.example",
@@ -176,7 +176,7 @@ test_that("Viewer client uses fallback api key when running locally", {
   })
 })
 
-test_that("Viewer client code path errs with older Connect version", {
+test_that("Visitor client code path errs with older Connect version", {
   with_mock_dir("2024.09.0", {
     withr::local_envvar(
       CONNECT_SERVER = "https://connect.example",
