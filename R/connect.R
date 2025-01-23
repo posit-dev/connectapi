@@ -908,10 +908,11 @@ Connect <- R6::R6Class(
 #' @param token Optional. A user session token. When running on a Connect server,
 #'   creates a client using the content visitor's account. Running locally, the
 #'   created client uses the provided API key.
-#' @param token_fallback_api_key Optional. When a `token` is provided, but
-#'   content is running locally, this API key is used to create the client.
-#'   By default, the primary `api_key` is used, but by providing a different
-#'   key you can test a visitor client with differently-scoped permissions.
+#' @param token_local_testing_key Optional. Only used when not running on
+#'   Connect and a `token` is provided. By default, the function returns a
+#'   `Connect` object using the `api_key`. By providing a different
+#'   key here you can test a visitor client with differently-scoped
+#'   permissions.
 #' @param prefix The prefix used to determine environment variables
 #' @param ... Additional arguments. Not used at present
 #' @param .check_is_fatal Whether to fail if "check" requests fail. Useful in
@@ -933,7 +934,7 @@ Connect <- R6::R6Class(
 #'
 #' # Test locally with an API key using a different role.
 #' fallback_key <- Sys.getenv("VIEWER_ROLE_API_KEY")
-#' client <- connect(token = token, token_fallback_api_key = fallback_key)
+#' client <- connect(token = token, token_local_testing_key = fallback_key)
 #' }
 #'
 #' @examplesIf identical(Sys.getenv("IN_PKGDOWN"), "true")
@@ -947,7 +948,7 @@ connect <- function(
     server = Sys.getenv(paste0(prefix, "_SERVER"), NA_character_),
     api_key = Sys.getenv(paste0(prefix, "_API_KEY"), NA_character_),
     token,
-    token_fallback_api_key = api_key,
+    token_local_testing_key = api_key,
     prefix = "CONNECT",
     ...,
     .check_is_fatal = TRUE) {
@@ -964,7 +965,6 @@ connect <- function(
   if (!missing(token)) {
     error_if_less_than(con$version, "2025.01.0")
     if (on_connect()) {
-      message()
       visitor_creds <- get_oauth_credentials(
         con,
         user_session_token = token,
@@ -972,7 +972,7 @@ connect <- function(
       )
       con <- connect(server = server, api_key = visitor_creds$access_token)
     } else {
-      con <- connect(server = server, api_key = token_fallback_api_key)
+      con <- connect(server = server, api_key = token_local_testing_key)
       message(paste0(
         "Called with `token` but not running on Connect. ",
         "Continuing with fallback API key."

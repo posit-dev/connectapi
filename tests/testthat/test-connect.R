@@ -161,7 +161,7 @@ test_that("Visitor client uses fallback api key when running locally", {
 
     # With explicitly-defined fallback
     expect_message(
-      client <- connect(token = NULL, token_fallback_api_key = "fallback_fake"),
+      client <- connect(token = NULL, token_local_testing_key = "fallback_fake"),
       "Called with `token` but not running on Connect. Continuing with fallback API key."
     )
 
