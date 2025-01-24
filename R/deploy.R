@@ -509,6 +509,7 @@ get_vanity_url <- function(content) {
 #' @param content_b A Content object
 #'
 #' @family content functions
+#' @rdname swap_vanity_urls
 #' @export
 swap_vanity_urls <- function(content_a, content_b) {
   # TODO: Add prompt if in an interactive session
@@ -554,6 +555,7 @@ swap_vanity_urls <- function(content_a, content_b) {
   )
 }
 
+#' @rdname swap_vanity_urls
 #' @export
 swap_vanity_url <- function(from, to) {
   lifecycle::deprecate_warn("0.6.0", "swap_vanity_url()", "swap_vanity_urls()")

@@ -2,9 +2,12 @@
 % Please edit documentation in R/deploy.R
 \name{swap_vanity_urls}
 \alias{swap_vanity_urls}
+\alias{swap_vanity_url}
 \title{Swap Vanity URLs}
 \usage{
 swap_vanity_urls(content_a, content_b)
+
+swap_vanity_url(from, to)
 }
 \arguments{
 \item{content_a}{A Content object}
