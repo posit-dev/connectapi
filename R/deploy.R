@@ -508,8 +508,9 @@ get_vanity_url <- function(content) {
 #' @param content_a A Content object
 #' @param content_b A Content object
 #'
+#' @returns A list of the new vanity URLs for `content_a` and `content_b`
+#'
 #' @family content functions
-#' @rdname swap_vanity_urls
 #' @export
 swap_vanity_urls <- function(content_a, content_b) {
   # TODO: Add prompt if in an interactive session
@@ -555,7 +556,17 @@ swap_vanity_urls <- function(content_a, content_b) {
   )
 }
 
-#' @rdname swap_vanity_urls
+#' Swap Vanity URLs
+#'
+#' Swap the vanity URLs of two pieces of content.
+#' This function is deprecated; please use \code{\link{swap_vanity_urls}}.
+#'
+#' @param from A Content object
+#' @param to A Content object
+#'
+#' @returns A list of the new vanity URLs for `from` and `to`
+#'
+#' @family content functions
 #' @export
 swap_vanity_url <- function(from, to) {
   lifecycle::deprecate_warn("0.6.0", "swap_vanity_url()", "swap_vanity_urls()")

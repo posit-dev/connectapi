@@ -2,17 +2,17 @@
 % Please edit documentation in R/deploy.R
 \name{swap_vanity_urls}
 \alias{swap_vanity_urls}
-\alias{swap_vanity_url}
 \title{Swap Vanity URLs}
 \usage{
 swap_vanity_urls(content_a, content_b)
-
-swap_vanity_url(from, to)
 }
 \arguments{
 \item{content_a}{A Content object}
 
 \item{content_b}{A Content object}
+}
+\value{
+A list of the new vanity URLs for \code{content_a} and \code{content_b}
 }
 \description{
 Swap the vanity URLs of two pieces of content.
@@ -44,6 +44,7 @@ Other content functions:
 \code{\link{set_run_as}()},
 \code{\link{set_thumbnail}()},
 \code{\link{set_vanity_url}()},
+\code{\link{swap_vanity_url}()},
 \code{\link{terminate_jobs}()},
 \code{\link{verify_content_name}()}
 }
