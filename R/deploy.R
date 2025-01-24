@@ -513,9 +513,6 @@ get_vanity_url <- function(content) {
 swap_vanity_urls <- function(content_a, content_b) {
   # TODO: Add prompt if in an interactive session
   # TODO: Add pretty print output of what is happening
-  # TODO: Test error cases super thoroughly!!
-  # TODO: Do a "dry run" of sorts...? Check privileges... etc...
-  # TODO: Do the changes within a TryCatch so we can undo...?
 
   validate_R6_class(content_a, "Content")
   validate_R6_class(content_b, "Content")
