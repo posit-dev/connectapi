@@ -464,7 +464,7 @@ delete_vanity_url <- function(content) {
   error_if_less_than(con$version, "1.8.6")
   guid <- content$get_content()$guid
 
-  con$DELETE(v1_url("content", guid, "vanity"))
+  con$DELETE(v1_url("content", guid, "vanity"), parser = "parsed")
 
   content
 }
@@ -526,8 +526,19 @@ swap_vanity_urls <- function(content_a, content_b) {
   if (is.null(vanity_a) && is.null(vanity_b)) {
     warning("Neither content has a vanity URL")
   } else {
-    delete_vanity_url(content_a)
-    delete_vanity_url(content_b)
+    tryCatch(
+      delete_vanity_url(content_a),
+      error = function(e) {
+        stop("Unable to modify the vanity URL for content_a: ", e$message, call. = FALSE)
+      }
+    )
+    tryCatch(
+      delete_vanity_url(content_b),
+      error = function(e) {
+        set_vanity_url(content_a, vanity_a)
+        stop("Unable to modify the vanity URL for content_b: ", e$message, call. = FALSE)
+      }
+    )
     if (!is.null(vanity_a)) {
       set_vanity_url(content_b, vanity_a)
     }

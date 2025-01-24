@@ -1,0 +1,1 @@
+This content item allows vanity URL operations.

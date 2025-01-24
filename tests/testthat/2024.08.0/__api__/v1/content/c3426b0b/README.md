@@ -1,0 +1,1 @@
+This content item returns 403 errors when setting and deleting vanity URLs.
