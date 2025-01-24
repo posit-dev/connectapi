@@ -1,5 +1,20 @@
 # connectapi (development version)
 
+## New features
+
+- New `get_log()` function which lets you get the log for a given job.
+  (#341)
+- New `get_job_list()` function returns a list of jobs for a content item.
+  (#341)
+- New `token` parameter to `connect()` function allows you to create a Connect
+  client with permissions scoped to the content visitor when running on a Connect
+  server. (#362)
+
+## Newly deprecated
+
+- `get_job()` (singular) is now deprecated, its functionality taken care of by
+  other functions, including `get_log()`.
+
 # connectapi 0.5.0
 
 ## Breaking changes

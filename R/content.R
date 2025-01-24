@@ -111,7 +111,7 @@ Content <- R6::R6Class(
           x
         })
       }
-      parsed
+      purrr::map(parsed, ~ purrr::list_modify(.x, app_guid = self$content$guid))
     },
     #' @description Return a single job for this content.
     #' @param key The job key.
@@ -619,9 +619,25 @@ content_ensure <- function(
 #' Note that Connect versions below 2022.10.0 use a legacy endpoint, and will
 #' not return the complete set of information provided by newer versions.
 #'
+#' `get_jobs()` returns job data as a data frame, whereas `get_jobs_list()`
+#' returns job data in a list.
+#'
+#' You might get job data as a data frame if you want to perform some
+#' calculations about job data (e.g. counting server processes over time), or if
+#' you want to filter jobs to find a specific key.
+#'
+#' The objects in list returned by `get_jobs_list()` are useful if you want to
+#' take an action on a job, such as getting its process log with
+#' `get_log()`.
+#'
 #' @param content A Content object, as returned by `content_item()`
 #'
-#' @return A data frame with a row for each job, with the following columns:
+#' @return
+#'
+#' - `get_jobs()`: A data frame with a row representing each job.
+#' - `get_job_list()`: A list with each element representing a job.
+#'
+#' Jobs contain the following fields:
 #'
 #' - `id`: The job identifier.
 #' - `ppid`: The job's parent process identifier (see Note 1).
@@ -629,7 +645,8 @@ content_ensure <- function(
 #' - `key`: The job's unique key identifier.
 #' - `remote_id`: The job's identifier for off-host execution configurations
 #' (see Note 1).
-#' - `app_id`: The job's parent content identifier
+#' - `app_id`: The job's parent content identifier.
+#' - `app_guid`: The job's parent content GUID.
 #' - `variant_id`: The identifier of the variant owning this job.
 #' - `bundle_id`: The identifier of a content bundle linked to this job.
 #' - `start_time`: The timestamp (RFC3339) indicating when this job started.
@@ -658,10 +675,19 @@ content_ensure <- function(
 #' - `run_as`: The UNIX user that executed this job.
 #'
 #' @note
-#' 1. On Connect instances earlier than 2022.10.0, these columns will contain `NA` values.
+#' 1. On Connect instances earlier than 2022.10.0, these fields will contain `NA` values.
+#'
+#' @examples
+#' \dontrun{
+#' client <- connect()
+#' item <- content_item(client, "951bf3ad-82d0-4bca-bba8-9b27e35c49fa")
+#' jobs <- get_jobs(item)
+#' job_list <- get_job_list(item)
+#' }
 #'
 #' @family job functions
 #' @family content functions
+#' @rdname get_jobs
 #' @export
 get_jobs <- function(content) {
   validate_R6_class(content, "Content")
@@ -682,7 +708,7 @@ get_jobs <- function(content) {
 #' @family content functions
 #' @export
 get_job <- function(content, key) {
-  warn_experimental("get_job")
+  lifecycle::deprecate_warn("0.6", "get_job()", "get_log()")
   scoped_experimental_silence()
   validate_R6_class(content, "Content")
 
@@ -704,7 +730,7 @@ get_job <- function(content, key) {
 #' @param keys Optional. One or more job keys, which can be obtained using
 #' `get_jobs(content)`. If no keys are provided, will terminate all active
 #' jobs for the provided content item.
-
+#'
 #' @return A data frame with the status of each termination request.
 #'
 #' - `app_id`: The content item's identifier.
@@ -717,6 +743,13 @@ get_job <- function(content, key) {
 #'
 #' Note that `app_id`, `app_guid`, `job_id`, and `result` are `NA` if the
 #' request returns an error.
+#'
+#' @examples
+#' \dontrun{
+#' client <- connect()
+#' item <- content_item(client, "951bf3ad-82d0-4bca-bba8-9b27e35c49fa")
+#' result <- terminate_jobs(item)
+#' }
 #'
 #' @family job functions
 #' @family content functions
@@ -745,6 +778,54 @@ terminate_jobs <- function(content, keys = NULL) {
   # Errors will not have the job_key.
   res_df$job_key <- keys
   res_df
+}
+
+#' @rdname get_jobs
+get_job_list <- function(content) {
+  validate_R6_class(content, "Content")
+
+  purrr::map(content$jobs(), ~ purrr::list_modify(.x, client = content$connect))
+}
+
+#' Get Job Log
+#'
+#' Get the log output for a job. Requires Connect 2022.10.0 or newer.
+#'
+#' Note: The output of `get_jobs()` cannot be used with `get_log()`.
+#' Please use an object from the list returned by `get_job_list()`.
+#'
+#' @param job A job, represented by an element from the list returned by `get_job_list()`.
+#' @param max_log_lines Optional. An integer indicating the maximum number of
+#' log lines to return. If `NULL` (default), Connect returns a maximum of 5000
+#' lines.
+#'
+#' @return A data frame with the requested log. Each row represents an entry.
+#'
+#' - `source`: `stdout` or `stderr`
+#' - `timestamp`: The time of the entry.
+#' - `data`: The logged text.
+#'
+#' @examples
+#' \dontrun{
+#' client <- connect()
+#' item <- content_item(client, "951bf3ad-82d0-4bca-bba8-9b27e35c49fa")
+#' jobs <- get_job_list(item)
+#' log <- get_log(jobs[[1]])
+#' }
+#'
+#'
+#' @family job functions
+#' @family content functions
+#' @export
+get_log <- function(job, max_log_lines = NULL) {
+  error_if_less_than(job$client$version, "2022.10.0")
+
+  query <- list(maxLogLines = max_log_lines)
+  res <- job$client$GET(
+    v1_url("content", job$app_guid, "jobs", job$key, "log"),
+    query = query
+  )
+  parse_connectapi_typed(res$entries, connectapi_ptypes$job_log)
 }
 
 #' Set RunAs User

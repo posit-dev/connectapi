@@ -115,3 +115,78 @@ test_that("client$version is returns version when server settings exposes it", {
     expect_equal(con$version, "2024.09.0")
   })
 })
+
+test_that("Visitor client can successfully be created running on Connect", {
+  with_mock_api({
+    withr::local_envvar(
+      CONNECT_SERVER = "https://connect.example",
+      CONNECT_API_KEY = "fake",
+      RSTUDIO_PRODUCT = "CONNECT"
+    )
+
+    client <- connect(token = "my-token")
+
+    expect_equal(
+      client$server,
+      "https://connect.example"
+    )
+    expect_equal(
+      client$api_key,
+      "visitor-api-key"
+    )
+  })
+})
+
+test_that("Visitor client uses fallback api key when running locally", {
+  with_mock_api({
+    withr::local_envvar(
+      CONNECT_SERVER = "https://connect.example",
+      CONNECT_API_KEY = "fake"
+    )
+
+    # With default fallback
+    expect_message(
+      client <- connect(token = NULL),
+      "Called with `token` but not running on Connect. Continuing with fallback API key."
+    )
+
+    expect_equal(
+      client$server,
+      "https://connect.example"
+    )
+    expect_equal(
+      client$api_key,
+      "fake"
+    )
+
+    # With explicitly-defined fallback
+    expect_message(
+      client <- connect(token = NULL, token_local_testing_key = "fallback_fake"),
+      "Called with `token` but not running on Connect. Continuing with fallback API key."
+    )
+
+    expect_equal(
+      client$server,
+      "https://connect.example"
+    )
+    expect_equal(
+      client$api_key,
+      "fallback_fake"
+    )
+  })
+})
+
+test_that("Visitor client code path errs with older Connect version", {
+  with_mock_dir("2024.09.0", {
+    withr::local_envvar(
+      CONNECT_SERVER = "https://connect.example",
+      CONNECT_API_KEY = "fake",
+      RSTUDIO_PRODUCT = "CONNECT"
+    )
+
+    expect_error(
+      client <- connect(token = "my-token"),
+      "This feature requires Posit Connect version 2025.01.0 but you are using 2024.09.0"
+    )
+  })
+})
