@@ -372,7 +372,6 @@ test_that("swap_vanity_urls works", {
 
   expect_null(swap_res$content_a)
   expect_identical(swap_res$content_b, paste0("/", tmp_content_a_name, "/"))
-  expect_true(grepl("vanity-url", swap_res$content_a))
 
   # works with both vanity urls
   swap_res2 <- suppressMessages(swap_vanity_urls(tmp_content_a, tmp_content_b))
