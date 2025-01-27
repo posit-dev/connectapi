@@ -48,9 +48,18 @@
 <li>New <code>token</code> parameter to <code><a href="../reference/connect.html">connect()</a></code> function allows you to create a Connect client with permissions scoped to the content visitor when running on a Connect server. (<a href="https://github.com/posit-dev/connectapi/issues/362" class="external-link">#362</a>)</li>
 </ul></div>
 <div class="section level3">
+<h3 id="enhancements-and-fixes-development-version">Enhancements and fixes<a class="anchor" aria-label="anchor" href="#enhancements-and-fixes-development-version"></a></h3>
+<ul><li>
+<code><a href="../reference/swap_vanity_urls.html">swap_vanity_urls()</a></code> can correctly perform a swap involving a content item with no vanity URL. (<a href="https://github.com/posit-dev/connectapi/issues/360" class="external-link">#360</a>)</li>
+<li>
+<code><a href="../reference/swap_vanity_urls.html">swap_vanity_urls()</a></code> handles permissions errors gracefully, attempting to roll back any changes made. (<a href="https://github.com/posit-dev/connectapi/issues/360" class="external-link">#360</a>)</li>
+</ul></div>
+<div class="section level3">
 <h3 id="newly-deprecated-development-version">Newly deprecated<a class="anchor" aria-label="anchor" href="#newly-deprecated-development-version"></a></h3>
 <ul><li>
 <code><a href="../reference/get_job.html">get_job()</a></code> (singular) is now deprecated, its functionality taken care of by other functions, including <code><a href="../reference/get_log.html">get_log()</a></code>.</li>
+<li>
+<code>swap_vanity_url(old, new)</code> has been deprecated and renamed to <code>swap_vanity_urls(content_a, content_b)</code>.</li>
 </ul></div>
 </div>
     <div class="section level2">
