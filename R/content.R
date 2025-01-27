@@ -781,6 +781,7 @@ terminate_jobs <- function(content, keys = NULL) {
 }
 
 #' @rdname get_jobs
+#' @export
 get_job_list <- function(content) {
   validate_R6_class(content, "Content")
 
