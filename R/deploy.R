@@ -413,7 +413,7 @@ deploy_current <- function(content) {
 
 #' Set the Vanity URL
 #'
-#' Sets the Vanity URL for a piece of content.
+#' Set the vanity URL for a piece of content.
 #'
 #' @param content A Content object
 #' @param url The path component of the URL
@@ -453,7 +453,7 @@ set_vanity_url <- function(content, url, force = FALSE) {
 
 #' Delete the Vanity URL
 #'
-#' Deletes the Vanity URL for a piece of content.
+#' Delete the vanity URL for a piece of content.
 #'
 #' @param content A Content object
 #'
@@ -464,14 +464,14 @@ delete_vanity_url <- function(content) {
   error_if_less_than(con$version, "1.8.6")
   guid <- content$get_content()$guid
 
-  con$DELETE(v1_url("content", guid, "vanity"))
+  con$DELETE(v1_url("content", guid, "vanity"), parser = "parsed")
 
   content
 }
 
 #' Get the Vanity URL
 #'
-#' Gets the Vanity URL for a piece of content.
+#' Get the vanity URL for a piece of content.
 #'
 #' @param content A Content object
 #'
@@ -501,55 +501,80 @@ get_vanity_url <- function(content) {
   return(van$path)
 }
 
-#' Swap the Vanity URL
+#' Swap Vanity URLs
 #'
-#' Swaps the Vanity URLs between two pieces of content
+#' Swap the vanity URLs of two pieces of content.
 #'
-#' @param from_content A Content object
-#' @param to_content A Content object
+#' @param content_a A Content object
+#' @param content_b A Content object
+#'
+#' @returns A list of the new vanity URLs for `content_a` and `content_b`
 #'
 #' @family content functions
 #' @export
-swap_vanity_url <- function(from_content, to_content) {
-  warn_experimental("swap_vanity_url")
-  scoped_experimental_silence()
+swap_vanity_urls <- function(content_a, content_b) {
   # TODO: Add prompt if in an interactive session
   # TODO: Add pretty print output of what is happening
-  # TODO: Test error cases super thoroughly!!
-  # TODO: Do a "dry run" of sorts...? Check privileges... etc...
-  # TODO: Do the changes within a TryCatch so we can undo...?
-  # TODO: Need a way to "unset" a vanity URL
 
-  from_vanity <- get_vanity_url(from_content)
-  to_vanity <- get_vanity_url(to_content)
+  validate_R6_class(content_a, "Content")
+  validate_R6_class(content_b, "Content")
 
-  if (is.null(from_vanity) && is.null(to_vanity)) {
-    warning("Neither content has a Vanity URL. Exiting")
+  vanity_a <- get_vanity_url(content_a)
+  vanity_b <- get_vanity_url(content_b)
+
+  if (is.null(vanity_a) && is.null(vanity_b)) {
+    warning("Neither content has a vanity URL")
   } else {
-    # swapping vanity URLs
-    tmp_vanity <- paste0("vanity-url-swap-", create_random_name(length = 50))
-
-    if (!is.null(from_vanity)) {
-      set_vanity_url(from_content, tmp_vanity)
-    } else {
-      set_vanity_url(to_content, tmp_vanity)
+    tryCatch(
+      delete_vanity_url(content_a),
+      error = function(e) {
+        stop("Unable to modify the vanity URL for content_a: ", e$message, call. = FALSE)
+      }
+    )
+    tryCatch(
+      delete_vanity_url(content_b),
+      error = function(e) {
+        set_vanity_url(content_a, vanity_a)
+        stop("Unable to modify the vanity URL for content_b: ", e$message, call. = FALSE)
+      }
+    )
+    if (!is.null(vanity_a)) {
+      set_vanity_url(content_b, vanity_a)
     }
-
-    if (!is.null(from_vanity)) {
-      set_vanity_url(to_content, from_vanity)
+    if (!is.null(vanity_b)) {
+      set_vanity_url(content_a, vanity_b)
     }
-    if (!is.null(to_vanity)) {
-      set_vanity_url(from_content, to_vanity)
-    }
-
-    from_vanity <- get_vanity_url(from_content)
-    to_vanity <- get_vanity_url(to_content)
+    vanity_a <- get_vanity_url(content_a)
+    vanity_b <- get_vanity_url(content_b)
   }
 
   return(
     list(
-      from = from_vanity,
-      to = to_vanity
+      content_a = vanity_a,
+      content_b = vanity_b
+    )
+  )
+}
+
+#' Swap Vanity URLs
+#'
+#' Swap the vanity URLs of two pieces of content.
+#' This function is deprecated; please use \code{\link{swap_vanity_urls}}.
+#'
+#' @param from A Content object
+#' @param to A Content object
+#'
+#' @returns A list of the new vanity URLs for `from` and `to`
+#'
+#' @family content functions
+#' @export
+swap_vanity_url <- function(from, to) {
+  lifecycle::deprecate_warn("0.6.0", "swap_vanity_url()", "swap_vanity_urls()")
+  res <- swap_vanity_urls(from, to)
+  return(
+    list(
+      from = res[["content_a"]],
+      to = res[["content_b"]]
     )
   )
 }

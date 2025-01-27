@@ -10,7 +10,7 @@ delete_vanity_url(content)
 \item{content}{A Content object}
 }
 \description{
-Deletes the Vanity URL for a piece of content.
+Delete the vanity URL for a piece of content.
 }
 \seealso{
 Other content functions: 
@@ -39,6 +39,7 @@ Other content functions:
 \code{\link{set_thumbnail}()},
 \code{\link{set_vanity_url}()},
 \code{\link{swap_vanity_url}()},
+\code{\link{swap_vanity_urls}()},
 \code{\link{terminate_jobs}()},
 \code{\link{verify_content_name}()}
 }

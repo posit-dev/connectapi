@@ -352,42 +352,41 @@ test_that("delete_vanity_url works", {
   expect_null(res)
 })
 
-test_that("swap_vanity_url works", {
-  tmp_content_name <- uuid::UUIDgenerate()
-  tmp_content_prep <- content_ensure(test_conn_1, name = tmp_content_name)
-  tmp_content <- Content$new(connect = test_conn_1, content = tmp_content_prep)
+test_that("swap_vanity_urls works", {
+  tmp_content_a_name <- uuid::UUIDgenerate()
+  tmp_content_a_prep <- content_ensure(test_conn_1, name = tmp_content_a_name)
+  tmp_content_a <- Content$new(connect = test_conn_1, content = tmp_content_a_prep)
 
-  tmp_content2_name <- uuid::UUIDgenerate()
-  tmp_content2_prep <- content_ensure(test_conn_1, name = tmp_content2_name)
-  tmp_content2 <- Content$new(connect = test_conn_1, content = tmp_content2_prep)
+  tmp_content_b_name <- uuid::UUIDgenerate()
+  tmp_content_b_prep <- content_ensure(test_conn_1, name = tmp_content_b_name)
+  tmp_content_b <- Content$new(connect = test_conn_1, content = tmp_content_b_prep)
 
   # warns with no vanity urls
-  res <- suppressMessages(expect_warning(swap_vanity_url(tmp_content, tmp_content2)))
-  expect_null(res[["from"]])
-  expect_null(res[["to"]])
+  res <- suppressMessages(expect_warning(swap_vanity_urls(tmp_content_a, tmp_content_b)))
+  expect_null(res[["content_a"]])
+  expect_null(res[["content_b"]])
 
-  # works with just one vanity url (from)
-  set_from <- set_vanity_url(tmp_content, tmp_content_name)
-  swap_res <- suppressMessages(swap_vanity_url(tmp_content, tmp_content2))
+  # works with just one vanity url (content_a)
+  set_content_a <- set_vanity_url(tmp_content_a, tmp_content_a_name)
+  swap_res <- suppressMessages(swap_vanity_urls(tmp_content_a, tmp_content_b))
 
-  expect_identical(swap_res$to, paste0("/", tmp_content_name, "/"))
-  expect_true(grepl("vanity-url", swap_res$from))
+  expect_null(swap_res$content_a)
+  expect_identical(swap_res$content_b, paste0("/", tmp_content_a_name, "/"))
 
   # works with both vanity urls
-  swap_res2 <- suppressMessages(swap_vanity_url(tmp_content, tmp_content2))
+  swap_res2 <- suppressMessages(swap_vanity_urls(tmp_content_a, tmp_content_b))
 
-  expect_identical(swap_res2$from, paste0("/", tmp_content_name, "/"))
-  expect_identical(swap_res2$to, swap_res$from)
+  expect_identical(swap_res2$content_a, paste0("/", tmp_content_a_name, "/"))
+  expect_identical(swap_res2$content_b, swap_res$content_a)
 
-  # works with just one vanity url (to)
-  delete_vanity_url(tmp_content)
-  expect_null(get_vanity_url(tmp_content))
+  # works with just one vanity url (content_b)
+  delete_vanity_url(tmp_content_a)
+  expect_null(get_vanity_url(tmp_content_a))
 
-  swap_res3 <- swap_vanity_url(tmp_content, tmp_content2)
+  swap_res3 <- swap_vanity_urls(tmp_content_a, tmp_content_b)
 
-  expect_identical(swap_res3$from, swap_res$from)
-  expect_false(identical(swap_res3$to, swap_res2$from))
-  expect_true(grepl("vanity-url", swap_res3$to))
+  expect_identical(swap_res3$content_a, swap_res$content_a)
+  expect_null(swap_res3$content_b)
 })
 
 # misc functions ---------------------------------------------------

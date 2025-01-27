@@ -73,6 +73,7 @@ Other content functions:
 \code{\link{set_thumbnail}()},
 \code{\link{set_vanity_url}()},
 \code{\link{swap_vanity_url}()},
+\code{\link{swap_vanity_urls}()},
 \code{\link{verify_content_name}()}
 }
 \concept{content functions}

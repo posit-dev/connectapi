@@ -10,10 +10,19 @@
   client with permissions scoped to the content visitor when running on a Connect
   server. (#362)
 
+## Enhancements and fixes
+
+- `swap_vanity_urls()` can correctly perform a swap involving a content item
+  with no vanity URL. (#360)
+- `swap_vanity_urls()` handles permissions errors gracefully, attempting to roll
+  back any changes made. (#360)
+
 ## Newly deprecated
 
 - `get_job()` (singular) is now deprecated, its functionality taken care of by
   other functions, including `get_log()`.
+- `swap_vanity_url(old, new)` has been deprecated and renamed to
+  `swap_vanity_urls(content_a, content_b)`.
 
 # connectapi 0.5.0
 
