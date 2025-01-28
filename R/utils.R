@@ -164,12 +164,14 @@ error_if_less_than <- function(using_version, tested_version) {
 }
 
 compare_connect_version <- function(using_version, tested_version) {
-  compareVersion(simplify_version(using_version), simplify_version(tested_version))
+  as.integer(
+    compareVersion(simplify_version(using_version), simplify_version(tested_version))
+  )
 }
 
 warn_untested_connect <- function(using_version, minimum_tested_version = "1.8.8.2") {
   comp <- compare_connect_version(using_version, minimum_tested_version)
-  if (isTRUE(comp < 0)) {
+  if (!is.na(using_version) && (comp < 0)) {
     warn_once(glue::glue(
       "You are using an older version of Posit Connect ",
       "({using_version}) than is tested ({minimum_tested_version}). ",
