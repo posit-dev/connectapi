@@ -664,8 +664,10 @@ content_ensure <- function(
 #' - `key`: The job's unique key identifier.
 #' - `remote_id`: The job's identifier for off-host execution configurations
 #' (see Note 1).
-#' - `app_id`: The job's parent content identifier.
-#' - `app_guid`: The job's parent content GUID.
+#' - `app_id`: The job's parent content identifier; deprecated in favor of `content_id`.
+#' - `app_guid`: The job's parent content GUID; deprecated in favor of `content_guid`.
+#' - `content_id`: The job's parent content identifier.
+#' - `content_guid`: The job's parent content GUID.
 #' - `variant_id`: The identifier of the variant owning this job.
 #' - `bundle_id`: The identifier of a content bundle linked to this job.
 #' - `start_time`: The timestamp (RFC3339) indicating when this job started.
