@@ -255,7 +255,7 @@ test_that("get_jobs() using the old and new endpoints returns sensible results",
   # Connect 2025.01.0 also provides `content_id` and `content_guid` columns.
   # For older versions, `connectapi` adds them, so objects should all be identical.
   with_mock_dir("2025.01.0", {
-    jobs_v1_2025.01.0 <- get_jobs(item)
+    jobs_v1_2025_01_0 <- get_jobs(item)
   })
 
   # Columns we expect to be identical
@@ -270,13 +270,13 @@ test_that("get_jobs() using the old and new endpoints returns sensible results",
   )
   expect_identical(
     jobs_v1[common_cols],
-    jobs_v1_2025.01.0[common_cols]
+    jobs_v1_2025_01_0[common_cols]
   )
 
   # Status columns line up as expected
   expect_equal(jobs_v1$status, c(0L, 0L, 2L, 2L, 2L, 2L))
   expect_equal(jobs_v0$status, c(0L, 0L, NA, NA, NA, NA))
-  expect_equal(jobs_v1_2025.01.0$status, c(0L, 0L, 2L, 2L, 2L, 2L))
+  expect_equal(jobs_v1_2025_01_0$status, c(0L, 0L, 2L, 2L, 2L, 2L))
 })
 
 with_mock_api({

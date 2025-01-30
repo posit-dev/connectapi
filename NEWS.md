@@ -16,6 +16,9 @@
   with no vanity URL. (#360)
 - `swap_vanity_urls()` handles permissions errors gracefully, attempting to roll
   back any changes made. (#360)
+- `get_jobs()` and `get_job_list()` return objects contain `content_id` and
+  `content_guid` fields. These contain the same values as `app_id` and
+  `app_guid`, which are deprecated and will be removed in a future update.
 
 ## Newly deprecated
 
