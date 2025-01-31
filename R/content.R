@@ -111,7 +111,28 @@ Content <- R6::R6Class(
           x
         })
       }
-      purrr::map(parsed, ~ purrr::list_modify(.x, app_guid = self$content$guid))
+      # Ensure content identifiers are included.
+      # The `app_guid` field was never returned by Connect, but is added here
+      # for backward compatibility with older `connectapi` versions, which added
+      # a field named `app_guid` to job data.
+      if (compare_connect_version(self$connect$version, "2025.01.0") < 0) {
+        # Versions of Connect below 2025.01.0 only included `app_id`. We must
+        # add all other fields.
+        purrr::map(parsed, ~ purrr::list_modify(
+          .x,
+          content_id = .x$app_id,
+          app_guid = self$content$guid,
+          content_guid = self$content_guid
+        ))
+      } else {
+        # Connect 2025.01.0 includes `content_id` and `content_guid`, and
+        # retains `app_id` for backward compat. We only need to add `app_guid`
+        # for `connectapi` back-compat.
+        purrr::map(parsed, ~ purrr::list_modify(
+          .x,
+          app_guid = .x$content_guid
+        ))
+      }
     },
     #' @description Return a single job for this content.
     #' @param key The job key.
@@ -645,8 +666,10 @@ content_ensure <- function(
 #' - `key`: The job's unique key identifier.
 #' - `remote_id`: The job's identifier for off-host execution configurations
 #' (see Note 1).
-#' - `app_id`: The job's parent content identifier.
-#' - `app_guid`: The job's parent content GUID.
+#' - `app_id`: The job's parent content identifier; deprecated in favor of `content_id`.
+#' - `app_guid`: The job's parent content GUID; deprecated in favor of `content_guid`.
+#' - `content_id`: The job's parent content identifier.
+#' - `content_guid`: The job's parent content GUID.
 #' - `variant_id`: The identifier of the variant owning this job.
 #' - `bundle_id`: The identifier of a content bundle linked to this job.
 #' - `start_time`: The timestamp (RFC3339) indicating when this job started.

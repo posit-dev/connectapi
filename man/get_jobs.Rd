@@ -26,8 +26,10 @@ Jobs contain the following fields:
 \item \code{key}: The job's unique key identifier.
 \item \code{remote_id}: The job's identifier for off-host execution configurations
 (see Note 1).
-\item \code{app_id}: The job's parent content identifier.
-\item \code{app_guid}: The job's parent content GUID.
+\item \code{app_id}: The job's parent content identifier; deprecated in favor of \code{content_id}.
+\item \code{app_guid}: The job's parent content GUID; deprecated in favor of \code{content_guid}.
+\item \code{content_id}: The job's parent content identifier.
+\item \code{content_guid}: The job's parent content GUID.
 \item \code{variant_id}: The identifier of the variant owning this job.
 \item \code{bundle_id}: The identifier of a content bundle linked to this job.
 \item \code{start_time}: The timestamp (RFC3339) indicating when this job started.

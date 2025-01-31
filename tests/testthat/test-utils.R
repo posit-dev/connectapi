@@ -5,7 +5,30 @@ test_that("simplify_version works", {
   expect_identical(simplify_version("10.0.0.0-4"), "10.0.0")
 })
 
-test_that("error_if_less_than errors as expected", {
+test_that("compare_connect_version works", {
+  expect_identical(
+    compare_connect_version("2024.09.0", "1.8.6"),
+    1L
+  )
+  expect_identical(
+    compare_connect_version("2025.01.1", "2025.01.0"),
+    1L
+  )
+  expect_identical(
+    compare_connect_version("2025.01.0", "2025.01.0"),
+    0L
+  )
+  expect_identical(
+    compare_connect_version("2024.08.2", "2024.09"),
+    -1L
+  )
+  expect_identical(
+    compare_connect_version(NA, "2024.09"),
+    -1L
+  )
+})
+
+test_that("error_if_less_than errors works as expected", {
   expect_silent(error_if_less_than("2024.09.0", "1.8.6"))
   expect_error(
     error_if_less_than("2024.08.2", "2024.09"),

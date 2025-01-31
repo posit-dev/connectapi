@@ -166,6 +166,8 @@ connectapi_ptypes <- list(
     pid = NA_character_,
     key = NA_character_,
     remote_id = NA_character_,
+    content_id = NA_character_,
+    content_guid = NA_character_,
     app_id = NA_character_,
     app_guid = NA_character_,
     variant_id = NA_character_,
