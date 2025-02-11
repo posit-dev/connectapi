@@ -1,4 +1,4 @@
-# connectapi (development version)
+# connectapi 0.6.0
 
 ## New features
 
