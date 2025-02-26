@@ -121,7 +121,7 @@ test_that("Visitor client can successfully be created running on Connect", {
     withr::local_envvar(
       CONNECT_SERVER = "https://connect.example",
       CONNECT_API_KEY = "fake",
-      RSTUDIO_PRODUCT = "CONNECT"
+      POSIT_PRODUCT = "CONNECT"
     )
 
     client <- connect(token = "my-token")
@@ -181,12 +181,51 @@ test_that("Visitor client code path errs with older Connect version", {
     withr::local_envvar(
       CONNECT_SERVER = "https://connect.example",
       CONNECT_API_KEY = "fake",
-      RSTUDIO_PRODUCT = "CONNECT"
+      POSIT_PRODUCT = "CONNECT"
     )
 
     expect_error(
       client <- connect(token = "my-token"),
       "This feature requires Posit Connect version 2025.01.0 but you are using 2024.09.0"
     )
+  })
+})
+
+test_that("environment detection functions work", {
+  withr::with_envvar(c(POSIT_PRODUCT = "", RSTUDIO_PRODUCT = ""), {
+    expect_true(is_local())
+    expect_false(on_connect())
+    expect_false(on_workbench())
+  })
+  
+  withr::with_envvar(c(POSIT_PRODUCT = "CONNECT", RSTUDIO_PRODUCT = ""), {
+    expect_false(is_local())
+    expect_true(on_connect())
+    expect_false(on_workbench())
+  })
+  
+  withr::with_envvar(c(POSIT_PRODUCT = "WORKBENCH", RSTUDIO_PRODUCT = ""), {
+    expect_false(is_local())
+    expect_false(on_connect()) 
+    expect_true(on_workbench())
+  })
+  
+  withr::with_envvar(c(POSIT_PRODUCT = "", RSTUDIO_PRODUCT = "CONNECT"), {
+    expect_false(is_local())
+    expect_true(on_connect())
+    expect_false(on_workbench())
+  })
+  
+  withr::with_envvar(c(POSIT_PRODUCT = "", RSTUDIO_PRODUCT = "WORKBENCH"), {
+    expect_false(is_local())
+    expect_false(on_connect()) 
+    expect_true(on_workbench())
+  })
+
+  # POSIT_PRODUCT takes precedence over RSTUDIO_PRODUCT
+  withr::with_envvar(c(POSIT_PRODUCT = "CONNECT", RSTUDIO_PRODUCT = "WORKBENCH"), {
+    expect_false(is_local())
+    expect_true(on_connect())
+    expect_false(on_workbench())
   })
 })
