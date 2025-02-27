@@ -297,7 +297,7 @@ Content <- R6::R6Class(
         )
       )
     },
-    #' @description Adjust Git repository.
+    #' @description Adjust Git repository
     #' @param repository Git repository URL
     #' @param branch Git repository branch
     #' @param subdirectory Git repository directory
@@ -311,6 +311,10 @@ Content <- R6::R6Class(
           subdirectory = subdirectory
         )
       )
+    },
+    #' @description Get package dependencies
+    packages = function() {
+      self$connect$GET(v1_url("content", self$content$guid, "packages"))
     },
     #' @description Print this object.
     #' @param ... Unused.
@@ -1285,4 +1289,9 @@ content_restart <- function(content) {
   content$environment_set("{env_var_name}" := NA)
   # nolint end
   invisible(NULL)
+}
+
+get_content_packages <- function(content) {
+  res <- content$packages()
+  parse_connectapi_typed(res, connectapi_ptypes$content_packages)
 }

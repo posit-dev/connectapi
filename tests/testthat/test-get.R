@@ -193,3 +193,29 @@ test_that("get_vanity_urls() works", {
     )
   })
 })
+
+test_that("get_packages() works as expected", {
+  with_mock_api({
+    client <- Connect$new(server = "https://connect.example", api_key = "not-a-key")
+    expect_identical(
+      get_packages(client, page_size = 2, limit = 4),
+      tibble::tibble(
+        language = c("python", "python", "python", "python"),
+        language_version = c("3.7.6", "3.7.7", "2.7.17", "3.7.7"),
+        name = c("absl-py", "absl-py", "absl-py", "absl-py"),
+        version = c("0.12.0", "0.8.1", "0.8.1", "0.9.0"),
+        hash = c(NA_character_, NA_character_, NA_character_, NA_character_),
+        bundle_id = c("9375", "6623", "6722", "6938"),
+        content_id = c("4906", "3652", "3708", "3795"),
+        content_guid = c("9bf33774", "1935b6cb", "60de58a3", "c1278310")
+      )
+    )
+  })
+
+  without_internet({
+    expect_GET(
+      client$packages(name = "mypkg", page_number = 1, page_size = 50),
+      "https://connect.example/__api__/v1/packages?name=mypkg&page_number=1&page_size=50"
+    )
+  })
+})

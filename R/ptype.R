@@ -246,5 +246,21 @@ connectapi_ptypes <- list(
     source = NA_character_,
     timestamp = NA_datetime_,
     data = NA_character_
+  ),
+  packages = tibble::tibble(
+    language = NA_character_,
+    language_version = NA_character_,
+    name = NA_character_,
+    version = NA_character_,
+    hash = NA_character_,
+    bundle_id = NA_character_,
+    app_id = NA_character_,
+    app_guid = NA_character_,
+  ),
+  content_packages = tibble::tibble(
+    language = NA_character_,
+    name = NA_character_,
+    version = NA_character_,
+    hash = NA_character_
   )
 )

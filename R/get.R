@@ -742,6 +742,32 @@ get_runtimes <- function(client, runtimes = NULL) {
   })
 }
 
+get_packages <- function(src, name = NULL, page_size = 500, limit = Inf) {
+  validate_R6_class(src, "Connect")
+  res <- page_offset(
+    src,
+    src$packages(
+      name = name,
+      page_size = page_size
+    ),
+    limit = limit
+  )
+  out <- parse_connectapi_typed(res, connectapi_ptypes$packages)
+
+  # Connect is standardizing on using `content_id` and `content_guid`.
+  # Handle that name change now in a forward-compatible way.
+  if ("app_id" %in% names(out)) {
+    out$content_id <- out$app_id
+    out$app_id <- NULL
+  }
+  if ("app_guid" %in% names(out)) {
+    out$content_guid <- out$app_guid
+    out$app_guid <- NULL
+  }
+
+  out
+}
+
 #' Get all vanity URLs
 #'
 #' Get a table of all vanity URLs on the server. Requires administrator
