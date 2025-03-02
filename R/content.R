@@ -1291,7 +1291,30 @@ content_restart <- function(content) {
   invisible(NULL)
 }
 
+#' Package dependencies for a content item
+#'
+#' @description Get a data frame of package dependencies used by a content item.
+#'
+#' @param content A content item
+#'
+#' @return A data frame with the following columns:
+#'
+#' - `language` : Language ecosystem the package belongs to (`r` or `python`)
+#' - `name`: The package name
+#' - `version`: The package version
+#' - `hash`: For R packages, the package `DESCRIPTION` hash
+#'
+#' @examples
+#' \dontrun{
+#' client <- connect()
+#' item <- content_item(client, "951bf3ad-82d0-4bca-bba8-9b27e35c49fa")
+#' packages <- get_content_packages(item)
+#' }
+#'
+#' @family packages functions
+#' @export
 get_content_packages <- function(content) {
+  error_if_less_than(content$connect$version, "2025.01.0")
   res <- content$packages()
   parse_connectapi_typed(res, connectapi_ptypes$content_packages)
 }

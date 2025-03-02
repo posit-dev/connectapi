@@ -194,7 +194,7 @@ test_that("get_vanity_urls() works", {
   })
 })
 
-test_that("get_packages() works as expected", {
+test_that("get_packages() works as expected with current return value", {
   with_mock_api({
     client <- Connect$new(server = "https://connect.example", api_key = "not-a-key")
     expect_identical(
@@ -218,4 +218,57 @@ test_that("get_packages() works as expected", {
       "https://connect.example/__api__/v1/packages?name=mypkg&page_number=1&page_size=50"
     )
   })
+})
+
+test_that("get_packages() works as expected with `content_guid` names in API response", {
+  client <- MockConnect$new("2024.11.0")
+
+  client$mock_response(
+    "GET", "v1/packages",
+    content = list(
+      current_page = 1,
+      total = 186690,
+      results = list(
+        list(
+          language = "python",
+          language_version = "3.7.6",
+          name = "absl-py",
+          version = "0.12.0",
+          hash = NULL,
+          bundle_id = "9375",
+          app_id = "4906",
+          app_guid = "9bf33774",
+          content_id = "4906",
+          content_guid = "9bf33774"
+        ),
+        list(
+          language = "python",
+          language_version = "3.7.7",
+          name = "absl-py",
+          version = "0.8.1",
+          hash = NULL,
+          bundle_id = "6623",
+          app_id = "3652",
+          app_guid = "1935b6cb",
+          content_id = "3652",
+          content_guid = "1935b6cb"
+
+        )
+      )
+    )
+  )
+
+  expect_identical(
+    get_packages(client, page_size = 2, limit = 2),
+    tibble::tibble(
+      language = c("python", "python"),
+      language_version = c("3.7.6", "3.7.7"),
+      name = c("absl-py", "absl-py"),
+      version = c("0.12.0", "0.8.1"),
+      hash = c(NA_character_, NA_character_),
+      bundle_id = c("9375", "6623"),
+      content_id = c("4906", "3652"),
+      content_guid = c("9bf33774", "1935b6cb")
+    )
+  )
 })

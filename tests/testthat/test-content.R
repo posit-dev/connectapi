@@ -385,7 +385,7 @@ test_that("get_log() gets job logs", {
   })
 })
 
-test_that("get_packages() gets packages", {
+test_that("get_content_packages() gets packages", {
   with_mock_api({
     client <- connect()
     item <- content_item(client, "8f37d6e0")
