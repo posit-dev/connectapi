@@ -775,7 +775,7 @@ get_runtimes <- function(client, runtimes = NULL) {
 #' @export
 get_packages <- function(src, name = NULL, page_size = 500, limit = Inf) {
   validate_R6_class(src, "Connect")
-  error_if_less_than(con$version, "2024.11.0")
+  error_if_less_than(src$version, "2024.11.0")
   res <- page_offset(
     src,
     src$packages(
