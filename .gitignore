@@ -18,4 +18,6 @@ tests/integrated/testthat-problems.rds
 tests/testthat/check-results-check.txt
 tests/testthat/Rplots.pdf
 CRAN-SUBMISSION
+
+# license files should not be commited to this repository
 *.lic

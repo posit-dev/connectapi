@@ -3,9 +3,12 @@ linters: linters_with_defaults(
   object_name_linter = object_name_linter(styles = c("snake_case", "symbols", "CamelCase")),
   cyclocomp_linter = cyclocomp_linter(30L),
   object_length_linter(32L),
-  indentation_linter = indentation_linter(hanging_indent_style = "tidy")
+  indentation_linter = indentation_linter(hanging_indent_style = "tidy"),
+  return_linter = NULL
   )
 exclusions: list(
+  "tests/testthat/2024.07.0/",
   "tests/testthat/2024.08.0/",
-  "tests/testthat/2024.09.0/"
+  "tests/testthat/2024.09.0/",
+  "inst/scratch/"
   )
