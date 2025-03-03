@@ -387,7 +387,7 @@ test_that("get_log() gets job logs", {
 
 test_that("get_content_packages() gets packages", {
   with_mock_api({
-    client <- connect()
+    client <- Connect$new(server = "http://connect.example", api_key = "not-a-key")
     item <- content_item(client, "8f37d6e0")
     expect_identical(
       p <- get_content_packages(item),
