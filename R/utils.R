@@ -194,8 +194,28 @@ endpoint_does_not_exist <- function(res) {
     !("code" %in% names(httr::content(res, as = "parsed")))
 }
 
+get_product <- function() {
+  posit_product <- Sys.getenv("POSIT_PRODUCT")
+  if (posit_product != "") {
+    return(posit_product)
+  }
+  Sys.getenv("RSTUDIO_PRODUCT")
+}
+
+# Returns `TRUE` if we're running locally (no product env var set),
+# else `FALSE`.
+is_local <- function() {
+  get_product() == ""
+}
+
 # Returns `TRUE` if we're running on Connect as determined by the
-# `RSTUDIO_PRODUCT` env var, else `FALSE`.
+# `POSIT_PRODUCT` or `RSTUDIO_PRODUCT` env var, else `FALSE`.
 on_connect <- function() {
-  Sys.getenv("RSTUDIO_PRODUCT") == "CONNECT"
+  get_product() == "CONNECT"
+}
+
+# Returns `TRUE` if we're running on Workbench as determined by the
+# `POSIT_PRODUCT` or `RSTUDIO_PRODUCT` env var, else `FALSE`.
+on_workbench <- function() {
+  get_product() == "WORKBENCH"
 }

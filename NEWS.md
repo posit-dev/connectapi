@@ -1,5 +1,9 @@
 # connectapi (development version)
 
+## New features
+
+- New functions `get_product()`, `is_local()`, `on_connect()` (updated), and `on_workbench()` help detect the Posit product environment (Posit Connect, Posit Workbench, or local) via environment variables. `get_product()` checks both `POSIT_PRODUCT` and `RSTUDIO_PRODUCT` environment variables. (#371)
+
 # connectapi 0.6.0
 
 ## New features
