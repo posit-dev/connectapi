@@ -12,7 +12,8 @@ get_packages(src, name = NULL, page_size = 500, limit = Inf)
 \item{name}{Optional package name to filter by. Python package are normalized
 during matching; R package names must match exactly.}
 
-\item{page_size}{Optional, max 500. Integer specifying page size for API paging.}
+\item{page_size}{Optional, max 500. Integer specifying page size for API
+paging.}
 
 \item{limit}{Optionally specify the maximum number of records to return.}
 }
@@ -25,13 +26,21 @@ A data frame with the following columns:
 \item \code{version}: Package version
 \item \code{hash}: Package description hash for R packages
 \item \code{bundle_id}: Identifier for the bundle that depends on this package
-\item \code{content_id}: Numeric identifier for the content that depends on this package
-\item \code{content_guid}: The unique identifier of the content item that depends on this package
+\item \code{content_id}: Numeric identifier for the content that depends on this
+package
+\item \code{content_guid}: The unique identifier of the content item that depends on
+this package
 }
 }
 \description{
 Get a data frame of all package dependencies used by content
 items on the server.
+
+The \code{page_size} and \code{limit} parameters are optional but may be useful during
+development, when you're iterating on some code that uses this function.
+Behind the scenes, Connect returns packages in pages, and with large or
+long-running servers, this can take a while. Setting a \code{limit} causes
+Connect to stop early, giving you incomplete data, but faster.
 }
 \examples{
 \dontrun{

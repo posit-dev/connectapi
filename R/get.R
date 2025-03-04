@@ -748,10 +748,17 @@ get_runtimes <- function(client, runtimes = NULL) {
 #' @description Get a data frame of all package dependencies used by content
 #' items on the server.
 #'
+#' The `page_size` and `limit` parameters are optional but may be useful during
+#' development, when you're iterating on some code that uses this function.
+#' Behind the scenes, Connect returns packages in pages, and with large or
+#' long-running servers, this can take a while. Setting a `limit` causes
+#' Connect to stop early, giving you incomplete data, but faster.
+#'
 #' @param src A `Connect` client object.
 #' @param name Optional package name to filter by. Python package are normalized
 #' during matching; R package names must match exactly.
-#' @param page_size Optional, max 500. Integer specifying page size for API paging.
+#' @param page_size Optional, max 500. Integer specifying page size for API
+#' paging.
 #' @param limit Optionally specify the maximum number of records to return.
 #'
 #' @return A data frame with the following columns:
@@ -762,8 +769,10 @@ get_runtimes <- function(client, runtimes = NULL) {
 #' - `version`: Package version
 #' - `hash`: Package description hash for R packages
 #' - `bundle_id`: Identifier for the bundle that depends on this package
-#' - `content_id`: Numeric identifier for the content that depends on this package
-#' - `content_guid`: The unique identifier of the content item that depends on this package
+#' - `content_id`: Numeric identifier for the content that depends on this
+#'   package
+#' - `content_guid`: The unique identifier of the content item that depends on
+#'   this package
 #'
 #' @examples
 #' \dontrun{
