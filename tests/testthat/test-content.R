@@ -384,3 +384,23 @@ test_that("get_log() gets job logs", {
     )
   })
 })
+
+test_that("get_content_packages() gets packages", {
+  with_mock_api({
+    client <- Connect$new(server = "http://connect.example", api_key = "not-a-key")
+    item <- content_item(client, "8f37d6e0")
+    expect_identical(
+      p <- get_content_packages(item),
+      tibble::tibble(
+        language = c("r", "r", "r"),
+        name = c("askpass", "backports", "base64enc"),
+        version = c("1.2.1", "1.5.0", "0.1-3"),
+        hash = c(
+          "449d6f179d9b3b5df1dc44fad2930b83",
+          "6c5e6997f9a6836358ea459b93f2bc39",
+          "c590d29e555926af053055e23ee79efb"
+        )
+      )
+    )
+  })
+})

@@ -815,13 +815,29 @@ Connect <- R6::R6Class(
     schedules = function(start = Sys.time(), end = Sys.time() + 60 * 60 * 24 * 7, detailed = FALSE) {
       warn_experimental("schedules")
       url <- v1_url("experimental", "schedules")
-      query_params <- rlang::list2(
+      query_params <- list(
         detailed = tolower(detailed),
         start = datetime_to_rfc3339(start),
         end = datetime_to_rfc3339(end)
       )
       res <- self$GET(url, query = query_params)
       return(res[["schedules"]])
+    },
+
+    # packages --------------------------------------------------
+
+    #' @description Get packages.
+    #' @param name The package name to filter by.
+    #' @param page_number The page number.
+    #' @param page_size Page size, max 500.
+    packages = function(name = NULL, page_number = 1, page_size = 500) {
+      url <- v1_url("packages")
+      query_params <- list(
+        name = name,
+        page_number = page_number,
+        page_size = page_size
+      )
+      self$GET(url, query = query_params)
     },
 
     # misc utilities --------------------------------------------

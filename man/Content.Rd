@@ -76,6 +76,7 @@ Other R6 classes:
 \item \href{#method-Content-deploy}{\code{Content$deploy()}}
 \item \href{#method-Content-repo_enable}{\code{Content$repo_enable()}}
 \item \href{#method-Content-repo_set}{\code{Content$repo_set()}}
+\item \href{#method-Content-packages}{\code{Content$packages()}}
 \item \href{#method-Content-print}{\code{Content$print()}}
 \item \href{#method-Content-clone}{\code{Content$clone()}}
 }
@@ -506,7 +507,7 @@ Adjust Git polling.
 \if{html}{\out{<a id="method-Content-repo_set"></a>}}
 \if{latex}{\out{\hypertarget{method-Content-repo_set}{}}}
 \subsection{Method \code{repo_set()}}{
-Adjust Git repository.
+Adjust Git repository
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Content$repo_set(repository, branch, subdirectory)}\if{html}{\out{</div>}}
 }
@@ -522,6 +523,16 @@ Adjust Git repository.
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Content-packages"></a>}}
+\if{latex}{\out{\hypertarget{method-Content-packages}{}}}
+\subsection{Method \code{packages()}}{
+Get package dependencies
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Content$packages()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Content-print"></a>}}
