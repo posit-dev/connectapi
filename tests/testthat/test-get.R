@@ -221,6 +221,9 @@ test_that("get_packages() works as expected with current return value", {
 })
 
 test_that("get_packages() works as expected with `content_guid` names in API response", {
+  # The responses in this test differ from the httptest fixtures used by the
+  # prior test by the presence of `content_id` and `content_guid` keys in the
+  # return objects.
   client <- MockConnect$new("2024.11.0")
 
   client$mock_response(
