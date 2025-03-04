@@ -252,7 +252,6 @@ test_that("get_packages() works as expected with `content_guid` names in API res
           app_guid = "1935b6cb",
           content_id = "3652",
           content_guid = "1935b6cb"
-
         )
       )
     )
