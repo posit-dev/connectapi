@@ -744,7 +744,6 @@ get_runtimes <- function(client, runtimes = NULL) {
 
 #' All package dependencies on the server
 #'
-#'
 #' @description Get a data frame of all package dependencies used by content
 #' items on the server.
 #'
