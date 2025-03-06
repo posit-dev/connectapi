@@ -742,6 +742,72 @@ get_runtimes <- function(client, runtimes = NULL) {
   })
 }
 
+#' All package dependencies on the server
+#'
+#' @description Get a data frame of all package dependencies used by content
+#' items on the server.
+#'
+#' The `page_size` and `limit` parameters are optional but may be useful during
+#' development, when you're iterating on some code that uses this function.
+#' Behind the scenes, Connect returns packages in pages, and with large or
+#' long-running servers, this can take a while. Setting a `limit` causes
+#' Connect to stop early, giving you incomplete data, but faster.
+#'
+#' @param src A `Connect` client object.
+#' @param name Optional package name to filter by. Python package are normalized
+#' during matching; R package names must match exactly.
+#' @param page_size Optional, max 500. Integer specifying page size for API
+#' paging.
+#' @param limit Optionally specify the maximum number of records to return.
+#'
+#' @return A data frame with the following columns:
+#'
+#' - `language`: Language ecosystem the package belongs to (`r` or `python`)
+#' - `language_version`: Version of R or Python used by the content
+#' - `name`: Package name
+#' - `version`: Package version
+#' - `hash`: Package description hash for R packages
+#' - `bundle_id`: Identifier for the bundle that depends on this package
+#' - `content_id`: Numeric identifier for the content that depends on this
+#'   package
+#' - `content_guid`: The unique identifier of the content item that depends on
+#'   this package
+#'
+#' @examples
+#' \dontrun{
+#' client <- connect()
+#' packages <- get_packages(client)
+#' }
+#'
+#' @family packages functions
+#' @export
+get_packages <- function(src, name = NULL, page_size = 500, limit = Inf) {
+  validate_R6_class(src, "Connect")
+  error_if_less_than(src$version, "2024.11.0")
+  res <- page_offset(
+    src,
+    src$packages(
+      name = name,
+      page_size = page_size
+    ),
+    limit = limit
+  )
+  out <- parse_connectapi_typed(res, connectapi_ptypes$packages)
+
+  # Connect is standardizing on using `content_id` and `content_guid`.
+  # Handle that name change now in a forward-compatible way.
+  if ("app_id" %in% names(out)) {
+    out$content_id <- out$app_id
+    out$app_id <- NULL
+  }
+  if ("app_guid" %in% names(out)) {
+    out$content_guid <- out$app_guid
+    out$app_guid <- NULL
+  }
+
+  out
+}
+
 #' Get all vanity URLs
 #'
 #' Get a table of all vanity URLs on the server. Requires administrator

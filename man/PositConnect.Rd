@@ -122,6 +122,7 @@ Other R6 classes:
 \item \href{#method-Connect-repo_branches}{\code{Connect$repo_branches()}}
 \item \href{#method-Connect-repo_manifest_dirs}{\code{Connect$repo_manifest_dirs()}}
 \item \href{#method-Connect-schedules}{\code{Connect$schedules()}}
+\item \href{#method-Connect-packages}{\code{Connect$packages()}}
 \item \href{#method-Connect-docs}{\code{Connect$docs()}}
 \item \href{#method-Connect-audit_logs}{\code{Connect$audit_logs()}}
 \item \href{#method-Connect-vanities}{\code{Connect$vanities()}}
@@ -1275,6 +1276,27 @@ Get schedules.
 \item{\code{end}}{Ending time.}
 
 \item{\code{detailed}}{Indicates detailed schedule information.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Connect-packages"></a>}}
+\if{latex}{\out{\hypertarget{method-Connect-packages}{}}}
+\subsection{Method \code{packages()}}{
+Get packages.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Connect$packages(name = NULL, page_number = 1, page_size = 500)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{The package name to filter by.}
+
+\item{\code{page_number}}{The page number.}
+
+\item{\code{page_size}}{Page size, max 500.}
 }
 \if{html}{\out{</div>}}
 }

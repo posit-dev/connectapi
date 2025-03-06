@@ -1,5 +1,12 @@
 # connectapi (development version)
 
+## New features
+
+- New `get_packages()` function to get a data frame of all packages on a Connect
+  server. (#374)
+- New `get_content_packages()` function to get a data frame of all package
+  dependencies for a content item. (#374)
+
 # connectapi 0.6.0
 
 ## New features
