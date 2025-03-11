@@ -830,12 +830,12 @@ Connect <- R6::R6Class(
     #' @param name The package name to filter by.
     #' @param page_number The page number.
     #' @param page_size Page size, max 500.
-    packages = function(name = NULL, page_number = 1, page_size = 500) {
+    packages = function(name = NULL, page_number = 1) {
       url <- v1_url("packages")
       query_params <- list(
         name = name,
         page_number = page_number,
-        page_size = page_size
+        page_size = "1000000"
       )
       self$GET(url, query = query_params)
     },

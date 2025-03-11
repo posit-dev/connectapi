@@ -1286,7 +1286,7 @@ Get schedules.
 \subsection{Method \code{packages()}}{
 Get packages.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Connect$packages(name = NULL, page_number = 1, page_size = 500)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Connect$packages(name = NULL, page_number = 1)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
