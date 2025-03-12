@@ -246,7 +246,7 @@ test_that("Pagination is wired up correctly for packages method", {
       client <- Connect$new(server = "https://connect.example", api_key = "fake")
       expect_GET(
         client$packages(name = "mypkg", page_number = 1),
-        "https://connect.example/__api__/v1/packages?name=mypkg&page_number=1&page_size=1000000"
+        "https://connect.example/__api__/v1/packages?name=mypkg&page_number=1&page_size=100000"
       )
     })
   })
