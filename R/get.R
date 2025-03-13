@@ -747,9 +747,15 @@ get_runtimes <- function(client, runtimes = NULL) {
 #' @description Get a data frame of package dependencies used by all content
 #' items on the server.
 #'
+#' @usage get_packages(src, name = NULL, page_size = 100000, limit = Inf)
+#'
 #' @param src A `Connect` client object.
 #' @param name Optional package name to filter by. Python package are normalized
 #' during matching; R package names must match exactly.
+#' @param page_size Optional. Integer specifying page size for API
+#' paging.
+#' @param limit Optional. Specify the maximum number of records after which
+#' to cease paging.
 #'
 #' @return A data frame with the following columns:
 #'
@@ -772,13 +778,14 @@ get_runtimes <- function(client, runtimes = NULL) {
 #'
 #' @family packages functions
 #' @export
-get_packages <- function(src, name = NULL) {
+get_packages <- function(src, name = NULL, page_size = 100000, limit = Inf) {
   validate_R6_class(src, "Connect")
   error_if_less_than(src$version, "2024.11.0")
   res <- page_offset(
     src,
     src$packages(
-      name = name
+      name = name,
+      page_size = page_size
     )
   )
   out <- parse_connectapi_typed(res, connectapi_ptypes$packages)

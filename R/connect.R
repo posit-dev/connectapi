@@ -834,6 +834,9 @@ Connect <- R6::R6Class(
       url <- v1_url("packages")
       query_params <- list(
         name = name,
+        # We use `format()` here because `httr` seems to serialize integers over
+        # 99999 with scientific notation, which causes incorrect query strings.
+        # Finding a more general solution to this is tracked by #379.
         page_number = format(page_number, scientific = FALSE),
         page_size = format(page_size, scientific = FALSE)
       )
