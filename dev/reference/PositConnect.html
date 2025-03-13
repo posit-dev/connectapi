@@ -1427,9 +1427,9 @@ will be returned. Otherwise, the argument is forwarded to
 
 </div><p></p><hr><a id="method-Connect-packages"></a><div class="section">
 <h3 id="method-packages-">Method <code>packages()</code><a class="anchor" aria-label="anchor" href="#method-packages-"></a></h3>
-<p>Get packages.</p><div class="section">
+<p>Get packages. This endpoint is paginated.</p><div class="section">
 <h4 id="usage-57">Usage<a class="anchor" aria-label="anchor" href="#usage-57"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Connect</span><span class="op">$</span><span class="fu">packages</span><span class="op">(</span>name <span class="op">=</span> <span class="cn">NULL</span>, page_number <span class="op">=</span> <span class="fl">1</span>, page_size <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Connect</span><span class="op">$</span><span class="fu">packages</span><span class="op">(</span>name <span class="op">=</span> <span class="cn">NULL</span>, page_number <span class="op">=</span> <span class="fl">1</span>, page_size <span class="op">=</span> <span class="fl">1e+05</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -1439,11 +1439,11 @@ will be returned. Otherwise, the argument is forwarded to
 
 
 <dt><code>page_number</code></dt>
-<dd><p>The page number.</p></dd>
+<dd><p>Page number.</p></dd>
 
 
 <dt><code>page_size</code></dt>
-<dd><p>Page size, max 500.</p></dd>
+<dd><p>Page size, default 100000.</p></dd>
 
 
 </dl><p></p></div>
