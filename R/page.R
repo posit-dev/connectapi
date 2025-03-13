@@ -69,10 +69,11 @@ page_offset <- function(client, req, limit = Inf) {
 
   req_response <- rlang::eval_tidy(qreq)
   res <- req_response$results
+  total_items <- req_response$total
 
   agg_response <- res
   agg_length <- length(agg_response)
-  while (length(res) > 0 && agg_length < limit) {
+  while (length(res) > 0 && agg_length < limit && agg_length < total_items) {
     prg$tick()
 
     # bump the page number

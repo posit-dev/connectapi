@@ -826,16 +826,19 @@ Connect <- R6::R6Class(
 
     # packages --------------------------------------------------
 
-    #' @description Get packages.
+    #' @description Get packages. This endpoint is paginated.
     #' @param name The package name to filter by.
-    #' @param page_number The page number.
-    #' @param page_size Page size, max 500.
-    packages = function(name = NULL, page_number = 1, page_size = 500) {
+    #' @param page_number Page number.
+    #' @param page_size Page size, default 100000.
+    packages = function(name = NULL, page_number = 1, page_size = 100000) {
       url <- v1_url("packages")
       query_params <- list(
         name = name,
-        page_number = page_number,
-        page_size = page_size
+        # We use `format()` here because `httr` seems to serialize integers over
+        # 99999 with scientific notation, which causes incorrect query strings.
+        # Finding a more general solution to this is tracked by #379.
+        page_number = format(page_number, scientific = FALSE),
+        page_size = format(page_size, scientific = FALSE)
       )
       self$GET(url, query = query_params)
     },

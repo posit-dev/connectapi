@@ -1284,9 +1284,9 @@ Get schedules.
 \if{html}{\out{<a id="method-Connect-packages"></a>}}
 \if{latex}{\out{\hypertarget{method-Connect-packages}{}}}
 \subsection{Method \code{packages()}}{
-Get packages.
+Get packages. This endpoint is paginated.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Connect$packages(name = NULL, page_number = 1, page_size = 500)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Connect$packages(name = NULL, page_number = 1, page_size = 1e+05)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -1294,9 +1294,9 @@ Get packages.
 \describe{
 \item{\code{name}}{The package name to filter by.}
 
-\item{\code{page_number}}{The page number.}
+\item{\code{page_number}}{Page number.}
 
-\item{\code{page_size}}{Page size, max 500.}
+\item{\code{page_size}}{Page size, default 100000.}
 }
 \if{html}{\out{</div>}}
 }

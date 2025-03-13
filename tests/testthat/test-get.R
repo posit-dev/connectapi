@@ -200,7 +200,7 @@ test_that("get_packages() works as expected with current return value", {
     "GET", "v1/packages",
     content = list(
       current_page = 1,
-      total = 186690,
+      total = 2,
       results = list(
         list(
           language = "python",
@@ -226,7 +226,7 @@ test_that("get_packages() works as expected with current return value", {
     )
   )
   expect_identical(
-    get_packages(client, page_size = 2, limit = 2),
+    get_packages(client),
     tibble::tibble(
       language = c("python", "python"),
       language_version = c("3.7.6", "3.7.7"),
@@ -245,8 +245,8 @@ test_that("Pagination is wired up correctly for packages method", {
     without_internet({
       client <- Connect$new(server = "https://connect.example", api_key = "fake")
       expect_GET(
-        client$packages(name = "mypkg", page_number = 1, page_size = 50),
-        "https://connect.example/__api__/v1/packages?name=mypkg&page_number=1&page_size=50"
+        client$packages(name = "mypkg", page_number = 1),
+        "https://connect.example/__api__/v1/packages?name=mypkg&page_number=1&page_size=100000"
       )
     })
   })
@@ -262,7 +262,7 @@ test_that("get_packages() works as expected with `content_guid` names in API res
     "GET", "v1/packages",
     content = list(
       current_page = 1,
-      total = 186690,
+      total = 2,
       results = list(
         list(
           language = "python",
@@ -293,7 +293,7 @@ test_that("get_packages() works as expected with `content_guid` names in API res
   )
 
   expect_identical(
-    get_packages(client, page_size = 2, limit = 2),
+    get_packages(client),
     tibble::tibble(
       language = c("python", "python"),
       language_version = c("3.7.6", "3.7.7"),
