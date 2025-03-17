@@ -631,6 +631,61 @@ get_oauth_credentials <- function(connect, user_session_token, requested_token_t
   )
 }
 
+#' Perform an OAuth credential exchange to obtain a visitor's AWS credentials.
+#'
+#' @param connect A Connect R6 object.
+#' @param user_session_token The content visitor's session token. This token
+#' can only be obtained when the content is running on a Connect server. The token
+#' identifies the user who is viewing the content interactively on the Connect server.
+#'
+#' Read this value from the HTTP header: `Posit-Connect-User-Session-Token`
+#'
+#' @examples
+#' \dontrun{
+#' library(connectapi)
+#' library(plumber)
+#' client <- connect()
+#'
+#' #* @get /do
+#' function(req) {
+#'   user_session_token <- req$HTTP_POSIT_CONNECT_USER_SESSION_TOKEN
+#'   aws_credentials <- get_aws_credentials(client, user_session_token)
+#'
+#'   # Create S3 client with AWS credentials from Connect 
+#'   svc <- paws::s3(
+#'     credentials = list(
+#'       creds = list(
+#'         access_key_id = aws_credentials$accessKeyId,
+#'         secret_access_key = aws_credentials$secretAccessKey, 
+#'         session_token = aws_credentials$sessionToken
+#'       )
+#'     )
+#'   )
+#'
+#'   # Get object from S3
+#'   obj <- svc$get_object(
+#'     Bucket = "my-bucket",
+#'     Key = "my-data.csv"
+#'   )
+#'
+#'   "done"
+#' }
+#'
+#' @return The AWS credentials.
+#'
+#' @details
+#' Please see https://docs.posit.co/connect/user/oauth-integrations/#obtaining-a-viewer-oauth-access-token
+#' for more information.
+#'
+#' @export
+get_aws_credentials <- function(connect, user_session_token) {
+  response <- get_oauth_credentials(connect, user_session_token, requested_token_type = "urn:ietf:params:aws:token-type:credentials")
+
+  # Extract access token and decode it
+  access_token <- rawToChar(base64enc::base64decode(response$access_token))
+  jsonlite::fromJSON(access_token)
+}
+
 #' Perform an OAuth credential exchange to obtain a content-specific OAuth
 #' access token.
 #'
