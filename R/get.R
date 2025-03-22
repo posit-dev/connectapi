@@ -617,6 +617,9 @@ get_procs <- function(src) {
 #' @export
 get_oauth_credentials <- function(connect, user_session_token, requested_token_type = NULL) {
   validate_R6_class(connect, "Connect")
+  if (is.null(requested_token_type)) {
+    requested_token_type <- "urn:ietf:params:oauth:token-type:access_token"
+  }
   url <- v1_url("oauth", "integrations", "credentials")
   body <- list(
     grant_type = "urn:ietf:params:oauth:grant-type:token-exchange",
@@ -644,6 +647,7 @@ get_oauth_credentials <- function(connect, user_session_token, requested_token_t
 #' \dontrun{
 #' library(connectapi)
 #' library(plumber)
+#' library(paws)
 #' client <- connect()
 #'
 #' #* @get /do
@@ -670,15 +674,17 @@ get_oauth_credentials <- function(connect, user_session_token, requested_token_t
 #'
 #'   "done"
 #' }
+#' }
 #'
 #' @return The AWS credentials.
 #'
 #' @details
-#' Please see https://docs.posit.co/connect/user/oauth-integrations/#obtaining-a-viewer-oauth-access-token
+#' Please see https://docs.posit.co/connect/user/oauth-integrations/#obtaining-viewer-aws-credentials
 #' for more information.
 #'
 #' @export
 get_aws_credentials <- function(connect, user_session_token) {
+  error_if_less_than(connect$version, "2025.03.0")
   response <- get_oauth_credentials(connect, user_session_token, requested_token_type = "urn:ietf:params:aws:token-type:credentials")
 
   # Extract access token and decode it
@@ -719,7 +725,7 @@ get_aws_credentials <- function(connect, user_session_token) {
 #' for more information.
 #'
 #' @export
-get_oauth_content_credentials <- function(connect, content_session_token = NULL) {
+get_oauth_content_credentials <- function(connect, content_session_token = NULL, requested_token_type = NULL) {
   validate_R6_class(connect, "Connect")
   error_if_less_than(connect$version, "2024.12.0")
   if (is.null(content_session_token)) {
@@ -728,17 +734,75 @@ get_oauth_content_credentials <- function(connect, content_session_token = NULL)
       stop("Could not find the CONNECT_CONTENT_SESSION_TOKEN environment variable.")
     }
   }
+  if (is.null(requested_token_type)) {
+    requested_token_type <- "urn:ietf:params:oauth:token-type:access_token"
+  }
   url <- v1_url("oauth", "integrations", "credentials")
   body <- list(
     grant_type = "urn:ietf:params:oauth:grant-type:token-exchange",
     subject_token_type = "urn:posit:connect:content-session-token",
-    subject_token = content_session_token
+    subject_token = content_session_token,
+    requested_token_type = requested_token_type
   )
   connect$POST(
     url,
     encode = "form",
     body = body
   )
+}
+
+#' Perform an OAuth credential exchange to obtain AWS credentials for your content.
+#'
+#' @param connect A Connect R6 object.
+#'
+#'
+#' @examples
+#' \dontrun{
+#' library(connectapi)
+#' library(plumber)
+#' library(paws)
+#' client <- connect()
+#'
+#' #* @get /do
+#' function(req) {
+#'   user_session_token <- req$HTTP_POSIT_CONNECT_USER_SESSION_TOKEN
+#'   aws_credentials <- get_aws_content_credentials(client)
+#'
+#'   # Create S3 client with AWS credentials from Connect 
+#'   svc <- paws::s3(
+#'     credentials = list(
+#'       creds = list(
+#'         access_key_id = aws_credentials$accessKeyId,
+#'         secret_access_key = aws_credentials$secretAccessKey, 
+#'         session_token = aws_credentials$sessionToken
+#'       )
+#'     )
+#'   )
+#'
+#'   # Get object from S3
+#'   obj <- svc$get_object(
+#'     Bucket = "my-bucket",
+#'     Key = "my-data.csv"
+#'   )
+#'
+#'   "done"
+#' }
+#' }
+#'
+#' @return The AWS credentials.
+#'
+#' @details
+#' Please see https://docs.posit.co/connect/user/oauth-integrations/#obtaining-service-account-aws-credentials
+#' for more information.
+#'
+#' @export
+get_aws_content_credentials <- function(connect, content_session_token = NULL) {
+  error_if_less_than(connect$version, "2025.03.0")
+  response <- get_oauth_content_credentials(connect, content_session_token)
+
+  # Extract access token and decode it
+  access_token <- rawToChar(base64enc::base64decode(response$access_token))
+  jsonlite::fromJSON(access_token)
 }
 
 #' Get available runtimes on server

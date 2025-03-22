@@ -6,9 +6,9 @@
   server. (#374)
 - New `get_content_packages()` function to get a data frame of all package
   dependencies for a content item. (#374)
-- New `get_aws_credentials()` function for interacting with Connect's
-  `/v1/oauth/integrations/credentials` endpoint. This endpoint allows content
-  running on Posit Connect to obtain the content viewer's temporary AWS credentials for an AWS IAM role specified by the system administrator.
+- New `get_aws_credentials()` and `get_aws_content_credentials` functions for interacting with Connect's
+  `/v1/oauth/integrations/credentials` endpoint. This endpoint allows content running on Posit Connect to 
+  obtain temporary AWS credentials for an AWS IAM role specified by the system administrator.
   (#380).
 
 # connectapi 0.6.0

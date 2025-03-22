@@ -5,7 +5,11 @@
 \title{Perform an OAuth credential exchange to obtain a content-specific OAuth
 access token.}
 \usage{
-get_oauth_content_credentials(connect, content_session_token = NULL)
+get_oauth_content_credentials(
+  connect,
+  content_session_token = NULL,
+  requested_token_type = NULL
+)
 }
 \arguments{
 \item{connect}{A Connect R6 object.}
