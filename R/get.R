@@ -655,12 +655,12 @@ get_oauth_credentials <- function(connect, user_session_token, requested_token_t
 #'   user_session_token <- req$HTTP_POSIT_CONNECT_USER_SESSION_TOKEN
 #'   aws_credentials <- get_aws_credentials(client, user_session_token)
 #'
-#'   # Create S3 client with AWS credentials from Connect 
+#'   # Create S3 client with AWS credentials from Connect
 #'   svc <- paws::s3(
 #'     credentials = list(
 #'       creds = list(
 #'         access_key_id = aws_credentials$accessKeyId,
-#'         secret_access_key = aws_credentials$secretAccessKey, 
+#'         secret_access_key = aws_credentials$secretAccessKey,
 #'         session_token = aws_credentials$sessionToken
 #'       )
 #'     )
@@ -685,7 +685,11 @@ get_oauth_credentials <- function(connect, user_session_token, requested_token_t
 #' @export
 get_aws_credentials <- function(connect, user_session_token) {
   error_if_less_than(connect$version, "2025.03.0")
-  response <- get_oauth_credentials(connect, user_session_token, requested_token_type = "urn:ietf:params:aws:token-type:credentials")
+  response <- get_oauth_credentials(
+    connect,
+    user_session_token,
+    requested_token_type = "urn:ietf:params:aws:token-type:credentials"
+  )
 
   # Extract access token and decode it
   access_token <- rawToChar(base64enc::base64decode(response$access_token))
@@ -768,12 +772,12 @@ get_oauth_content_credentials <- function(connect, content_session_token = NULL,
 #'   user_session_token <- req$HTTP_POSIT_CONNECT_USER_SESSION_TOKEN
 #'   aws_credentials <- get_aws_content_credentials(client)
 #'
-#'   # Create S3 client with AWS credentials from Connect 
+#'   # Create S3 client with AWS credentials from Connect
 #'   svc <- paws::s3(
 #'     credentials = list(
 #'       creds = list(
 #'         access_key_id = aws_credentials$accessKeyId,
-#'         secret_access_key = aws_credentials$secretAccessKey, 
+#'         secret_access_key = aws_credentials$secretAccessKey,
 #'         session_token = aws_credentials$sessionToken
 #'       )
 #'     )
