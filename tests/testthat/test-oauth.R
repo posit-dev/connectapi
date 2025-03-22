@@ -62,9 +62,9 @@ with_mock_api({
     expect_equal(
       credentials,
       list(
-        accessKeyId = "aws_access_key_id",
-        secretAccessKey = "aws-secret-access-key",
-        sessionToken = "aws-session-token",
+        accessKeyId = "abc123",
+        secretAccessKey = "def456",
+        sessionToken = "ghi789",
         expiration = "2025-01-01T00:00:00Z"
       )
     )
@@ -77,9 +77,9 @@ with_mock_api({
     expect_equal(
       credentials,
       list(
-        accessKeyId = "aws_access_key_id",
-        secretAccessKey = "aws-secret-access-key",
-        sessionToken = "aws-session-token",
+        accessKeyId = "abc123",
+        secretAccessKey = "def456",
+        sessionToken = "ghi789",
         expiration = "2025-01-01T00:00:00Z"
       )
     )
@@ -95,9 +95,9 @@ with_mock_api({
     expect_equal(
       credentials,
       list(
-        accessKeyId = "aws_access_key_id",
-        secretAccessKey = "aws-secret-access-key",
-        sessionToken = "aws-session-token",
+        accessKeyId = "abc123",
+        secretAccessKey = "def456",
+        sessionToken = "ghi789",
         expiration = "2025-01-01T00:00:00Z"
       )
     )
