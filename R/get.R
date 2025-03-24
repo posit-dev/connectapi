@@ -693,7 +693,14 @@ get_aws_credentials <- function(connect, user_session_token) {
 
   # Extract access token and decode it
   access_token <- rawToChar(base64enc::base64decode(response$access_token))
-  jsonlite::fromJSON(access_token)
+  credentials <- jsonlite::fromJSON(access_token)
+
+  list(
+    access_key_id = credentials$accessKeyId,
+    secret_access_key = credentials$secretAccessKey,
+    session_token = credentials$sessionToken,
+    expiration = credentials$expiration
+  )
 }
 
 #' Perform an OAuth credential exchange to obtain a content-specific OAuth
@@ -705,6 +712,8 @@ get_aws_credentials <- function(connect, user_session_token) {
 #' token identifies the service account integration previously configured by
 #' the publisher on the Connect server. Defaults to the value from the
 #' environment variable: `CONNECT_CONTENT_SESSION_TOKEN`
+#' @param requested_token_type Optional. The requested token type. If unset, will default
+#' to TODO
 #'
 #' @examples
 #' \dontrun{
@@ -806,7 +815,14 @@ get_aws_content_credentials <- function(connect, content_session_token = NULL) {
 
   # Extract access token and decode it
   access_token <- rawToChar(base64enc::base64decode(response$access_token))
-  jsonlite::fromJSON(access_token)
+  credentials <- jsonlite::fromJSON(access_token)
+
+  list(
+    access_key_id = credentials$accessKeyId,
+    secret_access_key = credentials$secretAccessKey,
+    session_token = credentials$sessionToken,
+    expiration = credentials$expiration
+  )
 }
 
 #' Get available runtimes on server
