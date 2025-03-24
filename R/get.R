@@ -811,7 +811,11 @@ get_oauth_content_credentials <- function(connect, content_session_token = NULL,
 #' @export
 get_aws_content_credentials <- function(connect, content_session_token = NULL) {
   error_if_less_than(connect$version, "2025.03.0")
-  response <- get_oauth_content_credentials(connect, content_session_token)
+  response <- get_oauth_content_credentials(
+    connect,
+    content_session_token,
+    requested_token_type = "urn:ietf:params:aws:token-type:credentials"
+  )
 
   # Extract access token and decode it
   access_token <- rawToChar(base64enc::base64decode(response$access_token))
