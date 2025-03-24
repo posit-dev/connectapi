@@ -585,8 +585,10 @@ get_procs <- function(src) {
 #' @param user_session_token The content visitor's session token. This token
 #' can only be obtained when the content is running on a Connect server. The token
 #' identifies the user who is viewing the content interactively on the Connect server.
-#' @param requested_token_type Optional. You may pass `"urn:posit:connect:api-key"` to
-#' request an ephemeral Connect API key scoped to the content visitor's account.
+#' @param requested_token_type Optional. The requested token type. If unset, will default
+#' to `urn:ietf:params:oauth:token-type:access_token`. Otherwise, this can be set to 
+#' `urn:ietf:params:aws:token-type:credentials` for AWS integrations or `urn:posit:connect:api-key`
+#' for Connect API Key integrations.
 #'
 #'
 #' Read this value from the HTTP header: `Posit-Connect-User-Session-Token`
@@ -634,7 +636,74 @@ get_oauth_credentials <- function(connect, user_session_token, requested_token_t
   )
 }
 
-#' Perform an OAuth credential exchange to obtain a visitor's AWS credentials.
+#' Perform an OAuth credential exchange to obtain a content-specific OAuth
+#' access token.
+#'
+#' @param connect A Connect R6 object.
+#' @param content_session_token Optional. The content session token. This token
+#' can only be obtained when the content is running on a Connect server. The
+#' token identifies the service account integration previously configured by
+#' the publisher on the Connect server. Defaults to the value from the
+#' environment variable: `CONNECT_CONTENT_SESSION_TOKEN`
+#' @param requested_token_type Optional. The requested token type. If unset, will default
+#' to `urn:ietf:params:oauth:token-type:access_token`. Otherwise, this can be set to 
+#' `urn:ietf:params:aws:token-type:credentials` for AWS integrations or `urn:posit:connect:api-key`
+#' for Connect API Key integrations.
+#'
+#' @examples
+#' \dontrun{
+#' library(connectapi)
+#' library(plumber)
+#' client <- connect()
+#'
+#' #* @get /do
+#' function(req) {
+#'   credentials <- get_oauth_content_credentials(client)
+#'
+#'   # ... do something with `credentials$access_token` ...
+#'
+#'   "done"
+#' }
+#' }
+#'
+#' @return The OAuth credential exchange response.
+#'
+#' @details
+#' Please see https://docs.posit.co/connect/user/oauth-integrations/#obtaining-a-service-account-oauth-access-token
+#' for more information.
+#'
+#' @export
+get_oauth_content_credentials <- function(
+  connect,
+  content_session_token = NULL,
+  requested_token_type = NULL
+) {
+  validate_R6_class(connect, "Connect")
+  error_if_less_than(connect$version, "2024.12.0")
+  if (is.null(content_session_token)) {
+    content_session_token <- Sys.getenv("CONNECT_CONTENT_SESSION_TOKEN")
+    if (nchar(content_session_token) == 0) {
+      stop("Could not find the CONNECT_CONTENT_SESSION_TOKEN environment variable.")
+    }
+  }
+  if (is.null(requested_token_type)) {
+    requested_token_type <- "urn:ietf:params:oauth:token-type:access_token"
+  }
+  url <- v1_url("oauth", "integrations", "credentials")
+  body <- list(
+    grant_type = "urn:ietf:params:oauth:grant-type:token-exchange",
+    subject_token_type = "urn:posit:connect:content-session-token",
+    subject_token = content_session_token,
+    requested_token_type = requested_token_type
+  )
+  connect$POST(
+    url,
+    encode = "form",
+    body = body
+  )
+}
+
+#' Obtain a visitor's AWS credentials
 #'
 #' @param connect A Connect R6 object.
 #' @param user_session_token The content visitor's session token. This token
@@ -676,7 +745,7 @@ get_oauth_credentials <- function(connect, user_session_token, requested_token_t
 #' }
 #' }
 #'
-#' @return The AWS credentials.
+#' @return The AWS credentials as a list with fields named `access_key_id`, `secret_access_key`, `session_token`, and `expiration`.
 #'
 #' @details
 #' Please see https://docs.posit.co/connect/user/oauth-integrations/#obtaining-viewer-aws-credentials
@@ -703,68 +772,7 @@ get_aws_credentials <- function(connect, user_session_token) {
   )
 }
 
-#' Perform an OAuth credential exchange to obtain a content-specific OAuth
-#' access token.
-#'
-#' @param connect A Connect R6 object.
-#' @param content_session_token Optional. The content session token. This token
-#' can only be obtained when the content is running on a Connect server. The
-#' token identifies the service account integration previously configured by
-#' the publisher on the Connect server. Defaults to the value from the
-#' environment variable: `CONNECT_CONTENT_SESSION_TOKEN`
-#' @param requested_token_type Optional. The requested token type. If unset, will default
-#' to TODO
-#'
-#' @examples
-#' \dontrun{
-#' library(connectapi)
-#' library(plumber)
-#' client <- connect()
-#'
-#' #* @get /do
-#' function(req) {
-#'   credentials <- get_oauth_content_credentials(client)
-#'
-#'   # ... do something with `credentials$access_token` ...
-#'
-#'   "done"
-#' }
-#' }
-#'
-#' @return The OAuth credential exchange response.
-#'
-#' @details
-#' Please see https://docs.posit.co/connect/user/oauth-integrations/#obtaining-a-service-account-oauth-access-token
-#' for more information.
-#'
-#' @export
-get_oauth_content_credentials <- function(connect, content_session_token = NULL, requested_token_type = NULL) {
-  validate_R6_class(connect, "Connect")
-  error_if_less_than(connect$version, "2024.12.0")
-  if (is.null(content_session_token)) {
-    content_session_token <- Sys.getenv("CONNECT_CONTENT_SESSION_TOKEN")
-    if (nchar(content_session_token) == 0) {
-      stop("Could not find the CONNECT_CONTENT_SESSION_TOKEN environment variable.")
-    }
-  }
-  if (is.null(requested_token_type)) {
-    requested_token_type <- "urn:ietf:params:oauth:token-type:access_token"
-  }
-  url <- v1_url("oauth", "integrations", "credentials")
-  body <- list(
-    grant_type = "urn:ietf:params:oauth:grant-type:token-exchange",
-    subject_token_type = "urn:posit:connect:content-session-token",
-    subject_token = content_session_token,
-    requested_token_type = requested_token_type
-  )
-  connect$POST(
-    url,
-    encode = "form",
-    body = body
-  )
-}
-
-#' Perform an OAuth credential exchange to obtain AWS credentials for your content.
+#' Obtain AWS credentials for your content.
 #'
 #' @param connect A Connect R6 object.
 #'
@@ -802,7 +810,7 @@ get_oauth_content_credentials <- function(connect, content_session_token = NULL,
 #' }
 #' }
 #'
-#' @return The AWS credentials.
+#' @return The AWS credentials as a list with fields named `access_key_id`, `secret_access_key`, `session_token`, and `expiration`.
 #'
 #' @details
 #' Please see https://docs.posit.co/connect/user/oauth-integrations/#obtaining-service-account-aws-credentials

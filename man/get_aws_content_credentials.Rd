@@ -2,7 +2,7 @@
 % Please edit documentation in R/get.R
 \name{get_aws_content_credentials}
 \alias{get_aws_content_credentials}
-\title{Perform an OAuth credential exchange to obtain AWS credentials for your content.}
+\title{Obtain AWS credentials for your content.}
 \usage{
 get_aws_content_credentials(connect, content_session_token = NULL)
 }
@@ -10,10 +10,10 @@ get_aws_content_credentials(connect, content_session_token = NULL)
 \item{connect}{A Connect R6 object.}
 }
 \value{
-The AWS credentials.
+The AWS credentials as a list with fields named \code{access_key_id}, \code{secret_access_key}, \code{session_token}, and \code{expiration}.
 }
 \description{
-Perform an OAuth credential exchange to obtain AWS credentials for your content.
+Obtain AWS credentials for your content.
 }
 \details{
 Please see https://docs.posit.co/connect/user/oauth-integrations/#obtaining-service-account-aws-credentials
@@ -31,12 +31,12 @@ function(req) {
   user_session_token <- req$HTTP_POSIT_CONNECT_USER_SESSION_TOKEN
   aws_credentials <- get_aws_content_credentials(client)
 
-  # Create S3 client with AWS credentials from Connect 
+  # Create S3 client with AWS credentials from Connect
   svc <- paws::s3(
     credentials = list(
       creds = list(
         access_key_id = aws_credentials$accessKeyId,
-        secret_access_key = aws_credentials$secretAccessKey, 
+        secret_access_key = aws_credentials$secretAccessKey,
         session_token = aws_credentials$sessionToken
       )
     )

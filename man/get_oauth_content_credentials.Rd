@@ -19,6 +19,11 @@ can only be obtained when the content is running on a Connect server. The
 token identifies the service account integration previously configured by
 the publisher on the Connect server. Defaults to the value from the
 environment variable: \code{CONNECT_CONTENT_SESSION_TOKEN}}
+
+\item{requested_token_type}{Optional. The requested token type. If unset, will default
+to \code{urn:ietf:params:oauth:token-type:access_token}. Otherwise, this can be set to
+\code{urn:ietf:params:aws:token-type:credentials} for AWS integrations or \code{urn:posit:connect:api-key}
+for Connect API Key integrations.}
 }
 \value{
 The OAuth credential exchange response.
