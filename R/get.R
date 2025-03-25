@@ -795,34 +795,29 @@ get_aws_credentials <- function(connect, user_session_token) {
 #' @examples
 #' \dontrun{
 #' library(connectapi)
-#' library(plumber)
 #' library(paws)
+#' 
 #' client <- connect()
+#' # Pulls the content session token from the environment
+#' # when deployed into Connect.
+#' aws_credentials <- get_aws_content_credentials(client)
 #'
-#' #* @get /do
-#' function(req) {
-#'   user_session_token <- req$HTTP_POSIT_CONNECT_USER_SESSION_TOKEN
-#'   aws_credentials <- get_aws_content_credentials(client)
-#'
-#'   # Create S3 client with AWS credentials from Connect
-#'   svc <- paws::s3(
-#'     credentials = list(
-#'       creds = list(
-#'         access_key_id = aws_credentials$access_key_id,
-#'         secret_access_key = aws_credentials$secret_access_key,
-#'         session_token = aws_credentials$session_token
-#'       )
+#' # Create S3 client with AWS credentials from Connect
+#' svc <- paws::s3(
+#'   credentials = list(
+#'     creds = list(
+#'       access_key_id = aws_credentials$access_key_id,
+#'       secret_access_key = aws_credentials$secret_access_key,
+#'       session_token = aws_credentials$session_token
 #'     )
 #'   )
+#' )
 #'
-#'   # Get object from S3
-#'   obj <- svc$get_object(
-#'     Bucket = "my-bucket",
-#'     Key = "my-data.csv"
-#'   )
-#'
-#'   "done"
-#' }
+#' # Get object from S3
+#' obj <- svc$get_object(
+#'   Bucket = "my-bucket",
+#'   Key = "my-data.csv"
+#' )
 #' }
 #'
 #' @export
