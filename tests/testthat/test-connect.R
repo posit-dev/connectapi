@@ -190,3 +190,18 @@ test_that("Visitor client code path errs with older Connect version", {
     )
   })
 })
+
+test_that("Scientific notation is not used for reasonable parameters", {
+  with_mock_api({
+    test_scipen <- 5
+    o <- options(scipen = test_scipen)
+    on.exit(options(o), add = TRUE)
+
+    client <- Connect$new(server = "https://connect.example", api_key = "fake")
+    expect_GET(
+      get_packages(client, page_size = 999999999),
+      "https://connect.example/__api__/v1/packages?page_number=1&page_size=999999999"
+    )
+    expect_equal(getOption("scipen"), test_scipen)
+  })
+})

@@ -132,6 +132,9 @@ Connect <- R6::R6Class(
     #' `httr::content(res, as = parser)`.
     #' @param ... Additional arguments passed to the request function
     request = function(method, url, ..., parser = "parsed") {
+      old_opt <- options(scipen = 999)
+      on.exit(options(old_opt), add = TRUE)
+
       httr_verb <- get(method, envir = asNamespace("httr"))
       res <- rlang::exec(
         httr_verb,
@@ -834,11 +837,8 @@ Connect <- R6::R6Class(
       url <- v1_url("packages")
       query_params <- list(
         name = name,
-        # We use `format()` here because `httr` seems to serialize integers over
-        # 99999 with scientific notation, which causes incorrect query strings.
-        # Finding a more general solution to this is tracked by #379.
-        page_number = format(page_number, scientific = FALSE),
-        page_size = format(page_size, scientific = FALSE)
+        page_number = page_number,
+        page_size = page_size
       )
       self$GET(url, query = query_params)
     },
