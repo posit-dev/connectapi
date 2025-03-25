@@ -708,7 +708,7 @@ get_oauth_content_credentials <- function(
 #' can only be obtained when the content is running on a Connect server. The token
 #' identifies the user who is viewing the content interactively on the Connect server.
 #' Read this value from the HTTP header: `Posit-Connect-User-Session-Token`
-#' 
+#'
 #' @return The AWS credentials as a list with fields named `access_key_id`,
 #' `secret_access_key`, `session_token`, and `expiration`.
 #'
@@ -795,7 +795,7 @@ get_aws_credentials <- function(connect, user_session_token) {
 #' \dontrun{
 #' library(connectapi)
 #' library(paws)
-#' 
+#'
 #' client <- connect()
 #' # Pulls the content session token from the environment
 #' # when deployed into Connect.
