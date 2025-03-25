@@ -787,10 +787,9 @@ get_aws_credentials <- function(connect, user_session_token) {
 #'
 #' @details
 #' Please see https://docs.posit.co/connect/user/oauth-integrations/#obtaining-service-account-aws-credentials
-#' for more information. See the example below of using this function in a
-#' Plumber API with paws to access S3. Any library that allows you to pass
-#' AWS credentials will be able to utilize the credentials returned from
-#' this function call.
+#' for more information. See the example below of using this function with
+#' `paws` to access S3. Any library that allows you to pass AWS credentials
+#' will be able to utilize the credentials returned from this function call.
 #'
 #' @examples
 #' \dontrun{
