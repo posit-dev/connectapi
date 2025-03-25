@@ -775,6 +775,11 @@ get_aws_credentials <- function(connect, user_session_token) {
 #' Obtain AWS credentials for your content.
 #'
 #' @param connect A Connect R6 object.
+#' @param content_session_token Optional. The content session token. This token
+#' can only be obtained when the content is running on a Connect server. The
+#' token identifies the service account integration previously configured by
+#' the publisher on the Connect server. Defaults to the value from the
+#' environment variable: `CONNECT_CONTENT_SESSION_TOKEN`
 #'
 #'
 #' @examples
