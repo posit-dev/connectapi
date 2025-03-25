@@ -40,7 +40,8 @@ Imports:
     rlang (>= 0.4.2),
     tibble,
     uuid,
-    vctrs (>= 0.3.0)
+    vctrs (>= 0.3.0),
+    base64enc
 Suggests:
     covr,
     dbplyr,

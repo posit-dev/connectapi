@@ -11,12 +11,13 @@ get_oauth_credentials(connect, user_session_token, requested_token_type = NULL)
 
 \item{user_session_token}{The content visitor's session token. This token
 can only be obtained when the content is running on a Connect server. The token
-identifies the user who is viewing the content interactively on the Connect server.}
-
-\item{requested_token_type}{Optional. You may pass \code{"urn:posit:connect:api-key"} to
-request an ephemeral Connect API key scoped to the content visitor's account.
-
+identifies the user who is viewing the content interactively on the Connect server.
 Read this value from the HTTP header: \code{Posit-Connect-User-Session-Token}}
+
+\item{requested_token_type}{Optional. The requested token type. If unset, will
+default to \code{urn:ietf:params:oauth:token-type:access_token}. Otherwise, this can
+be set to \code{urn:ietf:params:aws:token-type:credentials} for AWS integrations or
+\code{urn:posit:connect:api-key} for Connect API Key integrations.}
 }
 \value{
 The OAuth credential exchange response.
