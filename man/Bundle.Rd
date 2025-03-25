@@ -16,6 +16,7 @@ Other R6 classes:
 \code{\link{Content}},
 \code{\link{ContentTask}},
 \code{\link{Environment}},
+\code{\link{ExecutionEnv}},
 \code{\link{PositConnect}},
 \code{\link{Task}},
 \code{\link{Vanity}},
