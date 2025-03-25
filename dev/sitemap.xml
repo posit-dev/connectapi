@@ -53,6 +53,8 @@
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/download_bundle.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/environment.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_audit_logs.html</loc></url>
+<url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_aws_content_credentials.html</loc></url>
+<url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_aws_credentials.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_bundles.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_content.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_content_packages.html</loc></url>

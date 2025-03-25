@@ -45,6 +45,7 @@
 <h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
 <ul><li>New <code><a href="../reference/get_packages.html">get_packages()</a></code> function to get a data frame of all packages on a Connect server. (<a href="https://github.com/posit-dev/connectapi/issues/374" class="external-link">#374</a>)</li>
 <li>New <code><a href="../reference/get_content_packages.html">get_content_packages()</a></code> function to get a data frame of all package dependencies for a content item. (<a href="https://github.com/posit-dev/connectapi/issues/374" class="external-link">#374</a>)</li>
+<li>New <code><a href="../reference/get_aws_credentials.html">get_aws_credentials()</a></code> and <code>get_aws_content_credentials</code> functions for interacting with Connect’s <code>/v1/oauth/integrations/credentials</code> endpoint. This endpoint allows content running on Posit Connect to obtain temporary AWS credentials for an AWS IAM role specified by the system administrator. (<a href="https://github.com/posit-dev/connectapi/issues/380" class="external-link">#380</a>).</li>
 </ul></div>
 </div>
     <div class="section level2">
