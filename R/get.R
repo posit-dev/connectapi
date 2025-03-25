@@ -585,13 +585,11 @@ get_procs <- function(src) {
 #' @param user_session_token The content visitor's session token. This token
 #' can only be obtained when the content is running on a Connect server. The token
 #' identifies the user who is viewing the content interactively on the Connect server.
+#' Read this value from the HTTP header: `Posit-Connect-User-Session-Token`
 #' @param requested_token_type Optional. The requested token type. If unset, will
 #' default to `urn:ietf:params:oauth:token-type:access_token`. Otherwise, this can
 #' be set to `urn:ietf:params:aws:token-type:credentials` for AWS integrations or
 #' `urn:posit:connect:api-key` for Connect API Key integrations.
-#'
-#'
-#' Read this value from the HTTP header: `Posit-Connect-User-Session-Token`
 #'
 #' @examples
 #' \dontrun{
@@ -709,8 +707,17 @@ get_oauth_content_credentials <- function(
 #' @param user_session_token The content visitor's session token. This token
 #' can only be obtained when the content is running on a Connect server. The token
 #' identifies the user who is viewing the content interactively on the Connect server.
-#'
 #' Read this value from the HTTP header: `Posit-Connect-User-Session-Token`
+#' 
+#' @return The AWS credentials as a list with fields named `access_key_id`,
+#' `secret_access_key`, `session_token`, and `expiration`.
+#'
+#' @details
+#' Please see https://docs.posit.co/connect/user/oauth-integrations/#obtaining-service-account-aws-credentials
+#' for more information. See the example below of using this function in a
+#' Plumber API with paws to access S3. Any library that allows you to pass
+#' AWS credentials will be able to utilize the credentials returned from
+#' this function call.
 #'
 #' @examples
 #' \dontrun{
@@ -728,9 +735,9 @@ get_oauth_content_credentials <- function(
 #'   svc <- paws::s3(
 #'     credentials = list(
 #'       creds = list(
-#'         access_key_id = aws_credentials$accessKeyId,
-#'         secret_access_key = aws_credentials$secretAccessKey,
-#'         session_token = aws_credentials$sessionToken
+#'         access_key_id = aws_credentials$access_key_id,
+#'         secret_access_key = aws_credentials$secret_access_key,
+#'         session_token = aws_credentials$session_token
 #'       )
 #'     )
 #'   )
@@ -744,13 +751,6 @@ get_oauth_content_credentials <- function(
 #'   "done"
 #' }
 #' }
-#'
-#' @return The AWS credentials as a list with fields named `access_key_id`,
-#' `secret_access_key`, `session_token`, and `expiration`.
-#'
-#' @details
-#' Please see https://docs.posit.co/connect/user/oauth-integrations/#obtaining-viewer-aws-credentials
-#' for more information.
 #'
 #' @export
 get_aws_credentials <- function(connect, user_session_token) {
@@ -782,6 +782,15 @@ get_aws_credentials <- function(connect, user_session_token) {
 #' the publisher on the Connect server. Defaults to the value from the
 #' environment variable: `CONNECT_CONTENT_SESSION_TOKEN`
 #'
+#' @return The AWS credentials as a list with fields named `access_key_id`,
+#' `secret_access_key`, `session_token`, and `expiration`.
+#'
+#' @details
+#' Please see https://docs.posit.co/connect/user/oauth-integrations/#obtaining-service-account-aws-credentials
+#' for more information. See the example below of using this function in a
+#' Plumber API with paws to access S3. Any library that allows you to pass
+#' AWS credentials will be able to utilize the credentials returned from
+#' this function call.
 #'
 #' @examples
 #' \dontrun{
@@ -799,9 +808,9 @@ get_aws_credentials <- function(connect, user_session_token) {
 #'   svc <- paws::s3(
 #'     credentials = list(
 #'       creds = list(
-#'         access_key_id = aws_credentials$accessKeyId,
-#'         secret_access_key = aws_credentials$secretAccessKey,
-#'         session_token = aws_credentials$sessionToken
+#'         access_key_id = aws_credentials$access_key_id,
+#'         secret_access_key = aws_credentials$secret_access_key,
+#'         session_token = aws_credentials$session_token
 #'       )
 #'     )
 #'   )
@@ -815,13 +824,6 @@ get_aws_credentials <- function(connect, user_session_token) {
 #'   "done"
 #' }
 #' }
-#'
-#' @return The AWS credentials as a list with fields named `access_key_id`,
-#' `secret_access_key`, `session_token`, and `expiration`.
-#'
-#' @details
-#' Please see https://docs.posit.co/connect/user/oauth-integrations/#obtaining-service-account-aws-credentials
-#' for more information.
 #'
 #' @export
 get_aws_content_credentials <- function(connect, content_session_token = NULL) {

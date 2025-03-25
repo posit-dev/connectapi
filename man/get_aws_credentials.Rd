@@ -12,7 +12,6 @@ get_aws_credentials(connect, user_session_token)
 \item{user_session_token}{The content visitor's session token. This token
 can only be obtained when the content is running on a Connect server. The token
 identifies the user who is viewing the content interactively on the Connect server.
-
 Read this value from the HTTP header: \code{Posit-Connect-User-Session-Token}}
 }
 \value{
@@ -23,8 +22,11 @@ The AWS credentials as a list with fields named \code{access_key_id},
 Obtain a visitor's AWS credentials
 }
 \details{
-Please see https://docs.posit.co/connect/user/oauth-integrations/#obtaining-viewer-aws-credentials
-for more information.
+Please see https://docs.posit.co/connect/user/oauth-integrations/#obtaining-service-account-aws-credentials
+for more information. See the example below of using this function in a
+Plumber API with paws to access S3. Any library that allows you to pass
+AWS credentials will be able to utilize the credentials returned from
+this function call.
 }
 \examples{
 \dontrun{
@@ -42,9 +44,9 @@ function(req) {
   svc <- paws::s3(
     credentials = list(
       creds = list(
-        access_key_id = aws_credentials$accessKeyId,
-        secret_access_key = aws_credentials$secretAccessKey,
-        session_token = aws_credentials$sessionToken
+        access_key_id = aws_credentials$access_key_id,
+        secret_access_key = aws_credentials$secret_access_key,
+        session_token = aws_credentials$session_token
       )
     )
   )
