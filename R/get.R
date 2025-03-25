@@ -585,10 +585,10 @@ get_procs <- function(src) {
 #' @param user_session_token The content visitor's session token. This token
 #' can only be obtained when the content is running on a Connect server. The token
 #' identifies the user who is viewing the content interactively on the Connect server.
-#' @param requested_token_type Optional. The requested token type. If unset, will default
-#' to `urn:ietf:params:oauth:token-type:access_token`. Otherwise, this can be set to 
-#' `urn:ietf:params:aws:token-type:credentials` for AWS integrations or `urn:posit:connect:api-key`
-#' for Connect API Key integrations.
+#' @param requested_token_type Optional. The requested token type. If unset, will
+#' default to `urn:ietf:params:oauth:token-type:access_token`. Otherwise, this can
+#' be set to `urn:ietf:params:aws:token-type:credentials` for AWS integrations or
+#' `urn:posit:connect:api-key` for Connect API Key integrations.
 #'
 #'
 #' Read this value from the HTTP header: `Posit-Connect-User-Session-Token`
@@ -645,10 +645,10 @@ get_oauth_credentials <- function(connect, user_session_token, requested_token_t
 #' token identifies the service account integration previously configured by
 #' the publisher on the Connect server. Defaults to the value from the
 #' environment variable: `CONNECT_CONTENT_SESSION_TOKEN`
-#' @param requested_token_type Optional. The requested token type. If unset, will default
-#' to `urn:ietf:params:oauth:token-type:access_token`. Otherwise, this can be set to 
-#' `urn:ietf:params:aws:token-type:credentials` for AWS integrations or `urn:posit:connect:api-key`
-#' for Connect API Key integrations.
+#' @param requested_token_type Optional. The requested token type. If unset,
+#' will default to `urn:ietf:params:oauth:token-type:access_token`. Otherwise,
+#' this can be set to `urn:ietf:params:aws:token-type:credentials` for AWS
+#' integrations or `urn:posit:connect:api-key` for Connect API Key integrations.
 #'
 #' @examples
 #' \dontrun{
@@ -745,7 +745,8 @@ get_oauth_content_credentials <- function(
 #' }
 #' }
 #'
-#' @return The AWS credentials as a list with fields named `access_key_id`, `secret_access_key`, `session_token`, and `expiration`.
+#' @return The AWS credentials as a list with fields named `access_key_id`,
+#' `secret_access_key`, `session_token`, and `expiration`.
 #'
 #' @details
 #' Please see https://docs.posit.co/connect/user/oauth-integrations/#obtaining-viewer-aws-credentials
@@ -815,7 +816,8 @@ get_aws_credentials <- function(connect, user_session_token) {
 #' }
 #' }
 #'
-#' @return The AWS credentials as a list with fields named `access_key_id`, `secret_access_key`, `session_token`, and `expiration`.
+#' @return The AWS credentials as a list with fields named `access_key_id`,
+#' `secret_access_key`, `session_token`, and `expiration`.
 #'
 #' @details
 #' Please see https://docs.posit.co/connect/user/oauth-integrations/#obtaining-service-account-aws-credentials

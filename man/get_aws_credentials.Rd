@@ -16,7 +16,8 @@ identifies the user who is viewing the content interactively on the Connect serv
 Read this value from the HTTP header: \code{Posit-Connect-User-Session-Token}}
 }
 \value{
-The AWS credentials as a list with fields named \code{access_key_id}, \code{secret_access_key}, \code{session_token}, and \code{expiration}.
+The AWS credentials as a list with fields named \code{access_key_id},
+\code{secret_access_key}, \code{session_token}, and \code{expiration}.
 }
 \description{
 Obtain a visitor's AWS credentials

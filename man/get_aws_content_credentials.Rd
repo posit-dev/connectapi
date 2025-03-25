@@ -8,9 +8,16 @@ get_aws_content_credentials(connect, content_session_token = NULL)
 }
 \arguments{
 \item{connect}{A Connect R6 object.}
+
+\item{content_session_token}{Optional. The content session token. This token
+can only be obtained when the content is running on a Connect server. The
+token identifies the service account integration previously configured by
+the publisher on the Connect server. Defaults to the value from the
+environment variable: \code{CONNECT_CONTENT_SESSION_TOKEN}}
 }
 \value{
-The AWS credentials as a list with fields named \code{access_key_id}, \code{secret_access_key}, \code{session_token}, and \code{expiration}.
+The AWS credentials as a list with fields named \code{access_key_id},
+\code{secret_access_key}, \code{session_token}, and \code{expiration}.
 }
 \description{
 Obtain AWS credentials for your content.
