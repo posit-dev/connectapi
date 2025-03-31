@@ -9,7 +9,7 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 
     <a class="navbar-brand me-2" href="../index.html">connectapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -128,6 +128,7 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 <li><p><a href="#method-Content-deploy"><code>Content$deploy()</code></a></p></li>
 <li><p><a href="#method-Content-repo_enable"><code>Content$repo_enable()</code></a></p></li>
 <li><p><a href="#method-Content-repo_set"><code>Content$repo_set()</code></a></p></li>
+<li><p><a href="#method-Content-packages"><code>Content$packages()</code></a></p></li>
 <li><p><a href="#method-Content-print"><code>Content$print()</code></a></p></li>
 <li><p><a href="#method-Content-clone"><code>Content$clone()</code></a></p></li>
 </ul></div><p></p><hr><a id="method-Content-new"></a><div class="section">
@@ -533,7 +534,7 @@ to unset variables.</p></dd>
 
 </div><p></p><hr><a id="method-Content-repo_set"></a><div class="section">
 <h3 id="method-repo-set-">Method <code>repo_set()</code><a class="anchor" aria-label="anchor" href="#method-repo-set-"></a></h3>
-<p>Adjust Git repository.</p><div class="section">
+<p>Adjust Git repository</p><div class="section">
 <h4 id="usage-28">Usage<a class="anchor" aria-label="anchor" href="#usage-28"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">repo_set</span><span class="op">(</span><span class="va">repository</span>, <span class="va">branch</span>, <span class="va">subdirectory</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
@@ -555,10 +556,18 @@ to unset variables.</p></dd>
 </dl><p></p></div>
 </div>
 
+</div><p></p><hr><a id="method-Content-packages"></a><div class="section">
+<h3 id="method-packages-">Method <code>packages()</code><a class="anchor" aria-label="anchor" href="#method-packages-"></a></h3>
+<p>Get package dependencies</p><div class="section">
+<h4 id="usage-29">Usage<a class="anchor" aria-label="anchor" href="#usage-29"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">packages</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div>
+
+
 </div><p></p><hr><a id="method-Content-print"></a><div class="section">
 <h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
 <p>Print this object.</p><div class="section">
-<h4 id="usage-29">Usage<a class="anchor" aria-label="anchor" href="#usage-29"></a></h4>
+<h4 id="usage-30">Usage<a class="anchor" aria-label="anchor" href="#usage-30"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -574,7 +583,7 @@ to unset variables.</p></dd>
 </div><p></p><hr><a id="method-Content-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
-<h4 id="usage-30">Usage<a class="anchor" aria-label="anchor" href="#usage-30"></a></h4>
+<h4 id="usage-31">Usage<a class="anchor" aria-label="anchor" href="#usage-31"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 

@@ -54,8 +54,11 @@
 <url><loc>https://posit-dev.github.io/connectapi/reference/download_bundle.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/environment.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_audit_logs.html</loc></url>
+<url><loc>https://posit-dev.github.io/connectapi/reference/get_aws_content_credentials.html</loc></url>
+<url><loc>https://posit-dev.github.io/connectapi/reference/get_aws_credentials.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_bundles.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_content.html</loc></url>
+<url><loc>https://posit-dev.github.io/connectapi/reference/get_content_packages.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_group_content.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_group_members.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_groups.html</loc></url>
@@ -65,6 +68,7 @@
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_log.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_oauth_content_credentials.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_oauth_credentials.html</loc></url>
+<url><loc>https://posit-dev.github.io/connectapi/reference/get_packages.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_procs.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_runtime_caches.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_runtimes.html</loc></url>
