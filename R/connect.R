@@ -965,12 +965,19 @@ Connect <- R6::R6Class(
 #' @export
 connect <- function(
     server = Sys.getenv(paste0(prefix, "_SERVER"), NA_character_),
-    api_key = Sys.getenv(paste0(prefix, "_API_KEY"), NA_character_),
+    api_key,
     token,
     token_local_testing_key = api_key,
     prefix = "CONNECT",
     ...,
     .check_is_fatal = TRUE) {
+  if (!missing(api_key)) {
+    api_key_provided <- TRUE
+  } else {
+    api_key_provided <- FALSE
+    api_key <- Sys.getenv(paste0(prefix, "_API_KEY"), NA_character_)
+  }
+
   if (is.null(api_key) || is.na(api_key) || nchar(api_key) == 0) {
     msg <- "Invalid (empty) API key. Please provide a valid API key"
     if (.check_is_fatal) {
@@ -981,21 +988,53 @@ connect <- function(
   }
   con <- Connect$new(server = server, api_key = api_key)
 
+  if (api_key_provided) {
+    return(con)
+  }
+
+  if (on_connect()) {
+    comp <- compare_connect_version(con$version, "2025.01.0")
+    if (comp < 0) {
+      if (!missing(token)) {
+        # If running on a too-old version of Connect and token was explicitly
+        # passed, error.
+        stop(
+          "Running content using the viewer's credentials ",
+          "requires Connect v2025.01.0 or later."
+        )
+      } else {
+        # If running on too-old Connect and no token was explicitly passed, use
+        # the old behavior (run with publisher creds).
+        message(
+          "Content will run using publisher's credentials. ",
+          "Running content using the viewer's credentials ",
+          "requires Connect v2025.01.0 or later."
+        )
+      }
+    } else {
+      if (missing(token) && exists("getDefaultReactiveDomain", mode = "function")) {
+        # If the session token was not provided, see if we can obtain it from
+        # the Shiny context.
+        session <- getDefaultReactiveDomain()
+        token <- session$request$HTTP_POSIT_CONNECT_USER_SESSION_TOKEN
+      }
+    }
+  }
+
   if (!missing(token)) {
-    error_if_less_than(con$version, "2025.01.0")
     if (on_connect()) {
       visitor_creds <- get_oauth_credentials(
         con,
         user_session_token = token,
         requested_token_type = "urn:posit:connect:api-key"
       )
-      con <- connect(server = server, api_key = visitor_creds$access_token)
+      con <- Connect$new(server = server, api_key = visitor_creds$access_token)
     } else {
-      con <- connect(server = server, api_key = token_local_testing_key)
       message(paste0(
         "Called with `token` but not running on Connect. ",
         "Continuing with fallback API key."
       ))
+      con <- Connect$new(server = server, api_key = token_local_testing_key)
     }
   }
 
