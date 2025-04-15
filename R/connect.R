@@ -965,12 +965,19 @@ Connect <- R6::R6Class(
 #' @export
 connect <- function(
     server = Sys.getenv(paste0(prefix, "_SERVER"), NA_character_),
-    api_key = Sys.getenv(paste0(prefix, "_API_KEY"), NA_character_),
+    api_key,
     token,
     token_local_testing_key = api_key,
     prefix = "CONNECT",
     ...,
     .check_is_fatal = TRUE) {
+  if (!missing(api_key)) {
+    api_key_provided <- TRUE
+  } else {
+    api_key_provided <- FALSE
+    api_key <- Sys.getenv(paste0(prefix, "_API_KEY"), NA_character_)
+  }
+
   if (is.null(api_key) || is.na(api_key) || nchar(api_key) == 0) {
     msg <- "Invalid (empty) API key. Please provide a valid API key"
     if (.check_is_fatal) {
@@ -980,6 +987,10 @@ connect <- function(
     }
   }
   con <- Connect$new(server = server, api_key = api_key)
+
+  if (api_key_provided) {
+    return(con)
+  }
 
   if (on_connect()) {
     comp <- compare_connect_version(con$version, "2025.01.0")
