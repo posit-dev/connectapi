@@ -1017,13 +1017,13 @@ connect <- function(
         user_session_token = token,
         requested_token_type = "urn:posit:connect:api-key"
       )
-      con <- connect(server = server, api_key = visitor_creds$access_token)
+      con <- Connect$new(server = server, api_key = visitor_creds$access_token)
     } else {
       message(paste0(
         "Called with `token` but not running on Connect. ",
         "Continuing with fallback API key."
       ))
-      con <- connect(server = server, api_key = token_local_testing_key)
+      con <- Connect$new(server = server, api_key = token_local_testing_key)
     }
   }
 
