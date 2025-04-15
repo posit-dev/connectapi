@@ -982,7 +982,7 @@ connect <- function(
   con <- Connect$new(server = server, api_key = api_key)
 
   if (on_connect()) {
-    comp <- compare_connect_version(using_version, "2025.01.0")
+    comp <- compare_connect_version(con$version, "2025.01.0")
     if (comp < 0) {
       if (!missing(token)) {
         # If running on a too-old version of Connect and token was explicitly
