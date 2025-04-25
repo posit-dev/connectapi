@@ -4,10 +4,11 @@
 #' @param page_size The number of records to return per page (max 500).
 #' @param prefix Filters groups by prefix (group name).
 #' The filter is case insensitive.
-#' @param limit The number of groups to retrieve before paging stops.
-#'
-#' `limit` will be ignored is `prefix` is not `NULL`.
-#' To limit results when `prefix` is not `NULL`, change `page_size`.
+#' @param limit The number of groups to retrieve before paging stops. Default
+#' is to return all results; however, for Connect server versions older than
+#' 2025.04.0, `limit` is capped at 500 when `prefix` is provided. If your search
+#' prefix would return more than 500 groups, try using multiple queries with
+#' more selective `prefix` values and append the results.
 #'
 #' @return
 #' A tibble with the following columns:
