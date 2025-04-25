@@ -100,21 +100,32 @@ VariantSchedule <- R6::R6Class(
         rawdata <- self$get_schedule()
         schdata <- jsonlite::fromJSON(rawdata$schedule)
         # TODO: translate dayofweek "Days" to something more usable
-        plural <- ifelse(ifelse(is.null(schdata$N), FALSE, schdata$N > 1), "s", "")
-        desc <- switch(rawdata$type,
+        plural <- ifelse(
+          ifelse(is.null(schdata$N), FALSE, schdata$N > 1),
+          "s",
+          ""
+        )
+        desc <- switch(
+          rawdata$type,
           "minute" = glue::glue("Every {schdata$N} minute{plural}"),
           "hour" = glue::glue("Every {schdata$N} hour{plural}"),
           "day" = glue::glue("Every {schdata$N} day{plural}"),
           "weekday" = glue::glue("Every weekday"),
           "week" = glue::glue("Every {schdata$N} week{plural}"),
-          "dayofweek" = glue::glue("On week days {glue::glue_collapse(schdata$Days, ', ')}"),
+          "dayofweek" = glue::glue(
+            "On week days {glue::glue_collapse(schdata$Days, ', ')}"
+          ),
           "semimonth" = ifelse(
             schdata$First == "TRUE",
             "On the 1st and 15th of each month",
             "On the 14th and Last day of each month"
           ),
-          "dayofmonth" = glue::glue("Every {schdata$N} month{plural} on day {schdata$Day}"),
-          "dayweekofmonth" = glue::glue("Every {schdata$N} month{plural} on week {schdata$Week}, day {schdata$Day}"),
+          "dayofmonth" = glue::glue(
+            "Every {schdata$N} month{plural} on day {schdata$Day}"
+          ),
+          "dayweekofmonth" = glue::glue(
+            "Every {schdata$N} month{plural} on week {schdata$Week}, day {schdata$Day}"
+          ),
           "year" = glue::glue("Every {schdata$N} year{plural}"),
           "Unknown schedule"
         )
@@ -203,8 +214,9 @@ get_variant_schedule <- function(variant) {
 #' @family schedule functions
 #' @export
 set_schedule <- function(
-    .schedule,
-    ...) {
+  .schedule,
+  ...
+) {
   warn_experimental("set_schedule")
   scoped_experimental_silence()
   validate_R6_class(.schedule, "VariantSchedule")
@@ -220,8 +232,14 @@ set_schedule <- function(
     if (is.list(params$schedule)) {
       params$schedule <- jsonlite::toJSON(params$schedule, auto_unbox = TRUE)
     }
-    if (!(is.character(params$schedule) && length(params$schedule) == 1 && jsonlite::validate(params$schedule))) {
-      stop(glue::glue("The schedule you provided is invalid: {capture.output(str(orig_schedule))}"))
+    if (
+      !(is.character(params$schedule) &&
+        length(params$schedule) == 1 &&
+        jsonlite::validate(params$schedule))
+    ) {
+      stop(glue::glue(
+        "The schedule you provided is invalid: {capture.output(str(orig_schedule))}"
+      ))
     }
   }
 
@@ -233,7 +251,9 @@ set_schedule <- function(
   }
 
   if ("type" %in% names(params) && !params$type %in% schedule_types) {
-    stop(glue::glue("Invalid `type` provided. Should be one of `schedule_types`: {params$type}"))
+    stop(glue::glue(
+      "Invalid `type` provided. Should be one of `schedule_types`: {params$type}"
+    ))
   }
 
   # update the existing schedule rather than (likely) erroring
@@ -520,7 +540,10 @@ get_timezones <- function(connect) {
   )
 
   tz_values <- purrr::map_chr(raw_tz, ~ .x[["timezone"]])
-  tz_display <- purrr::map_chr(raw_tz, ~ glue::glue("{.x[['timezone']]} ({.x[['offset']]})"))
+  tz_display <- purrr::map_chr(
+    raw_tz,
+    ~ glue::glue("{.x[['timezone']]} ({.x[['offset']]})")
+  )
 
   return(as.list(rlang::set_names(tz_values, tz_display)))
 }

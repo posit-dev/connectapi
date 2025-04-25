@@ -53,7 +53,11 @@ test_that("get_usage_static works", {
   expect_s3_class(content_visits, c("tbl_df", "tbl", "data.frame"))
 
   # path was added to usage_static in 2024
-  expect_ptype_equal(content_visits, connectapi_ptypes$usage_static, exact = FALSE)
+  expect_ptype_equal(
+    content_visits,
+    connectapi_ptypes$usage_static,
+    exact = FALSE
+  )
 })
 
 test_that("get_audit_logs works", {
@@ -80,7 +84,10 @@ test_that("get_procs works", {
 test_that("content_list_with_permissions works", {
   scoped_experimental_silence()
 
-  rlang::with_options(progress_enabled = FALSE, cl <- content_list_with_permissions(test_conn_1))
+  rlang::with_options(
+    progress_enabled = FALSE,
+    cl <- content_list_with_permissions(test_conn_1)
+  )
 
   expect_true("permission" %in% names(cl))
   expect_s3_class(cl, "tbl_df")
@@ -90,13 +97,20 @@ test_that("content_list_with_permissions predicate works", {
   scoped_experimental_silence()
 
   # deploy a static app so we know it is not empty
-  bnd <- bundle_static(path = rprojroot::find_package_root_file("tests/testthat/examples/static/test.png"))
+  bnd <- bundle_static(
+    path = rprojroot::find_package_root_file(
+      "tests/testthat/examples/static/test.png"
+    )
+  )
   uniq_id <- uuid::UUIDgenerate()
   deployed <- deploy(test_conn_1, bnd, uniq_id)
 
   rlang::with_options(
     progress_enabled = FALSE,
-    cl <- content_list_with_permissions(test_conn_1, .p = ~ .x$guid == deployed$get_content()$guid)
+    cl <- content_list_with_permissions(
+      test_conn_1,
+      .p = ~ .x$guid == deployed$get_content()$guid
+    )
   )
 
   expect_true("permission" %in% names(cl))
@@ -108,11 +122,18 @@ test_that("content_list_guid_has_access works", {
   scoped_experimental_silence()
 
   # deploy a static app so we know it is not empty
-  bnd <- bundle_static(path = rprojroot::find_package_root_file("tests/testthat/examples/static/test.png"))
+  bnd <- bundle_static(
+    path = rprojroot::find_package_root_file(
+      "tests/testthat/examples/static/test.png"
+    )
+  )
   uniq_id <- uuid::UUIDgenerate()
   deployed <- deploy(test_conn_1, bnd, uniq_id)
 
-  rlang::with_options(progress_enabled = FALSE, cl <- content_list_with_permissions(test_conn_1))
+  rlang::with_options(
+    progress_enabled = FALSE,
+    cl <- content_list_with_permissions(test_conn_1)
+  )
 
   my_guid <- test_conn_1$me()$guid
   filt <- content_list_guid_has_access(cl, my_guid)

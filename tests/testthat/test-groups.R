@@ -37,7 +37,10 @@ without_internet({
 })
 
 with_mock_api({
-  client <- Connect$new(server = "https://connect.example", api_key = "not-a-key")
+  client <- Connect$new(
+    server = "https://connect.example",
+    api_key = "not-a-key"
+  )
 
   test_that("get_group_content() works", {
     group_guids <- c(

@@ -17,5 +17,7 @@ if (nzchar(Sys.getenv("CONNECTAPI_INTEGRATED"))) {
     load_package = "installed"
   )
 } else {
-  message("Not running integration tests. Set environment variable CONNECTAPI_INTEGRATED=true to run integration tests")
+  message(
+    "Not running integration tests. Set environment variable CONNECTAPI_INTEGRATED=true to run integration tests"
+  )
 }

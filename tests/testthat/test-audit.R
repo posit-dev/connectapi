@@ -51,6 +51,9 @@ with_mock_api({
     expect_true(vanity_is_available(con, "not-currently/used"))
     expect_false(vanity_is_available(con, "/streamlit/my-app/"))
     expect_false(vanity_is_available(con, "streamlit/my-app"))
-    expect_false(vanity_is_available(con, "https://connect.example/streamlit/my-app"))
+    expect_false(vanity_is_available(
+      con,
+      "https://connect.example/streamlit/my-app"
+    ))
   })
 })

@@ -46,7 +46,9 @@ get_thumbnail <- function(content, path = NULL) {
 
   # Guess file extension
   if (is.null(path)) {
-    path <- tempfile(pattern = glue::glue("content_image_{content$content$guid}_"))
+    path <- tempfile(
+      pattern = glue::glue("content_image_{content$content$guid}_")
+    )
   }
   ct <- httr::headers(res)$`content-type`
   if (ct %in% mime::mimemap) {
@@ -57,7 +59,9 @@ get_thumbnail <- function(content, path = NULL) {
       path <- paste(path, exts[1], sep = ".")
     }
   } else {
-    warning(glue::glue("Could not infer file extension from content type: {ct}."))
+    warning(glue::glue(
+      "Could not infer file extension from content type: {ct}."
+    ))
   }
 
   writeBin(httr::content(res, as = "raw"), path)
@@ -100,10 +104,9 @@ delete_thumbnail <- function(content) {
   # https://docs.posit.co/connect/api/#overview--api-error-codes
   if (
     httr::status_code(res) == 404 &&
-      !(
-        "code" %in% names(httr::content(res)) &&
-          isTRUE(httr::content(res)$code == 17)
-      )
+      !("code" %in%
+        names(httr::content(res)) &&
+        isTRUE(httr::content(res)$code == 17))
   ) {
     res <- con$DELETE(
       unversioned_url("applications", guid, "image"),
@@ -116,9 +119,9 @@ delete_thumbnail <- function(content) {
   # https://docs.posit.co/connect/api/#overview--api-error-codes
   if (
     httr::status_code(res) == 404 &&
-      !(
-        "code" %in% names(httr::content(res)) &&
-          isTRUE(httr::content(res)$code == 17))
+      !("code" %in%
+        names(httr::content(res)) &&
+        isTRUE(httr::content(res)$code == 17))
   ) {
     con$raise_error(res)
   }
@@ -196,11 +199,16 @@ set_thumbnail <- function(content, path) {
   } else {
     parsed <- httr::parse_url(path)
     if (!is.null(parsed$scheme) && parsed$scheme %in% c("http", "https")) {
-      valid_path <- tempfile(pattern = "image", fileext = paste0(".", tools::file_ext(parsed[["path"]])))
+      valid_path <- tempfile(
+        pattern = "image",
+        fileext = paste0(".", tools::file_ext(parsed[["path"]]))
+      )
       res <- httr::GET(path, httr::write_disk(valid_path))
       on.exit(unlink(valid_path))
       if (httr::http_error(res)) {
-        stop(glue::glue("Could not download image from {path}: {httr::http_status(res)$message}"))
+        stop(glue::glue(
+          "Could not download image from {path}: {httr::http_status(res)$message}"
+        ))
       }
     }
   }
@@ -339,7 +347,6 @@ set_image_webshot <- function(content, ...) {
   if (!"cliprect" %in% names(args)) {
     args["cliprect"] <- "viewport"
   }
-
 
   rlang::inject(webshot2::webshot(
     url = content_details$content_url,

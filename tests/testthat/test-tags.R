@@ -1,7 +1,8 @@
 simple_tag_tree <- connect_tag_tree(
   list(
     hi = list(
-      name = "hi", id = 1,
+      name = "hi",
+      id = 1,
       ho = list(name = "ho", id = 2),
       silver = list(name = "silver", id = 3),
       away = list(name = "away", id = 4)
@@ -112,14 +113,43 @@ test_that("restructure from tag_data works", {
   ref_time <- Sys.time()
   ref_time_str <- format(ref_time, "%Y-%m-%dT%H:%M:%SZ")
   tag_data <- list(
-    list(id = "1", name = "First Tag", parent_id = NA, created_time = ref_time_str, updated_time = ref_time_str),
-    list(id = "2", name = "Second Tag", parent_id = NA, created_time = ref_time_str, updated_time = ref_time_str),
-    list(id = "3", name = "Third Tag", parent_id = "1", created_time = ref_time_str, updated_time = ref_time_str),
-    list(id = "4", name = "Fourth Tag", parent_id = "3", created_time = ref_time_str, updated_time = ref_time_str),
-    list(id = "5", name = "Fifth Tag", parent_id = "2", created_time = ref_time_str, updated_time = ref_time_str)
+    list(
+      id = "1",
+      name = "First Tag",
+      parent_id = NA,
+      created_time = ref_time_str,
+      updated_time = ref_time_str
+    ),
+    list(
+      id = "2",
+      name = "Second Tag",
+      parent_id = NA,
+      created_time = ref_time_str,
+      updated_time = ref_time_str
+    ),
+    list(
+      id = "3",
+      name = "Third Tag",
+      parent_id = "1",
+      created_time = ref_time_str,
+      updated_time = ref_time_str
+    ),
+    list(
+      id = "4",
+      name = "Fourth Tag",
+      parent_id = "3",
+      created_time = ref_time_str,
+      updated_time = ref_time_str
+    ),
+    list(
+      id = "5",
+      name = "Fifth Tag",
+      parent_id = "2",
+      created_time = ref_time_str,
+      updated_time = ref_time_str
+    )
   )
   t1 <- tag_tree_from_data(tag_data)
-
 
   tbl <- purrr::map_df(tag_data, identity)
 

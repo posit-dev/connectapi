@@ -48,7 +48,10 @@ test_that("repo_check_branches works", {
     "not found"
   )
 
-  br <- repo_check_branches(test_conn_1, "https://github.com/posit-dev/connectapi")
+  br <- repo_check_branches(
+    test_conn_1,
+    "https://github.com/posit-dev/connectapi"
+  )
   expect_true("main" %in% br)
 })
 
@@ -59,7 +62,10 @@ test_that("repo_check_branches_ref works", {
     "not found"
   )
 
-  br <- repo_check_branches_ref(test_conn_1, "https://github.com/posit-dev/connectapi")
+  br <- repo_check_branches_ref(
+    test_conn_1,
+    "https://github.com/posit-dev/connectapi"
+  )
   expect_type(br, "character")
   expect_true("main" %in% names(br))
   expect_false("main" %in% br)
@@ -69,11 +75,19 @@ test_that("repo_check_branches_ref works", {
 test_that("repo_check_manifest_dirs works", {
   scoped_experimental_silence()
   expect_message(
-    expect_error(repo_check_manifest_dirs(test_conn_1, "https://github.com", "main")),
+    expect_error(repo_check_manifest_dirs(
+      test_conn_1,
+      "https://github.com",
+      "main"
+    )),
     "not found"
   )
 
-  drs <- repo_check_manifest_dirs(test_conn_1, "https://github.com/posit-dev/connectapi", "main")
+  drs <- repo_check_manifest_dirs(
+    test_conn_1,
+    "https://github.com/posit-dev/connectapi",
+    "main"
+  )
   expect_true("tests/testthat/examples/static" %in% drs)
 })
 
@@ -136,7 +150,11 @@ test_that("deploy_repo_update works", {
   res <- expect_error(deploy_repo_update(cont2), "master-not-a-real-branch")
 
   not_git_name <- uuid::UUIDgenerate()
-  bnd <- bundle_static(path = rprojroot::find_package_root_file("tests/testthat/examples/static/test.png"))
+  bnd <- bundle_static(
+    path = rprojroot::find_package_root_file(
+      "tests/testthat/examples/static/test.png"
+    )
+  )
   cont3 <- deploy(test_conn_1, bnd, not_git_name)
 
   expect_error(deploy_repo_update(cont3), "not git-backed content")

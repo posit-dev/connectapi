@@ -19,7 +19,18 @@
 #' @return A `tbl_connect` object
 #'
 #' @export
-tbl_connect <- function(src, from = c("users", "groups", "content", "usage_shiny", "usage_static", "audit_logs"), ...) {
+tbl_connect <- function(
+  src,
+  from = c(
+    "users",
+    "groups",
+    "content",
+    "usage_shiny",
+    "usage_static",
+    "audit_logs"
+  ),
+  ...
+) {
   rlang::check_installed("dbplyr")
 
   validate_R6_class(src, "Connect")
@@ -37,7 +48,7 @@ tbl_connect <- function(src, from = c("users", "groups", "content", "usage_shiny
 }
 
 # This will be registered in .onLoad if dplyr is available
-collect.tbl_connect <-  # nolint
+collect.tbl_connect <- # nolint
   function(x, ..., n = Inf) {
     api_build(op = x[["ops"]], con = x[["src"]], n = n)
   }

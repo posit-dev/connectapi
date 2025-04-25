@@ -22,12 +22,22 @@ dir_path <- rprojroot::find_package_root_file("tests/testthat/examples/static")
 tmp_file <- fs::file_temp(pattern = "bundle", ext = ".tar.gz")
 bund <- bundle_dir(path = dir_path, filename = tmp_file)
 
-tsk <- deploy(connect = test_conn_1, bundle = bund, name = cont1_name, title = cont1_title)
+tsk <- deploy(
+  connect = test_conn_1,
+  bundle = bund,
+  name = cont1_name,
+  title = cont1_title
+)
 
 cont1_guid <- tsk$get_content()$guid
 cont1_content <- content_item(tsk$get_connect(), cont1_guid)
 
-tsk2 <- deploy(connect = test_conn_1, bundle = bund, name = cont2_name, title = cont2_title)
+tsk2 <- deploy(
+  connect = test_conn_1,
+  bundle = bund,
+  name = cont2_name,
+  title = cont2_title
+)
 
 cont2_guid <- tsk2$get_content()$guid
 cont2_content <- content_item(tsk2$get_connect(), cont2_guid)
@@ -56,7 +66,12 @@ dir_shiny <- rprojroot::find_package_root_file("tests/testthat/examples/shiny")
 tmp_file_shiny <- fs::file_temp(pattern = "bundle_shiny", ext = ".tar.gz")
 bund_shiny <- bundle_dir(path = dir_shiny, filename = tmp_file_shiny)
 
-tsk_shiny <- deploy(connect = test_conn_1, bundle = bund_shiny, name = shiny_name, title = shiny_title)
+tsk_shiny <- deploy(
+  connect = test_conn_1,
+  bundle = bund_shiny,
+  name = shiny_name,
+  title = shiny_title
+)
 
 shiny_guid <- tsk_shiny$get_content()$guid
 shiny_content <- content_item(tsk_shiny$get_connect(), shiny_guid)
@@ -66,11 +81,18 @@ shiny_wait <- suppressMessages(poll_task(tsk_shiny))
 
 # Setup - RMarkdown -------------------------------------------------------
 
-dir_rmd <- rprojroot::find_package_root_file("tests/testthat/examples/rmarkdown")
+dir_rmd <- rprojroot::find_package_root_file(
+  "tests/testthat/examples/rmarkdown"
+)
 tmp_file_rmd <- fs::file_temp(pattern = "bundle_rmd", ext = ".tar.gz")
 bund_rmd <- bundle_dir(path = dir_rmd, filename = tmp_file_rmd)
 
-tsk_rmd <- deploy(connect = test_conn_1, bundle = bund_rmd, name = rmd_name, title = rmd_title)
+tsk_rmd <- deploy(
+  connect = test_conn_1,
+  bundle = bund_rmd,
+  name = rmd_name,
+  title = rmd_title
+)
 
 rmd_guid <- tsk_rmd$get_content()$guid
 rmd_content <- content_item(tsk_rmd$get_connect(), rmd_guid)
@@ -80,11 +102,18 @@ rmd_wait <- suppressMessages(poll_task(tsk_rmd))
 
 # Setup - Param RMarkdown -------------------------------------------------------
 
-dir_prmd <- rprojroot::find_package_root_file("tests/testthat/examples/param_rmarkdown")
+dir_prmd <- rprojroot::find_package_root_file(
+  "tests/testthat/examples/param_rmarkdown"
+)
 tmp_file_prmd <- fs::file_temp(pattern = "bundle_prmd", ext = ".tar.gz")
 bund_prmd <- bundle_dir(path = dir_prmd, filename = tmp_file_prmd)
 
-tsk_prmd <- deploy(connect = test_conn_1, bundle = bund_prmd, name = prmd_name, title = prmd_title)
+tsk_prmd <- deploy(
+  connect = test_conn_1,
+  bundle = bund_prmd,
+  name = prmd_name,
+  title = prmd_title
+)
 
 prmd_guid <- tsk_prmd$get_content()$guid
 prmd_content <- content_item(tsk_prmd$get_connect(), prmd_guid)
@@ -110,7 +139,11 @@ test_that("content_title handles missing content gracefully", {
   null_title <- content_title(test_conn_1, "not_a_real_guid")
   expect_identical(null_title, "Unknown Content")
 
-  null_title_custom <- content_title(test_conn_1, "not_a_real_guid", "other-default")
+  null_title_custom <- content_title(
+    test_conn_1,
+    "not_a_real_guid",
+    "other-default"
+  )
   expect_identical(null_title_custom, "other-default")
 })
 
@@ -123,7 +156,11 @@ test_that("content_title handles NULL titles gracefully", {
 })
 
 test_that("content_update_owner works", {
-  bnd <- bundle_static(path = rprojroot::find_package_root_file("tests/testthat/examples/static/test.png"))
+  bnd <- bundle_static(
+    path = rprojroot::find_package_root_file(
+      "tests/testthat/examples/static/test.png"
+    )
+  )
   myc <- deploy(test_conn_1, bnd)
 
   new_user <- test_conn_1$users_create(
@@ -171,7 +208,9 @@ test_that("content_update_owner works", {
 })
 
 test_that("content_update_access_type works", {
-  tar_path <- rprojroot::find_package_root_file("tests/testthat/examples/static.tar.gz")
+  tar_path <- rprojroot::find_package_root_file(
+    "tests/testthat/examples/static.tar.gz"
+  )
   bund <- bundle_path(path = tar_path)
 
   tsk <- deploy(connect = test_conn_1, bundle = bund)
@@ -193,7 +232,9 @@ test_that("content_update_access_type works", {
 })
 
 test_that("content_update works", {
-  tar_path <- rprojroot::find_package_root_file("tests/testthat/examples/static.tar.gz")
+  tar_path <- rprojroot::find_package_root_file(
+    "tests/testthat/examples/static.tar.gz"
+  )
   bund <- bundle_path(path = tar_path)
 
   tsk <- deploy(connect = test_conn_1, bundle = bund)
@@ -211,7 +252,9 @@ test_that("content_update works", {
 })
 
 test_that("content_delete works", {
-  tar_path <- rprojroot::find_package_root_file("tests/testthat/examples/static.tar.gz")
+  tar_path <- rprojroot::find_package_root_file(
+    "tests/testthat/examples/static.tar.gz"
+  )
   bund <- bundle_path(path = tar_path)
 
   tsk <- deploy(connect = test_conn_1, bundle = bund)
@@ -241,12 +284,19 @@ test_that("set_environment works", {
   scoped_experimental_silence()
   env <- get_environment(rmd_content)
 
-  new_env <- set_environment_new(env, test = "value", test1 = TRUE, test2 = 4567)
+  new_env <- set_environment_new(
+    env,
+    test = "value",
+    test1 = TRUE,
+    test2 = 4567
+  )
 
   expect_equal(
     new_env$env_vars,
     list(
-      "test", "test1", "test2"
+      "test",
+      "test1",
+      "test2"
     )
   )
 
@@ -254,7 +304,9 @@ test_that("set_environment works", {
   expect_equal(
     new_env$env_vars,
     list(
-      "test", "test1", "test2"
+      "test",
+      "test1",
+      "test2"
     )
   )
 
@@ -501,7 +553,9 @@ test_that("run_as_current_user fails for rmd", {
 # Permissions ---------------------------------------
 
 test_that("returns owner permission", {
-  tar_path <- rprojroot::find_package_root_file("tests/testthat/examples/static.tar.gz")
+  tar_path <- rprojroot::find_package_root_file(
+    "tests/testthat/examples/static.tar.gz"
+  )
   bund <- bundle_path(path = tar_path)
   tsk <- deploy(connect = test_conn_1, bundle = bund)
   my_guid <- test_conn_1$GET("me")$guid
@@ -550,9 +604,13 @@ test_that("add collaborator twice works", {
   # get acl
   acls <- get_content_permissions(cont1_content)
 
-  which_match <- purrr::map2_lgl(acls$principal_guid, acls$role, function(.x, .y) {
-    .x == collab_guid && .y == "owner"
-  })
+  which_match <- purrr::map2_lgl(
+    acls$principal_guid,
+    acls$role,
+    function(.x, .y) {
+      .x == collab_guid && .y == "owner"
+    }
+  )
   expect_true(any(which_match))
   expect_equal(sum(which_match), 1)
 })
@@ -576,9 +634,13 @@ test_that("add a viewer works", {
   # get acl
   acls <- get_content_permissions(cont1_content)
 
-  which_match <- purrr::map2_lgl(acls$principal_guid, acls$role, function(.x, .y) {
-    .x == viewer_guid && .y == "viewer"
-  })
+  which_match <- purrr::map2_lgl(
+    acls$principal_guid,
+    acls$role,
+    function(.x, .y) {
+      .x == viewer_guid && .y == "viewer"
+    }
+  )
   expect_true(any(which_match))
   expect_equal(sum(which_match), 1)
 })
@@ -591,9 +653,13 @@ test_that("add a viewer twice works", {
   # get acl
   acls <- get_content_permissions(cont1_content)
 
-  which_match <- purrr::map2_lgl(acls$principal_guid, acls$role, function(.x, .y) {
-    .x == viewer_guid && .y == "viewer"
-  })
+  which_match <- purrr::map2_lgl(
+    acls$principal_guid,
+    acls$role,
+    function(.x, .y) {
+      .x == viewer_guid && .y == "viewer"
+    }
+  )
   expect_true(any(which_match))
   expect_equal(sum(which_match), 1)
 })
@@ -605,9 +671,13 @@ test_that("remove a collaborator works", {
   # get acl
   acls <- get_content_permissions(cont1_content)
 
-  which_match <- purrr::map2_lgl(acls$principal_guid, acls$role, function(.x, .y) {
-    .x == collab_guid && .y == "owner"
-  })
+  which_match <- purrr::map2_lgl(
+    acls$principal_guid,
+    acls$role,
+    function(.x, .y) {
+      .x == collab_guid && .y == "owner"
+    }
+  )
   expect_false(any(which_match))
 })
 
@@ -619,8 +689,12 @@ test_that("remove a collaborator twice works", {
   # get acl
   acls <- get_content_permissions(cont1_content)
 
-  which_match <- purrr::map2_lgl(acls$principal_guid, acls$role, function(.x, .y) {
-    .x == collab_guid && .y == "owner"
-  })
+  which_match <- purrr::map2_lgl(
+    acls$principal_guid,
+    acls$role,
+    function(.x, .y) {
+      .x == collab_guid && .y == "owner"
+    }
+  )
   expect_false(any(which_match))
 })

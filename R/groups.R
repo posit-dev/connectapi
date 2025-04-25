@@ -42,7 +42,11 @@ get_groups <- function(src, page_size = 500, prefix = NULL, limit = Inf) {
     response <- src$groups(page_size = page_size, prefix = prefix)
     res <- response$results
   } else {
-    res <- page_offset(src, src$groups(page_size = page_size, prefix = NULL), limit = limit)
+    res <- page_offset(
+      src,
+      src$groups(page_size = page_size, prefix = NULL),
+      limit = limit
+    )
   }
 
   out <- parse_connectapi_typed(res, connectapi_ptypes$groups)

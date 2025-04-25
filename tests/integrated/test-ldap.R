@@ -1,7 +1,8 @@
 if (Sys.getenv("CONNECTAPI_LOCAL") == "TRUE") {
   admin <- connectapi:::create_first_admin(
     "http://localhost:60330",
-    user = "john", password = "john",
+    user = "john",
+    password = "john",
     provider = "ldap"
   )
 }

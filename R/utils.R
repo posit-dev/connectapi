@@ -17,7 +17,11 @@ generate_R6_print_output <- # nolint: object_name_linter
     con <- Connect$new(server = "http://test_host", api_key = "test_key")
     bnd <- Bundle$new(path = "/test/path")
 
-    ex_content <- list(guid = "content-guid", title = "content-title", url = "http://content-url")
+    ex_content <- list(
+      guid = "content-guid",
+      title = "content-title",
+      url = "http://content-url"
+    )
     cnt1 <- Content$new(connect = con, ex_content)
 
     ex_task <- list(task_id = "task-id")
@@ -54,7 +58,12 @@ validate_R6_class <- # nolint: object_name_linter
   function(instance, class) {
     obj <- rlang::enquo(instance)
     if (!R6::is.R6(instance) || !inherits(instance, class)) {
-      stop(paste(rlang::quo_text(obj), "must be an R6", glue::glue_collapse(class, sep = " or "), "object"))
+      stop(paste(
+        rlang::quo_text(obj),
+        "must be an R6",
+        glue::glue_collapse(class, sep = " or "),
+        "object"
+      ))
     }
     invisible(TRUE)
   }
@@ -62,11 +71,17 @@ validate_R6_class <- # nolint: object_name_linter
 # super useful examples
 # https://github.com/tidyverse/tibble/blob/master/R/compat-lifecycle.R
 warn_experimental <- function(name) {
-  if (rlang::is_true(rlang::peek_option("connectapi_disable_experimental_warnings"))) {
+  if (
+    rlang::is_true(rlang::peek_option(
+      "connectapi_disable_experimental_warnings"
+    ))
+  ) {
     return(invisible(NULL))
   }
   warn_once(
-    msg = glue::glue("The `{name}` function is experimental and subject to change without warning in a future release"),
+    msg = glue::glue(
+      "The `{name}` function is experimental and subject to change without warning in a future release"
+    ),
     id = paste0(name, "-experimental")
   )
 }
@@ -83,7 +98,9 @@ warn_dire <- function(name) {
     return(invisible(NULL))
   }
   warn_once(
-    msg = glue::glue("DO NOT USE IN PRODUCTION - The {name} function is for internal testing purposes only"),
+    msg = glue::glue(
+      "DO NOT USE IN PRODUCTION - The {name} function is for internal testing purposes only"
+    ),
     id = paste0(name, "-dire")
   )
 }
@@ -125,7 +142,9 @@ safe_server_settings <- function(client) {
     },
     error = function(e) {
       message(
-        glue::glue("Problem talking to Posit Connect at {client$server}/__api__/server_settings")
+        glue::glue(
+          "Problem talking to Posit Connect at {client$server}/__api__/server_settings"
+        )
       )
       stop(e)
     }
@@ -136,7 +155,9 @@ safe_server_settings <- function(client) {
 safe_server_version <- function(client) {
   version <- safe_server_settings(client)$version
   if (is.null(version) || nchar(version) == 0) {
-    message("Version information is not exposed by this Posit Connect instance.")
+    message(
+      "Version information is not exposed by this Posit Connect instance."
+    )
     version <- NA
   }
   version
@@ -165,18 +186,27 @@ error_if_less_than <- function(using_version, tested_version) {
 
 compare_connect_version <- function(using_version, tested_version) {
   as.integer(
-    compareVersion(simplify_version(using_version), simplify_version(tested_version))
+    compareVersion(
+      simplify_version(using_version),
+      simplify_version(tested_version)
+    )
   )
 }
 
-warn_untested_connect <- function(using_version, minimum_tested_version = "1.8.8.2") {
+warn_untested_connect <- function(
+  using_version,
+  minimum_tested_version = "1.8.8.2"
+) {
   comp <- compare_connect_version(using_version, minimum_tested_version)
   if (!is.na(using_version) && (comp < 0)) {
-    warn_once(glue::glue(
-      "You are using an older version of Posit Connect ",
-      "({using_version}) than is tested ({minimum_tested_version}). ",
-      "Some APIs may not function as expected."
-    ), id = "old-connect")
+    warn_once(
+      glue::glue(
+        "You are using an older version of Posit Connect ",
+        "({using_version}) than is tested ({minimum_tested_version}). ",
+        "Some APIs may not function as expected."
+      ),
+      id = "old-connect"
+    )
   }
   invisible()
 }

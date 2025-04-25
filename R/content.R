@@ -50,8 +50,18 @@ Content <- R6::R6Class(
       filename = tempfile(pattern = "bundle", fileext = ".tar.gz"),
       overwrite = FALSE
     ) {
-      url <- v1_url("content", self$get_content()$guid, "bundles", bundle_id, "download")
-      self$get_connect()$GET(url, httr::write_disk(filename, overwrite = overwrite), parser = "raw")
+      url <- v1_url(
+        "content",
+        self$get_content()$guid,
+        "bundles",
+        bundle_id,
+        "download"
+      )
+      self$get_connect()$GET(
+        url,
+        httr::write_disk(filename, overwrite = overwrite),
+        parser = "raw"
+      )
       return(filename)
     },
     #' @description Delete a content bundle.
@@ -95,10 +105,16 @@ Content <- R6::R6Class(
     },
     #' @description Return the jobs for this content
     jobs = function() {
-      res <- self$connect$GET(v1_url("content", self$content$guid, "jobs"), parser = NULL)
+      res <- self$connect$GET(
+        v1_url("content", self$content$guid, "jobs"),
+        parser = NULL
+      )
       use_unversioned <- endpoint_does_not_exist(res)
       if (use_unversioned) {
-        res <- self$connect$GET(unversioned_url("applications", self$content$guid, "jobs"), parser = NULL)
+        res <- self$connect$GET(
+          unversioned_url("applications", self$content$guid, "jobs"),
+          parser = NULL
+        )
       }
       self$connect$raise_error(res)
       parsed <- httr::content(res, as = "parsed")
@@ -106,10 +122,14 @@ Content <- R6::R6Class(
         # The unversioned endpoint does not contain a `status` field. Its field
         # `finalized` is `FALSE` corresponds to active jobs. The `finalized`
         # field is dropped during parsing.
-        parsed <- purrr::modify_if(parsed, ~ isFALSE(.x$finalized), function(x) {
-          x$status <- 0
-          x
-        })
+        parsed <- purrr::modify_if(
+          parsed,
+          ~ isFALSE(.x$finalized),
+          function(x) {
+            x$status <- 0
+            x
+          }
+        )
       }
       # Ensure content identifiers are included.
       # The `app_guid` field was never returned by Connect, but is added here
@@ -118,27 +138,38 @@ Content <- R6::R6Class(
       if (compare_connect_version(self$connect$version, "2025.01.0") < 0) {
         # Versions of Connect below 2025.01.0 only included `app_id`. We must
         # add all other fields.
-        purrr::map(parsed, ~ purrr::list_modify(
-          .x,
-          content_id = .x$app_id,
-          app_guid = self$content$guid,
-          content_guid = self$content_guid
-        ))
+        purrr::map(
+          parsed,
+          ~ purrr::list_modify(
+            .x,
+            content_id = .x$app_id,
+            app_guid = self$content$guid,
+            content_guid = self$content_guid
+          )
+        )
       } else {
         # Connect 2025.01.0 includes `content_id` and `content_guid`, and
         # retains `app_id` for backward compat. We only need to add `app_guid`
         # for `connectapi` back-compat.
-        purrr::map(parsed, ~ purrr::list_modify(
-          .x,
-          app_guid = .x$content_guid
-        ))
+        purrr::map(
+          parsed,
+          ~ purrr::list_modify(
+            .x,
+            app_guid = .x$content_guid
+          )
+        )
       }
     },
     #' @description Return a single job for this content.
     #' @param key The job key.
     job = function(key) {
       warn_experimental("job")
-      url <- unversioned_url("applications", self$get_content()$guid, "job", key)
+      url <- unversioned_url(
+        "applications",
+        self$get_content()$guid,
+        "job",
+        key
+      )
       res <- self$get_connect()$GET(url)
 
       content_guid <- self$get_content()$guid
@@ -161,19 +192,29 @@ Content <- R6::R6Class(
     #' @description Return the variants for this content.
     variants = function() {
       warn_experimental("variants")
-      url <- unversioned_url("applications", self$get_content()$guid, "variants")
+      url <- unversioned_url(
+        "applications",
+        self$get_content()$guid,
+        "variants"
+      )
       self$get_connect()$GET(url)
     },
     #' @description Set a tag for this content.
     #' @param tag_id The tag identifier.
     tag_set = function(tag_id) {
-      self$get_connect()$set_content_tag(self$get_content()$guid, tag_id = tag_id)
+      self$get_connect()$set_content_tag(
+        self$get_content()$guid,
+        tag_id = tag_id
+      )
     },
     #' @description Remove a tag for this content.
     #' @param tag_id The tag identifier.
     tag_delete = function(tag_id) {
       # note that deleting the parent tag deletes all children
-      self$get_connect()$remove_content_tag(self$get_content()$guid, tag_id = tag_id)
+      self$get_connect()$remove_content_tag(
+        self$get_content()$guid,
+        tag_id = tag_id
+      )
     },
     #' @description The tags for this content.
     tags = function() {
@@ -186,11 +227,14 @@ Content <- R6::R6Class(
     #' @param role The kind of content access.
     permissions_add = function(principal_guid, principal_type, role) {
       url <- v1_url("content", self$get_content()$guid, "permissions")
-      self$get_connect()$POST(url, body = list(
-        principal_guid = principal_guid,
-        principal_type = principal_type,
-        role = role
-      ))
+      self$get_connect()$POST(
+        url,
+        body = list(
+          principal_guid = principal_guid,
+          principal_type = principal_type,
+          role = role
+        )
+      )
     },
     #' @description Alter a principal in the ACL for this content.
     #' @param id The target identifier.
@@ -199,11 +243,14 @@ Content <- R6::R6Class(
     #' @param role The kind of content access.
     permissions_update = function(id, principal_guid, principal_type, role) {
       url <- v1_url("content", self$get_content()$guid, "permissions", id)
-      self$get_connect()$PUT(url, body = list(
-        principal_guid = principal_guid,
-        principal_type = principal_type,
-        role = role
-      ))
+      self$get_connect()$PUT(
+        url,
+        body = list(
+          principal_guid = principal_guid,
+          principal_type = principal_type,
+          role = role
+        )
+      )
     },
     #' @description Remove an entry from the ACL for this content.
     #' @param id The target identifier.
@@ -321,10 +368,21 @@ Content <- R6::R6Class(
     print = function(...) {
       cat("Posit Connect Content: \n")
       cat("  Content GUID: ", self$get_content()$guid, "\n", sep = "")
-      cat("  Content URL: ", dashboard_url_chr(self$get_connect()$server, self$get_content()$guid), "\n", sep = "")
+      cat(
+        "  Content URL: ",
+        dashboard_url_chr(self$get_connect()$server, self$get_content()$guid),
+        "\n",
+        sep = ""
+      )
       cat("  Content Title: ", self$get_content()$title, "\n", sep = "")
       cat("\n")
-      cat('content_item(client, guid = "', self$get_content()$guid, '")', "\n", sep = "")
+      cat(
+        'content_item(client, guid = "',
+        self$get_content()$guid,
+        '")',
+        "\n",
+        sep = ""
+      )
       cat("\n")
       invisible(self)
     }
@@ -337,7 +395,8 @@ Content <- R6::R6Class(
 
     #' @field is_rendered TRUE if this is a rendered content type, otherwise FALSE.
     is_rendered = function() {
-      self$content$app_mode %in% c("rmd-static", "jupyter-static", "quarto-static")
+      self$content$app_mode %in%
+        c("rmd-static", "jupyter-static", "quarto-static")
     },
 
     #' @field is_interactive TRUE if this is a rendered content type, otherwise FALSE.
@@ -483,9 +542,15 @@ set_environment_new <- function(env, ...) {
 #' @export
 set_environment_remove <- function(env, ...) {
   to_remove <- rlang::enexprs(...)
-  to_remove_names <- c(names(to_remove), as.character(unlist(to_remove, as.character)))
+  to_remove_names <- c(
+    names(to_remove),
+    as.character(unlist(to_remove, as.character))
+  )
   to_remove_names <- to_remove_names[nchar(to_remove_names) > 0]
-  to_remove_final <- rlang::set_names(rep(NA, length(to_remove_names)), to_remove_names)
+  to_remove_final <- rlang::set_names(
+    rep(NA, length(to_remove_names)),
+    to_remove_names
+  )
 
   set_environment_new(env, !!!to_remove_final)
 }
@@ -609,7 +674,9 @@ content_ensure <- function(
       ))
     } else if (length(content) == 0) {
       if (!"new" %in% .permitted) {
-        stop(glue::glue("Content with name {name} was not found on {connect$server}"))
+        stop(glue::glue(
+          "Content with name {name} was not found on {connect$server}"
+        ))
       }
       message(glue::glue(
         "Creating NEW content {content$guid} ",
@@ -624,7 +691,9 @@ content_ensure <- function(
     } else {
       content <- content[[1]]
       if (!"existing" %in% .permitted) {
-        stop(glue::glue("Content with name {name} already exists at {dashboard_url_chr(connect$server, content$guid)}"))
+        stop(glue::glue(
+          "Content with name {name} already exists at {dashboard_url_chr(connect$server, content$guid)}"
+        ))
       }
       message(glue::glue(
         "Found EXISTING content {content$guid} with ",
@@ -910,7 +979,9 @@ content_delete <- function(content, force = FALSE) {
   cn <- content$get_content_remote()
   if (!force) {
     if (interactive()) {
-      cat(glue::glue("WARNING: Are you sure you want to delete '{cn$title}' ({cn$guid})?"))
+      cat(glue::glue(
+        "WARNING: Are you sure you want to delete '{cn$title}' ({cn$guid})?"
+      ))
       if (utils::menu(c("Yes", "No")) == 2) {
         stop("'No' selected. Aborting content delete")
       }
@@ -961,8 +1032,13 @@ content_update <- function(content, ...) {
 
 #' @rdname content_update
 #' @export
-content_update_access_type <- function(content, access_type = c("all", "logged_in", "acl")) {
-  if (length(access_type) > 1 || !access_type %in% c("all", "logged_in", "acl")) {
+content_update_access_type <- function(
+  content,
+  access_type = c("all", "logged_in", "acl")
+) {
+  if (
+    length(access_type) > 1 || !access_type %in% c("all", "logged_in", "acl")
+  ) {
     stop("Please select one of 'all', 'logged_in', or 'acl'.")
   }
   content_update(content = content, access_type = access_type)
@@ -990,7 +1066,11 @@ content_update_owner <- function(content, owner_guid) {
 #' @family content functions
 #' @export
 verify_content_name <- function(name) {
-  if (grepl("[^\\-\\_a-zA-Z0-9]", name, perl = TRUE) || nchar(name) < 3 || nchar(name) > 64) {
+  if (
+    grepl("[^\\-\\_a-zA-Z0-9]", name, perl = TRUE) ||
+      nchar(name) < 3 ||
+      nchar(name) > 64
+  ) {
     stop(glue::glue(
       "ERROR: content name '{name}' must be between 3 and 64 alphanumeric characters, ",
       "dashes, and underscores"
@@ -1037,7 +1117,9 @@ get_bundles <- function(content) {
 delete_bundle <- function(content, bundle_id) {
   validate_R6_class(content, "Content")
   cn <- content$get_content_remote()
-  message(glue::glue("Deleting bundle {bundle_id} for content '{cn$title}' ({cn$guid})"))
+  message(glue::glue(
+    "Deleting bundle {bundle_id} for content '{cn$title}' ({cn$guid})"
+  ))
   res <- content$bundle_delete(bundle_id)
   content$get_connect()$raise_error(res)
   return(content)
@@ -1089,7 +1171,15 @@ content_add_group <- function(content, guid, role = c("viewer", "owner")) {
   validate_R6_class(content, "Content")
   role <- .define_role(role)
 
-  purrr::map(guid, ~ .content_add_permission_impl(content = content, type = "group", guid = .x, role = role))
+  purrr::map(
+    guid,
+    ~ .content_add_permission_impl(
+      content = content,
+      type = "group",
+      guid = .x,
+      role = role
+    )
+  )
 
   return(content)
 }
@@ -1101,7 +1191,9 @@ content_add_group <- function(content, guid, role = c("viewer", "owner")) {
     remove_permission <- content$permissions_delete(res[[1]]$id)
     return(remove_permission)
   } else {
-    message(glue::glue("{type} '{guid}' already does not have access. No permission being removed"))
+    message(glue::glue(
+      "{type} '{guid}' already does not have access. No permission being removed"
+    ))
     return(NULL)
   }
 }
@@ -1109,7 +1201,9 @@ content_add_group <- function(content, guid, role = c("viewer", "owner")) {
 .content_add_permission_impl <- function(content, type, guid, role) {
   existing <- .get_permission(content, type, guid)
   if (length(existing) > 0) {
-    message(glue::glue("Updating permission for {type} '{guid}' with role '{role}'"))
+    message(glue::glue(
+      "Updating permission for {type} '{guid}' with role '{role}'"
+    ))
     res <- content$permissions_update(
       id = existing[[1]]$id,
       principal_guid = guid,
@@ -1117,7 +1211,9 @@ content_add_group <- function(content, guid, role = c("viewer", "owner")) {
       role = role
     )
   } else {
-    message(glue::glue("Adding permission for {type} '{guid}' with role '{role}'"))
+    message(glue::glue(
+      "Adding permission for {type} '{guid}' with role '{role}'"
+    ))
     res <- content$permissions_add(
       principal_guid = guid,
       principal_type = type,
@@ -1131,7 +1227,14 @@ content_add_group <- function(content, guid, role = c("viewer", "owner")) {
 #' @export
 content_delete_user <- function(content, guid) {
   validate_R6_class(content, "Content")
-  purrr::map(guid, ~ .content_delete_permission_impl(content = content, type = "user", guid = .x))
+  purrr::map(
+    guid,
+    ~ .content_delete_permission_impl(
+      content = content,
+      type = "user",
+      guid = .x
+    )
+  )
   return(content)
 }
 
@@ -1139,7 +1242,14 @@ content_delete_user <- function(content, guid) {
 #' @export
 content_delete_group <- function(content, guid) {
   validate_R6_class(content, "Content")
-  purrr::map(guid, ~ .content_delete_permission_impl(content = content, type = "group", guid = .x))
+  purrr::map(
+    guid,
+    ~ .content_delete_permission_impl(
+      content = content,
+      type = "group",
+      guid = .x
+    )
+  )
   return(content)
 }
 
@@ -1151,14 +1261,19 @@ content_delete_group <- function(content, guid) {
     if (role %in% c("viewer", "owner")) {
       return(role)
     } else {
-      stop(glue::glue("ERROR: invalid role. Expected 'viewer' or 'owner', instead got {{ role }}"))
+      stop(glue::glue(
+        "ERROR: invalid role. Expected 'viewer' or 'owner', instead got {{ role }}"
+      ))
     }
   }
 }
 
 .get_permission <- function(content, type, guid, add_owner = TRUE) {
   res <- content$permissions(add_owner = add_owner)
-  purrr::keep(res, ~ identical(.x$principal_type, type) && identical(.x$principal_guid, guid))
+  purrr::keep(
+    res,
+    ~ identical(.x$principal_type, type) && identical(.x$principal_guid, guid)
+  )
 }
 
 #' @rdname permissions

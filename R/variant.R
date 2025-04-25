@@ -40,7 +40,9 @@ Variant <- R6::R6Class(
     },
     #' @description Mail previously rendered content.
     #' @param to Targeting.
-    send_mail = function(to = c("me", "collaborators", "collaborators_viewers")) {
+    send_mail = function(
+      to = c("me", "collaborators", "collaborators_viewers")
+    ) {
       warn_experimental("send_mail")
       url <- unversioned_url("variants", self$get_variant()$id, "sender")
       self$get_connect()$POST(
@@ -69,7 +71,11 @@ Variant <- R6::R6Class(
         # add the content guid and variant key
         content_guid <- self$get_content()$guid
         variant_key <- self$key
-        res <- purrr::list_modify(res, app_guid = content_guid, variant_key = variant_key)
+        res <- purrr::list_modify(
+          res,
+          app_guid = content_guid,
+          variant_key = variant_key
+        )
       }
 
       res
@@ -84,7 +90,12 @@ Variant <- R6::R6Class(
     #' @param guid User GUID.
     remove_subscriber = function(guid) {
       warn_experimental("subscribers")
-      path <- unversioned_url("variants", self$get_variant()$id, "subscribers", guid)
+      path <- unversioned_url(
+        "variants",
+        self$get_variant()$id,
+        "subscribers",
+        guid
+      )
       self$get_connect()$DELETE(path)
     },
     #' @description Add named subscribers.
@@ -104,7 +115,11 @@ Variant <- R6::R6Class(
       content_guid <- self$get_content()$guid
       variant_key <- self$key
 
-      purrr::list_modify(res, app_guid = content_guid, variant_key = variant_key)
+      purrr::list_modify(
+        res,
+        app_guid = content_guid,
+        variant_key = variant_key
+      )
     },
     #' @description List the renderings of this variant.
     renderings = function() {
@@ -117,7 +132,11 @@ Variant <- R6::R6Class(
 
       purrr::map(
         res,
-        ~ purrr::list_modify(.x, app_guid = content_guid, variant_key = variant_key)
+        ~ purrr::list_modify(
+          .x,
+          app_guid = content_guid,
+          variant_key = variant_key
+        )
       )
     },
     #' @description Update this variant.
@@ -264,7 +283,11 @@ get_variant <- function(content, key) {
   warn_experimental("get_variant")
   scoped_experimental_silence()
   validate_R6_class(content, "Content")
-  Variant$new(connect = content$get_connect(), content = content$get_content(), key = key)
+  Variant$new(
+    connect = content$get_connect(),
+    content = content$get_content(),
+    key = key
+  )
 }
 
 #' @rdname variant
@@ -305,7 +328,12 @@ variant_render <- function(variant) {
 
   rendered <- variant$render()
 
-  VariantTask$new(connect = variant$get_connect(), content = variant$get_content(), key = variant$key, task = rendered)
+  VariantTask$new(
+    connect = variant$get_connect(),
+    content = variant$get_content(),
+    key = variant$key,
+    task = rendered
+  )
 }
 
 # TODO
