@@ -16,9 +16,7 @@ The filter is case insensitive.}
 
 \item{limit}{The number of groups to retrieve before paging stops. Default
 is to return all results; however, for Connect server versions older than
-2025.04.0, \code{limit} is capped at 500 when \code{prefix} is provided. If your search
-prefix would return more than 500 groups, try using multiple queries with
-more selective \code{prefix} values and append the results.}
+2025.04.0, \code{limit} is capped at 500 when \code{prefix} is provided.}
 }
 \value{
 A tibble with the following columns:
