@@ -232,11 +232,7 @@ set_schedule <- function(
     if (is.list(params$schedule)) {
       params$schedule <- jsonlite::toJSON(params$schedule, auto_unbox = TRUE)
     }
-    if (
-      !(is.character(params$schedule) &&
-        length(params$schedule) == 1 &&
-        jsonlite::validate(params$schedule))
-    ) {
+    if (!(is_string(params$schedule) && jsonlite::validate(params$schedule))) {
       stop(glue::glue(
         "The schedule you provided is invalid: {capture.output(str(orig_schedule))}"
       ))

@@ -200,10 +200,10 @@ tzone <- function(x) {
   attr(x, "tzone")[[1]] %||% ""
 }
 
-vec_cast.character.integer <- function(x, to, ...) {
-  # nolint: object_name_linter
-  as.character(x)
-}
+vec_cast.character.integer <- # nolint: object_name_linter
+  function(x, to, ...) {
+    as.character(x)
+  }
 
 new_datetime <- function(x = double(), tzone = "") {
   tzone <- tzone %||% ""
