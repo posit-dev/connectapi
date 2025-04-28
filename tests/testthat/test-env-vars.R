@@ -28,4 +28,25 @@ with_mock_api({
       "[]"
     )
   })
+
+  test_that("env var function wrappers", {
+    con <- Connect$new(server = "https://connect.example", api_key = "fake")
+    item <- content_item(con, "34567890-e21d-3d80-c698-a935ad614066")
+
+    expect_PATCH(
+      set_environment_remove(item, var_to_remove),
+      "https://connect.example/__api__/v1/content/34567890/environment",
+      '[{"name":"var_to_remove","value":null}]'
+    )
+    expect_PATCH(
+      set_environment_remove(item, one, another),
+      "https://connect.example/__api__/v1/content/34567890/environment",
+      '[{"name":"one","value":null},{"name":"another","value":null}]'
+    )
+    expect_PATCH(
+      set_environment_remove(item, "var_to_remove"),
+      "https://connect.example/__api__/v1/content/34567890/environment",
+      '[{"name":"var_to_remove","value":null}]'
+    )
+  })
 })
