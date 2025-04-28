@@ -2,7 +2,8 @@ test_that("get_runtimes() gets all runtimes if none specified", {
   client <- MockConnect$new("2024.10.0")
 
   client$mock_response(
-    "GET", "v1/server_settings/r",
+    "GET",
+    "v1/server_settings/r",
     content = list(
       installations = list(
         list(version = "4.3.1", cluster_name = "Local", image_name = "Local"),
@@ -11,7 +12,8 @@ test_that("get_runtimes() gets all runtimes if none specified", {
     )
   )
   client$mock_response(
-    "GET", "v1/server_settings/python",
+    "GET",
+    "v1/server_settings/python",
     content = list(
       installations = list(
         list(version = "3.11.3", cluster_name = "Local", image_name = "Local"),
@@ -20,7 +22,8 @@ test_that("get_runtimes() gets all runtimes if none specified", {
     )
   )
   client$mock_response(
-    "GET", "v1/server_settings/quarto",
+    "GET",
+    "v1/server_settings/quarto",
     content = list(
       installations = list(
         list(version = "1.4.557", cluster_name = "Local", image_name = "Local"),
@@ -29,7 +32,8 @@ test_that("get_runtimes() gets all runtimes if none specified", {
     )
   )
   client$mock_response(
-    "GET", "v1/server_settings/tensorflow",
+    "GET",
+    "v1/server_settings/tensorflow",
     content = list(
       installations = list(
         list(version = "2.16.1", cluster_name = "Local", image_name = "Local")
@@ -39,33 +43,60 @@ test_that("get_runtimes() gets all runtimes if none specified", {
 
   expected <- tibble::as_tibble(list(
     runtime = c(
-      "r", "r", "python", "python", "quarto",
-      "quarto", "tensorflow"
-    ), version = c(
-      "4.3.1", "4.4.0", "3.11.3",
-      "3.12.4", "1.4.557", "1.5.55", "2.16.1"
-    ), cluster_name = c(
+      "r",
+      "r",
+      "python",
+      "python",
+      "quarto",
+      "quarto",
+      "tensorflow"
+    ),
+    version = c(
+      "4.3.1",
+      "4.4.0",
+      "3.11.3",
+      "3.12.4",
+      "1.4.557",
+      "1.5.55",
+      "2.16.1"
+    ),
+    cluster_name = c(
       "Local",
-      "Local", "Local", "Local", "Local", "Local", "Local"
-    ), image_name = c(
       "Local",
-      "Local", "Local", "Local", "Local", "Local", "Local"
+      "Local",
+      "Local",
+      "Local",
+      "Local",
+      "Local"
+    ),
+    image_name = c(
+      "Local",
+      "Local",
+      "Local",
+      "Local",
+      "Local",
+      "Local",
+      "Local"
     )
   ))
   expect_identical(get_runtimes(client), expected)
-  expect_identical(client$call_log, c(
-    "GET https://connect.example/__api__/v1/server_settings/r",
-    "GET https://connect.example/__api__/v1/server_settings/python",
-    "GET https://connect.example/__api__/v1/server_settings/quarto",
-    "GET https://connect.example/__api__/v1/server_settings/tensorflow"
-  ))
+  expect_identical(
+    client$call_log,
+    c(
+      "GET https://connect.example/__api__/v1/server_settings/r",
+      "GET https://connect.example/__api__/v1/server_settings/python",
+      "GET https://connect.example/__api__/v1/server_settings/quarto",
+      "GET https://connect.example/__api__/v1/server_settings/tensorflow"
+    )
+  )
 })
 
 test_that("get_runtimes() only specified runtimes", {
   client <- MockConnect$new("2024.10.0")
 
   client$mock_response(
-    "GET", "v1/server_settings/python",
+    "GET",
+    "v1/server_settings/python",
     content = list(
       installations = list(
         list(version = "3.11.3", cluster_name = "Local", image_name = "Local"),
@@ -74,7 +105,8 @@ test_that("get_runtimes() only specified runtimes", {
     )
   )
   client$mock_response(
-    "GET", "v1/server_settings/tensorflow",
+    "GET",
+    "v1/server_settings/tensorflow",
     content = list(
       installations = list(
         list(version = "2.16.1", cluster_name = "Local", image_name = "Local")
@@ -89,10 +121,13 @@ test_that("get_runtimes() only specified runtimes", {
     image_name = c("Local", "Local", "Local")
   ))
   expect_identical(get_runtimes(client, c("python", "tensorflow")), expected)
-  expect_identical(client$call_log, c(
-    "GET https://connect.example/__api__/v1/server_settings/python",
-    "GET https://connect.example/__api__/v1/server_settings/tensorflow"
-  ))
+  expect_identical(
+    client$call_log,
+    c(
+      "GET https://connect.example/__api__/v1/server_settings/python",
+      "GET https://connect.example/__api__/v1/server_settings/tensorflow"
+    )
+  )
 })
 
 test_that("get_runtimes() restricts available runtimes based on Connect version.", {
@@ -124,9 +159,16 @@ with_mock_api({
 
     result <- get_groups(client, page_size = 5, limit = 10)
     expected_names <- c(
-      "~!@#$%^&*()_+", "1111", "2_viewer_group", "amanda_test_group",
-      "a_new_group", "azurepipelines", "cgGroup01", "chris_test_group",
-      "connect_dev", "cool_kids_of_the_dmv"
+      "~!@#$%^&*()_+",
+      "1111",
+      "2_viewer_group",
+      "amanda_test_group",
+      "a_new_group",
+      "azurepipelines",
+      "cgGroup01",
+      "chris_test_group",
+      "connect_dev",
+      "cool_kids_of_the_dmv"
     )
     expect_identical(result$name, expected_names)
   })
@@ -173,7 +215,10 @@ without_internet({
 
 test_that("get_vanity_urls() works", {
   with_mock_api({
-    client <- Connect$new(server = "http://connect.example", api_key = "not-a-key")
+    client <- Connect$new(
+      server = "http://connect.example",
+      api_key = "not-a-key"
+    )
     expect_equal(
       get_vanity_urls(client),
       tibble::tibble(
@@ -185,10 +230,14 @@ test_that("get_vanity_urls() works", {
           "/team-dashboard/",
           "/streamlit/my-app/"
         ),
-        created_time = structure(c(
-          1602623489,
-          1677679943
-        ), tzone = "UTC", class = c("POSIXct", "POSIXt"))
+        created_time = structure(
+          c(
+            1602623489,
+            1677679943
+          ),
+          tzone = "UTC",
+          class = c("POSIXct", "POSIXt")
+        )
       )
     )
   })
@@ -197,7 +246,8 @@ test_that("get_vanity_urls() works", {
 test_that("get_packages() works as expected with current return value", {
   client <- MockConnect$new("2024.11.0")
   client$mock_response(
-    "GET", "v1/packages",
+    "GET",
+    "v1/packages",
     content = list(
       current_page = 1,
       total = 2,
@@ -243,7 +293,10 @@ test_that("get_packages() works as expected with current return value", {
 test_that("Pagination is wired up correctly for packages method", {
   with_mock_api({
     without_internet({
-      client <- Connect$new(server = "https://connect.example", api_key = "fake")
+      client <- Connect$new(
+        server = "https://connect.example",
+        api_key = "fake"
+      )
       expect_GET(
         client$packages(name = "mypkg", page_number = 1),
         "https://connect.example/__api__/v1/packages?name=mypkg&page_number=1&page_size=100000"
@@ -259,7 +312,8 @@ test_that("get_packages() works as expected with `content_guid` names in API res
   client <- MockConnect$new("2024.11.0")
 
   client$mock_response(
-    "GET", "v1/packages",
+    "GET",
+    "v1/packages",
     content = list(
       current_page = 1,
       total = 2,

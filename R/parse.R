@@ -52,7 +52,9 @@ ensure_column <- function(data, default, name) {
     col <- vctrs::vec_rep(default, nrow(data))
     col <- vctrs::vec_cast(col, default)
   } else {
-    if (vctrs::vec_is(default, NA_datetime_) && !vctrs::vec_is(col, NA_datetime_)) {
+    if (
+      vctrs::vec_is(default, NA_datetime_) && !vctrs::vec_is(col, NA_datetime_)
+    ) {
       # manual fix because vctrs::vec_cast cannot cast double -> datetime or char -> datetime
       col <- coerce_datetime(col, default, name = name)
     }
@@ -122,10 +124,17 @@ coerce_datetime <- function(x, to, ...) {
     parse_connect_rfc3339(x)
   } else if (inherits(x, "POSIXct")) {
     x
-  } else if (all(is.logical(x) & is.na(x)) && length(is.logical(x) & is.na(x)) > 0) {
+  } else if (
+    all(is.logical(x) & is.na(x)) && length(is.logical(x) & is.na(x)) > 0
+  ) {
     NA_datetime_
   } else {
-    vctrs::stop_incompatible_cast(x = x, to = to, x_arg = tmp_name, to_arg = "to")
+    vctrs::stop_incompatible_cast(
+      x = x,
+      to = to,
+      x_arg = tmp_name,
+      to_arg = "to"
+    )
   }
 }
 
@@ -191,9 +200,10 @@ tzone <- function(x) {
   attr(x, "tzone")[[1]] %||% ""
 }
 
-vec_cast.character.integer <- function(x, to, ...) { # nolint: object_name_linter
-  as.character(x)
-}
+vec_cast.character.integer <- # nolint: object_name_linter
+  function(x, to, ...) {
+    as.character(x)
+  }
 
 new_datetime <- function(x = double(), tzone = "") {
   tzone <- tzone %||% ""

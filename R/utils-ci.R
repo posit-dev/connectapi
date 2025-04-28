@@ -10,7 +10,10 @@ determine_license_env <- function(license) {
     cat_line("determine_license: looks like a license file")
     return(list(
       type = "file",
-      cmd_params = c("-v", paste0(license, ":/var/lib/rstudio-connect/license.lic")),
+      cmd_params = c(
+        "-v",
+        paste0(license, ":/var/lib/rstudio-connect/license.lic")
+      ),
       env_params = c(RSC_LICENSE_FILE = license)
     ))
   } else {
@@ -45,14 +48,19 @@ version_to_docker_tag <- function(version) {
   version
 }
 
-compose_start <- function(connect_license = Sys.getenv("RSC_LICENSE"), connect_version, clean = TRUE) {
+compose_start <- function(
+  connect_license = Sys.getenv("RSC_LICENSE"),
+  connect_version,
+  clean = TRUE
+) {
   warn_dire("compose_start")
   scoped_dire_silence()
 
   stopifnot(nchar(connect_license) > 0)
 
   license_details <- determine_license_env(connect_license)
-  compose_file <- switch(license_details$type,
+  compose_file <- switch(
+    license_details$type,
     "file" = "ci/test-connect-lic.yml",
     "ci/test-connect.yml"
   )
@@ -69,7 +77,11 @@ compose_start <- function(connect_license = Sys.getenv("RSC_LICENSE"), connect_v
 
   # stop compose
   if (clean) {
-    system2(docker, c("compose", "-f", compose_file_path, "down"), env = env_vars)
+    system2(
+      docker,
+      c("compose", "-f", compose_file_path, "down"),
+      env = env_vars
+    )
   }
 
   # start compose
@@ -103,15 +115,24 @@ compose_find_hosts <- function(prefix) {
 }
 
 
-update_renviron_creds <- function(server, api_key, prefix, .file = ".Renviron") {
+update_renviron_creds <- function(
+  server,
+  api_key,
+  prefix,
+  .file = ".Renviron"
+) {
   cat_line(glue::glue("connect: writing values for {prefix} to {.file}"))
   curr_environ <- tryCatch(readLines(.file), error = function(e) {
     print(e)
     return(character())
   })
 
-  curr_environ <- curr_environ[!grepl(glue::glue("^{prefix}_SERVER="), curr_environ)]
-  curr_environ <- curr_environ[!grepl(glue::glue("^{prefix}_API_KEY="), curr_environ)]
+  curr_environ <- curr_environ[
+    !grepl(glue::glue("^{prefix}_SERVER="), curr_environ)
+  ]
+  curr_environ <- curr_environ[
+    !grepl(glue::glue("^{prefix}_API_KEY="), curr_environ)
+  ]
   output_environ <- glue::glue(
     paste(curr_environ, collapse = "\n"),
     "{prefix}_SERVER={server}",
@@ -123,15 +144,21 @@ update_renviron_creds <- function(server, api_key, prefix, .file = ".Renviron") 
   invisible()
 }
 
-build_test_env <- function(connect_license = Sys.getenv("RSC_LICENSE"),
-                           clean = TRUE,
-                           username = "admin",
-                           password = "admin0",
-                           connect_version = Sys.getenv("CONNECT_VERSION", current_connect_version)) {
+build_test_env <- function(
+  connect_license = Sys.getenv("RSC_LICENSE"),
+  clean = TRUE,
+  username = "admin",
+  password = "admin0",
+  connect_version = Sys.getenv("CONNECT_VERSION", current_connect_version)
+) {
   warn_dire("build_test_env")
   scoped_dire_silence()
 
-  compose_start(connect_license = connect_license, clean = clean, connect_version = connect_version)
+  compose_start(
+    connect_license = connect_license,
+    clean = clean,
+    connect_version = connect_version
+  )
 
   # It was ci_connect before but it's ci-connect on my machine now;
   # this is a regex so it will match either
@@ -140,11 +167,15 @@ build_test_env <- function(connect_license = Sys.getenv("RSC_LICENSE"),
   cat_line("connect: creating first admin...")
   a1 <- create_first_admin(
     hosts[1],
-    "admin", "admin0", "admin@example.com"
+    "admin",
+    "admin0",
+    "admin@example.com"
   )
   a2 <- create_first_admin(
     hosts[2],
-    "admin", "admin0", "admin@example.com"
+    "admin",
+    "admin0",
+    "admin@example.com"
   )
 
   update_renviron_creds(a1$server, a1$api_key, "TEST_1")
@@ -169,10 +200,14 @@ build_test_env <- function(connect_license = Sys.getenv("RSC_LICENSE"),
 }
 
 # set up the first admin
-create_first_admin <- function(url,
-                               user, password, email,
-                               keyname = "first-key",
-                               provider = "password") {
+create_first_admin <- function(
+  url,
+  user,
+  password,
+  email,
+  keyname = "first-key",
+  provider = "password"
+) {
   warn_dire("create_first_admin")
   check_connect_license(url)
 

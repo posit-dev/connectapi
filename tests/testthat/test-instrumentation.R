@@ -1,10 +1,13 @@
 without_internet({
-
   visits_url <- function(querypath) {
-    glue::glue("https://connect.example/__api__/v1/instrumentation/content/visits?{querypath}")
+    glue::glue(
+      "https://connect.example/__api__/v1/instrumentation/content/visits?{querypath}"
+    )
   }
   usage_url <- function(querypath) {
-    glue::glue("https://connect.example/__api__/v1/instrumentation/shiny/usage?{querypath}")
+    glue::glue(
+      "https://connect.example/__api__/v1/instrumentation/shiny/usage?{querypath}"
+    )
   }
 
   test_that("Query params to inst_content_visits", {
@@ -15,8 +18,12 @@ without_internet({
     )
 
     expect_GET(
-      con$inst_content_visits(content_guid = "f2f37341-e21d-3d80-c698-a935ad614066"),
-      visits_url("content_guid=f2f37341-e21d-3d80-c698-a935ad614066&limit=500&asc_order=true")
+      con$inst_content_visits(
+        content_guid = "f2f37341-e21d-3d80-c698-a935ad614066"
+      ),
+      visits_url(
+        "content_guid=f2f37341-e21d-3d80-c698-a935ad614066&limit=500&asc_order=true"
+      )
     )
     # Multiple GUIDs are | separated
     expect_GET(
@@ -59,8 +66,12 @@ without_internet({
     )
 
     expect_GET(
-      con$inst_shiny_usage(content_guid = "f2f37341-e21d-3d80-c698-a935ad614066"),
-      usage_url("content_guid=f2f37341-e21d-3d80-c698-a935ad614066&limit=500&asc_order=true")
+      con$inst_shiny_usage(
+        content_guid = "f2f37341-e21d-3d80-c698-a935ad614066"
+      ),
+      usage_url(
+        "content_guid=f2f37341-e21d-3d80-c698-a935ad614066&limit=500&asc_order=true"
+      )
     )
     # Multiple GUIDs are | separated
     expect_GET(

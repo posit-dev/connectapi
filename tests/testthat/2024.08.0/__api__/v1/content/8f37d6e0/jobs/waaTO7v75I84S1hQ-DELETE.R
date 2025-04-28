@@ -6,7 +6,9 @@ structure(
       list(`content-type` = "application/json"),
       class = c("insensitive", "list")
     ),
-    content = charToRaw("{\"code\":163,\"error\":\"The specified job cannot be terminated because it is not active\",\"payload\":null}")
+    content = charToRaw(
+      "{\"code\":163,\"error\":\"The specified job cannot be terminated because it is not active\",\"payload\":null}"
+    )
   ),
   class = "response"
 )

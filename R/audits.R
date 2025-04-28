@@ -39,7 +39,10 @@ audit_r_versions <- function(content) {
     stop("gridExtra is required for this function")
   }
 
-  timeline <- content[!is.na(content$r_version), c("r_version", "last_deployed_time")]
+  timeline <- content[
+    !is.na(content$r_version),
+    c("r_version", "last_deployed_time")
+  ]
 
   # histogram
   p1 <- ggplot2::ggplot(timeline) +
@@ -79,7 +82,11 @@ audit_r_versions <- function(content) {
 #' @family audit functions
 #' @export
 audit_runas <- function(content) {
-  content$run_as <- ifelse(content$run_as_current_user, "current user", content$run_as)
+  content$run_as <- ifelse(
+    content$run_as_current_user,
+    "current user",
+    content$run_as
+  )
   content <- content[!is.na(content$run_as), c("name", "run_as")]
   names(content) <- c("app_name", "run_as_user")
   content

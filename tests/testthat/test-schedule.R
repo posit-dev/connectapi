@@ -12,7 +12,10 @@ test_that("get_timezones() gets timeszones from v1 url when available", {
 
   expect_equal(
     get_timezones(client),
-    list(`Africa/Abidjan (+00:00)` = "Africa/Abidjan", `Africa/Accra (+00:00)` = "Africa/Accra")
+    list(
+      `Africa/Abidjan (+00:00)` = "Africa/Abidjan",
+      `Africa/Accra (+00:00)` = "Africa/Accra"
+    )
   )
   expect_equal(
     client$call_log,
@@ -41,7 +44,10 @@ test_that("get_timezones() gets timeszones from unversioned url when v1 returns 
 
   expect_equal(
     get_timezones(client),
-    list(`Africa/Abidjan (+00:00)` = "Africa/Abidjan", `Africa/Accra (+00:00)` = "Africa/Accra")
+    list(
+      `Africa/Abidjan (+00:00)` = "Africa/Abidjan",
+      `Africa/Accra (+00:00)` = "Africa/Accra"
+    )
   )
   expect_equal(
     client$call_log,

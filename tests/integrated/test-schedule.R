@@ -7,11 +7,18 @@ rmd_content <- NULL
 
 # Setup - RMarkdown -------------------------------------------------------
 
-dir_rmd <- rprojroot::find_package_root_file("tests/testthat/examples/rmarkdown")
+dir_rmd <- rprojroot::find_package_root_file(
+  "tests/testthat/examples/rmarkdown"
+)
 tmp_file_rmd <- fs::file_temp(pattern = "bundle_rmd", ext = ".tar.gz")
 bund_rmd <- bundle_dir(path = dir_rmd, filename = tmp_file_rmd)
 
-tsk_rmd <- deploy(connect = test_conn_1, bundle = bund_rmd, name = rmd_name, title = rmd_title)
+tsk_rmd <- deploy(
+  connect = test_conn_1,
+  bundle = bund_rmd,
+  name = rmd_name,
+  title = rmd_title
+)
 
 rmd_guid <- tsk_rmd$get_content()$guid
 rmd_content <- content_item(tsk_rmd$get_connect(), rmd_guid)
@@ -57,40 +64,84 @@ test_that("set_schedule_remove is idempotent", {
 test_that("schedule helpers work", {
   scoped_experimental_silence()
   expect_true(
-    validate_R6_class(set_schedule_remove(set_schedule_minute(get_variant_schedule(d_var_sch))), "Variant")
-  )
-  expect_true(
-    validate_R6_class(set_schedule_remove(set_schedule_hour(get_variant_schedule(d_var_sch))), "Variant")
-  )
-  expect_true(
-    validate_R6_class(set_schedule_remove(set_schedule_day(get_variant_schedule(d_var_sch))), "Variant")
-  )
-  expect_true(
-    validate_R6_class(set_schedule_remove(set_schedule_weekday(get_variant_schedule(d_var_sch))), "Variant")
-  )
-  expect_true(
-    validate_R6_class(set_schedule_remove(set_schedule_week(get_variant_schedule(d_var_sch))), "Variant")
-  )
-  expect_true(
     validate_R6_class(
-      set_schedule_remove(set_schedule_dayofweek(get_variant_schedule(d_var_sch), c(0, 1, 6))),
+      set_schedule_remove(set_schedule_minute(get_variant_schedule(d_var_sch))),
       "Variant"
     )
   )
   expect_true(
-    validate_R6_class(set_schedule_remove(set_schedule_semimonth(get_variant_schedule(d_var_sch))), "Variant")
+    validate_R6_class(
+      set_schedule_remove(set_schedule_hour(get_variant_schedule(d_var_sch))),
+      "Variant"
+    )
   )
   expect_true(
-    validate_R6_class(set_schedule_remove(set_schedule_semimonth(get_variant_schedule(d_var_sch), FALSE)), "Variant")
+    validate_R6_class(
+      set_schedule_remove(set_schedule_day(get_variant_schedule(d_var_sch))),
+      "Variant"
+    )
   )
   expect_true(
-    validate_R6_class(set_schedule_remove(set_schedule_dayofmonth(get_variant_schedule(d_var_sch))), "Variant")
+    validate_R6_class(
+      set_schedule_remove(set_schedule_weekday(get_variant_schedule(
+        d_var_sch
+      ))),
+      "Variant"
+    )
   )
   expect_true(
-    validate_R6_class(set_schedule_remove(set_schedule_dayweekofmonth(get_variant_schedule(d_var_sch))), "Variant")
+    validate_R6_class(
+      set_schedule_remove(set_schedule_week(get_variant_schedule(d_var_sch))),
+      "Variant"
+    )
   )
   expect_true(
-    validate_R6_class(set_schedule_remove(set_schedule_year(get_variant_schedule(d_var_sch))), "Variant")
+    validate_R6_class(
+      set_schedule_remove(set_schedule_dayofweek(
+        get_variant_schedule(d_var_sch),
+        c(0, 1, 6)
+      )),
+      "Variant"
+    )
+  )
+  expect_true(
+    validate_R6_class(
+      set_schedule_remove(set_schedule_semimonth(get_variant_schedule(
+        d_var_sch
+      ))),
+      "Variant"
+    )
+  )
+  expect_true(
+    validate_R6_class(
+      set_schedule_remove(set_schedule_semimonth(
+        get_variant_schedule(d_var_sch),
+        FALSE
+      )),
+      "Variant"
+    )
+  )
+  expect_true(
+    validate_R6_class(
+      set_schedule_remove(set_schedule_dayofmonth(get_variant_schedule(
+        d_var_sch
+      ))),
+      "Variant"
+    )
+  )
+  expect_true(
+    validate_R6_class(
+      set_schedule_remove(set_schedule_dayweekofmonth(get_variant_schedule(
+        d_var_sch
+      ))),
+      "Variant"
+    )
+  )
+  expect_true(
+    validate_R6_class(
+      set_schedule_remove(set_schedule_year(get_variant_schedule(d_var_sch))),
+      "Variant"
+    )
   )
 })
 

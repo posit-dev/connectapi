@@ -198,7 +198,14 @@ get_users <- function(
 #' }
 #'
 #' @export
-get_content <- function(src, guid = NULL, owner_guid = NULL, name = NULL, ..., .p = NULL) {
+get_content <- function(
+  src,
+  guid = NULL,
+  owner_guid = NULL,
+  name = NULL,
+  ...,
+  .p = NULL
+) {
   validate_R6_class(src, "Connect")
 
   res <- src$content(guid = guid, owner_guid = owner_guid, name = name)
@@ -294,7 +301,8 @@ content_list_by_tag <- function(src, tag) {
 #' @export
 content_list_guid_has_access <- function(content_list, guid) {
   warn_experimental("content_list_filter_by_guid")
-  rows_keep <- content_list$access_type %in% c("all", "logged_in") |
+  rows_keep <- content_list$access_type %in%
+    c("all", "logged_in") |
     content_list$owner_guid == guid |
     purrr::map_lgl(content_list$permission, ~ guid %in% .x$principal_guid)
   content_list[rows_keep, ]
@@ -357,14 +365,17 @@ content_list_guid_has_access <- function(content_list, guid) {
 #' }
 #'
 #' @export
-get_usage_shiny <- function(src, content_guid = NULL,
-                            min_data_version = NULL,
-                            from = NULL,
-                            to = NULL,
-                            limit = 500,
-                            previous = NULL,
-                            nxt = NULL,
-                            asc_order = TRUE) {
+get_usage_shiny <- function(
+  src,
+  content_guid = NULL,
+  min_data_version = NULL,
+  from = NULL,
+  to = NULL,
+  limit = 500,
+  previous = NULL,
+  nxt = NULL,
+  asc_order = TRUE
+) {
   validate_R6_class(src, "Connect")
 
   res <- src$inst_shiny_usage(
@@ -450,14 +461,17 @@ get_usage_shiny <- function(src, content_guid = NULL,
 #' }
 #'
 #' @export
-get_usage_static <- function(src, content_guid = NULL,
-                             min_data_version = NULL,
-                             from = NULL,
-                             to = NULL,
-                             limit = 500,
-                             previous = NULL,
-                             nxt = NULL,
-                             asc_order = TRUE) {
+get_usage_static <- function(
+  src,
+  content_guid = NULL,
+  min_data_version = NULL,
+  from = NULL,
+  to = NULL,
+  limit = 500,
+  previous = NULL,
+  nxt = NULL,
+  asc_order = TRUE
+) {
   validate_R6_class(src, "Connect")
 
   res <- src$inst_content_visits(
@@ -519,8 +533,13 @@ get_usage_static <- function(src, content_guid = NULL,
 #' }
 #'
 #' @export
-get_audit_logs <- function(src, limit = 500, previous = NULL,
-                           nxt = NULL, asc_order = TRUE) {
+get_audit_logs <- function(
+  src,
+  limit = 500,
+  previous = NULL,
+  nxt = NULL,
+  asc_order = TRUE
+) {
   validate_R6_class(src, "Connect")
 
   res <- src$audit_logs(
@@ -615,7 +634,11 @@ get_procs <- function(src) {
 #' for more information.
 #'
 #' @export
-get_oauth_credentials <- function(connect, user_session_token, requested_token_type = NULL) {
+get_oauth_credentials <- function(
+  connect,
+  user_session_token,
+  requested_token_type = NULL
+) {
   validate_R6_class(connect, "Connect")
   if (is.null(requested_token_type)) {
     requested_token_type <- "urn:ietf:params:oauth:token-type:access_token"
@@ -681,7 +704,9 @@ get_oauth_content_credentials <- function(
   if (is.null(content_session_token)) {
     content_session_token <- Sys.getenv("CONNECT_CONTENT_SESSION_TOKEN")
     if (nchar(content_session_token) == 0) {
-      stop("Could not find the CONNECT_CONTENT_SESSION_TOKEN environment variable.")
+      stop(
+        "Could not find the CONNECT_CONTENT_SESSION_TOKEN environment variable."
+      )
     }
   }
   if (is.null(requested_token_type)) {
@@ -891,7 +916,7 @@ get_runtimes <- function(client, runtimes = NULL) {
 
   purrr::map_dfr(runtimes, function(runtime) {
     res <- client$GET(paste0("v1/server_settings/", runtime))
-    res_df <- purrr::map_dfr(res$installations, ~tibble::as_tibble(.))
+    res_df <- purrr::map_dfr(res$installations, ~ tibble::as_tibble(.))
     tibble::add_column(res_df, runtime = runtime, .before = 1)
   })
 }

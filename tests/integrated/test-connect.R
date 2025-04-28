@@ -49,13 +49,20 @@ test_that(".check_is_fatal toggle works", {
     "provide a valid API key"
   )
 
-  rsc <- connect(server = Sys.getenv("TEST_1_SERVER"), api_key = "", .check_is_fatal = FALSE)
+  rsc <- connect(
+    server = Sys.getenv("TEST_1_SERVER"),
+    api_key = "",
+    .check_is_fatal = FALSE
+  )
   expect_true(
     validate_R6_class(rsc, "Connect")
   )
 
   expect_error(
-    suppressMessages(connect(server = "http://fake-value.example.com", api_key = "fake-value")),
+    suppressMessages(connect(
+      server = "http://fake-value.example.com",
+      api_key = "fake-value"
+    )),
     "Could not resolve host"
   )
 

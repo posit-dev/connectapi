@@ -7,7 +7,9 @@ check_reporter <- CheckReporter$new(file = fs::path("check-results-check.txt"))
 reporter_list <- list(progress_reporter, check_reporter)
 
 if (as.logical(Sys.getenv("IS_JENKINS", "FALSE"))) {
-  junit_reporter <- JunitReporter$new(file = fs::path("check-results-junit.xml"))
+  junit_reporter <- JunitReporter$new(
+    file = fs::path("check-results-junit.xml")
+  )
   reporter_list <- c(reporter_list, list(junit_reporter))
 }
 multi_reporter <- MultiReporter$new(reporters = reporter_list)

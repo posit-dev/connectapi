@@ -39,7 +39,6 @@ page_cursor <- function(client, req, limit = Inf) {
 # TODO: Decide if this `limit = Inf` is helpful or a hack...
 #       it is essentially a "row limit" on paging
 
-
 #' Paging
 #'
 #' Helper functions that make paging easier in
@@ -103,7 +102,8 @@ optional_progress_bar <- function(...) {
   } else {
     # Return a mock object that behaves enough like a progress bar object
     list(
-      tick = function() {}
+      tick = function() {
+      }
     )
   }
 }
