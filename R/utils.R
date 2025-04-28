@@ -227,8 +227,12 @@ endpoint_does_not_exist <- function(res) {
 # Extract the Connect error code from a response
 error_code <- function(res) {
   cont <- httr::content(res)
-  # Return -1 if there is no error, just so we aren't comparing NA or NULL
-  cont[["code"]] %||% -1
+  if ("code" %in% names(cont)) {
+    cont[["code"]]
+  } else {
+    # Return -1 if there is no error, just so we aren't comparing NA or NULL
+    -1
+  }
 }
 
 # Returns `TRUE` if we're running on Connect as determined by the
