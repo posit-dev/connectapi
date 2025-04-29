@@ -69,8 +69,10 @@ connectapi_ptypes <- list(
     "content_url" = NA_character_,
     "dashboard_url" = NA_character_,
     "app_role" = NA_character_,
+    "vanity_url" = NA_character_,
     "id" = NA_character_,
     "owner" = NA_list_,
+    "tags" = NA_list_,
   ),
   content_old = tibble::tibble(
     "id" = NA_integer_,
