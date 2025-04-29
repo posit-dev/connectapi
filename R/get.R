@@ -225,7 +225,22 @@ get_content <- function(
 ) {
   validate_R6_class(src, "Connect")
 
-  res <- src$content(guid = guid, owner_guid = owner_guid, name = name)
+  if (compare_connect_version(src$version, "2024.06.0") < 0) {
+    include <- "tags,owner"
+    content_ptype <- connectapi_ptypes$content[,
+      names(connectapi_ptypes$content) != "vanity_url"
+    ]
+  } else {
+    include <- "tags,owner,vanity_url"
+    content_ptype <- connectapi_ptypes$content
+  }
+
+  res <- src$content(
+    guid = guid,
+    owner_guid = owner_guid,
+    name = name,
+    include = include
+  )
 
   if (!is.null(guid)) {
     # convert a single item to a list
@@ -236,7 +251,7 @@ get_content <- function(
     res <- res %>% purrr::keep(.p = .p)
   }
 
-  out <- parse_connectapi_typed(res, connectapi_ptypes$content)
+  out <- parse_connectapi_typed(res, content_ptype)
 
   return(out)
 }
