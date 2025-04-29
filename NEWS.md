@@ -1,6 +1,7 @@
 # connectapi (development version)
 
-- `get_content()` now includes vanity URLs in the returned data frame. (#398)
+- `get_content()` now includes vanity URLs in the returned data frame on Connect
+  v2024.06.0 and later. (#398)
 
 # connectapi 0.7.0
 
