@@ -220,7 +220,6 @@ get_content <- function(
   guid = NULL,
   owner_guid = NULL,
   name = NULL,
-  include = c("tags", "owner", "vanity_url"),
   ...,
   .p = NULL
 ) {
