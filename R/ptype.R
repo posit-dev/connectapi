@@ -38,6 +38,13 @@ connectapi_ptypes <- list(
     "bundle_id" = NA_character_,
     "data_version" = NA_integer_
   ),
+  usage = tibble::tibble(
+    "id" = NA_integer_,
+    "user_guid" = NA_character_,
+    "content_guid" = NA_character_,
+    "timestamp" = NA_datetime_,
+    "data" = NA_list_
+  ),
   content = tibble::tibble(
     "guid" = NA_character_,
     "name" = NA_character_,

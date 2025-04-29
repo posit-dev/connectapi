@@ -479,6 +479,21 @@ get_usage_static <- function(src, content_guid = NULL,
 }
 
 
+get_usage <- function(client, from = NULL, to = NULL) {
+  from <- format(from, "%Y-%m-%dT%H:%M:%SZ")
+  to <- format(to, "%Y-%m-%dT%H:%M:%SZ")
+  usage_raw <- client$GET(
+    connectapi:::v1_url("instrumentation", "content", "hits"),
+    query = list(
+      from = from,
+      to = to
+    )
+  )
+
+  parse_connectapi_typed(usage_raw, connectapi_ptypes$usage)
+}
+
+
 #' Get Audit Logs from Posit Connect Server
 #'
 #' @param src The source object

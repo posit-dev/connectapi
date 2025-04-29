@@ -770,6 +770,16 @@ Connect <- R6::R6Class(
       self$GET(path, query = query)
     },
 
+    inst_content_hits = function(from = NULL, to = NULL) {
+      self$GET(
+        v1_url("instrumentation", "content", "hits"),
+        query = list(
+          from = from,
+          to = to
+        )
+      )
+    }
+
     #' @description Get running processes.
     procs = function() {
       warn_experimental("procs")
