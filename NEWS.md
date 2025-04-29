@@ -1,5 +1,9 @@
 # connectapi (development version)
 
+## Enhancements and fixes
+
+- `get_groups()` now paginates through all results when a `prefix` is provided, if the Connect server API version supports pagination. (#328)
+
 # connectapi 0.7.0
 
 ## New features
