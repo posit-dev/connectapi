@@ -4,15 +4,7 @@
 \alias{get_content}
 \title{Get information about content on the Posit Connect server}
 \usage{
-get_content(
-  src,
-  guid = NULL,
-  owner_guid = NULL,
-  name = NULL,
-  include = c("tags", "owner", "vanity_url"),
-  ...,
-  .p = NULL
-)
+get_content(src, guid = NULL, owner_guid = NULL, name = NULL, ..., .p = NULL)
 }
 \arguments{
 \item{src}{A Connect object}
