@@ -2,7 +2,10 @@
 
 ## Enhancements and fixes
 
-- `get_groups()` now paginates through all results when a `prefix` is provided, if the Connect server API version supports pagination. (#328)
+- `get_groups()` now paginates through all results when a `prefix` is provided,
+  if the Connect server API version supports pagination. (#328)
+- Timestamps from the Connect server are now displayed in your local time zone,
+  rather than in UTC. (#400)
 
 # connectapi 0.7.0
 

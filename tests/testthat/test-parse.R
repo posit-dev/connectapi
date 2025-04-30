@@ -47,8 +47,6 @@ test_that("coerce_datetime fills the void", {
 })
 
 test_that("parse_connect_rfc3339() parses timestamps with offsets as expected", {
-  withr::defer(Sys.setenv(TZ = Sys.getenv("TZ")))
-
   x_mixed <- c(
     "2023-08-22T14:13:14Z",
     "2020-01-01T01:02:03Z",
@@ -75,16 +73,15 @@ test_that("parse_connect_rfc3339() parses timestamps with offsets as expected", 
 
   single_offset <- "2023-08-22T15:13:14+01:00"
 
+  withr::local_envvar(TZ = "America/New_York")
   expected <- as.POSIXct(strptime(
     c(
       "2023-08-22T14:13:14+0000",
       "2020-01-01T01:02:03+0000"
     ),
     format = "%Y-%m-%dT%H:%M:%S%z",
-    tz = "UTC"
+    tz = Sys.timezone()
   ))
-
-  Sys.setenv(TZ = "America/New_York")
   expect_identical(parse_connect_rfc3339(x_mixed), rep(expected, 2))
   expect_identical(parse_connect_rfc3339(x_zero_offset), expected)
   expect_identical(parse_connect_rfc3339(x_plus_one), expected)
@@ -92,7 +89,15 @@ test_that("parse_connect_rfc3339() parses timestamps with offsets as expected", 
   expect_identical(parse_connect_rfc3339(single_zero_offset), expected[1])
   expect_identical(parse_connect_rfc3339(single_offset), expected[1])
 
-  Sys.setenv(TZ = "UTC")
+  withr::local_envvar(TZ = "UTC")
+  expected <- as.POSIXct(strptime(
+    c(
+      "2023-08-22T14:13:14+0000",
+      "2020-01-01T01:02:03+0000"
+    ),
+    format = "%Y-%m-%dT%H:%M:%S%z",
+    tz = Sys.timezone()
+  ))
   expect_identical(parse_connect_rfc3339(x_mixed), rep(expected, 2))
   expect_identical(parse_connect_rfc3339(x_zero_offset), expected)
   expect_identical(parse_connect_rfc3339(x_plus_one), expected)
@@ -100,7 +105,15 @@ test_that("parse_connect_rfc3339() parses timestamps with offsets as expected", 
   expect_identical(parse_connect_rfc3339(single_zero_offset), expected[1])
   expect_identical(parse_connect_rfc3339(single_offset), expected[1])
 
-  Sys.setenv(TZ = "Asia/Tokyo")
+  withr::local_envvar(TZ = "Asia/Tokyo")
+  expected <- as.POSIXct(strptime(
+    c(
+      "2023-08-22T14:13:14+0000",
+      "2020-01-01T01:02:03+0000"
+    ),
+    format = "%Y-%m-%dT%H:%M:%S%z",
+    tz = Sys.timezone()
+  ))
   expect_identical(parse_connect_rfc3339(x_mixed), rep(expected, 2))
   expect_identical(parse_connect_rfc3339(x_zero_offset), expected)
   expect_identical(parse_connect_rfc3339(x_plus_one), expected)
@@ -109,7 +122,9 @@ test_that("parse_connect_rfc3339() parses timestamps with offsets as expected", 
   expect_identical(parse_connect_rfc3339(single_offset), expected[1])
 })
 
+
 test_that("parse_connect_rfc3339() handles fractional seconds", {
+  withr::local_envvar(TZ = "UTC")
   expected <- as.POSIXct(strptime(
     c(
       "2024-12-06T19:09:29.948016766+0000",
@@ -125,8 +140,6 @@ test_that("parse_connect_rfc3339() handles fractional seconds", {
 })
 
 test_that("make_timestamp produces expected output", {
-  withr::defer(Sys.setenv(TZ = Sys.getenv("TZ")))
-
   x_mixed <- c(
     "2023-08-22T14:13:14Z",
     "2020-01-01T01:02:03Z",
@@ -158,7 +171,7 @@ test_that("make_timestamp produces expected output", {
     "2020-01-01T01:02:03Z"
   )
 
-  Sys.setenv(TZ = "America/New_York")
+  withr::local_envvar(TZ = "America/New_York")
   expect_equal(
     make_timestamp(coerce_datetime(x_mixed, NA_datetime_)),
     rep(outcome, 2)
@@ -185,7 +198,7 @@ test_that("make_timestamp produces expected output", {
   )
   expect_equal(make_timestamp(outcome), outcome)
 
-  Sys.setenv(TZ = "UTC")
+  withr::local_envvar(TZ = "UTC")
   expect_equal(
     make_timestamp(coerce_datetime(x_mixed, NA_datetime_)),
     rep(outcome, 2)
@@ -212,7 +225,7 @@ test_that("make_timestamp produces expected output", {
   )
   expect_equal(make_timestamp(outcome), outcome)
 
-  Sys.setenv(TZ = "Asia/Tokyo")
+  withr::local_envvar(TZ = "Asia/Tokyo")
   expect_equal(
     make_timestamp(coerce_datetime(x_mixed, NA_datetime_)),
     rep(outcome, 2)
