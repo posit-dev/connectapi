@@ -14,10 +14,9 @@ get_groups(src, page_size = 500, prefix = NULL, limit = Inf)
 \item{prefix}{Filters groups by prefix (group name).
 The filter is case insensitive.}
 
-\item{limit}{The number of groups to retrieve before paging stops.
-
-\code{limit} will be ignored is \code{prefix} is not \code{NULL}.
-To limit results when \code{prefix} is not \code{NULL}, change \code{page_size}.}
+\item{limit}{The number of groups to retrieve before paging stops. Default
+is to return all results; however, for Connect server versions older than
+2025.04.0, \code{limit} is capped at 500 when \code{prefix} is provided.}
 }
 \value{
 A tibble with the following columns:

@@ -1,5 +1,10 @@
 # connectapi (development version)
 
+
+## Enhancements and fixes
+
+- `get_groups()` now paginates through all results when a `prefix` is provided,
+  if the Connect server API version supports pagination. (#328)
 - `get_content()` now includes vanity URLs in the returned data frame on Connect
   v2024.06.0 and later. (#398)
 
