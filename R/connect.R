@@ -778,7 +778,7 @@ Connect <- R6::R6Class(
           to = to
         )
       )
-    }
+    },
 
     #' @description Get running processes.
     procs = function() {

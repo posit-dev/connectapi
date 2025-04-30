@@ -1,5 +1,10 @@
 # connectapi (development version)
 
+## New features
+
+- New `get_usage()` function returns content usage data from Connect's `GET
+  v1/instrumentation/content/hits` endpoint.
+
 # connectapi 0.7.0
 
 ## New features
