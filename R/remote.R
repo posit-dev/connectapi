@@ -97,13 +97,7 @@ groups_create_remote <- function(
 ) {
   expect <- as.integer(expect)
   if (check) {
-    # TODO: limit = 1 due to a paging bug in Posit Connect
-    local_groups <- get_groups(
-      connect,
-      page_size = 500,
-      prefix = prefix,
-      limit = 1
-    )
+    local_groups <- get_groups(connect, prefix = prefix)
     if (exact) {
       local_groups <- local_groups[local_groups["name"] == prefix, ]
     }
@@ -151,5 +145,5 @@ groups_create_remote <- function(
     src = connect
   )
   message("Done creating remote groups")
-  return(get_groups(connect, prefix = prefix, limit = 1))
+  get_groups(connect, prefix = prefix)
 }

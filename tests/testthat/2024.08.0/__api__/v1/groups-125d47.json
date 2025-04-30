@@ -1,5 +1,5 @@
 // get_groups(client, page_size = 5, limit = 10)
-// used in test-get.R
+// used in test-groups.R
 {
     "results": [
         {
