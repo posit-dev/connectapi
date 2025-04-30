@@ -47,7 +47,10 @@ test_that("coerce_datetime fills the void", {
 })
 
 test_that("parse_connect_rfc3339() parses timestamps with offsets as expected", {
-  withr::defer(Sys.setenv(TZ = Sys.getenv("TZ")))
+  original_tz <- Sys.getenv("TZ")
+  withr::defer({
+    Sys.setenv(TZ = original_tz)
+  })
 
   x_mixed <- c(
     "2023-08-22T14:13:14Z",
@@ -75,16 +78,15 @@ test_that("parse_connect_rfc3339() parses timestamps with offsets as expected", 
 
   single_offset <- "2023-08-22T15:13:14+01:00"
 
+  Sys.setenv(TZ = "America/New_York")
   expected <- as.POSIXct(strptime(
     c(
       "2023-08-22T14:13:14+0000",
       "2020-01-01T01:02:03+0000"
     ),
     format = "%Y-%m-%dT%H:%M:%S%z",
-    tz = "UTC"
+    tz = Sys.timezone()
   ))
-
-  Sys.setenv(TZ = "America/New_York")
   expect_identical(parse_connect_rfc3339(x_mixed), rep(expected, 2))
   expect_identical(parse_connect_rfc3339(x_zero_offset), expected)
   expect_identical(parse_connect_rfc3339(x_plus_one), expected)
@@ -93,6 +95,14 @@ test_that("parse_connect_rfc3339() parses timestamps with offsets as expected", 
   expect_identical(parse_connect_rfc3339(single_offset), expected[1])
 
   Sys.setenv(TZ = "UTC")
+  expected <- as.POSIXct(strptime(
+    c(
+      "2023-08-22T14:13:14+0000",
+      "2020-01-01T01:02:03+0000"
+    ),
+    format = "%Y-%m-%dT%H:%M:%S%z",
+    tz = Sys.timezone()
+  ))
   expect_identical(parse_connect_rfc3339(x_mixed), rep(expected, 2))
   expect_identical(parse_connect_rfc3339(x_zero_offset), expected)
   expect_identical(parse_connect_rfc3339(x_plus_one), expected)
@@ -101,6 +111,14 @@ test_that("parse_connect_rfc3339() parses timestamps with offsets as expected", 
   expect_identical(parse_connect_rfc3339(single_offset), expected[1])
 
   Sys.setenv(TZ = "Asia/Tokyo")
+  expected <- as.POSIXct(strptime(
+    c(
+      "2023-08-22T14:13:14+0000",
+      "2020-01-01T01:02:03+0000"
+    ),
+    format = "%Y-%m-%dT%H:%M:%S%z",
+    tz = Sys.timezone()
+  ))
   expect_identical(parse_connect_rfc3339(x_mixed), rep(expected, 2))
   expect_identical(parse_connect_rfc3339(x_zero_offset), expected)
   expect_identical(parse_connect_rfc3339(x_plus_one), expected)
@@ -109,7 +127,14 @@ test_that("parse_connect_rfc3339() parses timestamps with offsets as expected", 
   expect_identical(parse_connect_rfc3339(single_offset), expected[1])
 })
 
+
 test_that("parse_connect_rfc3339() handles fractional seconds", {
+  original_tz <- Sys.getenv("TZ")
+  withr::defer({
+    Sys.setenv(TZ = original_tz)
+  })
+
+  Sys.setenv(TZ = "UTC")
   expected <- as.POSIXct(strptime(
     c(
       "2024-12-06T19:09:29.948016766+0000",
@@ -125,7 +150,10 @@ test_that("parse_connect_rfc3339() handles fractional seconds", {
 })
 
 test_that("make_timestamp produces expected output", {
-  withr::defer(Sys.setenv(TZ = Sys.getenv("TZ")))
+  original_tz <- Sys.getenv("TZ")
+  withr::defer({
+    Sys.setenv(TZ = original_tz)
+  })
 
   x_mixed <- c(
     "2023-08-22T14:13:14Z",
