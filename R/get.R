@@ -225,6 +225,8 @@ get_content <- function(
 ) {
   validate_R6_class(src, "Connect")
 
+  # The capability to return vanity URLs `vanity_url` was added in Connect
+  # v2024.06.0.
   if (compare_connect_version(src$version, "2024.06.0") < 0) {
     include <- "tags,owner"
     content_ptype <- connectapi_ptypes$content[,
