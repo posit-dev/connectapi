@@ -156,7 +156,7 @@ coerce_datetime <- function(x, to, ...) {
 parse_connect_rfc3339 <- function(x) {
   # Convert timestamps with offsets to a format recognized by `strptime`.
   x <- gsub("([+-]\\d\\d):(\\d\\d)$", "\\1\\2", x)
-  x <- sub("Z$", "+0000", x)
+  x <- gsub("Z$", "+0000", x)
 
   # Parse with an inner call to `strptime()`, which returns a POSIXlt object,
   # and convert that to `POSIXct`.
