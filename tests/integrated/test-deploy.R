@@ -9,7 +9,11 @@ cont1_content <- NULL
 # bundle ---------------------------------------------------
 
 test_that("bundle_static deploys", {
-  bnd <- bundle_static(path = rprojroot::find_package_root_file("tests/testthat/examples/static/test.png"))
+  bnd <- bundle_static(
+    path = rprojroot::find_package_root_file(
+      "tests/testthat/examples/static/test.png"
+    )
+  )
   uniq_id <- uuid::UUIDgenerate()
   deployed <- deploy(test_conn_1, bnd, uniq_id)
 
@@ -21,14 +25,21 @@ test_that("bundle_static deploys", {
 })
 
 test_that("bundle_dir deploys", {
-  dir_path <- rprojroot::find_package_root_file("tests/testthat/examples/static")
+  dir_path <- rprojroot::find_package_root_file(
+    "tests/testthat/examples/static"
+  )
   tmp_file <- fs::file_temp(pattern = "bundle", ext = ".tar.gz")
   bund <- bundle_dir(path = dir_path, filename = tmp_file)
 
   expect_equal(tmp_file, bund$path)
 
   # with a name / title
-  tsk <- deploy(connect = test_conn_1, bundle = bund, name = cont1_name, title = cont1_title)
+  tsk <- deploy(
+    connect = test_conn_1,
+    bundle = bund,
+    name = cont1_name,
+    title = cont1_title
+  )
 
   cont1_guid <<- tsk$get_content()$guid
   cont1_content <<- tsk
@@ -50,7 +61,9 @@ test_that("bundle_dir deploys", {
 })
 
 test_that("bundle_path deploys", {
-  tar_path <- rprojroot::find_package_root_file("tests/testthat/examples/static.tar.gz")
+  tar_path <- rprojroot::find_package_root_file(
+    "tests/testthat/examples/static.tar.gz"
+  )
   bund <- bundle_path(path = tar_path)
 
   expect_equal(tar_path, as.character(bund$path))
@@ -63,7 +76,9 @@ test_that("bundle_path deploys", {
 })
 
 test_that("download_bundle works", {
-  tar_path <- rprojroot::find_package_root_file("tests/testthat/examples/static.tar.gz")
+  tar_path <- rprojroot::find_package_root_file(
+    "tests/testthat/examples/static.tar.gz"
+  )
   bund <- bundle_path(path = tar_path)
 
   tsk <- deploy(connect = test_conn_1, bundle = bund)
@@ -72,13 +87,18 @@ test_that("download_bundle works", {
 
   # TODO: is shasum always available...? A way to do without the shell?
   expect_equal(
-    system(glue::glue("shasum {downloaded$path} | cut -d ' ' -f 1"), intern = TRUE),
+    system(
+      glue::glue("shasum {downloaded$path} | cut -d ' ' -f 1"),
+      intern = TRUE
+    ),
     system(glue::glue("shasum {bund$path} | cut -d ' ' -f 1"), intern = TRUE)
   )
 })
 
 test_that("delete_bundle() and get_bundles() work", {
-  tar_path <- rprojroot::find_package_root_file("tests/testthat/examples/static.tar.gz")
+  tar_path <- rprojroot::find_package_root_file(
+    "tests/testthat/examples/static.tar.gz"
+  )
   bund <- bundle_path(path = tar_path)
 
   tsk <- deploy(connect = test_conn_1, bundle = bund)
@@ -116,7 +136,11 @@ test_that("delete_bundle() and get_bundles() work", {
 # deploy ---------------------------------------------------
 
 test_that("strange name re-casing does not break things", {
-  bnd <- bundle_static(path = rprojroot::find_package_root_file("tests/testthat/examples/static/test.png"))
+  bnd <- bundle_static(
+    path = rprojroot::find_package_root_file(
+      "tests/testthat/examples/static/test.png"
+    )
+  )
   testname <- "test_Test_45"
   deploy1 <- deploy(test_conn_1, bnd, testname)
   deploy2 <- deploy(test_conn_1, bnd, testname)
@@ -128,7 +152,11 @@ test_that("strange name re-casing does not break things", {
 
 test_that(".pre_deploy hook works", {
   scoped_experimental_silence()
-  bnd <- bundle_static(path = rprojroot::find_package_root_file("tests/testthat/examples/static/test.png"))
+  bnd <- bundle_static(
+    path = rprojroot::find_package_root_file(
+      "tests/testthat/examples/static/test.png"
+    )
+  )
   deployed <- deploy(test_conn_1, bnd, uuid::UUIDgenerate(), .pre_deploy = {
     content %>% set_vanity_url(glue::glue("pre_deploy_{bundle_id}"))
   })
@@ -141,7 +169,9 @@ test_that(".pre_deploy hook works", {
 })
 
 test_that("deploy_current works", {
-  tar_path <- rprojroot::find_package_root_file("tests/testthat/examples/static.tar.gz")
+  tar_path <- rprojroot::find_package_root_file(
+    "tests/testthat/examples/static.tar.gz"
+  )
   bund <- bundle_path(path = tar_path)
 
   tsk <- deploy(connect = test_conn_1, bundle = bund)
@@ -167,7 +197,9 @@ test_that("deploy_current works", {
 
 test_that("set_image_path works", {
   scoped_experimental_silence()
-  img_path <- rprojroot::find_package_root_file("tests/testthat/examples/logo.png")
+  img_path <- rprojroot::find_package_root_file(
+    "tests/testthat/examples/logo.png"
+  )
 
   res <- set_image_path(cont1_content, img_path)
 
@@ -176,7 +208,9 @@ test_that("set_image_path works", {
 
 test_that("get_image works", {
   scoped_experimental_silence()
-  img_path <- rprojroot::find_package_root_file("tests/testthat/examples/logo.png")
+  img_path <- rprojroot::find_package_root_file(
+    "tests/testthat/examples/logo.png"
+  )
 
   tmp_img <- fs::file_temp(pattern = "img", ext = ".png")
   get_image(cont1_content, tmp_img)
@@ -211,12 +245,17 @@ test_that("has_image works with an image", {
 test_that("delete_image works", {
   scoped_experimental_silence()
   # from above
-  img_path <- rprojroot::find_package_root_file("tests/testthat/examples/logo.png")
+  img_path <- rprojroot::find_package_root_file(
+    "tests/testthat/examples/logo.png"
+  )
 
   tmp_img <- fs::file_temp(pattern = "img", ext = ".png")
   # retains the image at the path
   expect_false(fs::file_exists(tmp_img))
-  expect_true(validate_R6_class(delete_image(cont1_content, tmp_img), "Content"))
+  expect_true(validate_R6_class(
+    delete_image(cont1_content, tmp_img),
+    "Content"
+  ))
   expect_true(fs::file_exists(tmp_img))
   expect_identical(
     readBin(img_path, "raw"),
@@ -251,7 +290,10 @@ test_that("set_image_url works", {
   # downloading the favicon, used in the test as the remote image.
   skip_if_connect_older_than(cont1_content$connect, "2021.09.0")
 
-  res <- set_image_url(cont1_content, glue::glue("{cont1_content$get_connect()$server}/connect/__favicon__"))
+  res <- set_image_url(
+    cont1_content,
+    glue::glue("{cont1_content$get_connect()$server}/connect/__favicon__")
+  )
 
   expect_true(validate_R6_class(res, "Content"))
 
@@ -283,7 +325,11 @@ test_that("set_image_webshot works", {
 
 test_that("set_vanity_url works", {
   new_name <- uuid::UUIDgenerate()
-  bnd <- bundle_static(path = rprojroot::find_package_root_file("tests/testthat/examples/static/test.png"))
+  bnd <- bundle_static(
+    path = rprojroot::find_package_root_file(
+      "tests/testthat/examples/static/test.png"
+    )
+  )
   cont1 <- deploy(test_conn_1, bnd, name = new_name)
   res <- set_vanity_url(cont1, new_name)
 
@@ -297,14 +343,21 @@ test_that("set_vanity_url works", {
 
 test_that("set_vanity_url force works", {
   new_name <- uuid::UUIDgenerate()
-  bnd <- bundle_static(path = rprojroot::find_package_root_file("tests/testthat/examples/static/test.png"))
+  bnd <- bundle_static(
+    path = rprojroot::find_package_root_file(
+      "tests/testthat/examples/static/test.png"
+    )
+  )
   cont <- deploy(test_conn_1, bnd, name = new_name)
   res <- set_vanity_url(cont, new_name)
 
   another_name <- uuid::UUIDgenerate()
   cont2 <- deploy(test_conn_1, bnd, name = another_name)
 
-  expect_error(suppressMessages(set_vanity_url(cont2, new_name, force = FALSE), "409"))
+  expect_error(suppressMessages(
+    set_vanity_url(cont2, new_name, force = FALSE),
+    "409"
+  ))
 
   res2 <- set_vanity_url(cont2, new_name, force = TRUE)
   expect_identical(
@@ -355,14 +408,23 @@ test_that("delete_vanity_url works", {
 test_that("swap_vanity_urls works", {
   tmp_content_a_name <- uuid::UUIDgenerate()
   tmp_content_a_prep <- content_ensure(test_conn_1, name = tmp_content_a_name)
-  tmp_content_a <- Content$new(connect = test_conn_1, content = tmp_content_a_prep)
+  tmp_content_a <- Content$new(
+    connect = test_conn_1,
+    content = tmp_content_a_prep
+  )
 
   tmp_content_b_name <- uuid::UUIDgenerate()
   tmp_content_b_prep <- content_ensure(test_conn_1, name = tmp_content_b_name)
-  tmp_content_b <- Content$new(connect = test_conn_1, content = tmp_content_b_prep)
+  tmp_content_b <- Content$new(
+    connect = test_conn_1,
+    content = tmp_content_b_prep
+  )
 
   # warns with no vanity urls
-  res <- suppressMessages(expect_warning(swap_vanity_urls(tmp_content_a, tmp_content_b)))
+  res <- suppressMessages(expect_warning(swap_vanity_urls(
+    tmp_content_a,
+    tmp_content_b
+  )))
   expect_null(res[["content_a"]])
   expect_null(res[["content_b"]])
 
@@ -423,12 +485,17 @@ test_that("dashboard_url resolves properly", {
 })
 
 test_that("deployment timestamps respect timezone", {
-  bnd <- bundle_static(path = rprojroot::find_package_root_file("tests/testthat/examples/static/test.png"))
+  bnd <- bundle_static(
+    path = rprojroot::find_package_root_file(
+      "tests/testthat/examples/static/test.png"
+    )
+  )
   myc <- deploy(test_conn_1, bnd)
   myc_guid <- myc$get_content()$guid
 
   # will fail without the png package
-  invisible(tryCatch(test_conn_1$GET(url = myc$get_url()), error = function(e) {}))
+  invisible(tryCatch(test_conn_1$GET(url = myc$get_url()), error = function(e) {
+  }))
 
   all_usage <- get_usage_static(test_conn_1, content_guid = myc_guid)
   for (i in 1:5) {
@@ -445,14 +512,19 @@ test_that("deployment timestamps respect timezone", {
 
   # we just did this, so it should be less than 1 minute ago...
   # (really protecting against being off by hours b/c of timezone differences)
-  expect_lt(Sys.time() - all_usage$time, lubridate::make_difftime(60, "seconds"))
+  expect_lt(
+    Sys.time() - all_usage$time,
+    lubridate::make_difftime(60, "seconds")
+  )
 })
 
 # thumbnail ---------------------------------------------------
 
 test_that("set_thumbnail works with local images", {
   scoped_experimental_silence()
-  img_path <- rprojroot::find_package_root_file("tests/testthat/examples/logo.png")
+  img_path <- rprojroot::find_package_root_file(
+    "tests/testthat/examples/logo.png"
+  )
 
   res <- set_thumbnail(cont1_content, img_path)
 
@@ -461,7 +533,9 @@ test_that("set_thumbnail works with local images", {
 
 test_that("get_thumbnail works", {
   scoped_experimental_silence()
-  img_path <- rprojroot::find_package_root_file("tests/testthat/examples/logo.png")
+  img_path <- rprojroot::find_package_root_file(
+    "tests/testthat/examples/logo.png"
+  )
 
   tmp_img <- fs::file_temp(pattern = "img", ext = ".png")
   get_thumbnail(cont1_content, tmp_img)
@@ -526,7 +600,10 @@ test_that("set_thumbnail works with remote paths", {
   # downloading the favicon, used in the test as the remote image.
   skip_if_connect_older_than(cont1_content$connect, "2021.09.0")
 
-  res <- set_thumbnail(cont1_content, glue::glue("{cont1_content$get_connect()$server}/connect/__favicon__"))
+  res <- set_thumbnail(
+    cont1_content,
+    glue::glue("{cont1_content$get_connect()$server}/connect/__favicon__")
+  )
 
   expect_true(validate_R6_class(res, "Content"))
 })

@@ -1,5 +1,3 @@
-
-
 test_that("groups_create_remote: succeed when no local group exists", {
   client <- MockConnect$new()
   client$mock_response(
@@ -48,7 +46,6 @@ test_that("groups_create_remote: succeed when no local group exists", {
       total = 1L
     )
   )
-
 
   expect_message(
     res <- groups_create_remote(client, "Everyone"),
@@ -152,7 +149,8 @@ test_that("groups_create_remote: err if number of remote groups != `expect`", {
   )
   expect_equal(
     client$call_log,
-    c("GET https://connect.example/__api__/v1/groups",
+    c(
+      "GET https://connect.example/__api__/v1/groups",
       "GET https://connect.example/__api__/v1/groups/remote"
     )
   )
@@ -249,7 +247,10 @@ test_that("groups_create_remote: create groups if multiple found and n == `expec
 })
 
 with_mock_api({
-  mock_dir_client <- Connect$new(server = "https://connect.example", api_key = "fake")
+  mock_dir_client <- Connect$new(
+    server = "https://connect.example",
+    api_key = "fake"
+  )
 
   test_that("groups_create_remote: err when local and remote groups return no matches", {
     expect_error(
@@ -275,7 +276,6 @@ with_mock_api({
   })
 
   test_that("groups_create_remote: only consider exact matches when exact is TRUE", {
-
     expect_message(
       groups_create_remote(mock_dir_client, "Art", exact = TRUE),
       "Creating remote group"

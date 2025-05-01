@@ -10,7 +10,6 @@
 # - see if (2) can be skipped now by refactoring...
 # - see if (3) can be lumped into (4)?
 
-
 #' Get all Tags on the server
 #'
 #' Tag manipulation and assignment functions
@@ -116,7 +115,9 @@ delete_tag <- function(src, tag) {
     tag_id <- tag
   } else if (inherits(tag, "connect_tag_tree")) {
     if (is.null(tag[["id"]])) {
-      stop("`tag` must reference some tag specifically, and not the entire tag tree")
+      stop(
+        "`tag` must reference some tag specifically, and not the entire tag tree"
+      )
     }
     tag_id <- tag[["id"]]
   } else {
@@ -192,7 +193,10 @@ get_content_tags <- function(content) {
   # TODO: find a way to build a tag tree from a list of tags
 
   tagtree <- get_tags(content$get_connect())
-  res <- filter_tag_tree_id(tagtree, purrr::map_chr(ctags, ~ as.character(.x$id)))
+  res <- filter_tag_tree_id(
+    tagtree,
+    purrr::map_chr(ctags, ~ as.character(.x$id))
+  )
   attr(res, "filter") <- "content"
   res
 }
@@ -204,7 +208,9 @@ set_content_tag_tree <- function(content, ...) {
 
   params <- rlang::list2(...)
   if (length(params) == 1) {
-    stop("cannot assign a category to an app. Please specify an additional tag level")
+    stop(
+      "cannot assign a category to an app. Please specify an additional tag level"
+    )
   }
 
   tags <- get_tags(content$get_connect())
@@ -298,9 +304,16 @@ tag_tree_parse_data <- function(tag_data) {
   if (tibble::is_tibble(tag_data)) {
     tag_data <- purrr::transpose(tag_data)
   }
-  base_categories <- purrr::keep(tag_data, ~ is.null(.x[["parent_id"]]) || is.na(.x[["parent_id"]]))
+  base_categories <- purrr::keep(
+    tag_data,
+    ~ is.null(.x[["parent_id"]]) || is.na(.x[["parent_id"]])
+  )
 
-  output <- purrr::map(base_categories, tag_tree_parse_data_impl, tag_data = tag_data)
+  output <- purrr::map(
+    base_categories,
+    tag_tree_parse_data_impl,
+    tag_data = tag_data
+  )
 
   return(output)
 }
@@ -308,11 +321,17 @@ tag_tree_parse_data <- function(tag_data) {
 tag_tree_parse_data_impl <- function(target, tag_data) {
   filtered_data <- purrr::keep(
     tag_data,
-    ~ !is.null(.x[["parent_id"]]) && !is.na(.x[["parent_id"]]) && .x[["parent_id"]] == target[["id"]]
+    ~ !is.null(.x[["parent_id"]]) &&
+      !is.na(.x[["parent_id"]]) &&
+      .x[["parent_id"]] == target[["id"]]
   )
 
   # recurse through the tree
-  output <- purrr::map(filtered_data, tag_tree_parse_data_impl, tag_data = tag_data)
+  output <- purrr::map(
+    filtered_data,
+    tag_tree_parse_data_impl,
+    tag_data = tag_data
+  )
 
   # what we get back needs to become "children"
   target[["children"]] <- output
@@ -367,7 +386,10 @@ recursive_find_tag <- function(tags, tag, parent_id = NULL) {
   tags_noname <- tags
   tags_noname$name <- NULL
   tags_noname$id <- NULL
-  recurse_res <- purrr::map_chr(tags_noname, ~ as.character(recursive_find_tag(.x, tag, parent_id)))
+  recurse_res <- purrr::map_chr(
+    tags_noname,
+    ~ as.character(recursive_find_tag(.x, tag, parent_id))
+  )
   recurse_res_any <- recurse_res[!is.na(recurse_res)]
   if (length(recurse_res_any) == 0) {
     recurse_res_any <- NA_real_
@@ -380,7 +402,9 @@ recursive_find_tag <- function(tags, tag, parent_id = NULL) {
     res <- tags$id
     names(res) <- NULL
     return(res)
-  } else if (!is.null(parent_id) && tags$id == parent_id && tag %in% names(tags_noname)) {
+  } else if (
+    !is.null(parent_id) && tags$id == parent_id && tag %in% names(tags_noname)
+  ) {
     res <- tags[[tag]]$id
     names(res) <- NULL
     return(res)
@@ -388,8 +412,6 @@ recursive_find_tag <- function(tags, tag, parent_id = NULL) {
     return(NA_real_)
   }
 }
-
-
 
 
 recursive_tag_print <- function(x, indent) {
@@ -438,7 +460,10 @@ recursive_tag_restructure <- function(.x) {
       .x$name
     )
   } else {
-    rlang::set_names(list(list(id = as.character(.x$id), name = .x$name)), .x$name)
+    rlang::set_names(
+      list(list(id = as.character(.x$id), name = .x$name)),
+      .x$name
+    )
   }
 }
 
@@ -447,22 +472,25 @@ tag_tree <- function(.x) {
 }
 
 parse_tags_tbl <- function(x) {
-  parsed_tags <- purrr::map_dfr(x, ~ {
-    out <- tibble::tibble(
-      id = as.character(.x$id),
-      name = .x$name,
-      created_time = .x$created_time,
-      updated_time = .x$updated_time,
-      parent_id = ifelse(is.null(.x$parent_id), NA_character_, .x$parent_id)
-    )
+  parsed_tags <- purrr::map_dfr(
+    x,
+    ~ {
+      out <- tibble::tibble(
+        id = as.character(.x$id),
+        name = .x$name,
+        created_time = .x$created_time,
+        updated_time = .x$updated_time,
+        parent_id = ifelse(is.null(.x$parent_id), NA_character_, .x$parent_id)
+      )
 
-    if (length(.x$children) > 0) {
-      child <- parse_tags_tbl(.x$children)
-      out <- rbind(out, child)
+      if (length(.x$children) > 0) {
+        child <- parse_tags_tbl(.x$children)
+        out <- rbind(out, child)
+      }
+
+      return(out)
     }
-
-    return(out)
-  })
+  )
 
   return(parsed_tags)
 }

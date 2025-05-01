@@ -19,7 +19,13 @@
 #' @return The results of creating the users.
 #'
 #' @export
-users_create_remote <- function(connect, prefix, expect = 1, check = TRUE, exact = FALSE) {
+users_create_remote <- function(
+  connect,
+  prefix,
+  expect = 1,
+  check = TRUE,
+  exact = FALSE
+) {
   expect <- as.integer(expect)
   if (check) {
     local_users <- get_users(connect, prefix = prefix)
@@ -28,7 +34,9 @@ users_create_remote <- function(connect, prefix, expect = 1, check = TRUE, exact
     }
     if (nrow(local_users) > 0) {
       if (!exact) {
-        message(glue::glue("At least one user with username prefix '{prefix}' already exists"))
+        message(glue::glue(
+          "At least one user with username prefix '{prefix}' already exists"
+        ))
       } else {
         message(glue::glue("A user with username '{prefix}' already exists"))
       }
@@ -39,15 +47,22 @@ users_create_remote <- function(connect, prefix, expect = 1, check = TRUE, exact
   remote_users <- connect$users_remote(prefix = prefix)
   remote_users_res <- remote_users[["results"]]
   if (exact) {
-    remote_users_res <- purrr::keep(remote_users_res, ~ .x[["username"]] == prefix)
+    remote_users_res <- purrr::keep(
+      remote_users_res,
+      ~ .x[["username"]] == prefix
+    )
   }
   if (length(remote_users_res) != expect) {
-    message(glue::glue("Found {length(remote_users_res)} remote users. Expected {expect}"))
+    message(glue::glue(
+      "Found {length(remote_users_res)} remote users. Expected {expect}"
+    ))
     if (length(remote_users_res) > 0) {
       user_str <- toString(purrr::map_chr(remote_users_res, ~ .x[["username"]]))
       message(glue::glue("Users found: {user_str}"))
     }
-    stop("The expected user(s) were not found. Please specify a more accurate 'prefix'")
+    stop(
+      "The expected user(s) were not found. Please specify a more accurate 'prefix'"
+    )
   }
   purrr::map(
     remote_users_res,
@@ -73,20 +88,26 @@ users_create_remote <- function(connect, prefix, expect = 1, check = TRUE, exact
 #' @return The results of creating the groups.
 #'
 #' @export
-groups_create_remote <- function(connect, prefix, expect = 1, check = TRUE, exact = FALSE) {
+groups_create_remote <- function(
+  connect,
+  prefix,
+  expect = 1,
+  check = TRUE,
+  exact = FALSE
+) {
   expect <- as.integer(expect)
   if (check) {
-    # TODO: limit = 1 due to a paging bug in Posit Connect
-    local_groups <- get_groups(connect, page_size = 500, prefix = prefix, limit = 1)
+    local_groups <- get_groups(connect, prefix = prefix)
     if (exact) {
       local_groups <- local_groups[local_groups["name"] == prefix, ]
     }
     if (nrow(local_groups) > 0) {
       if (!exact) {
-        message(glue::glue("At least one group with name prefix '{prefix}' already exists"))
+        message(glue::glue(
+          "At least one group with name prefix '{prefix}' already exists"
+        ))
       } else {
         message(glue::glue("A group with the name '{prefix}' already exists"))
-
       }
       return(local_groups)
     }
@@ -95,15 +116,25 @@ groups_create_remote <- function(connect, prefix, expect = 1, check = TRUE, exac
   remote_groups <- connect$groups_remote(prefix = prefix)
   remote_groups_res <- remote_groups[["results"]]
   if (exact) {
-    remote_groups_res <- purrr::keep(remote_groups_res, ~ .x[["name"]] == prefix)
+    remote_groups_res <- purrr::keep(
+      remote_groups_res,
+      ~ .x[["name"]] == prefix
+    )
   }
   if (length(remote_groups_res) != expect) {
-    message(glue::glue("Found {length(remote_groups_res)} remote groups. Expected {expect}"))
+    message(glue::glue(
+      "Found {length(remote_groups_res)} remote groups. Expected {expect}"
+    ))
     if (length(remote_groups_res) > 0) {
-      groups_found <- glue::glue_collapse(purrr::map_chr(remote_groups_res, ~ .x[["name"]]), sep = ", ")
+      groups_found <- glue::glue_collapse(
+        purrr::map_chr(remote_groups_res, ~ .x[["name"]]),
+        sep = ", "
+      )
       message(glue::glue("Groups found: {groups_found}"))
     }
-    stop("The expected group(s) were not found. Please specify a more accurate 'prefix'")
+    stop(
+      "The expected group(s) were not found. Please specify a more accurate 'prefix'"
+    )
   }
   purrr::map(
     remote_groups_res,
@@ -114,5 +145,5 @@ groups_create_remote <- function(connect, prefix, expect = 1, check = TRUE, exac
     src = connect
   )
   message("Done creating remote groups")
-  return(get_groups(connect, prefix = prefix, limit = 1))
+  get_groups(connect, prefix = prefix)
 }

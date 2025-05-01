@@ -1,6 +1,6 @@
 #' @importFrom utils compareVersion untar
 #' @importFrom lifecycle deprecate_warn
-#' @importFrom rlang arg_match
+#' @importFrom rlang arg_match is_string
 "_PACKAGE"
 
 # Even if we don't currently have any references to functions in lifecycle,

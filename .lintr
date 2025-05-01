@@ -9,6 +9,5 @@ linters: linters_with_defaults(
 exclusions: list(
   "tests/testthat/2024.07.0/",
   "tests/testthat/2024.08.0/",
-  "tests/testthat/2024.09.0/",
-  "inst/scratch/"
+  "tests/testthat/2024.09.0/"
   )

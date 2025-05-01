@@ -1,33 +1,52 @@
 test_that("coerce_fsbytes fills the void", {
   expect_s3_class(coerce_fsbytes(1L, fs::as_fs_bytes(NA_integer_)), "fs_bytes")
   expect_s3_class(coerce_fsbytes(1, fs::as_fs_bytes(NA_integer_)), "fs_bytes")
-  expect_error(coerce_fsbytes(data.frame(), fs::as_fs_bytes(NA_integer_)), class = "vctrs_error_incompatible_type")
+  expect_error(
+    coerce_fsbytes(data.frame(), fs::as_fs_bytes(NA_integer_)),
+    class = "vctrs_error_incompatible_type"
+  )
 })
 
 test_that("coerce_datetime fills the void", {
   chardate <- "2023-10-25T17:04:08Z"
   numdate <- as.double(Sys.time())
   expect_s3_class(coerce_datetime(chardate, NA_datetime_), "POSIXct")
-  expect_s3_class(coerce_datetime(c(chardate, chardate), NA_datetime_), "POSIXct")
+  expect_s3_class(
+    coerce_datetime(c(chardate, chardate), NA_datetime_),
+    "POSIXct"
+  )
   expect_s3_class(coerce_datetime(numdate, NA_datetime_), "POSIXct")
   expect_s3_class(coerce_datetime(c(numdate, numdate), NA_datetime_), "POSIXct")
   expect_s3_class(coerce_datetime(NA_datetime_, NA_datetime_), "POSIXct")
-  expect_s3_class(coerce_datetime(c(NA_datetime_, NA_datetime_), NA_datetime_), "POSIXct")
+  expect_s3_class(
+    coerce_datetime(c(NA_datetime_, NA_datetime_), NA_datetime_),
+    "POSIXct"
+  )
   expect_s3_class(coerce_datetime(NA_integer_, NA_datetime_), "POSIXct")
-  expect_s3_class(coerce_datetime(c(NA_integer_, NA_integer_), NA_datetime_), "POSIXct")
+  expect_s3_class(
+    coerce_datetime(c(NA_integer_, NA_integer_), NA_datetime_),
+    "POSIXct"
+  )
   expect_s3_class(coerce_datetime(NA, NA_datetime_), "POSIXct")
   expect_s3_class(coerce_datetime(c(NA, NA), NA), "POSIXct")
   expect_s3_class(coerce_datetime(NULL, NA), "POSIXct")
 
-  expect_error(coerce_datetime(data.frame(), NA_datetime_), class = "vctrs_error_incompatible_type")
-  expect_error(coerce_datetime(list(), NA_datetime_, name = "list"), class = "vctrs_error_incompatible_type")
+  expect_error(
+    coerce_datetime(data.frame(), NA_datetime_),
+    class = "vctrs_error_incompatible_type"
+  )
+  expect_error(
+    coerce_datetime(list(), NA_datetime_, name = "list"),
+    class = "vctrs_error_incompatible_type"
+  )
 
-  expect_error(coerce_datetime(NA_complex_, NA_datetime_, name = "complexity"), class = "vctrs_error_incompatible_type")
+  expect_error(
+    coerce_datetime(NA_complex_, NA_datetime_, name = "complexity"),
+    class = "vctrs_error_incompatible_type"
+  )
 })
 
 test_that("parse_connect_rfc3339() parses timestamps with offsets as expected", {
-  withr::defer(Sys.setenv(TZ = Sys.getenv("TZ")))
-
   x_mixed <- c(
     "2023-08-22T14:13:14Z",
     "2020-01-01T01:02:03Z",
@@ -54,12 +73,15 @@ test_that("parse_connect_rfc3339() parses timestamps with offsets as expected", 
 
   single_offset <- "2023-08-22T15:13:14+01:00"
 
-  expected <- as.POSIXct(strptime(c(
-    "2023-08-22T14:13:14+0000",
-    "2020-01-01T01:02:03+0000"
-  ), format = "%Y-%m-%dT%H:%M:%S%z", tz = "UTC"))
-
-  Sys.setenv(TZ = "America/New_York")
+  withr::local_envvar(TZ = "America/New_York")
+  expected <- as.POSIXct(strptime(
+    c(
+      "2023-08-22T14:13:14+0000",
+      "2020-01-01T01:02:03+0000"
+    ),
+    format = "%Y-%m-%dT%H:%M:%S%z",
+    tz = Sys.timezone()
+  ))
   expect_identical(parse_connect_rfc3339(x_mixed), rep(expected, 2))
   expect_identical(parse_connect_rfc3339(x_zero_offset), expected)
   expect_identical(parse_connect_rfc3339(x_plus_one), expected)
@@ -67,7 +89,15 @@ test_that("parse_connect_rfc3339() parses timestamps with offsets as expected", 
   expect_identical(parse_connect_rfc3339(single_zero_offset), expected[1])
   expect_identical(parse_connect_rfc3339(single_offset), expected[1])
 
-  Sys.setenv(TZ = "UTC")
+  withr::local_envvar(TZ = "UTC")
+  expected <- as.POSIXct(strptime(
+    c(
+      "2023-08-22T14:13:14+0000",
+      "2020-01-01T01:02:03+0000"
+    ),
+    format = "%Y-%m-%dT%H:%M:%S%z",
+    tz = Sys.timezone()
+  ))
   expect_identical(parse_connect_rfc3339(x_mixed), rep(expected, 2))
   expect_identical(parse_connect_rfc3339(x_zero_offset), expected)
   expect_identical(parse_connect_rfc3339(x_plus_one), expected)
@@ -75,7 +105,15 @@ test_that("parse_connect_rfc3339() parses timestamps with offsets as expected", 
   expect_identical(parse_connect_rfc3339(single_zero_offset), expected[1])
   expect_identical(parse_connect_rfc3339(single_offset), expected[1])
 
-  Sys.setenv(TZ = "Asia/Tokyo")
+  withr::local_envvar(TZ = "Asia/Tokyo")
+  expected <- as.POSIXct(strptime(
+    c(
+      "2023-08-22T14:13:14+0000",
+      "2020-01-01T01:02:03+0000"
+    ),
+    format = "%Y-%m-%dT%H:%M:%S%z",
+    tz = Sys.timezone()
+  ))
   expect_identical(parse_connect_rfc3339(x_mixed), rep(expected, 2))
   expect_identical(parse_connect_rfc3339(x_zero_offset), expected)
   expect_identical(parse_connect_rfc3339(x_plus_one), expected)
@@ -84,11 +122,17 @@ test_that("parse_connect_rfc3339() parses timestamps with offsets as expected", 
   expect_identical(parse_connect_rfc3339(single_offset), expected[1])
 })
 
+
 test_that("parse_connect_rfc3339() handles fractional seconds", {
-  expected <- as.POSIXct(strptime(c(
-    "2024-12-06T19:09:29.948016766+0000",
-    "2024-12-06T19:09:29.948070345+0000"
-  ), format = "%Y-%m-%dT%H:%M:%OS%z", tz = "UTC"))
+  withr::local_envvar(TZ = "UTC")
+  expected <- as.POSIXct(strptime(
+    c(
+      "2024-12-06T19:09:29.948016766+0000",
+      "2024-12-06T19:09:29.948070345+0000"
+    ),
+    format = "%Y-%m-%dT%H:%M:%OS%z",
+    tz = "UTC"
+  ))
 
   x <- c("2024-12-06T19:09:29.948016766Z", "2024-12-06T19:09:29.948070345Z")
 
@@ -96,8 +140,6 @@ test_that("parse_connect_rfc3339() handles fractional seconds", {
 })
 
 test_that("make_timestamp produces expected output", {
-  withr::defer(Sys.setenv(TZ = Sys.getenv("TZ")))
-
   x_mixed <- c(
     "2023-08-22T14:13:14Z",
     "2020-01-01T01:02:03Z",
@@ -129,31 +171,85 @@ test_that("make_timestamp produces expected output", {
     "2020-01-01T01:02:03Z"
   )
 
-  Sys.setenv(TZ = "America/New_York")
-  expect_equal(make_timestamp(coerce_datetime(x_mixed, NA_datetime_)), rep(outcome, 2))
-  expect_equal(make_timestamp(coerce_datetime(x_zero_offset, NA_datetime_)), outcome)
-  expect_equal(make_timestamp(coerce_datetime(x_plus_one, NA_datetime_)), outcome)
-  expect_equal(make_timestamp(coerce_datetime(x_minus_one, NA_datetime_)), outcome)
-  expect_equal(make_timestamp(coerce_datetime(single_zero_offset, NA_datetime_)), outcome[1])
-  expect_equal(make_timestamp(coerce_datetime(single_offset, NA_datetime_)), outcome[1])
+  withr::local_envvar(TZ = "America/New_York")
+  expect_equal(
+    make_timestamp(coerce_datetime(x_mixed, NA_datetime_)),
+    rep(outcome, 2)
+  )
+  expect_equal(
+    make_timestamp(coerce_datetime(x_zero_offset, NA_datetime_)),
+    outcome
+  )
+  expect_equal(
+    make_timestamp(coerce_datetime(x_plus_one, NA_datetime_)),
+    outcome
+  )
+  expect_equal(
+    make_timestamp(coerce_datetime(x_minus_one, NA_datetime_)),
+    outcome
+  )
+  expect_equal(
+    make_timestamp(coerce_datetime(single_zero_offset, NA_datetime_)),
+    outcome[1]
+  )
+  expect_equal(
+    make_timestamp(coerce_datetime(single_offset, NA_datetime_)),
+    outcome[1]
+  )
   expect_equal(make_timestamp(outcome), outcome)
 
-  Sys.setenv(TZ = "UTC")
-  expect_equal(make_timestamp(coerce_datetime(x_mixed, NA_datetime_)), rep(outcome, 2))
-  expect_equal(make_timestamp(coerce_datetime(x_zero_offset, NA_datetime_)), outcome)
-  expect_equal(make_timestamp(coerce_datetime(x_plus_one, NA_datetime_)), outcome)
-  expect_equal(make_timestamp(coerce_datetime(x_minus_one, NA_datetime_)), outcome)
-  expect_equal(make_timestamp(coerce_datetime(single_zero_offset, NA_datetime_)), outcome[1])
-  expect_equal(make_timestamp(coerce_datetime(single_offset, NA_datetime_)), outcome[1])
+  withr::local_envvar(TZ = "UTC")
+  expect_equal(
+    make_timestamp(coerce_datetime(x_mixed, NA_datetime_)),
+    rep(outcome, 2)
+  )
+  expect_equal(
+    make_timestamp(coerce_datetime(x_zero_offset, NA_datetime_)),
+    outcome
+  )
+  expect_equal(
+    make_timestamp(coerce_datetime(x_plus_one, NA_datetime_)),
+    outcome
+  )
+  expect_equal(
+    make_timestamp(coerce_datetime(x_minus_one, NA_datetime_)),
+    outcome
+  )
+  expect_equal(
+    make_timestamp(coerce_datetime(single_zero_offset, NA_datetime_)),
+    outcome[1]
+  )
+  expect_equal(
+    make_timestamp(coerce_datetime(single_offset, NA_datetime_)),
+    outcome[1]
+  )
   expect_equal(make_timestamp(outcome), outcome)
 
-  Sys.setenv(TZ = "Asia/Tokyo")
-  expect_equal(make_timestamp(coerce_datetime(x_mixed, NA_datetime_)), rep(outcome, 2))
-  expect_equal(make_timestamp(coerce_datetime(x_zero_offset, NA_datetime_)), outcome)
-  expect_equal(make_timestamp(coerce_datetime(x_plus_one, NA_datetime_)), outcome)
-  expect_equal(make_timestamp(coerce_datetime(x_minus_one, NA_datetime_)), outcome)
-  expect_equal(make_timestamp(coerce_datetime(single_zero_offset, NA_datetime_)), outcome[1])
-  expect_equal(make_timestamp(coerce_datetime(single_offset, NA_datetime_)), outcome[1])
+  withr::local_envvar(TZ = "Asia/Tokyo")
+  expect_equal(
+    make_timestamp(coerce_datetime(x_mixed, NA_datetime_)),
+    rep(outcome, 2)
+  )
+  expect_equal(
+    make_timestamp(coerce_datetime(x_zero_offset, NA_datetime_)),
+    outcome
+  )
+  expect_equal(
+    make_timestamp(coerce_datetime(x_plus_one, NA_datetime_)),
+    outcome
+  )
+  expect_equal(
+    make_timestamp(coerce_datetime(x_minus_one, NA_datetime_)),
+    outcome
+  )
+  expect_equal(
+    make_timestamp(coerce_datetime(single_zero_offset, NA_datetime_)),
+    outcome[1]
+  )
+  expect_equal(
+    make_timestamp(coerce_datetime(single_offset, NA_datetime_)),
+    outcome[1]
+  )
   expect_equal(make_timestamp(outcome), outcome)
 })
 
@@ -173,7 +269,11 @@ test_that("ensure_column works with lists", {
   expect_s3_class(list_chk_null, "tbl_df")
   expect_type(list_chk_null$hello, "list")
 
-  list_chk_same <- ensure_column(tibble::tibble(hello = list(list(1, 2, 3), list(1, 2, 3, 4))), NA_list_, "hello")
+  list_chk_same <- ensure_column(
+    tibble::tibble(hello = list(list(1, 2, 3), list(1, 2, 3, 4))),
+    NA_list_,
+    "hello"
+  )
   expect_s3_class(list_chk_same, "tbl_df")
   expect_type(list_chk_same$hello, "list")
 })
@@ -183,12 +283,20 @@ test_that("ensure_column works with POSIXct", {
   expect_s3_class(time_chk_null, "tbl_df")
   expect_s3_class(time_chk_null$hello, "POSIXct")
 
-  time_chk_some <- ensure_column(tibble::tibble(one = c(1, 2, 3)), NA_datetime_, "hello")
+  time_chk_some <- ensure_column(
+    tibble::tibble(one = c(1, 2, 3)),
+    NA_datetime_,
+    "hello"
+  )
   expect_s3_class(time_chk_some, "tbl_df")
   expect_s3_class(time_chk_some$hello, "POSIXct")
 
   skip("Ahh! this fails presently. Are double -> POSIXct conversions allowed?")
-  time_chk_convert <- ensure_column(tibble::tibble(hello = c(1, 2, 3)), NA_datetime_, "hello")
+  time_chk_convert <- ensure_column(
+    tibble::tibble(hello = c(1, 2, 3)),
+    NA_datetime_,
+    "hello"
+  )
   expect_s3_class(time_chk_convert, "tbl_df")
   expect_s3_class(time_chk_convert$hello, "POSIXct")
 })
@@ -219,7 +327,10 @@ test_that("works for bad inputs", {
     end_time = NULL,
     app_guid = uuid::UUIDgenerate()
   )
-  res <- connectapi:::parse_connectapi_typed(list(job), connectapi:::connectapi_ptypes$job)
+  res <- connectapi:::parse_connectapi_typed(
+    list(job),
+    connectapi:::connectapi_ptypes$job
+  )
   expect_type(res$stdout, "list")
   expect_type(res$origin, "character")
   expect_s3_class(res$start_time, "POSIXct")

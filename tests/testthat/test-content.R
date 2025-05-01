@@ -13,7 +13,9 @@ test_that("verify_content_name fails for invalid names", {
   expect_error(verify_content_name("a"))
   expect_error(verify_content_name(NA))
   # 65 characters
-  expect_error(verify_content_name("abcdefghijklmnopqrstuvwxyabcdefghijklmnopqrstuvwxyabcdefghijklmno"))
+  expect_error(verify_content_name(
+    "abcdefghijklmnopqrstuvwxyabcdefghijklmnopqrstuvwxyabcdefghijklmno"
+  ))
   expect_error(verify_content_name(NULL))
   expect_error(verify_content_name("abc!@#$"))
   expect_error(verify_content_name("123 abc"))
@@ -54,12 +56,18 @@ with_mock_api({
     item <- content_item(con, "f2f37341-e21d-3d80-c698-a935ad614066")
     # Inject into this function something other than utils::browseURL
     # so we can assert that it is being called without actually trying to open a browser
-    suppressMessages(trace("browse_url", where = connectapi::browse_solo, tracer = quote({
-      browseURL <- # nolint: object_name_linter
-        function(x) {
-          warning(paste("Opening", x))
-        }
-    }), at = 1, print = FALSE))
+    suppressMessages(trace(
+      "browse_url",
+      where = connectapi::browse_solo,
+      tracer = quote({
+        browseURL <- # nolint: object_name_linter
+          function(x) {
+            warning(paste("Opening", x))
+          }
+      }),
+      at = 1,
+      print = FALSE
+    ))
     expect_warning(
       browse_solo(item),
       "Opening https://connect.example/content/f2f37341-e21d-3d80-c698-a935ad614066/"
@@ -105,14 +113,23 @@ with_mock_api({
 
     # Add one
     expect_POST(
-      item$permissions_add("a01792e3-2e67-402e-99af-be04a48da074", "user", "viewer"),
+      item$permissions_add(
+        "a01792e3-2e67-402e-99af-be04a48da074",
+        "user",
+        "viewer"
+      ),
       "https://connect.example/__api__/v1/content/f2f37341-e21d-3d80-c698-a935ad614066/permissions",
       '{"principal_guid":"a01792e3-2e67-402e-99af-be04a48da074","principal_type":"user","role":"viewer"}'
     )
 
     # Update one
     expect_PUT(
-      item$permissions_update(94, "a01792e3-2e67-402e-99af-be04a48da074", "user", "editor"),
+      item$permissions_update(
+        94,
+        "a01792e3-2e67-402e-99af-be04a48da074",
+        "user",
+        "editor"
+      ),
       "https://connect.example/__api__/v1/content/f2f37341-e21d-3d80-c698-a935ad614066/permissions/94",
       '{"principal_guid":"a01792e3-2e67-402e-99af-be04a48da074","principal_type":"user","role":"editor"}'
     )
@@ -120,36 +137,6 @@ with_mock_api({
     expect_DELETE(
       item$permissions_delete("a01792e3-2e67-402e-99af-be04a48da074"),
       "https://connect.example/__api__/v1/content/f2f37341-e21d-3d80-c698-a935ad614066/permissions"
-    )
-  })
-
-  test_that("content environment vars", {
-    con <- Connect$new(server = "https://connect.example", api_key = "fake")
-    item <- content_item(con, "f2f37341-e21d-3d80-c698-a935ad614066")
-
-    expect_GET(
-      item$environment(),
-      "https://connect.example/__api__/v1/content/f2f37341-e21d-3d80-c698-a935ad614066/environment"
-    )
-    expect_PATCH(
-      item$environment_set(VAR_NAME = "new_value"),
-      "https://connect.example/__api__/v1/content/f2f37341-e21d-3d80-c698-a935ad614066/environment",
-      '[{"name":"VAR_NAME","value":"new_value"}]'
-    )
-    expect_PATCH(
-      item$environment_set(VAR_NAME = NA),
-      "https://connect.example/__api__/v1/content/f2f37341-e21d-3d80-c698-a935ad614066/environment",
-      '[{"name":"VAR_NAME","value":null}]'
-    )
-    expect_PUT(
-      item$environment_all(VAR_NAME = "new_value"),
-      "https://connect.example/__api__/v1/content/f2f37341-e21d-3d80-c698-a935ad614066/environment",
-      '[{"name":"VAR_NAME","value":"new_value"}]'
-    )
-    expect_PUT(
-      item$environment_all(),
-      "https://connect.example/__api__/v1/content/f2f37341-e21d-3d80-c698-a935ad614066/environment",
-      "[]"
     )
   })
 })
@@ -186,7 +173,10 @@ without_internet({
 
 with_mock_api({
   test_that("content_render() calls the correct endpoint, returns task on success", {
-    client <- Connect$new(server = "https://connect.example", api_key = "not-a-key")
+    client <- Connect$new(
+      server = "https://connect.example",
+      api_key = "not-a-key"
+    )
     x <- content_item(client, "951bf3ad-82d0-4bca-bba8-9b27e35c49fa")
     render_task <- content_render(x)
     expect_equal(render_task$task[["id"]], "v9XYo7OKkAQJPraI")
@@ -195,7 +185,10 @@ with_mock_api({
   })
 
   test_that("content_render() can render a non-default variant", {
-    client <- Connect$new(server = "https://connect.example", api_key = "not-a-key")
+    client <- Connect$new(
+      server = "https://connect.example",
+      api_key = "not-a-key"
+    )
     x <- content_item(client, "951bf3ad-82d0-4bca-bba8-9b27e35c49fa")
     render_task <- content_render(x, variant_key = "SECOND")
     expect_equal(render_task$task[["id"]], "variant2_task_id")
@@ -203,9 +196,11 @@ with_mock_api({
     # TODO think about how to get variant key into response
   })
 
-
   test_that("content_render() raises an error when called on interactive content", {
-    client <- Connect$new(server = "http://connect.example", api_key = "not-a-key")
+    client <- Connect$new(
+      server = "http://connect.example",
+      api_key = "not-a-key"
+    )
     x <- content_item(client, "8f37d6e0-3395-4a2c-aa6a-d7f2fe1babd0")
     expect_error(
       content_render(x),
@@ -215,13 +210,22 @@ with_mock_api({
   })
 
   test_that("content_restart() calls the correct endpoint", {
-    client <- Connect$new(server = "https://connect.example", api_key = "not-a-key")
+    client <- Connect$new(
+      server = "https://connect.example",
+      api_key = "not-a-key"
+    )
     x <- content_item(client, "8f37d6e0-3395-4a2c-aa6a-d7f2fe1babd0")
-    expect_PATCH(content_restart(x), url = "https://connect.example/__api__/v1/content/8f37d6e0/environment")
+    expect_PATCH(
+      content_restart(x),
+      url = "https://connect.example/__api__/v1/content/8f37d6e0/environment"
+    )
   })
 
   test_that("content_restart() raises an error when called on interactive content", {
-    client <- Connect$new(server = "http://connect.example", api_key = "not-a-key")
+    client <- Connect$new(
+      server = "http://connect.example",
+      api_key = "not-a-key"
+    )
     x <- content_item(client, "951bf3ad-82d0-4bca-bba8-9b27e35c49fa")
     expect_error(
       content_restart(x),
@@ -231,7 +235,10 @@ with_mock_api({
   })
 
   test_that("content$default_variant gets the default variant", {
-    client <- Connect$new(server = "http://connect.example", api_key = "not-a-key")
+    client <- Connect$new(
+      server = "http://connect.example",
+      api_key = "not-a-key"
+    )
     x <- content_item(client, "951bf3ad-82d0-4bca-bba8-9b27e35c49fa")
     v <- x$default_variant
     expect_identical(v$key, "WrEKKa77")
@@ -242,7 +249,10 @@ with_mock_api({
 
 test_that("get_jobs() using the old and new endpoints returns sensible results", {
   with_mock_api({
-    client <- Connect$new(server = "http://connect.example", api_key = "not-a-key")
+    client <- Connect$new(
+      server = "http://connect.example",
+      api_key = "not-a-key"
+    )
 
     item <- content_item(client, "8f37d6e0")
     jobs_v1 <- get_jobs(item)
@@ -260,8 +270,19 @@ test_that("get_jobs() using the old and new endpoints returns sensible results",
 
   # Columns we expect to be identical
   common_cols <- c(
-    "id", "pid", "key", "app_id", "app_guid", "content_id", "content_guid",
-    "variant_id", "bundle_id", "start_time", "end_time", "tag", "exit_code",
+    "id",
+    "pid",
+    "key",
+    "app_id",
+    "app_guid",
+    "content_id",
+    "content_guid",
+    "variant_id",
+    "bundle_id",
+    "start_time",
+    "end_time",
+    "tag",
+    "exit_code",
     "hostname"
   )
   expect_identical(
@@ -280,7 +301,10 @@ test_that("get_jobs() using the old and new endpoints returns sensible results",
 })
 
 with_mock_api({
-  client <- Connect$new(server = "http://connect.example", api_key = "not-a-key")
+  client <- Connect$new(
+    server = "http://connect.example",
+    api_key = "not-a-key"
+  )
   test_that("get_job_list() returns expected data", {
     item <- content_item(client, "8f37d6e0")
     job_list <- get_job_list(item)
@@ -342,7 +366,10 @@ with_mock_api({
 
 test_that("an error is raised when terminate_jobs() calls a bad URL", {
   with_mock_api({
-    client <- Connect$new(server = "http://connect.example", api_key = "not-a-key")
+    client <- Connect$new(
+      server = "http://connect.example",
+      api_key = "not-a-key"
+    )
     item <- content_item(client, "8f37d6e0")
   })
 
@@ -355,7 +382,10 @@ test_that("an error is raised when terminate_jobs() calls a bad URL", {
 
 test_that("get_log() gets job logs", {
   with_mock_api({
-    client <- Connect$new(server = "http://connect.example", api_key = "not-a-key")
+    client <- Connect$new(
+      server = "http://connect.example",
+      api_key = "not-a-key"
+    )
     item <- content_item(client, "8f37d6e0")
     job_list <- get_job_list(item)
     # This job's log is present at {mock_dir}/v1/content/8f37d6e0/jobs/mxPGVOMVk6f8dso2/log.json.
@@ -387,7 +417,10 @@ test_that("get_log() gets job logs", {
 
 test_that("get_content_packages() gets packages", {
   with_mock_api({
-    client <- Connect$new(server = "http://connect.example", api_key = "not-a-key")
+    client <- Connect$new(
+      server = "http://connect.example",
+      api_key = "not-a-key"
+    )
     item <- content_item(client, "8f37d6e0")
     expect_identical(
       p <- get_content_packages(item),

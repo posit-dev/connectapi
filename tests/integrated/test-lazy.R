@@ -6,7 +6,9 @@ cont1_guid <- NULL
 cont1_bundle <- NULL
 cont1_content <- NULL
 
-bnd_static <- bundle_dir(rprojroot::find_package_root_file("tests/testthat/examples/static"))
+bnd_static <- bundle_dir(rprojroot::find_package_root_file(
+  "tests/testthat/examples/static"
+))
 tmp_content <- deploy(test_conn_1, bnd_static)
 
 test_that("error on bad 'src' object", {
@@ -51,7 +53,11 @@ test_that("usage_static works", {
   expect_gt(length(colnames(content_visits)), 1)
 
   # path was added in 2024
-  expect_ptype_equal(content_visits_local, connectapi_ptypes$usage_static, exact = FALSE)
+  expect_ptype_equal(
+    content_visits_local,
+    connectapi_ptypes$usage_static,
+    exact = FALSE
+  )
 })
 
 test_that("usage_shiny works", {
@@ -82,7 +88,11 @@ test_that("content works", {
 
   # various attributes have been added over the years, so exact match
   # doesn't work against all versions of Connect
-  expect_ptype_equal(content_list_local, connectapi_ptypes$content, exact = FALSE)
+  expect_ptype_equal(
+    content_list_local,
+    connectapi_ptypes$content,
+    exact = FALSE
+  )
 })
 
 test_that("groups works", {

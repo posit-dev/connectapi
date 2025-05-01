@@ -68,7 +68,10 @@ repo_check_branches_ref <- function(client, repository) {
 repo_check_manifest_dirs <- function(client, repository, branch) {
   validate_R6_class(client, "Connect")
   warn_experimental("git")
-  manifest_dirs_raw <- client$repo_manifest_dirs(repo = repository, branch = branch)
+  manifest_dirs_raw <- client$repo_manifest_dirs(
+    repo = repository,
+    branch = branch
+  )
   manifest_dirs_task <- Task$new(connect = client, task = manifest_dirs_raw)
 
   task_res <- poll_task(manifest_dirs_task, callback = NULL)
@@ -105,20 +108,31 @@ repo_check_manifest_dirs <- function(client, repository, branch) {
 #' @rdname deploy_repo
 #' @export
 deploy_repo <- function(
-    client,
-    repository,
-    branch,
-    subdirectory,
-    name = create_random_name(),
-    title = name,
-    ...) {
+  client,
+  repository,
+  branch,
+  subdirectory,
+  name = create_random_name(),
+  title = name,
+  ...
+) {
   validate_R6_class(client, "Connect")
   warn_experimental("deploy_repo")
 
-  content_metadata <- content_ensure(connect = client, name = name, title = title, ..., .permitted = c("new"))
+  content_metadata <- content_ensure(
+    connect = client,
+    name = name,
+    title = title,
+    ...,
+    .permitted = c("new")
+  )
 
   deployed_content <- content_item(client, content_metadata$guid)
-  deployed_content$repo_set(repository = repository, branch = branch, subdirectory = subdirectory)
+  deployed_content$repo_set(
+    repository = repository,
+    branch = branch,
+    subdirectory = subdirectory
+  )
 
   task <- deployed_content$deploy()
 
@@ -155,15 +169,23 @@ deploy_repo_update <- function(content) {
     }
   )
   if (is.null(repo_data)) {
-    stop(glue::glue("Content item '{internal_meta$guid}' is not git-backed content"))
+    stop(glue::glue(
+      "Content item '{internal_meta$guid}' is not git-backed content"
+    ))
   }
   branch_status <- repo_check_branches_ref(con, repo_data$repository_url)
 
   if (!repo_data$branch %in% names(branch_status)) {
-    stop(glue::glue("Branch '{repo_data$branch}' was no longer found on repository '{repo_data$repository_url}'"))
+    stop(glue::glue(
+      "Branch '{repo_data$branch}' was no longer found on repository '{repo_data$repository_url}'"
+    ))
   }
-  if (identical(repo_data$last_known_commit, branch_status[[repo_data$branch]])) {
-    message(glue::glue("No changes were found in the Git repository: {repo_data$repository_url}@{repo_data$branch}"))
+  if (
+    identical(repo_data$last_known_commit, branch_status[[repo_data$branch]])
+  ) {
+    message(glue::glue(
+      "No changes were found in the Git repository: {repo_data$repository_url}@{repo_data$branch}"
+    ))
     return(content)
   }
   task <- content$deploy()

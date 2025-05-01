@@ -22,11 +22,7 @@
 #'
 #' @return The URL for the content on the destination "to" server
 #' @export
-promote <- function(from,
-                    to,
-                    to_key,
-                    from_key,
-                    name) {
+promote <- function(from, to, to_key, from_key, name) {
   # TODO Validate Inputs
 
   # set up clients

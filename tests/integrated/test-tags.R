@@ -40,7 +40,10 @@ test_that("associate tag with content", {
   tag_content <<- deploy(
     test_conn_1,
     bundle_path(
-      rprojroot::find_package_root_file("tests/testthat/examples", "static.tar.gz")
+      rprojroot::find_package_root_file(
+        "tests/testthat/examples",
+        "static.tar.gz"
+      )
     ),
     name = content_name
   )
@@ -79,15 +82,25 @@ test_that("create_tag and delete_tag works", {
   capture.output(create_tag(test_conn_1, ctag_2, tags[[ptag_1]][[ctag_1]]))
 
   tags <- get_tags(test_conn_1)
-  capture.output(create_tag(test_conn_1, ctag_3, tags[[ptag_1]][[ctag_1]][[ctag_2]]))
+  capture.output(create_tag(
+    test_conn_1,
+    ctag_3,
+    tags[[ptag_1]][[ctag_1]][[ctag_2]]
+  ))
 
   tags <- get_tags(test_conn_1)
 
   delete_tag(test_conn_1, tags[[ptag_1]][[ctag_1]][[ctag_2]][[ctag_3]])
-  expect_false(check_tag_exists(test_conn_1, tags[[ptag_1]][[ctag_1]][[ctag_2]][[ctag_3]][["id"]]))
+  expect_false(check_tag_exists(
+    test_conn_1,
+    tags[[ptag_1]][[ctag_1]][[ctag_2]][[ctag_3]][["id"]]
+  ))
 
   delete_tag(test_conn_1, tags[[ptag_1]][[ctag_1]][[ctag_2]])
-  expect_false(check_tag_exists(test_conn_1, tags[[ptag_1]][[ctag_1]][[ctag_2]][["id"]]))
+  expect_false(check_tag_exists(
+    test_conn_1,
+    tags[[ptag_1]][[ctag_1]][[ctag_2]][["id"]]
+  ))
 
   delete_tag(test_conn_1, tags[[ptag_1]][[ctag_1]])
   expect_false(check_tag_exists(test_conn_1, tags[[ptag_1]][[ctag_1]][["id"]]))
@@ -114,7 +127,10 @@ test_that("con$tag with id returns just one record", {
 
   tags1 <- get_tags(test_conn_1)
   res <- test_conn_1$tag(tags1[[ptag_1]][[ctag_1]][["id"]])
-  expect_equal(names(res), c("id", "name", "parent_id", "created_time", "updated_time"))
+  expect_equal(
+    names(res),
+    c("id", "name", "parent_id", "created_time", "updated_time")
+  )
 })
 
 test_that("create_tag_tree works", {
@@ -128,7 +144,9 @@ test_that("create_tag_tree works", {
 
   tags1 <- get_tags(test_conn_1)
 
-  capture.output(a2 <- create_tag_tree(test_conn_1, ptag_1, ctag_1, ctag_2, ctag_3))
+  capture.output(
+    a2 <- create_tag_tree(test_conn_1, ptag_1, ctag_1, ctag_2, ctag_3)
+  )
   expect_true(validate_R6_class(a2, "Connect"))
 
   tags2 <- get_tags(test_conn_1)
@@ -136,7 +154,10 @@ test_that("create_tag_tree works", {
   expect_identical(tags1[[ptag_1]][["id"]], tags2[[ptag_1]][["id"]])
 
   delete_tag(test_conn_1, tags2[[ptag_1]])
-  expect_error(suppressMessages(test_conn_1$tag(tags2[[ptag_1]][["id"]])), "Not Found")
+  expect_error(
+    suppressMessages(test_conn_1$tag(tags2[[ptag_1]][["id"]])),
+    "Not Found"
+  )
 })
 
 
@@ -146,9 +167,19 @@ test_that("get_content_tags and set_content_tags works", {
   ctag_1_2 <- uuid::UUIDgenerate(use.time = TRUE)
   ctag_2_1 <- uuid::UUIDgenerate(use.time = TRUE)
 
-  app1 <- deploy(test_conn_1, bundle_dir(rprojroot::find_package_root_file("tests", "testthat", "examples", "static")))
+  app1 <- deploy(
+    test_conn_1,
+    bundle_dir(rprojroot::find_package_root_file(
+      "tests",
+      "testthat",
+      "examples",
+      "static"
+    ))
+  )
 
-  capture.output(tmp1 <- create_tag_tree(test_conn_1, ptag_1, ctag_1_1, ctag_1_2))
+  capture.output(
+    tmp1 <- create_tag_tree(test_conn_1, ptag_1, ctag_1_1, ctag_1_2)
+  )
   capture.output(tmp2 <- create_tag_tree(test_conn_1, ptag_1, ctag_2_1))
 
   expect_true(validate_R6_class(tmp1, "Connect"))
@@ -189,9 +220,19 @@ test_that("set_content_tag_tree works", {
   ctag_1_2 <- uuid::UUIDgenerate(use.time = TRUE)
   ctag_2_1 <- uuid::UUIDgenerate(use.time = TRUE)
 
-  app1 <- deploy(test_conn_1, bundle_dir(rprojroot::find_package_root_file("tests", "testthat", "examples", "static")))
+  app1 <- deploy(
+    test_conn_1,
+    bundle_dir(rprojroot::find_package_root_file(
+      "tests",
+      "testthat",
+      "examples",
+      "static"
+    ))
+  )
 
-  capture.output(tmp1 <- create_tag_tree(test_conn_1, ptag_1, ctag_1_1, ctag_1_2))
+  capture.output(
+    tmp1 <- create_tag_tree(test_conn_1, ptag_1, ctag_1_1, ctag_1_2)
+  )
   capture.output(tmp2 <- create_tag_tree(test_conn_1, ptag_1, ctag_2_1))
 
   expect_true(validate_R6_class(tmp1, "Connect"))
@@ -203,7 +244,9 @@ test_that("set_content_tag_tree works", {
   c1o <- capture.output(
     c1 <- set_content_tag_tree(
       app1,
-      ptag_1, ctag_1_1, ctag_1_2
+      ptag_1,
+      ctag_1_1,
+      ctag_1_2
     )
   )
   expect_identical(c1, app1)
@@ -212,7 +255,8 @@ test_that("set_content_tag_tree works", {
   c2o <- capture.output(
     c2 <- set_content_tag_tree(
       app1,
-      ptag_1, ctag_2_1
+      ptag_1,
+      ctag_2_1
     )
   )
   expect_identical(c2, app1)

@@ -23,7 +23,9 @@ user_guid_from_username <- function(client, username) {
     if (length(filt) == 1) {
       return(filt[[1]]$guid)
     } else {
-      warning("WARNING: multiple users found, but a unique exact match could not be found. Returning the first")
+      warning(
+        "WARNING: multiple users found, but a unique exact match could not be found. Returning the first"
+      )
       return(res[[1]]$guid)
     }
   } else {

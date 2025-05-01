@@ -174,7 +174,7 @@ get_users <- function(
 #'     Applies only to executable content types - not static.
 #'   * `owner_guid`: The unique identifier for the owner
 #'   * `content_url`: The URL associated with this content. Computed
-#'     from the associated vanity URL or GUID for this content.
+#'     from the GUID for this content.
 #'   * `dashboard_url`: The URL within the Connect dashboard where
 #'     this content can be configured. Computed from the GUID for this content.
 #'   * `role`: The relationship of the accessing user to this
@@ -183,7 +183,24 @@ get_users <- function(
 #'     permitted to view the content. A none role is returned for
 #'     administrators who cannot view the content but are permitted to view
 #'     its configuration. Computed at the time of the request.
-#'   * `id`: The internal numeric identifier of this content item
+#'   * `vanity_url`: The vanity URL associated with this content item.
+#'   * `id`: The internal numeric identifier of this content item.
+#'   * `tags`: Tags associated with this content item. Each entry is a list
+#'     with the following fields:
+#'     * `id`: The identifier for the tag.
+#'     * `name`: The name of the tag.
+#'     * `parent_id`: The identifier for the parent tag. Null if the tag is a
+#'       top-level tag.
+#'     * `created_time`: The timestamp (RFC3339) indicating when the tag was
+#'       created.
+#'     * `updated_time`: The timestamp (RFC3339) indicating when the tag was
+#'       last updated.
+#'   * `owner`: Basic details about the owner of this content item. Each entry
+#'     is a list with the following fields:
+#'     * `guid`: The user's GUID, or unique identifier, in UUID RFC4122 format.
+#'     * `username`: The user's username.
+#'     * `first_name`: The user's first name.
+#'     * `last_name`: The user's last name.
 #'
 #' @details
 #' Please see https://docs.posit.co/connect/api/#get-/v1/content for more
@@ -198,10 +215,34 @@ get_users <- function(
 #' }
 #'
 #' @export
-get_content <- function(src, guid = NULL, owner_guid = NULL, name = NULL, ..., .p = NULL) {
+get_content <- function(
+  src,
+  guid = NULL,
+  owner_guid = NULL,
+  name = NULL,
+  ...,
+  .p = NULL
+) {
   validate_R6_class(src, "Connect")
 
-  res <- src$content(guid = guid, owner_guid = owner_guid, name = name)
+  # The capability to return vanity URLs `vanity_url` was added in Connect
+  # v2024.06.0.
+  if (compare_connect_version(src$version, "2024.06.0") < 0) {
+    include <- "tags,owner"
+    content_ptype <- connectapi_ptypes$content[,
+      names(connectapi_ptypes$content) != "vanity_url"
+    ]
+  } else {
+    include <- "tags,owner,vanity_url"
+    content_ptype <- connectapi_ptypes$content
+  }
+
+  res <- src$content(
+    guid = guid,
+    owner_guid = owner_guid,
+    name = name,
+    include = include
+  )
 
   if (!is.null(guid)) {
     # convert a single item to a list
@@ -212,7 +253,7 @@ get_content <- function(src, guid = NULL, owner_guid = NULL, name = NULL, ..., .
     res <- res %>% purrr::keep(.p = .p)
   }
 
-  out <- parse_connectapi_typed(res, connectapi_ptypes$content)
+  out <- parse_connectapi_typed(res, content_ptype)
 
   return(out)
 }
@@ -294,7 +335,8 @@ content_list_by_tag <- function(src, tag) {
 #' @export
 content_list_guid_has_access <- function(content_list, guid) {
   warn_experimental("content_list_filter_by_guid")
-  rows_keep <- content_list$access_type %in% c("all", "logged_in") |
+  rows_keep <- content_list$access_type %in%
+    c("all", "logged_in") |
     content_list$owner_guid == guid |
     purrr::map_lgl(content_list$permission, ~ guid %in% .x$principal_guid)
   content_list[rows_keep, ]
@@ -357,14 +399,17 @@ content_list_guid_has_access <- function(content_list, guid) {
 #' }
 #'
 #' @export
-get_usage_shiny <- function(src, content_guid = NULL,
-                            min_data_version = NULL,
-                            from = NULL,
-                            to = NULL,
-                            limit = 500,
-                            previous = NULL,
-                            nxt = NULL,
-                            asc_order = TRUE) {
+get_usage_shiny <- function(
+  src,
+  content_guid = NULL,
+  min_data_version = NULL,
+  from = NULL,
+  to = NULL,
+  limit = 500,
+  previous = NULL,
+  nxt = NULL,
+  asc_order = TRUE
+) {
   validate_R6_class(src, "Connect")
 
   res <- src$inst_shiny_usage(
@@ -450,14 +495,17 @@ get_usage_shiny <- function(src, content_guid = NULL,
 #' }
 #'
 #' @export
-get_usage_static <- function(src, content_guid = NULL,
-                             min_data_version = NULL,
-                             from = NULL,
-                             to = NULL,
-                             limit = 500,
-                             previous = NULL,
-                             nxt = NULL,
-                             asc_order = TRUE) {
+get_usage_static <- function(
+  src,
+  content_guid = NULL,
+  min_data_version = NULL,
+  from = NULL,
+  to = NULL,
+  limit = 500,
+  previous = NULL,
+  nxt = NULL,
+  asc_order = TRUE
+) {
   validate_R6_class(src, "Connect")
 
   res <- src$inst_content_visits(
@@ -529,8 +577,13 @@ get_usage <- function(client, from = NULL, to = NULL) {
 #' }
 #'
 #' @export
-get_audit_logs <- function(src, limit = 500, previous = NULL,
-                           nxt = NULL, asc_order = TRUE) {
+get_audit_logs <- function(
+  src,
+  limit = 500,
+  previous = NULL,
+  nxt = NULL,
+  asc_order = TRUE
+) {
   validate_R6_class(src, "Connect")
 
   res <- src$audit_logs(
@@ -625,7 +678,11 @@ get_procs <- function(src) {
 #' for more information.
 #'
 #' @export
-get_oauth_credentials <- function(connect, user_session_token, requested_token_type = NULL) {
+get_oauth_credentials <- function(
+  connect,
+  user_session_token,
+  requested_token_type = NULL
+) {
   validate_R6_class(connect, "Connect")
   if (is.null(requested_token_type)) {
     requested_token_type <- "urn:ietf:params:oauth:token-type:access_token"
@@ -691,7 +748,9 @@ get_oauth_content_credentials <- function(
   if (is.null(content_session_token)) {
     content_session_token <- Sys.getenv("CONNECT_CONTENT_SESSION_TOKEN")
     if (nchar(content_session_token) == 0) {
-      stop("Could not find the CONNECT_CONTENT_SESSION_TOKEN environment variable.")
+      stop(
+        "Could not find the CONNECT_CONTENT_SESSION_TOKEN environment variable."
+      )
     }
   }
   if (is.null(requested_token_type)) {
@@ -901,7 +960,7 @@ get_runtimes <- function(client, runtimes = NULL) {
 
   purrr::map_dfr(runtimes, function(runtime) {
     res <- client$GET(paste0("v1/server_settings/", runtime))
-    res_df <- purrr::map_dfr(res$installations, ~tibble::as_tibble(.))
+    res_df <- purrr::map_dfr(res$installations, ~ tibble::as_tibble(.))
     tibble::add_column(res_df, runtime = runtime, .before = 1)
   })
 }

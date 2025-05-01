@@ -20,7 +20,9 @@ Bundle <- R6::R6Class(
     initialize = function(path) {
       self$path <- path
       self$size <- fs::file_size(path = path)
-      if (fs::file_exists(path) && self$size > fs::as_fs_bytes(max_bundle_size)) {
+      if (
+        fs::file_exists(path) && self$size > fs::as_fs_bytes(max_bundle_size)
+      ) {
         warning(glue::glue(
           "Bundle size is greater than {max_bundle_size}. ",
           "Please ensure your bundle is not including too much."
@@ -145,7 +147,12 @@ ContentTask <- R6::R6Class(
     print = function(...) {
       cat("Posit Connect Content Task: \n")
       cat("  Content GUID: ", self$get_content()$guid, "\n", sep = "")
-      cat("  URL: ", dashboard_url_chr(self$get_connect()$server, self$get_content()$guid), "\n", sep = "")
+      cat(
+        "  URL: ",
+        dashboard_url_chr(self$get_connect()$server, self$get_content()$guid),
+        "\n",
+        sep = ""
+      )
       cat("  Task ID: ", self$get_task()$task_id, "\n", sep = "")
       cat("\n")
       invisible(self)
@@ -209,7 +216,10 @@ Vanity <- R6::R6Class(
 #' @examplesIf identical(Sys.getenv("IN_PKGDOWN"), "true")
 #'
 #' bundle_dir(system.file("tests/testthat/examples/shiny/", package = "connectapi"))
-bundle_dir <- function(path = ".", filename = fs::file_temp(pattern = "bundle", ext = ".tar.gz")) {
+bundle_dir <- function(
+  path = ".",
+  filename = fs::file_temp(pattern = "bundle", ext = ".tar.gz")
+) {
   # TODO: check for manifest.json
   stopifnot(fs::dir_exists(path))
   message(glue::glue("Bundling directory ({path})"))
@@ -219,7 +229,12 @@ bundle_dir <- function(path = ".", filename = fs::file_temp(pattern = "bundle", 
   on.exit(expr = setwd(before_wd), add = TRUE)
 
   check_bundle_contents(".")
-  utils::tar(tarfile = filename, files = ".", compression = "gzip", tar = "internal")
+  utils::tar(
+    tarfile = filename,
+    files = ".",
+    compression = "gzip",
+    tar = "internal"
+  )
 
   tar_path <- fs::path_abs(filename)
 
@@ -229,13 +244,19 @@ bundle_dir <- function(path = ".", filename = fs::file_temp(pattern = "bundle", 
 check_bundle_contents <- function(dir) {
   all_contents <- fs::path_file(fs::dir_ls(dir))
   if (!"manifest.json" %in% all_contents) {
-    stop(glue::glue("ERROR: no `manifest.json` file found in {dir}. Please generate with `rsconnect::writeManifest()`"))
+    stop(glue::glue(
+      "ERROR: no `manifest.json` file found in {dir}. Please generate with `rsconnect::writeManifest()`"
+    ))
   }
   if ("packrat.lock" %in% all_contents) {
-    warning(glue::glue("WARNING: `packrat.lock` file found in {dir}. This can have unexpected consequences."))
+    warning(glue::glue(
+      "WARNING: `packrat.lock` file found in {dir}. This can have unexpected consequences."
+    ))
   }
   if ("packrat" %in% all_contents) {
-    warning(glue::glue("WARNING: `packrat` directory found in {dir}. This can have unexpected consequences"))
+    warning(glue::glue(
+      "WARNING: `packrat` directory found in {dir}. This can have unexpected consequences"
+    ))
   }
 }
 
@@ -259,14 +280,23 @@ check_bundle_contents <- function(dir) {
 #' bundle_static(system.file("logo.png", package = "connectapi"))
 #'
 #' @export
-bundle_static <- function(path, filename = fs::file_temp(pattern = "bundle", ext = ".tar.gz")) {
+bundle_static <- function(
+  path,
+  filename = fs::file_temp(pattern = "bundle", ext = ".tar.gz")
+) {
   tmpdir <- fs::file_temp("bundledir")
   dir.create(tmpdir, recursive = TRUE)
   all_files <- fs::file_copy(path = path, new_path = paste0(tmpdir, "/"))
-  rlang::check_installed("rsconnect", "the `rsconnect` package needs to be installed to use `bundle_static()`")
+  rlang::check_installed(
+    "rsconnect",
+    "the `rsconnect` package needs to be installed to use `bundle_static()`"
+  )
   # TODO: error if these files are not static?
   # TODO: a better way to get the primary document besides `all_files[[1]]`?
-  rsconnect::writeManifest(appDir = tmpdir, appPrimaryDoc = fs::path_file(all_files[[1]]))
+  rsconnect::writeManifest(
+    appDir = tmpdir,
+    appPrimaryDoc = fs::path_file(all_files[[1]])
+  )
   bundle_dir(tmpdir, filename = filename)
 }
 
@@ -328,9 +358,12 @@ download_bundle <- function(
     bundle_id <- from_content$bundle_id
   }
 
-
   message("Downloading bundle")
-  content$bundle_download(bundle_id = bundle_id, filename = filename, overwrite = overwrite)
+  content$bundle_download(
+    bundle_id = bundle_id,
+    filename = filename,
+    overwrite = overwrite
+  )
 
   Bundle$new(path = filename)
 }
@@ -377,23 +410,44 @@ download_bundle <- function(
 #' bnd <- bundle_path(system.file("tests/testthat/examples/static.tar.gz", package = "connectapi"))
 #' deploy(client, bnd)
 #'
-deploy <- function(connect, bundle, name = create_random_name(), title = name, guid = NULL, ..., .pre_deploy = {}) {
+deploy <- function(
+  connect,
+  bundle,
+  name = create_random_name(),
+  title = name,
+  guid = NULL,
+  ...,
+  .pre_deploy = {
+  }
+) {
   validate_R6_class(bundle, "Bundle")
   validate_R6_class(connect, "Connect")
 
   con <- connect
 
   message("Getting content endpoint")
-  content <- content_ensure(connect = con, name = name, title = title, guid = guid, ...)
+  content <- content_ensure(
+    connect = con,
+    name = name,
+    title = title,
+    guid = guid,
+    ...
+  )
 
   message("Uploading bundle")
   # upload
-  new_bundle_id <- con$content_upload(bundle_path = bundle$path, guid = content$guid)[["id"]]
+  new_bundle_id <- con$content_upload(
+    bundle_path = bundle$path,
+    guid = content$guid
+  )[["id"]]
 
   pre_deploy_expr <- rlang::enexpr(.pre_deploy)
   rlang::eval_bare(
     pre_deploy_expr,
-    env = rlang::env(content = content_item(con, content$guid), bundle_id = new_bundle_id)
+    env = rlang::env(
+      content = content_item(con, content$guid),
+      bundle_id = new_bundle_id
+    )
   )
 
   message("Deploying bundle")
@@ -408,7 +462,11 @@ deploy <- function(connect, bundle, name = create_random_name(), title = name, g
 deploy_current <- function(content) {
   validate_R6_class(content, "Content")
   res <- content$deploy()
-  return(ContentTask$new(connect = content$get_connect(), content = content, task = res))
+  return(ContentTask$new(
+    connect = content$get_connect(),
+    content = content,
+    task = res
+  ))
 }
 
 #' Set the Vanity URL
@@ -448,7 +506,11 @@ set_vanity_url <- function(content, url, force = FALSE) {
     )
   )
 
-  Vanity$new(connect = con, content = content$get_content_remote(), vanity = res)
+  Vanity$new(
+    connect = con,
+    content = content$get_content_remote(),
+    vanity = res
+  )
 }
 
 #' Delete the Vanity URL
@@ -528,14 +590,22 @@ swap_vanity_urls <- function(content_a, content_b) {
     tryCatch(
       delete_vanity_url(content_a),
       error = function(e) {
-        stop("Unable to modify the vanity URL for content_a: ", e$message, call. = FALSE)
+        stop(
+          "Unable to modify the vanity URL for content_a: ",
+          e$message,
+          call. = FALSE
+        )
       }
     )
     tryCatch(
       delete_vanity_url(content_b),
       error = function(e) {
         set_vanity_url(content_a, vanity_a)
-        stop("Unable to modify the vanity URL for content_b: ", e$message, call. = FALSE)
+        stop(
+          "Unable to modify the vanity URL for content_b: ",
+          e$message,
+          call. = FALSE
+        )
       }
     )
     if (!is.null(vanity_a)) {

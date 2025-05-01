@@ -4,10 +4,9 @@
 #' @param page_size The number of records to return per page (max 500).
 #' @param prefix Filters groups by prefix (group name).
 #' The filter is case insensitive.
-#' @param limit The number of groups to retrieve before paging stops.
-#'
-#' `limit` will be ignored is `prefix` is not `NULL`.
-#' To limit results when `prefix` is not `NULL`, change `page_size`.
+#' @param limit The number of groups to retrieve before paging stops. Default
+#' is to return all results; however, for Connect server versions older than
+#' 2025.04.0, `limit` is capped at 500 when `prefix` is provided.
 #'
 #' @return
 #' A tibble with the following columns:
@@ -35,19 +34,26 @@
 get_groups <- function(src, page_size = 500, prefix = NULL, limit = Inf) {
   validate_R6_class(src, "Connect")
 
-  # The `v1/groups` endpoint always returns the first page when `prefix` is
-  # specified, so the page_offset function, which increments until it hits an
-  # empty page, fails.
-  if (!is.null(prefix)) {
-    response <- src$groups(page_size = page_size, prefix = prefix)
-    res <- response$results
-  } else {
-    res <- page_offset(src, src$groups(page_size = page_size, prefix = NULL), limit = limit)
+  # Prior to 2025.04.0, the `v1/groups` endpoint ignored page_number when
+  # `prefix` was provided, always returning the first page.
+  # So for those versions, we should request the max page size needed to
+  # satisfy `limit`, and make them equal, so that page_offset() only fetches
+  # one page.
+  # Proper pagination added in https://github.com/posit-dev/connect/pull/31086
+  if (
+    !is.null(prefix) && compare_connect_version(src$version, "2025.04.0") < 0
+  ) {
+    # The max page size allowed by the server is 500, so in this version of
+    # Connect, that's the maximum number of groups we can get.
+    page_size <- limit <- min(500, limit)
   }
+  res <- page_offset(
+    src,
+    src$groups(page_size = page_size, prefix = prefix),
+    limit = limit
+  )
 
-  out <- parse_connectapi_typed(res, connectapi_ptypes$groups)
-
-  return(out)
+  parse_connectapi_typed(res, connectapi_ptypes$groups)
 }
 
 #' Get users within a specific group

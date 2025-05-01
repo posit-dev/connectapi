@@ -36,8 +36,74 @@ without_internet({
   })
 })
 
+with_mock_dir("2024.08.0", {
+  client <- connect(server = "https://connect.example", api_key = "fake")
+  test_that("get_groups() paginates with no prefix", {
+    # To get this result, the code has to paginate through two API requests.
+    # groups-4eaf46.json
+    # groups-125d47.json
+
+    result <- get_groups(client, page_size = 5, limit = 10)
+    expected_names <- c(
+      "~!@#$%^&*()_+",
+      "1111",
+      "2_viewer_group",
+      "amanda_test_group",
+      "a_new_group",
+      "azurepipelines",
+      "cgGroup01",
+      "chris_test_group",
+      "connect_dev",
+      "cool_kids_of_the_dmv"
+    )
+    expect_identical(result$name, expected_names)
+  })
+
+  test_that("get_groups() does not paginate when called with a prefix on old Connect", {
+    # Only one response exists for this query; by succeeding this test verifies
+    # that the pagination behavior is not engaged, and that the request is made
+    # with page_size=2 so that you get everything you asked for in one page.
+    # groups-deae1f.json
+
+    result <- get_groups(client, page_size = 1, limit = 2, prefix = "c")
+    expect_identical(result$name, c("connect_dev", "cool_kids_of_the_dmv"))
+
+    # Just to be explicit, here you can see that page_number and page_size are
+    # aligned and you get page_size = 2
+    expect_GET(
+      get_groups(client, page_size = 1, limit = 2, prefix = "asdf"),
+      "https://connect.example/__api__/v1/groups?page_number=1&page_size=2&prefix=asdf"
+    )
+    # Max mage size is 500, so that's the best we can do
+    expect_GET(
+      get_groups(client, prefix = "asdf"),
+      "https://connect.example/__api__/v1/groups?page_number=1&page_size=500&prefix=asdf"
+    )
+  })
+})
+
+with_mock_dir("2025.04.0", {
+  test_that("get_groups() does paginate when called with a prefix on new Connect", {
+    client <- connect(server = "https://connect.example", api_key = "fake")
+
+    # This will have to paginate
+    result <- get_groups(client, page_size = 1, limit = 2, prefix = "c")
+    expect_identical(result$name, c("connect_dev", "cool_kids_of_the_dmv"))
+
+    # Just to be explicit, here you can see that page_number and page_size are
+    # not aligned and you get page_size = 1 as requested
+    expect_GET(
+      get_groups(client, page_size = 1, limit = 2, prefix = "asdf"),
+      "https://connect.example/__api__/v1/groups?page_number=1&page_size=1&prefix=asdf"
+    )
+  })
+})
+
 with_mock_api({
-  client <- Connect$new(server = "https://connect.example", api_key = "not-a-key")
+  client <- Connect$new(
+    server = "https://connect.example",
+    api_key = "not-a-key"
+  )
 
   test_that("get_group_content() works", {
     group_guids <- c(

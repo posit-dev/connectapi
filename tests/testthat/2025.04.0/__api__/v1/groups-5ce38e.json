@@ -1,0 +1,13 @@
+// get_groups(client, page_size = 1, prefix = "c")
+// used in test-groups.R
+{
+    "results": [
+        {
+            "guid": "a6fb5cea",
+            "name": "connect_dev",
+            "owner_guid": "1a7a5703"
+        }
+    ],
+    "current_page": 1,
+    "total": 2
+}

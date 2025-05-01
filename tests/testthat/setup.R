@@ -94,7 +94,6 @@ MockConnect <- R6Class(
       new_response <- setNames(new_response, route)
 
       self$responses <- append(self$responses, new_response)
-
     },
     call_log = character(),
     log_call = function(route) {
@@ -103,17 +102,29 @@ MockConnect <- R6Class(
   )
 )
 
-new_mock_response <- function(url, content, status_code, headers = character()) {
+new_mock_response <- function(
+  url,
+  content,
+  status_code,
+  headers = character()
+) {
   # Headers in responses are case-insensitive lists.
   names(headers) <- tolower(names(headers))
   headers <- as.list(headers)
-  headers <- structure(as.list(headers), class = c("insensitive", class(headers)))
+  headers <- structure(
+    as.list(headers),
+    class = c("insensitive", class(headers))
+  )
 
   # Treat content similarly to httr::POST, with a subset of behaviors
   if (is.character(content) && length(content) == 1) {
     content <- charToRaw(content)
   } else if (is.list(content)) {
-    content <- charToRaw(jsonlite::toJSON(content, auto_unbox = TRUE, null = "null"))
+    content <- charToRaw(jsonlite::toJSON(
+      content,
+      auto_unbox = TRUE,
+      null = "null"
+    ))
   }
 
   structure(

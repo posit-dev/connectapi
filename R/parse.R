@@ -52,7 +52,9 @@ ensure_column <- function(data, default, name) {
     col <- vctrs::vec_rep(default, nrow(data))
     col <- vctrs::vec_cast(col, default)
   } else {
-    if (vctrs::vec_is(default, NA_datetime_) && !vctrs::vec_is(col, NA_datetime_)) {
+    if (
+      vctrs::vec_is(default, NA_datetime_) && !vctrs::vec_is(col, NA_datetime_)
+    ) {
       # manual fix because vctrs::vec_cast cannot cast double -> datetime or char -> datetime
       col <- coerce_datetime(col, default, name = name)
     }
@@ -122,10 +124,17 @@ coerce_datetime <- function(x, to, ...) {
     parse_connect_rfc3339(x)
   } else if (inherits(x, "POSIXct")) {
     x
-  } else if (all(is.logical(x) & is.na(x)) && length(is.logical(x) & is.na(x)) > 0) {
+  } else if (
+    all(is.logical(x) & is.na(x)) && length(is.logical(x) & is.na(x)) > 0
+  ) {
     NA_datetime_
   } else {
-    vctrs::stop_incompatible_cast(x = x, to = to, x_arg = tmp_name, to_arg = "to")
+    vctrs::stop_incompatible_cast(
+      x = x,
+      to = to,
+      x_arg = tmp_name,
+      to_arg = "to"
+    )
   }
 }
 
@@ -145,35 +154,21 @@ coerce_datetime <- function(x, to, ...) {
 # - "2020-01-01T00:02:03-01:00"
 # nolint end
 parse_connect_rfc3339 <- function(x) {
-  # Convert any timestamps with offsets to a format recognized by `strptime`.
+  # Convert timestamps with offsets to a format recognized by `strptime`.
   x <- gsub("([+-]\\d\\d):(\\d\\d)$", "\\1\\2", x)
+  x <- gsub("Z$", "+0000", x)
 
-  # `purrr::map2_vec()` converts to POSIXct automatically, but we need
-  # `as.POSIXct()` in there to account vectors of length 1, which it seems are
-  # not converted.
-  #
-  # Parse with an inner call to `strptime()`; convert the resulting `POSIXlt`
-  # object to `POSIXct`.
+  # Parse with an inner call to `strptime()`, which returns a POSIXlt object,
+  # and convert that to `POSIXct`.
   #
   # We must specify `tz` in the inner call to correctly compute date math.
-  # Specifying `tz` when parsing just changes the time zone without doing any
-  # date math!
+  # Specifying `tz` when in the outer call just changes the time zone without
+  # doing any date math!
   #
-  # > xlt
-  # [1] "2024-08-29 16:36:33 EDT"
-  # > tzone(xlt)
-  # [1] "America/New_York"
-  # > as.POSIXct(xlt, tz = "UTC")
-  # [1] "2024-08-29 16:36:33 UTC"
-  purrr::map_vec(x, function(.x) {
-    # Times with and without offsets require different formats.
-    format_string <- ifelse(
-      grepl("Z$", .x),
-      "%Y-%m-%dT%H:%M:%OSZ",
-      "%Y-%m-%dT%H:%M:%OS%z"
-    )
-    as.POSIXct(strptime(.x, format = format_string, tz = "UTC"))
-  })
+  # > xlt [1] "2024-08-29 16:36:33 EDT" tzone(xlt) [1] "America/New_York"
+  # as.POSIXct(xlt, tz = "UTC") [1] "2024-08-29 16:36:33 UTC"
+  format_string <- "%Y-%m-%dT%H:%M:%OS%z"
+  as.POSIXct(x, format = format_string, tz = Sys.timezone())
 }
 
 vec_cast.POSIXct.double <- # nolint: object_name_linter
@@ -191,9 +186,10 @@ tzone <- function(x) {
   attr(x, "tzone")[[1]] %||% ""
 }
 
-vec_cast.character.integer <- function(x, to, ...) { # nolint: object_name_linter
-  as.character(x)
-}
+vec_cast.character.integer <- # nolint: object_name_linter
+  function(x, to, ...) {
+    as.character(x)
+  }
 
 new_datetime <- function(x = double(), tzone = "") {
   tzone <- tzone %||% ""

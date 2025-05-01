@@ -50,7 +50,13 @@ get_runtime_caches <- function(client) {
 #' @family server management functions
 #' @seealso [get_runtime_caches()]
 #' @export
-delete_runtime_cache <- function(client, language, version, image_name = "Local", dry_run = FALSE) {
+delete_runtime_cache <- function(
+  client,
+  language,
+  version,
+  image_name = "Local",
+  dry_run = FALSE
+) {
   res <- client$DELETE(
     path = v1_url("system/caches/runtime"),
     body = list(
