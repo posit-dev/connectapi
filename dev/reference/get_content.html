@@ -164,7 +164,7 @@ to execute as the logged-in user when using PAM authentication.
 Applies only to executable content types - not static.</p></li>
 <li><p><code>owner_guid</code>: The unique identifier for the owner</p></li>
 <li><p><code>content_url</code>: The URL associated with this content. Computed
-from the associated vanity URL or GUID for this content.</p></li>
+from the GUID for this content.</p></li>
 <li><p><code>dashboard_url</code>: The URL within the Connect dashboard where
 this content can be configured. Computed from the GUID for this content.</p></li>
 <li><p><code>role</code>: The relationship of the accessing user to this
@@ -173,7 +173,24 @@ indicates a collaborator. The viewer value is given to users who are
 permitted to view the content. A none role is returned for
 administrators who cannot view the content but are permitted to view
 its configuration. Computed at the time of the request.</p></li>
-<li><p><code>id</code>: The internal numeric identifier of this content item</p></li>
+<li><p><code>vanity_url</code>: The vanity URL associated with this content item.</p></li>
+<li><p><code>id</code>: The internal numeric identifier of this content item.</p></li>
+<li><p><code>tags</code>: Tags associated with this content item. Each entry is a list
+with the following fields:</p><ul><li><p><code>id</code>: The identifier for the tag.</p></li>
+<li><p><code>name</code>: The name of the tag.</p></li>
+<li><p><code>parent_id</code>: The identifier for the parent tag. Null if the tag is a
+top-level tag.</p></li>
+<li><p><code>created_time</code>: The timestamp (RFC3339) indicating when the tag was
+created.</p></li>
+<li><p><code>updated_time</code>: The timestamp (RFC3339) indicating when the tag was
+last updated.</p></li>
+</ul></li>
+<li><p><code>owner</code>: Basic details about the owner of this content item. Each entry
+is a list with the following fields:</p><ul><li><p><code>guid</code>: The user's GUID, or unique identifier, in UUID RFC4122 format.</p></li>
+<li><p><code>username</code>: The user's username.</p></li>
+<li><p><code>first_name</code>: The user's first name.</p></li>
+<li><p><code>last_name</code>: The user's last name.</p></li>
+</ul></li>
 </ul></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
