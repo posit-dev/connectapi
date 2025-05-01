@@ -174,7 +174,7 @@ get_users <- function(
 #'     Applies only to executable content types - not static.
 #'   * `owner_guid`: The unique identifier for the owner
 #'   * `content_url`: The URL associated with this content. Computed
-#'     from the associated vanity URL or GUID for this content.
+#'     from the GUID for this content.
 #'   * `dashboard_url`: The URL within the Connect dashboard where
 #'     this content can be configured. Computed from the GUID for this content.
 #'   * `role`: The relationship of the accessing user to this
@@ -183,7 +183,24 @@ get_users <- function(
 #'     permitted to view the content. A none role is returned for
 #'     administrators who cannot view the content but are permitted to view
 #'     its configuration. Computed at the time of the request.
-#'   * `id`: The internal numeric identifier of this content item
+#'   * `vanity_url`: The vanity URL associated with this content item.
+#'   * `id`: The internal numeric identifier of this content item.
+#'   * `tags`: Tags associated with this content item. Each entry is a list
+#'     with the following fields:
+#'     * `id`: The identifier for the tag.
+#'     * `name`: The name of the tag.
+#'     * `parent_id`: The identifier for the parent tag. Null if the tag is a
+#'       top-level tag.
+#'     * `created_time`: The timestamp (RFC3339) indicating when the tag was
+#'       created.
+#'     * `updated_time`: The timestamp (RFC3339) indicating when the tag was
+#'       last updated.
+#'   * `owner`: Basic details about the owner of this content item. Each entry
+#'     is a list with the following fields:
+#'     * `guid`: The user's GUID, or unique identifier, in UUID RFC4122 format.
+#'     * `username`: The user's username.
+#'     * `first_name`: The user's first name.
+#'     * `last_name`: The user's last name.
 #'
 #' @details
 #' Please see https://docs.posit.co/connect/api/#get-/v1/content for more
@@ -208,7 +225,24 @@ get_content <- function(
 ) {
   validate_R6_class(src, "Connect")
 
-  res <- src$content(guid = guid, owner_guid = owner_guid, name = name)
+  # The capability to return vanity URLs `vanity_url` was added in Connect
+  # v2024.06.0.
+  if (compare_connect_version(src$version, "2024.06.0") < 0) {
+    include <- "tags,owner"
+    content_ptype <- connectapi_ptypes$content[,
+      names(connectapi_ptypes$content) != "vanity_url"
+    ]
+  } else {
+    include <- "tags,owner,vanity_url"
+    content_ptype <- connectapi_ptypes$content
+  }
+
+  res <- src$content(
+    guid = guid,
+    owner_guid = owner_guid,
+    name = name,
+    include = include
+  )
 
   if (!is.null(guid)) {
     # convert a single item to a list
@@ -219,7 +253,7 @@ get_content <- function(
     res <- res %>% purrr::keep(.p = .p)
   }
 
-  out <- parse_connectapi_typed(res, connectapi_ptypes$content)
+  out <- parse_connectapi_typed(res, content_ptype)
 
   return(out)
 }
