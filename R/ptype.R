@@ -1,5 +1,5 @@
 NA_datetime_ <- # nolint: object_name_linter
-  vctrs::new_datetime(NA_real_, tzone = "UTC")
+  vctrs::new_datetime(NA_real_, tzone = Sys.timezone())
 NA_list_ <- # nolint: object_name_linter
   list(list())
 

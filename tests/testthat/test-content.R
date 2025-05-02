@@ -397,7 +397,7 @@ test_that("get_log() gets job logs", {
         source = c("stderr", "stderr", "stderr"),
         timestamp = structure(
           c(1733512169.9480169, 1733512169.9480703, 1733512169.9480758),
-          tzone = "UTC",
+          tzone = Sys.timezone(),
           class = c("POSIXct", "POSIXt")
         ),
         data = c(

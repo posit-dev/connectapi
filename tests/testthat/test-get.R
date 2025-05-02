@@ -202,7 +202,7 @@ test_that("get_vanity_urls() works", {
             1602623489,
             1677679943
           ),
-          tzone = "UTC",
+          tzone = Sys.timezone(),
           class = c("POSIXct", "POSIXt")
         )
       )

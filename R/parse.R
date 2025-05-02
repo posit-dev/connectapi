@@ -58,15 +58,19 @@ ensure_column <- function(data, default, name) {
       # manual fix because vctrs::vec_cast cannot cast double -> datetime or char -> datetime
       col <- coerce_datetime(col, default, name = name)
     }
+
     if (inherits(default, "fs_bytes") && !inherits(col, "fs_bytes")) {
       col <- coerce_fsbytes(col, default)
     }
+
     if (inherits(default, "integer64") && !inherits(col, "integer64")) {
       col <- bit64::as.integer64(col)
     }
+
     if (inherits(default, "list") && !inherits(col, "list")) {
       col <- list(col)
     }
+
     col <- vctrs::vec_cast(col, default, x_arg = name)
   }
   data[[name]] <- col
