@@ -374,3 +374,80 @@ test_that("get_content only requests vanity URLs for Connect 2024.06.0 and up", 
     )
   })
 })
+
+test_that("get_usage() returns usage data in the expected shape", {
+  with_mock_dir("2025.04.0", {
+    client <- connect(server = "https://connect.example", api_key = "fake")
+    usage <- get_usage(
+      client,
+      from = as.POSIXct("2025-04-01 00:00:01", tz = "UTC")
+    )
+
+    expect_equal(
+      usage,
+      tibble::tibble(
+        id = c(8966707L, 8966708L, 8967206L, 8967210L, 8966214L),
+        user_guid = c(NA, NA, NA, NA, "fecbd383"),
+        content_guid = c(
+          "475618c9",
+          "475618c9",
+          "475618c9",
+          "475618c9",
+          "b0eaf295"
+        ),
+        timestamp = c(
+          parse_connect_rfc3339("2025-04-30T12:49:16.269904Z"),
+          parse_connect_rfc3339("2025-04-30T12:49:17.002848Z"),
+          parse_connect_rfc3339("2025-04-30T13:01:47.40738Z"),
+          parse_connect_rfc3339("2025-04-30T13:04:13.176791Z"),
+          parse_connect_rfc3339("2025-04-30T12:36:13.818466Z")
+        ),
+        path = c("/hello", "/world", "/chinchilla", "/lava-lamp", NA),
+        user_agent = c(
+          "Datadog/Synthetics",
+          NA,
+          "Datadog/Synthetics",
+          "Datadog/Synthetics",
+          NA
+        )
+      )
+    )
+  })
+})
+
+test_that("Metrics firehose is called with expected parameters", {
+  with_mock_api({
+    client <- Connect$new(server = "https://connect.example", api_key = "fake")
+    # $version is loaded lazily, we need it before calling get_usage()
+    client$version
+
+    without_internet({
+      expect_GET(
+        get_usage(client),
+        "https://connect.example/__api__/v1/instrumentation/content/hits"
+      )
+      expect_GET(
+        get_usage(
+          client,
+          from = as.POSIXct("2025-04-01 00:00:01", tz = "UTC"),
+          to = as.POSIXct("2025-04-02 00:00:01", tz = "UTC")
+        ),
+        "https://connect.example/__api__/v1/instrumentation/content/hits?from=2025-04-01T00%3A00%3A01Z&to=2025-04-02T00%3A00%3A01Z"
+      )
+
+      # Dates are converted to timestamps with the system's time zone, so for
+      # repeatability we're gonna set it here.
+
+      withr::local_envvar(TZ = "UTC")
+
+      expect_GET(
+        get_usage(
+          client,
+          from = as.Date("2025-04-01"),
+          to = as.Date("2025-04-02")
+        ),
+        "https://connect.example/__api__/v1/instrumentation/content/hits?from=2025-04-01T00%3A00%3A00Z&to=2025-04-02T23%3A59%3A59Z"
+      )
+    })
+  })
+})
