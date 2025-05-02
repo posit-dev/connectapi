@@ -3,7 +3,8 @@
 ## New features
 
 - New `get_usage()` function returns content usage data from Connect's `GET
-  v1/instrumentation/content/hits` endpoint.
+  v1/instrumentation/content/hits` endpoint on Connect v2025.04.0 and higher.
+  (#390)
 
 ## Enhancements and fixes
 

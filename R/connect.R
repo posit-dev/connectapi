@@ -818,12 +818,29 @@ Connect <- R6::R6Class(
       self$GET(path, query = query)
     },
 
+    #' @description Get content usage data.
+    #' @param from Optional `Date` or `POSIXt`; start of the time window. If a
+    #' `Date`, coerced to `YYYY-MM-DDT00:00:00` in the caller's time zone.
+    #' @param to Optional `Date` or `POSIXt`; end of the time window. If a
+    #' `Date`, coerced to `YYYY-MM-DDT23:59:59` in the caller's time zone.
     inst_content_hits = function(from = NULL, to = NULL) {
+      error_if_less_than(client$version, "2025.04.0")
+
+      # If this is called with date objects with no timestamp attached, it's
+      # reasonable to assume that the caller is indicating the days as an
+      # inclusive range.
+      if (inherits(from, "Date")) {
+        from <- as.POSIXct(paste(from, "00:00:00"), tz = "")
+      }
+      if (inherits(to, "Date")) {
+        to <- as.POSIXct(paste(to, "23:59:59"), tz = "")
+      }
+
       self$GET(
         v1_url("instrumentation", "content", "hits"),
         query = list(
-          from = from,
-          to = to
+          from = make_timestamp(from),
+          to = make_timestamp(to)
         )
       )
     },

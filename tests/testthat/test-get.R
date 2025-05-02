@@ -330,7 +330,10 @@ test_that("get_packages() works as expected with `content_guid` names in API res
 
 test_that("get_content only requests vanity URLs for Connect 2024.06.0 and up", {
   with_mock_dir("2024.05.0", {
-    client <- Connect$new(server = "http://connect.example", api_key = "not-a-key")
+    client <- Connect$new(
+      server = "http://connect.example",
+      api_key = "not-a-key"
+    )
     # `$version` is lazy, so we need to call it before `without_internet()`.
     client$version
   })
@@ -342,7 +345,10 @@ test_that("get_content only requests vanity URLs for Connect 2024.06.0 and up", 
   })
 
   with_mock_dir("2024.06.0", {
-    client <- Connect$new(server = "http://connect.example", api_key = "not-a-key")
+    client <- Connect$new(
+      server = "http://connect.example",
+      api_key = "not-a-key"
+    )
     # `$version` is lazy, so we need to call it before `without_internet()`.
     client$version
   })
@@ -354,7 +360,10 @@ test_that("get_content only requests vanity URLs for Connect 2024.06.0 and up", 
   })
 
   with_mock_dir("2024.07.0", {
-    client <- Connect$new(server = "http://connect.example", api_key = "not-a-key")
+    client <- Connect$new(
+      server = "http://connect.example",
+      api_key = "not-a-key"
+    )
     # `$version` is lazy, so we need to call it before `without_internet()`.
     client$version
   })

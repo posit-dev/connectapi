@@ -526,16 +526,71 @@ get_usage_static <- function(
   return(out)
 }
 
+#' Get usage information for deployed content
+#'
+#' @description
 
+#' Retrieve content hits for all available content on the server. Available
+#' content depends on the user whose API key is in use. Administrator accounts
+#' will receive data for all content on the server. Publishers will receive data
+#' for all content they own or collaborate on.
+#'
+#' If no date-times are provided, all usage data will be returned.
+
+#' @param client A `Connect` R6 client object.
+#' @param from Optional `Date` or date-time (`POSIXct` or `POSIXlt`). Only
+#'   records after this time are returned. If a `Date`, treated as the start of
+#'   that day in the local time zone; if a date-time, used verbatim.
+#' @param to Optional `Date` or date-time (`POSIXct` or `POSIXlt`). Only records
+#'   before this time are returned. If a `Date`, treated as end of that day
+#'   (`23:59:59`) in the local time zone; if a date-time, used verbatim.
+#'
+#' @return A tibble with columns:
+#' * `content_guid`: The GUID of the content.
+#' * `user_guid`: The GUID of logged-in visitors, NA for anonymous.
+#' * `time`: The time of the hit as `POSIXct`.
+#' * `path`: The path of the hit. Not recorded for all content types.
+#' * `user_agent`: If available, the user agent string for the hit. Not
+#'   available for all records.
+#'
+#' @details
+#'
+#' The data returned by `get_usage()` includes all content types. For Shiny
+#' content, the `timestamp` indicates the *start* of the Shiny session.
+#' Additional fields for Shiny and non-Shiny are available respectively from
+#' `get_usage_shiny()` and `get_usage_static()`.
+#'
+#' When possible, however, we recommend using `get_usage()` over
+#' `get_usage_static()` or `get_usage_shiny()`, as it will be much faster for
+#' large datasets.
+#'
+#' @examples
+#' \dontrun{
+#' client <- connect()
+#'
+#' # Fetch the last 2 days of hits
+#' usage <- get_usage(client, from = Sys.Date() - 2, to = Sys.Date())
+#'
+#' # Fetch usage after a specified date
+#' usage <- get_usage(
+#'   client,
+#'   from = as.POSIXct("2025-05-02 12:40:00", tz = "UTC")
+#' )
+#'
+#' # Fetch all usage
+#' usage <- get_usage(client)
+#' }
+#'
+#' @export
 get_usage <- function(client, from = NULL, to = NULL) {
-  from <- format(from, "%Y-%m-%dT%H:%M:%SZ")
-  to <- format(to, "%Y-%m-%dT%H:%M:%SZ")
+  usage_raw <- client$inst_content_hits(
+    from = from,
+    to = to
+  )
 
-  usage_raw <- client$inst_content_hits(from, to)
-
-  parse_connectapi_typed(usage_raw, connectapi_ptypes$usage)
+  usage <- parse_connectapi_typed(usage_raw, connectapi_ptypes$usage)
+  fast_unnest_character(usage, "data")
 }
-
 
 #' Get Audit Logs from Posit Connect Server
 #'
