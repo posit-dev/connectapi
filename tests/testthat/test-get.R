@@ -432,7 +432,10 @@ test_that("Metrics firehose is called with expected parameters", {
           from = as.POSIXct("2025-04-01 00:00:01", tz = "UTC"),
           to = as.POSIXct("2025-04-02 00:00:01", tz = "UTC")
         ),
-        "https://connect.example/__api__/v1/instrumentation/content/hits?from=2025-04-01T00%3A00%3A01Z&to=2025-04-02T00%3A00%3A01Z"
+        paste0(
+          "https://connect.example/__api__/v1/instrumentation/content/hits?",
+          "from=2025-04-01T00%3A00%3A01Z&to=2025-04-02T00%3A00%3A01Z"
+        )
       )
 
       # Dates are converted to timestamps with the system's time zone, so for
@@ -446,7 +449,10 @@ test_that("Metrics firehose is called with expected parameters", {
           from = as.Date("2025-04-01"),
           to = as.Date("2025-04-02")
         ),
-        "https://connect.example/__api__/v1/instrumentation/content/hits?from=2025-04-01T00%3A00%3A00Z&to=2025-04-02T23%3A59%3A59Z"
+        paste0(
+          "https://connect.example/__api__/v1/instrumentation/content/hits?",
+          "from=2025-04-01T00%3A00%3A00Z&to=2025-04-02T23%3A59%3A59Z"
+        )
       )
     })
   })
