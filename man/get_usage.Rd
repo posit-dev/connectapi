@@ -20,9 +20,10 @@ before this time are returned. If a \code{Date}, treated as end of that day
 \value{
 A tibble with columns:
 \itemize{
-\item \code{content_guid}: The GUID of the content.
+\item \code{id}: An identifier for the record.
 \item \code{user_guid}: The GUID of logged-in visitors, NA for anonymous.
-\item \code{time}: The time of the hit as \code{POSIXct}.
+\item \code{content_guid}: The GUID of the content.
+\item \code{timestamp}: The time of the hit as \code{POSIXct}.
 \item \code{path}: The path of the hit. Not recorded for all content types.
 \item \code{user_agent}: If available, the user agent string for the hit. Not
 available for all records.

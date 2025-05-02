@@ -120,7 +120,7 @@ parse_connectapi <- function(data) {
 # +   x_tidyr <- tidyr::unnest_wider(x_raw, data)
 # + )
 # > t_custom <- system.time(
-# +   x_custom <- fast_unnest(x_raw, "data")
+# +   x_custom <- fast_unnest_character(x_raw, "data")
 # + )
 # > identical(x_tidyr, x_custom)
 # [1] TRUE

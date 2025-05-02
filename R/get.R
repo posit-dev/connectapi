@@ -546,9 +546,10 @@ get_usage_static <- function(
 #'   (`23:59:59`) in the local time zone; if a date-time, used verbatim.
 #'
 #' @return A tibble with columns:
-#' * `content_guid`: The GUID of the content.
+#' * `id`: An identifier for the record.
 #' * `user_guid`: The GUID of logged-in visitors, NA for anonymous.
-#' * `time`: The time of the hit as `POSIXct`.
+#' * `content_guid`: The GUID of the content.
+#' * `timestamp`: The time of the hit as `POSIXct`.
 #' * `path`: The path of the hit. Not recorded for all content types.
 #' * `user_agent`: If available, the user agent string for the hit. Not
 #'   available for all records.
