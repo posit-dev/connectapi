@@ -9,6 +9,9 @@
   rather than in UTC. (#400)
 - `get_content()` now includes vanity URLs in the returned data frame on Connect
   v2024.06.0 and later. (#398)
+- Removed unnecessary null check with default from `get_oauth_credentials()` and
+  `get_oauth_content_credentials()` functions for `requested_token_type` parameter
+  that was causing issues with Connect < 2025.03.0. (#407)
 
 # connectapi 0.7.0
 
