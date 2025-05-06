@@ -48,6 +48,7 @@
 <li>Timestamps from the Connect server are now displayed in your local time zone, rather than in UTC. (<a href="https://github.com/posit-dev/connectapi/issues/400" class="external-link">#400</a>)</li>
 <li>
 <code><a href="../reference/get_content.html">get_content()</a></code> now includes vanity URLs in the returned data frame on Connect v2024.06.0 and later. (<a href="https://github.com/posit-dev/connectapi/issues/398" class="external-link">#398</a>)</li>
+<li>Removed unnecessary null check with default from <code><a href="../reference/get_oauth_credentials.html">get_oauth_credentials()</a></code> and <code><a href="../reference/get_oauth_content_credentials.html">get_oauth_content_credentials()</a></code> functions for <code>requested_token_type</code> parameter that was causing issues with Connect &lt; 2025.03.0. (<a href="https://github.com/posit-dev/connectapi/issues/407" class="external-link">#407</a>)</li>
 </ul></div>
 </div>
     <div class="section level2">
