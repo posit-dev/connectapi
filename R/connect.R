@@ -972,7 +972,7 @@ Connect <- R6::R6Class(
         private$.timezones <- tryCatch(
           self$GET(v1_url("timezones")),
           error = function(e) {
-            self$GET(unversioned_url("timezones"))
+            self$GET(unversioned_fallback_url("timezones"))
           }
         )
       }
