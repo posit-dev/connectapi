@@ -955,7 +955,8 @@ Connect <- R6::R6Class(
     # end --------------------------------------------------------
   ),
   private = list(
-    .version = NULL
+    .version = NULL,
+    .timezones = NULL
   ),
   active = list(
     #' @field version The server version.
@@ -964,6 +965,18 @@ Connect <- R6::R6Class(
         private$.version <- safe_server_version(self)
       }
       private$.version
+    },
+    #' @field timezones The server timezones.
+    timezones = function() {
+      if (is.null(private$.timezones)) {
+        private$.timezones <- tryCatch(
+          self$GET(v1_url("timezones")),
+          error = function(e) {
+            self$GET(unversioned_url("timezones"))
+          }
+        )
+      }
+      private$.timezones
     }
   )
 )

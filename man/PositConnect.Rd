@@ -60,6 +60,8 @@ Other R6 classes:
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{version}}{The server version.}
+
+\item{\code{timezones}}{The server timezones.}
 }
 \if{html}{\out{</div>}}
 }
