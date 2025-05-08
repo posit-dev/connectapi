@@ -35,7 +35,7 @@ get_thumbnail <- function(content, path = NULL) {
   )
   if (httr::status_code(res) == 404) {
     res <- con$GET(
-      unversioned_url("applications", guid, "image"),
+      unversioned_fallback_url("applications", guid, "image"),
       parser = NULL
     )
   }
@@ -105,7 +105,7 @@ delete_thumbnail <- function(content) {
   # https://docs.posit.co/connect/api/#overview--api-error-codes
   if (httr::status_code(res) == 404 && error_code(res) != 17) {
     res <- con$DELETE(
-      unversioned_url("applications", guid, "image"),
+      unversioned_fallback_url("applications", guid, "image"),
       parser = NULL
     )
   }
@@ -152,7 +152,7 @@ has_thumbnail <- function(content) {
   )
   if (httr::status_code(res) == 404) {
     res <- con$GET(
-      unversioned_url("applications", guid, "image"),
+      unversioned_fallback_url("applications", guid, "image"),
       parser = NULL
     )
   }
@@ -219,7 +219,7 @@ set_thumbnail <- function(content, path) {
   )
   if (httr::status_code(res) == 404) {
     res <- con$POST(
-      path = unversioned_url("applications", guid, "image"),
+      path = unversioned_fallback_url("applications", guid, "image"),
       body = httr::upload_file(valid_path),
       parser = NULL
     )

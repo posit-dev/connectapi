@@ -7,6 +7,11 @@ unversioned_url <- function(...) {
   paste(..., sep = "/")
 }
 
+# Make an alias of unversioned_url to help us be able to search for the places
+# where we call the unversioned API, but not be misled by places we've left in
+# for backwards compatibility.
+unversioned_fallback_url <- unversioned_url
+
 valid_page_size <- function(x, min = 1, max = 500) {
   # This could be changed to error if x is outside the range
   min(max(min, x), max)

@@ -112,7 +112,7 @@ Content <- R6::R6Class(
       use_unversioned <- endpoint_does_not_exist(res)
       if (use_unversioned) {
         res <- self$connect$GET(
-          unversioned_url("applications", self$content$guid, "jobs"),
+          unversioned_fallback_url("applications", self$content$guid, "jobs"),
           parser = NULL
         )
       }

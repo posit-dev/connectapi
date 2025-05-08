@@ -53,7 +53,7 @@ VariantSchedule <- R6::R6Class(
           app_id = self$get_variant()$app_id,
           variant_id = self$get_variant()$id
         )
-        path <- "schedules"
+        path <- unversioned_url("schedules")
       } else {
         path <- unversioned_url("schedules", self$get_schedule()$id)
       }
