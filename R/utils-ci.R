@@ -199,59 +199,35 @@ build_test_env <- function(
   )
 }
 
-# set up the first admin
-create_first_admin <- function(
-  url,
-  user,
-  password,
-  email,
-  keyname = "first-key",
-  provider = "password"
-) {
+create_first_admin <- function(url, user, password, email) {
   warn_dire("create_first_admin")
   check_connect_license(url)
 
+  # Use HackyConnect to create the user and log in with password,
+  # then create an API key.
   client <- HackyConnect$new(server = url, api_key = NULL)
 
-  if (provider == "password") {
-    tryCatch(
-      {
-        client$POST(
-          path = v1_url("users"),
-          body = list(
-            username = user,
-            password = password,
-            email = email
-          )
-        )
-      },
-      error = function(e) {
-        message(glue::glue("Error creating first admin: {e}"))
-      }
-    )
-  } else if (provider %in% c("ldap", "pam")) {
-    # can just log in using user / password
-  } else {
-    stop("Unsupported authentication provider")
-  }
-
-  client$login(
-    user = user,
-    password = password
+  new_user_payload <- list(
+    username = user,
+    password = password,
+    email = email
+  )
+  tryCatch(
+    new_user <- client$POST(path = v1_url("users"), body = new_user_payload),
+    error = function(e) {
+      message(glue::glue("Error creating first admin: {e}"))
+    }
   )
 
-  # Is this called to ensure that it succeeds?
-  # It was flagged by lintr as assigning a variable that is not used.
-  client$me()
+  client$login(user = user, password = password)
 
   api_key <- client$POST(
-    path = unversioned_url("keys"),
-    body = list(name = keyname)
+    path = v1_url("users", new_user[["guid"]], "keys"),
+    body = list(name = "first-key")
   )
 
-  return(
-    connect(url, api_key$key)
-  )
+  # Then we return a non-hacky Connect object with the API key
+  connect(url, api_key$key)
 }
 
 HackyConnect <- R6::R6Class(
