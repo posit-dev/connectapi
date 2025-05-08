@@ -221,9 +221,15 @@ create_first_admin <- function(url, user, password, email) {
 
   client$login(user = user, password = password)
 
-  api_key <- client$POST(
-    path = v1_url("users", new_user[["guid"]], "keys"),
-    body = list(name = "first-key")
+  api_key <- tryCatch(
+    client$POST(
+      path = v1_url("users", new_user[["guid"]], "keys"),
+      body = list(name = "first-key")
+    ),
+    error = function(e) {
+      # TODO: rebase after #408 merges. `unversioned_fallback_url()`
+      client$POST(unversioned_url("keys"), body = list(name = "first-key"))
+    }
   )
 
   # Then we return a non-hacky Connect object with the API key
