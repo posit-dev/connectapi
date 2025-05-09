@@ -497,7 +497,7 @@ Connect <- R6::R6Class(
       include = "tags,owner"
     ) {
       if (!is.null(guid)) {
-        return(self$GET(v1_url("content", guid)))
+        return(self$GET(v1_url("content", guid), query = list(include = include)))
       }
 
       query <- list(
