@@ -168,6 +168,12 @@ without_internet({
       con$content(name = "A name for content"),
       "https://connect.example/__api__/v1/content?name=A%20name%20for%20content&include=tags%2Cowner"
     )
+
+    uuid <- uuid::UUIDgenerate()
+    expect_GET(
+      con$content(guid = uuid, include = "tags"),
+      glue::glue("https://connect.example/__api__/v1/content/{uuid}?include=tags")
+    )
   })
 })
 
