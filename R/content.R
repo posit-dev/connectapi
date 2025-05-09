@@ -32,7 +32,7 @@ Content <- R6::R6Class(
     },
     #' @description Obtain the content data from the Connect server.
     get_content_remote = function() {
-      new_content_details <- self$get_connect()$content(self$get_content()$guid)
+      new_content_details <- self$get_connect()$content(self$get_content()$guid, include = NULL)
       self$content <- new_content_details
       self$get_content()
     },
@@ -590,7 +590,7 @@ content_item <- function(connect, guid) {
   # TODO : think about how to handle if GUID does not exist
   validate_R6_class(connect, "Connect")
 
-  res <- connect$get_connect()$content(guid)
+  res <- connect$get_connect()$content(guid, include = NULL)
 
   Content$new(connect = connect, content = res)
 }
