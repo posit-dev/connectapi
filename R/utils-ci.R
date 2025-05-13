@@ -227,8 +227,10 @@ create_first_admin <- function(url, user, password, email) {
       body = list(name = "first-key")
     ),
     error = function(e) {
-      # TODO: rebase after #408 merges. `unversioned_fallback_url()`
-      client$POST(unversioned_url("keys"), body = list(name = "first-key"))
+      client$POST(
+        unversioned_fallback_url("keys"),
+        body = list(name = "first-key")
+      )
     }
   )
 
