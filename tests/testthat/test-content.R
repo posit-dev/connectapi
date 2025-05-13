@@ -168,6 +168,16 @@ without_internet({
       con$content(name = "A name for content"),
       "https://connect.example/__api__/v1/content?name=A%20name%20for%20content&include=tags%2Cowner"
     )
+
+    expect_GET(
+      con$content(guid = 1),
+      "https://connect.example/__api__/v1/content/1?include=tags%2Cowner"
+    )
+
+    expect_GET(
+      con$content(guid = 1, include = "owner,tags"),
+      "https://connect.example/__api__/v1/content/1?include=owner%2Ctags"
+    )
   })
 })
 
