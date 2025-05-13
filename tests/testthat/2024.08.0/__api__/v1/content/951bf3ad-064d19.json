@@ -55,7 +55,7 @@
         {
             "id": "3",
             "name": "tag2",
-            "parent_id": "3",
+            "parent_id": "2",
             "created_time": "2017-04-18T19:54:32Z",
             "updated_time": "2017-05-03T20:15:27Z"
         }
