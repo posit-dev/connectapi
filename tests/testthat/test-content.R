@@ -170,8 +170,13 @@ without_internet({
     )
 
     expect_GET(
-      con$content(guid = 1, include = "tags"),
-      glue::glue("https://connect.example/__api__/v1/content/1?include=tags")
+      con$content(guid = 1),
+      glue::glue("https://connect.example/__api__/v1/content/1?include=tags%2Cowner")
+    )
+
+    expect_GET(
+      con$content(guid = 1, include = "owner,tags"),
+      glue::glue("https://connect.example/__api__/v1/content/1?include=owner%2Ctags")
     )
   })
 })
