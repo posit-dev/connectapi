@@ -58,15 +58,19 @@ ensure_column <- function(data, default, name) {
       # manual fix because vctrs::vec_cast cannot cast double -> datetime or char -> datetime
       col <- coerce_datetime(col, default, name = name)
     }
+
     if (inherits(default, "fs_bytes") && !inherits(col, "fs_bytes")) {
       col <- coerce_fsbytes(col, default)
     }
+
     if (inherits(default, "integer64") && !inherits(col, "integer64")) {
       col <- bit64::as.integer64(col)
     }
+
     if (inherits(default, "list") && !inherits(col, "list")) {
       col <- list(col)
     }
+
     col <- vctrs::vec_cast(col, default, x_arg = name)
   }
   data[[name]] <- col
@@ -99,6 +103,65 @@ parse_connectapi <- function(data) {
       )
     }
   ))
+}
+
+# nolint start
+# Unnests a list column similarly to `tidyr::unnest_wider()`, bringing the
+# entries of each list-item up to the top level. Makes some simplifying
+# assumptions for the sake of performance:
+# 1. All inner variables are treated as character vectors;
+# 2. The names of the first entry of the list-column are used as the
+#    names of variables to extract.
+# Performance example:
+# > nrow(x_raw)
+# [1] 373632
+# > nrow(x_raw)
+# [1] 373632
+# > t_tidyr <- system.time(
+# +   x_tidyr <- tidyr::unnest_wider(x_raw, data)
+# + )
+# > t_custom <- system.time(
+# +   x_custom <- fast_unnest_character(x_raw, "data")
+# + )
+# > identical(x_tidyr, x_custom)
+# [1] TRUE
+# > t_tidyr
+#    user  system elapsed
+#   7.018   0.137   7.172
+# > t_custom
+#    user  system elapsed
+#   0.281   0.005   0.285
+# nolint end
+fast_unnest_character <- function(df, col_name) {
+  if (!is.character(col_name)) {
+    stop("col_name must be a character vector")
+  }
+  if (!col_name %in% names(df)) {
+    stop("col_name is not present in df")
+  }
+
+  list_col <- df[[col_name]]
+
+  new_cols <- names(list_col[[1]])
+
+  df2 <- df
+  for (col in new_cols) {
+    df2[[col]] <- vapply(
+      list_col,
+      function(row) {
+        if (is.null(row[[col]])) {
+          NA_character_
+        } else {
+          row[[col]]
+        }
+      },
+      "1",
+      USE.NAMES = FALSE
+    )
+  }
+
+  df2[[col_name]] <- NULL
+  df2
 }
 
 coerce_fsbytes <- function(x, to, ...) {

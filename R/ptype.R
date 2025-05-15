@@ -1,5 +1,5 @@
 NA_datetime_ <- # nolint: object_name_linter
-  vctrs::new_datetime(NA_real_, tzone = "UTC")
+  vctrs::new_datetime(NA_real_, tzone = Sys.timezone())
 NA_list_ <- # nolint: object_name_linter
   list(list())
 
@@ -37,6 +37,13 @@ connectapi_ptypes <- list(
     "rendering_id" = NA_character_,
     "bundle_id" = NA_character_,
     "data_version" = NA_integer_
+  ),
+  usage = tibble::tibble(
+    "id" = NA_integer_,
+    "user_guid" = NA_character_,
+    "content_guid" = NA_character_,
+    "timestamp" = NA_datetime_,
+    "data" = NA_list_
   ),
   content = tibble::tibble(
     "guid" = NA_character_,
