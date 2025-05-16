@@ -29,7 +29,7 @@ promote <- function(from, to, to_key, from_key, name) {
   from_client <- connect(server = from, api_key = from_key)
   to_client <- connect(server = to, api_key = to_key)
 
-  # find app on "from" server
+  # find content on "from" server
   from_app <- from_client$content(name = name)
   if (length(from_app) != 1) {
     stop(sprintf(
@@ -39,7 +39,7 @@ promote <- function(from, to, to_key, from_key, name) {
       from
     ))
   }
-  from_app <- from_app[[1]]
+  from_app <- Content$new(connect = from_client, content = from_app[[1]])
 
   # download bundle
   bundle <- download_bundle(from_app)
