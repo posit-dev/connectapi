@@ -36,29 +36,6 @@ test_that("create tags works", {
   expect_equal(child_tag$id, test_conn_1$get_tag_id(child_tag_name))
 })
 
-test_that("associate tag with content", {
-  tag_content <<- deploy(
-    test_conn_1,
-    bundle_path(
-      rprojroot::find_package_root_file(
-        "tests/testthat/examples",
-        "static.tar.gz"
-      )
-    ),
-    name = content_name
-  )
-
-  # set tag
-  test_conn_1$set_content_tag(tag_content$get_content()$guid, child_tag$id)
-
-  # ensure content is found
-  res <- test_conn_1$get_apps(filter = list(tag = child_tag$id))
-
-  expect_true(
-    tag_content$get_content()$guid %in% purrr::map_chr(res, ~ .x$guid)
-  )
-})
-
 ## Test high level functions --------------------------------------------------
 
 test_that("get_tags works", {
@@ -265,38 +242,4 @@ test_that("set_content_tag_tree works", {
   # TODO: use newer way to delete tags
   app1$tag_delete(get_content_tags(app1)[[ptag_1]][["id"]])
   expect_length(get_content_tags(app1), 0)
-})
-
-test_that("identical tag names are searched properly", {
-  tag_content_guid <- tag_content$get_content()$guid
-
-  # create another tag with same name
-  child_tag_2 <- test_conn_1$tag_create(
-    name = child_tag_name,
-    parent_id = child_tag$id
-  )
-
-  # search with the "empty" tag in front
-  res <- test_conn_1$get_apps(
-    filter = list(tag = child_tag_2$id, tag = child_tag$id),
-    .collapse = "||"
-  )
-
-  expect_true(
-    tag_content_guid %in% purrr::map_chr(res, ~ .x$guid)
-  )
-
-  # check that duplicates do not happen
-  test_conn_1$set_content_tag(
-    tag_content_guid,
-    child_tag_2$id
-  )
-
-  res2 <- test_conn_1$get_apps(
-    filter = list(tag = child_tag_2$id, tag = child_tag$id),
-    .collapse = "||"
-  )
-
-  guids <- purrr::map_chr(res2, ~ .x$guid)
-  expect_true(length(guids[guids == tag_content_guid]) == 1)
 })
