@@ -1,32 +1,3 @@
-test_that("dashboard_url_chr works with various length inputs", {
-  expect_identical(dashboard_url_chr("a", "b", "c"), "a/connect/#/apps/b/c")
-  expect_identical(
-    dashboard_url_chr("a", c("b", "c"), "d"),
-    c("a/connect/#/apps/b/d", "a/connect/#/apps/c/d")
-  )
-  expect_identical(
-    dashboard_url_chr(
-      c("a", "b"),
-      c("c", "d"),
-      c("e", "f")
-    ),
-    c("a/connect/#/apps/c/e", "b/connect/#/apps/d/f")
-  )
-})
-
-test_that("dashboard_url_chr fails with invalid inputs", {
-  class <- if (packageVersion("purrr") >= "0.9000") {
-    "vctrs_error_incompatible_size"
-  } else {
-    "purrr_error_bad_element_length"
-  }
-
-  expect_error(
-    dashboard_url_chr(c("a", "b", "c"), "d", c("e", "f")),
-    class = class
-  )
-})
-
 test_that("bundle_dir errors if no manifest.json", {
   expect_error(
     suppressMessages(bundle_dir(rprojroot::find_testthat_root_file(

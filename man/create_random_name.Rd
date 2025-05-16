@@ -24,7 +24,6 @@ Other content functions:
 \code{\link{content_title}()},
 \code{\link{content_update}()},
 \code{\link{dashboard_url}()},
-\code{\link{dashboard_url_chr}()},
 \code{\link{delete_thumbnail}()},
 \code{\link{delete_vanity_url}()},
 \code{\link{deploy_repo}()},

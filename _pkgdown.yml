@@ -81,7 +81,6 @@ reference:
       - browse_solo
       - create_random_name
       - dashboard_url
-      - dashboard_url_chr
       - delete_runtime_cache
 
 
