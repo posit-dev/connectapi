@@ -30,7 +30,7 @@ promote <- function(from, to, to_key, from_key, name) {
   to_client <- connect(server = to, api_key = to_key)
 
   # find content on "from" server
-  from_app <- from_client$content(name = name)
+  from_app <- from_client$content(name = name, include = NULL)
   if (length(from_app) != 1) {
     stop(sprintf(
       "Found %d apps matching app name %s on %s. Content must have a unique name.",

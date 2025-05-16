@@ -666,7 +666,7 @@ content_ensure <- function(
     }
   } else {
     # name-based deployment
-    content <- connect$content(name = name)
+    content <- connect$content(name = name, include = NULL)
     if (length(content) > 1) {
       stop(glue::glue(
         "Found {length(content)} content items ",
