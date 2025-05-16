@@ -101,7 +101,11 @@ Content <- R6::R6Class(
     #' @description Return the URL for this content in the Posit Connect dashboard.
     #' @param pane The pane in the dashboard to link to.
     get_dashboard_url = function(pane = "") {
-      dashboard_url_chr(self$connect$server, self$content$guid, pane = pane)
+      url <- self$content$dashboard_url
+      if (nzchar(pane)) {
+        url <- paste0(url, "/", pane)
+      }
+      url
     },
     #' @description Return the jobs for this content
     jobs = function() {
@@ -370,7 +374,7 @@ Content <- R6::R6Class(
       cat("  Content GUID: ", self$get_content()$guid, "\n", sep = "")
       cat(
         "  Content URL: ",
-        dashboard_url_chr(self$get_connect()$server, self$get_content()$guid),
+        self$get_content()$dashboard_url,
         "\n",
         sep = ""
       )
@@ -662,7 +666,7 @@ content_ensure <- function(
     }
   } else {
     # name-based deployment
-    content <- connect$get_apps(list(name = name))
+    content <- connect$content(name = name)
     if (length(content) > 1) {
       stop(glue::glue(
         "Found {length(content)} content items ",
@@ -689,7 +693,7 @@ content_ensure <- function(
       content <- content[[1]]
       if (!"existing" %in% .permitted) {
         stop(glue::glue(
-          "Content with name {name} already exists at {dashboard_url_chr(connect$server, content$guid)}"
+          "Content with name {name} already exists at {content$dashboard_url}"
         ))
       }
       message(glue::glue(

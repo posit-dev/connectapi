@@ -30,7 +30,7 @@ promote <- function(from, to, to_key, from_key, name) {
   to_client <- connect(server = to, api_key = to_key)
 
   # find app on "from" server
-  from_app <- from_client$get_apps(list(name = name))
+  from_app <- from_client$content(name = name)
   if (length(from_app) != 1) {
     stop(sprintf(
       "Found %d apps matching app name %s on %s. Content must have a unique name.",
@@ -39,7 +39,7 @@ promote <- function(from, to, to_key, from_key, name) {
       from
     ))
   }
-  from_app <- content_item(from_client, guid = from_app[[1]]$guid)
+  from_app <- from_app[[1]]
 
   # download bundle
   bundle <- download_bundle(from_app)

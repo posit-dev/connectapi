@@ -25,6 +25,7 @@ generate_R6_print_output <- # nolint: object_name_linter
     ex_content <- list(
       guid = "content-guid",
       title = "content-title",
+      dashboard_url = "http://test_host/connect/#/apps/content-guid/",
       url = "http://content-url"
     )
     cnt1 <- Content$new(connect = con, ex_content)
