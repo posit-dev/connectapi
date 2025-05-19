@@ -383,61 +383,6 @@ Connect <- R6::R6Class(
       invisible(self$DELETE(v1_url("tags", id)))
     },
 
-    # content listing ----------------------------------------------------------
-
-    # filter is a named list, e.g. list(name = 'appname')
-    # this function supports pages
-    #' @description Get content items.
-    #' @param filter Named list containing filter conditions.
-    #' @param .collapse How multiple filters are combined.
-    #' @param .limit The limit.
-    #' @param page_size The page size.
-    get_apps = function(
-      filter = NULL,
-      .collapse = "&",
-      .limit = Inf,
-      page_size = 25
-    ) {
-      path <- unversioned_url("applications")
-      query <- list(
-        count = min(page_size, .limit)
-      )
-      if (!is.null(filter)) {
-        query$filter <- paste(
-          sapply(seq_along(filter), function(i) {
-            sprintf("%s:%s", names(filter)[i], filter[[i]])
-          }),
-          collapse = .collapse
-        )
-      }
-
-      prg <- optional_progress_bar(
-        format = "downloading page :current (:tick_rate/sec) :elapsedfull",
-        total = NA,
-        clear = FALSE
-      )
-
-      # handle paging
-      prg$tick()
-      res <- self$GET(path, query = query)
-
-      all <- res$applications
-      all_l <- length(all)
-      query$start <- 1
-      while (length(res$applications) > 0 && all_l < .limit) {
-        prg$tick()
-
-        query$start <- query$start + page_size
-        query$page_size <- min(page_size, .limit - all_l)
-        query$cont <- res$continuation
-        res <- self$GET(path, query = query)
-
-        all <- c(all, res$applications)
-        all_l <- length(all)
-      }
-      all
-    },
-
     #' @description Get a schedule.
     #' @param schedule_id The schedule identifier.
     get_schedule = function(schedule_id) {
