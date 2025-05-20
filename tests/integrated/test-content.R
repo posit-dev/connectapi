@@ -6,7 +6,7 @@ viewer_guid <- NULL
 # deploy content
 cont1_title <- "Test Content 1"
 cont1_content <- deploy_example(test_conn_1, "static", title = cont1_title)
-cont1_guid <- cont1_content$guid
+cont1_guid <- cont1_content$content$guid
 
 # ensure that RSPM is being used so these do not take eternity
 shiny_content <- deploy_example(test_conn_1, "shiny")
@@ -41,7 +41,12 @@ test_that("content_title handles missing content gracefully", {
 
 test_that("content_title handles NULL titles gracefully", {
   c2_name <- uuid::UUIDgenerate()
-  c2 <- deploy(connect = test_conn_1, bundle = bund, name = c2_name, title = NA)
+  bnd <- bundle_static(
+    path = rprojroot::find_package_root_file(
+      "tests/testthat/examples/static/test.png"
+    )
+  )
+  c2 <- deploy(connect = test_conn_1, bundle = bnd, name = c2_name, title = NA)
   expect_null(c2$get_content()$title)
   null_title <- content_title(test_conn_1, c2$get_content()$guid, "Test Title")
   expect_identical(null_title, "Test Title")
@@ -294,10 +299,15 @@ test_that("set all environment variables works", {
 
 test_that("get_bundles and delete_bundle work", {
   bnd_name <- create_random_name()
+  bnd <- bundle_static(
+    path = rprojroot::find_package_root_file(
+      "tests/testthat/examples/static/test.png"
+    )
+  )
 
-  bc1 <- deploy(test_conn_1, bund, bnd_name)
-  bc1 <- deploy(test_conn_1, bund, bnd_name)
-  bc1 <- deploy(test_conn_1, bund, bnd_name)
+  bc1 <- deploy(test_conn_1, bnd, bnd_name)
+  bc1 <- deploy(test_conn_1, bnd, bnd_name)
+  bc1 <- deploy(test_conn_1, bnd, bnd_name)
 
   bnd_dat <- get_bundles(bc1)
   expect_equal(nrow(bnd_dat), 3)
