@@ -1,30 +1,5 @@
 test_conn_1 <- connect(prefix = "TEST_1")
-
-rmd_name <- uuid::UUIDgenerate()
-rmd_title <- "Test RMarkdown 1"
-rmd_guid <- NULL
-rmd_content <- NULL
-
-# Setup - RMarkdown -------------------------------------------------------
-
-dir_rmd <- rprojroot::find_package_root_file(
-  "tests/testthat/examples/rmarkdown"
-)
-tmp_file_rmd <- fs::file_temp(pattern = "bundle_rmd", ext = ".tar.gz")
-bund_rmd <- bundle_dir(path = dir_rmd, filename = tmp_file_rmd)
-
-tsk_rmd <- deploy(
-  connect = test_conn_1,
-  bundle = bund_rmd,
-  name = rmd_name,
-  title = rmd_title
-)
-
-rmd_guid <- tsk_rmd$get_content()$guid
-rmd_content <- content_item(tsk_rmd$get_connect(), rmd_guid)
-
-# TODO: a smarter, noninteractive wait...
-rmd_wait <- suppressMessages(poll_task(tsk_rmd))
+rmd_content <- deploy_example(test_conn_1, "rmarkdown")
 
 ## Test Schedule -------------------------------------------------------
 
