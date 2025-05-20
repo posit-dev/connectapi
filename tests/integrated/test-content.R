@@ -55,11 +55,6 @@ rmd_title <- "Test RMarkdown 1"
 rmd_guid <- NULL
 rmd_content <- NULL
 
-prmd_name <- uuid::UUIDgenerate()
-prmd_title <- "Test Param RMarkdown 1"
-prmd_guid <- NULL
-prmd_content <- NULL
-
 # Setup - Shiny -------------------------------------------------------
 
 dir_shiny <- rprojroot::find_package_root_file("tests/testthat/examples/shiny")
@@ -99,27 +94,6 @@ rmd_content <- content_item(tsk_rmd$get_connect(), rmd_guid)
 
 # TODO: a smarter, noninteractive wait...
 rmd_wait <- suppressMessages(poll_task(tsk_rmd))
-
-# Setup - Param RMarkdown -------------------------------------------------------
-
-dir_prmd <- rprojroot::find_package_root_file(
-  "tests/testthat/examples/param_rmarkdown"
-)
-tmp_file_prmd <- fs::file_temp(pattern = "bundle_prmd", ext = ".tar.gz")
-bund_prmd <- bundle_dir(path = dir_prmd, filename = tmp_file_prmd)
-
-tsk_prmd <- deploy(
-  connect = test_conn_1,
-  bundle = bund_prmd,
-  name = prmd_name,
-  title = prmd_title
-)
-
-prmd_guid <- tsk_prmd$get_content()$guid
-prmd_content <- content_item(tsk_prmd$get_connect(), prmd_guid)
-
-# TODO: a smarter, noninteractive wait
-prmd_wait <- suppressMessages(poll_task(tsk_prmd))
 
 # Metadata Tests ----------------------------------------------------
 
