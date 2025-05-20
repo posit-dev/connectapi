@@ -14,7 +14,7 @@ skip_if_connect_older_than <- function(client, version) {
   }
 }
 
-deploy_example <- function(connect, name) {
+deploy_example <- function(connect, name, ...) {
   example_dir <- rprojroot::find_package_root_file(
     "tests",
     "testthat",
@@ -28,7 +28,7 @@ deploy_example <- function(connect, name) {
     connect = connect,
     bundle = bund,
     name = name,
-    title = name
+    ...
   )
 
   guid <- tsk$get_content()$guid

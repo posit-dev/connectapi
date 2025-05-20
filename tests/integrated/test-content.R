@@ -1,99 +1,17 @@
 # Setup ----------------------------------------------------
 
-cont1_name <- uuid::UUIDgenerate()
-cont1_title <- "Test Content 1"
-cont1_guid <- NULL
-cont1_bundle <- NULL
-cont1_content <- NULL
-
-cont2_name <- uuid::UUIDgenerate()
-cont2_title <- "Test Content 2"
-
 collab_guid <- NULL
-collab_alt_guid <- NULL
 viewer_guid <- NULL
-viewer_alt_guid <- NULL
-
-collap_group_guid <- NULL
-viewer_group_guid <- NULL
 
 # deploy content
-dir_path <- rprojroot::find_package_root_file("tests/testthat/examples/static")
-tmp_file <- fs::file_temp(pattern = "bundle", ext = ".tar.gz")
-bund <- bundle_dir(path = dir_path, filename = tmp_file)
+cont1_title <- "Test Content 1"
+cont1_content <- deploy_example(test_conn_1, "static", title = cont1_title)
+cont1_guid <- cont1_content$guid
 
-tsk <- deploy(
-  connect = test_conn_1,
-  bundle = bund,
-  name = cont1_name,
-  title = cont1_title
-)
+# ensure that RSPM is being used so these do not take eternity
+shiny_content <- deploy_example(test_conn_1, "shiny")
+rmd_content <- deploy_example(test_conn_1, "rmarkdown")
 
-cont1_guid <- tsk$get_content()$guid
-cont1_content <- content_item(tsk$get_connect(), cont1_guid)
-
-tsk2 <- deploy(
-  connect = test_conn_1,
-  bundle = bund,
-  name = cont2_name,
-  title = cont2_title
-)
-
-cont2_guid <- tsk2$get_content()$guid
-cont2_content <- content_item(tsk2$get_connect(), cont2_guid)
-
-# Setup - "REAL" content ------------------------------------------------
-# ensure that RSPM is being used so this does not take eternity
-
-shiny_name <- uuid::UUIDgenerate()
-shiny_title <- "Test Shiny 1"
-shiny_guid <- NULL
-shiny_content <- NULL
-
-rmd_name <- uuid::UUIDgenerate()
-rmd_title <- "Test RMarkdown 1"
-rmd_guid <- NULL
-rmd_content <- NULL
-
-# Setup - Shiny -------------------------------------------------------
-
-dir_shiny <- rprojroot::find_package_root_file("tests/testthat/examples/shiny")
-tmp_file_shiny <- fs::file_temp(pattern = "bundle_shiny", ext = ".tar.gz")
-bund_shiny <- bundle_dir(path = dir_shiny, filename = tmp_file_shiny)
-
-tsk_shiny <- deploy(
-  connect = test_conn_1,
-  bundle = bund_shiny,
-  name = shiny_name,
-  title = shiny_title
-)
-
-shiny_guid <- tsk_shiny$get_content()$guid
-shiny_content <- content_item(tsk_shiny$get_connect(), shiny_guid)
-
-# TODO: a smarter, noninteractive wait...
-shiny_wait <- suppressMessages(poll_task(tsk_shiny))
-
-# Setup - RMarkdown -------------------------------------------------------
-
-dir_rmd <- rprojroot::find_package_root_file(
-  "tests/testthat/examples/rmarkdown"
-)
-tmp_file_rmd <- fs::file_temp(pattern = "bundle_rmd", ext = ".tar.gz")
-bund_rmd <- bundle_dir(path = dir_rmd, filename = tmp_file_rmd)
-
-tsk_rmd <- deploy(
-  connect = test_conn_1,
-  bundle = bund_rmd,
-  name = rmd_name,
-  title = rmd_title
-)
-
-rmd_guid <- tsk_rmd$get_content()$guid
-rmd_content <- content_item(tsk_rmd$get_connect(), rmd_guid)
-
-# TODO: a smarter, noninteractive wait...
-rmd_wait <- suppressMessages(poll_task(tsk_rmd))
 
 # Metadata Tests ----------------------------------------------------
 
