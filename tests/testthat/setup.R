@@ -138,8 +138,3 @@ new_mock_response <- function(
     class = "response"
   )
 }
-
-withr::local_options(
-  list(rlib_warning_verbosity = "quiet"),
-  .local_envir = teardown_env()
-)

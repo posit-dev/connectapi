@@ -145,7 +145,10 @@ test_that("Visitor client can successfully be created running on Connect", {
       RSTUDIO_PRODUCT = "CONNECT"
     )
 
-    client <- connect(token = "my-token")
+    client <- expect_rlib_warning(
+      connect(token = "my-token"),
+      "This feature requires Posit Connect version"
+    )
 
     expect_equal(
       client$server,
