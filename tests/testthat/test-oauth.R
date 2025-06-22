@@ -19,9 +19,11 @@ with_mock_api({
   test_that("we can retrieve the oauth content credentials with an explicit token", {
     client <- Connect$new(server = "https://connect.example", api_key = "fake")
     expect_true(validate_R6_class(client, "Connect"))
-    credentials <- get_oauth_content_credentials(
-      client,
-      content_session_token = "content-session-token"
+    credentials <- expect_rlib_warning(
+      get_oauth_content_credentials(
+        client,
+        content_session_token = "content-session-token"
+      )
     )
     expect_equal(
       credentials,
@@ -39,7 +41,9 @@ with_mock_api({
 
     client <- Connect$new(server = "https://connect.example", api_key = "fake")
     expect_true(validate_R6_class(client, "Connect"))
-    credentials <- get_oauth_content_credentials(client)
+    credentials <- expect_rlib_warning(
+      get_oauth_content_credentials(client)
+    )
     expect_equal(
       credentials,
       list(
@@ -54,7 +58,7 @@ with_mock_api({
     client <- Connect$new(server = "https://connect.example", api_key = "fake")
     expect_true(validate_R6_class(client, "Connect"))
     expect_error(
-      get_oauth_content_credentials(client),
+      expect_rlib_warning(get_oauth_content_credentials(client)),
       "Could not find the CONNECT_CONTENT_SESSION_TOKEN environment variable."
     )
   })
@@ -62,9 +66,11 @@ with_mock_api({
   test_that("we can retrieve the AWS viewer credentials", {
     client <- Connect$new(server = "https://connect.example", api_key = "fake")
     expect_true(validate_R6_class(client, "Connect"))
-    credentials <- get_aws_credentials(
-      client,
-      user_session_token = "user-session-token"
+    credentials <- expect_rlib_warning(
+      get_aws_credentials(
+        client,
+        user_session_token = "user-session-token"
+      )
     )
     expect_equal(
       credentials,
@@ -80,9 +86,11 @@ with_mock_api({
   test_that("we can retrieve the AWS content credentials with an explicit token", {
     client <- Connect$new(server = "https://connect.example", api_key = "fake")
     expect_true(validate_R6_class(client, "Connect"))
-    credentials <- get_aws_content_credentials(
-      client,
-      content_session_token = "content-session-token"
+    credentials <- expect_rlib_warning(
+      get_aws_content_credentials(
+        client,
+        content_session_token = "content-session-token"
+      )
     )
     expect_equal(
       credentials,
@@ -101,7 +109,7 @@ with_mock_api({
 
     client <- Connect$new(server = "https://connect.example", api_key = "fake")
     expect_true(validate_R6_class(client, "Connect"))
-    credentials <- get_aws_content_credentials(client)
+    credentials <- expect_rlib_warning(get_aws_content_credentials(client))
     expect_equal(
       credentials,
       list(
@@ -117,7 +125,7 @@ with_mock_api({
     client <- Connect$new(server = "https://connect.example", api_key = "fake")
     expect_true(validate_R6_class(client, "Connect"))
     expect_error(
-      get_aws_content_credentials(client),
+      expect_rlib_warning(get_aws_content_credentials(client)),
       "Could not find the CONNECT_CONTENT_SESSION_TOKEN environment variable."
     )
   })

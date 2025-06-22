@@ -52,25 +52,29 @@ test_that("Handling deprecation warnings", {
   )
   expect_warning(check_debug(resp), NA)
 
-  # Yes warning here
-  resp <- fake_response(
-    "https://connect.example/__api__/",
-    headers = list(
-      `X-Deprecated-Endpoint` = "/v1"
-    )
-  )
-  expect_warning(
-    check_debug(resp),
-    paste(
-      "https://connect.example/__api__/ is deprecated and will be removed in a",
-      "future version of Connect. Please upgrade `connectapi` in order to use",
-      "the new APIs."
-    ),
-    class = "deprecatedWarning"
-  )
+  withr::with_options(
+    list(rlib_warning_verbosity = "default"), {
 
-  # No warning if you do it again because we only warn the first time
-  expect_warning(check_debug(resp), NA)
+      # Yes warning here
+      resp <- fake_response(
+        "https://connect.example/__api__/",
+        headers = list(
+          `X-Deprecated-Endpoint` = "/v1"
+        )
+      )
+      expect_warning(
+        check_debug(resp),
+        paste(
+          "https://connect.example/__api__/ is deprecated and will be removed in a",
+          "future version of Connect. Please upgrade `connectapi` in order to use",
+          "the new APIs."
+        ),
+        class = "deprecatedWarning"
+      )
+      # No warning if you do it again because we only warn the first time
+      expect_warning(check_debug(resp), NA)
+    }
+  )
 })
 
 with_mock_api({
@@ -141,7 +145,10 @@ test_that("Visitor client can successfully be created running on Connect", {
       RSTUDIO_PRODUCT = "CONNECT"
     )
 
-    client <- connect(token = "my-token")
+    client <- expect_rlib_warning(
+      connect(token = "my-token"),
+      "This feature requires Posit Connect version"
+    )
 
     expect_equal(
       client$server,
@@ -162,9 +169,12 @@ test_that("Visitor client uses fallback api key when running locally", {
     )
 
     # With default fallback
-    expect_message(
-      client <- connect(token = NULL),
-      "Called with `token` but not running on Connect. Continuing with fallback API key."
+    expect_rlib_warning(
+      expect_message(
+        client <- connect(token = NULL),
+        "Called with `token` but not running on Connect. Continuing with fallback API key."
+      ),
+      "the server version is not exposed by this Posit Connect instance"
     )
 
     expect_equal(
@@ -177,12 +187,15 @@ test_that("Visitor client uses fallback api key when running locally", {
     )
 
     # With explicitly-defined fallback
-    expect_message(
-      client <- connect(
-        token = NULL,
-        token_local_testing_key = "fallback_fake"
+    expect_rlib_warning(
+      expect_message(
+        client <- connect(
+          token = NULL,
+          token_local_testing_key = "fallback_fake"
+        ),
+        "Called with `token` but not running on Connect. Continuing with fallback API key."
       ),
-      "Called with `token` but not running on Connect. Continuing with fallback API key."
+      "the server version is not exposed by this Posit Connect instance"
     )
 
     expect_equal(
@@ -214,10 +227,13 @@ test_that("Visitor client code path errs with older Connect version", {
 test_that("Scientific notation is not used for reasonable parameters", {
   with_mock_api({
     test_scipen <- 5
-    o <- options(scipen = test_scipen)
-    on.exit(options(o), add = TRUE)
+    withr::local_options(
+      rlib_warning_verbosity = "quiet",
+      scipen = test_scipen
+    )
 
     client <- Connect$new(server = "https://connect.example", api_key = "fake")
+
     expect_GET(
       get_packages(client, page_size = 999999999),
       "https://connect.example/__api__/v1/packages?page_number=1&page_size=999999999"

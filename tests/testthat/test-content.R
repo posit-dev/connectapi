@@ -83,7 +83,10 @@ with_mock_api({
     con <- Connect$new(server = "https://connect.example", api_key = "fake")
     item <- content_item(con, "f2f37341-e21d-3d80-c698-a935ad614066")
     expect_PATCH(
-      item$update(description = "new description"),
+      expect_rlib_warning(
+        item$update(description = "new description"),
+        "the server version is not exposed by this Posit Connect instance"
+      ),
       "https://connect.example/__api__/v1/content/f2f37341-e21d-3d80-c698-a935ad614066",
       '{"description":"new description"}'
     )
@@ -250,7 +253,7 @@ with_mock_api({
       api_key = "not-a-key"
     )
     x <- content_item(client, "951bf3ad-82d0-4bca-bba8-9b27e35c49fa")
-    v <- x$default_variant
+    v <- expect_rlib_warning(x$default_variant, "experimental")
     expect_identical(v$key, "WrEKKa77")
   })
 })
@@ -400,7 +403,10 @@ test_that("get_log() gets job logs", {
     job_list <- get_job_list(item)
     # This job's log is present at {mock_dir}/v1/content/8f37d6e0/jobs/mxPGVOMVk6f8dso2/log.json.
     job <- purrr::keep(job_list, ~ .x$key == "mxPGVOMVk6f8dso2")[[1]]
-    log <- get_log(job)
+    log <- expect_rlib_warning(
+      get_log(job),
+      "the server version is not exposed by this Posit Connect instance"
+    )
     expect_identical(
       log,
       tibble::tibble(
@@ -419,7 +425,7 @@ test_that("get_log() gets job logs", {
     )
 
     expect_GET(
-      get_log(job, max_log_lines = 10),
+      expect_rlib_warning(get_log(job, max_log_lines = 10)),
       "http://connect.example/__api__/v1/content/8f37d6e0/jobs/mxPGVOMVk6f8dso2/log?maxLogLines=10"
     )
   })
@@ -433,7 +439,10 @@ test_that("get_content_packages() gets packages", {
     )
     item <- content_item(client, "8f37d6e0")
     expect_identical(
-      p <- get_content_packages(item),
+      p <- expect_rlib_warning(
+        get_content_packages(item),
+        "the server version is not exposed by this Posit Connect instance"
+      ),
       tibble::tibble(
         language = c("r", "r", "r"),
         name = c("askpass", "backports", "base64enc"),
