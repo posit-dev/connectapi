@@ -53,12 +53,11 @@ test_that("[ works as expected", {
   # drops the connect_tag_tree class
   # because maintaining the structure becomes hard...
 
+  withr::local_options(list(rlib_warning_verbosity = "verbose"))
+
   expect_warning(simple_tag_tree["hi"], "drops")
   expect_false(inherits(simple_tag_tree["hi"], "connect_tag_tree"))
   expect_type(simple_tag_tree["hi"], "list")
-
-  # clear "warn_once" state
-  rlang::reset_warning_verbosity("[.connect_tag_tree")
 })
 
 test_that("[[ works as expected", {
