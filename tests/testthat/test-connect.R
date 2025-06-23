@@ -36,7 +36,7 @@ test_that("version is validated", {
 test_that("Handling error responses", {
   con <- Connect$new(server = "https://connect.example", api_key = "fake")
   resp <- fake_response("https://connect.example/__api__/", status_code = 400L)
-  expect_error(con$raise_error(resp), "Bad Request")
+  expect_error(suppressMessages(con$raise_error(resp)), "Bad Request")
 })
 
 test_that("Handling deprecation warnings", {
