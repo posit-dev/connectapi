@@ -6,7 +6,7 @@ test_that("swap_vanity_urls() fails gracefully", {
     fails <- content_item(client, "c3426b0b")
 
     expect_error(
-      swap_vanity_urls(fails, works),
+      expect_rlib_warning(swap_vanity_urls(fails, works)),
       paste(
         "Unable to modify the vanity URL for content_a:",
         "https://connect\\.example/__api__/v1/content/c3426b0b/vanity",
@@ -14,7 +14,7 @@ test_that("swap_vanity_urls() fails gracefully", {
       )
     )
     expect_error(
-      swap_vanity_urls(works, fails),
+      expect_rlib_warning(swap_vanity_urls(works, fails)),
       paste(
         "Unable to modify the vanity URL for content_b:",
         "https://connect\\.example/__api__/v1/content/c3426b0b/vanity",
