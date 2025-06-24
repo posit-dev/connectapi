@@ -157,7 +157,7 @@ Connect <- R6::R6Class(
         res
       } else {
         self$raise_error(res)
-        httr::content(res, as = parser)
+        httr::content(res, as = parser, encoding = "UTF-8")
       }
     },
 
