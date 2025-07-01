@@ -45,9 +45,7 @@ Connect <- R6::R6Class(
     #' @param server The base URL of your Posit Connect server.
     #' @param api_key Your Posit Connect API key.
     initialize = function(server, api_key) {
-      if (!is_testing()) {
-        message_if_not_testing(glue::glue("Defining Connect with server: {server}"))
-      }
+      message_if_not_testing(glue::glue("Defining Connect with server: {server}"))
       if (is.null(httr::parse_url(server)$scheme)) {
         stop(glue::glue(
           "ERROR: Please provide a protocol (http / https). You gave: {server}"
