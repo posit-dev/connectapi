@@ -2,7 +2,7 @@
 #
 # This function is more robust than `expect_warning()` because it locally sets
 # the `rlib_warning_verbosity` option to "verbose". Without this option, we can
-# see inconsistent test behavior if the verbosity is "default"and the state is
+# see inconsistent test behavior if the verbosity is "default" and the state is
 # not reset after a test. Additionally, this function lets us check for a
 # specific regex match in the warning message while still returning the output
 # of the evaluated code (`testthat::expect_warning()` only returns the result if
