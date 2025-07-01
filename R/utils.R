@@ -161,11 +161,6 @@ safe_server_settings <- function(client) {
 safe_server_version <- function(client) {
   version <- safe_server_settings(client)$version
   if (is.null(version) || nchar(version) == 0) {
-    if (!is_testing()) {
-      message(
-        "Version information is not exposed by this Posit Connect instance."
-      )
-    }
     version <- NA
   }
   version
