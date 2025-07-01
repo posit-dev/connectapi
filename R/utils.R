@@ -229,7 +229,7 @@ token_hex <- function(n) {
 # but encountered a 404 for some other reason.
 endpoint_does_not_exist <- function(res) {
   httr::status_code(res) == "404" &&
-    !("code" %in% names(httr::content(res, as = "parsed", encoding = "UTF-8")))
+    !("code" %in% names(http_content(res, as = "parsed", encoding = "UTF-8")))
 }
 
 # Extract the Connect error code from a response
@@ -260,4 +260,10 @@ message_if_not_testing <- function(...) {
   if (!is_testing()) {
     message(...)
   }
+}
+
+# Wrapper to `httr::content()` that sets `encoding = "UTF-8"` to avoid messages
+# about falling back to it as the default
+http_content <- function(...) {
+  httr::content(..., encodig = "UTF-8")
 }
