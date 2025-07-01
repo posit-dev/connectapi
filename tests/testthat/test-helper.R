@@ -12,7 +12,8 @@ test_that("expect_rlib_warning matches expected warning", {
       # suppress it with suppressWarnings:
       suppressWarnings(expect_error(expect_rlib_warning(f1(), "non-matching warning")))
       expect_error(expect_rlib_warning(f2(), "a warning"))
-    })
+    }
+  )
 })
 
 test_that("expect_rlib_warning errors if warning isn't thrown", {
@@ -47,7 +48,7 @@ test_that("expect_rlib_warning does not affect warning state outside its scope",
     {
       expect_rlib_warning(f1(), "a warning")
       # still produces a warning even though one was produced in the call to
-      # expect_rlib_warning()
+      # expect_rlib_warning
       expect_warning(f1(), "a warning")
       expect_no_warning(f1())
     }
