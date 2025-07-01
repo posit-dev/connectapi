@@ -62,3 +62,11 @@ test_that("warn_untested_connect warning snapshot", {
   expect_snapshot(capture_warning(warn_untested_connect("2022.02", "2022.01")))
   expect_snapshot(capture_warning(warn_untested_connect("2022.01", "2022.02")))
 })
+
+test_that("message_if_not_testing messages appropriately", {
+  expect_no_message(message_if_not_testing("a message"))
+
+  withr::with_envvar(list(TESTTHAT = ""), {
+    expect_message(message_if_not_testing("a message"), "a message")
+  })
+})

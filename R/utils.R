@@ -253,3 +253,11 @@ on_connect <- function() {
 is_testing <- function() {
   identical(Sys.getenv("TESTTHAT"), "true")
 }
+
+# Calls `message()` if not running in testthat. Useful for messages that would
+# otherwise appear very frequently in test output.
+message_if_not_testing <- function(...) {
+  if (!is_testing()) {
+    message(...)
+  }
+}
