@@ -224,7 +224,7 @@ token_hex <- function(n) {
 # but encountered a 404 for some other reason.
 endpoint_does_not_exist <- function(res) {
   httr::status_code(res) == "404" &&
-    !("code" %in% names(http_content(res, as = "parsed")))
+    !("code" %in% names(http_content(res, as = "parsed", encoding = "UTF-8")))
 }
 
 # Extract the Connect error code from a response
