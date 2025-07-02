@@ -864,7 +864,7 @@ terminate_jobs <- function(content, keys = NULL) {
   }
 
   res <- purrr::map(keys, content$register_job_kill_order)
-  res_content <- purrr::map(res, http_content, encoding = "UTF-8")
+  res_content <- purrr::map(res, http_content)
   res_df <- tibble::tibble(
     parse_connectapi_typed(
       res_content,
