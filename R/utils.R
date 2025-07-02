@@ -260,5 +260,5 @@ message_if_not_testing <- function(...) {
 # Wrapper to `httr::content()` that sets `encoding = "UTF-8"` to avoid messages
 # about falling back to it as the default
 http_content <- function(...) {
-  httr::content(..., encodig = "UTF-8")
+  httr::content(..., encoding = "UTF-8")
 }
