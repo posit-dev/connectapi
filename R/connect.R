@@ -88,20 +88,29 @@ Connect <- R6::R6Class(
     #' @param res HTTP result.
     raise_error = function(res) {
       if (httr::http_error(res)) {
-        err <- sprintf(
-          "%s request failed with %s",
-          res$request$url,
-          httr::http_status(res)$message
-        )
-        tryCatch(
-          {
-            message(capture.output(str(httr::content(res))))
-          },
-          error = function(e) {
-            message(e)
+
+        connect_error_details <- tryCatch(
+        {
+          cont <- http_content(res)
+          code <- sprintf("code: %d", cont$code)
+          error <- sprintf("error: %s", cont$error)
+          if (length(code) == 0  & length(error) == 0) {
+            ""
+          } else {
+            paste0("(", paste0(c(code, error), collapse = ", "), ")")
           }
+        },
+        error = function(e) ""
         )
-        stop(err)
+
+        err <- sprintf(
+          "%s request failed with %s %s",
+          res$request$url,
+          httr::http_status(res)$message,
+          connect_error_details
+        )
+
+        stop(err, call. = FALSE)
       }
     },
 

@@ -35,8 +35,46 @@ test_that("version is validated", {
 
 test_that("Handling error responses", {
   con <- Connect$new(server = "https://connect.example", api_key = "fake")
-  resp <- fake_response("https://connect.example/__api__/", status_code = 400L)
-  expect_error(suppressMessages(con$raise_error(resp)), "Bad Request")
+  resp <- fake_response(
+    "https://connect.example/__api__/",
+    status_code = 400L,
+    content = list(code = 3, error = "Invalid GUID: abc", payload = NULL)
+  )
+  expect_error(
+    con$raise_error(resp),
+    "request failed with Client error: \\(400\\) Bad Request \\(code: 3, error: Invalid GUID: abc\\)"
+  )
+})
+
+test_that("Handling error responses without all expected fields", {
+  con <- Connect$new(server = "https://connect.example", api_key = "fake")
+  resp1 <- fake_response(
+    "https://connect.example/__api__/",
+    status_code = 400L,
+    content = list(code = 3)
+  )
+  resp2 <- fake_response(
+    "https://connect.example/__api__/",
+    status_code = 400L,
+    content = list(error = "Invalid GUID: abc")
+  )
+  resp3 <- fake_response(
+    "https://connect.example/__api__/",
+    status_code = 400L,
+    content = NULL
+  )
+  expect_error(
+    con$raise_error(resp1),
+    "request failed with Client error: \\(400\\) Bad Request \\(code: 3\\)"
+  )
+  expect_error(
+    con$raise_error(resp2),
+    "request failed with Client error: \\(400\\) Bad Request \\(error: Invalid GUID: abc\\)"
+  )
+  expect_error(
+    con$raise_error(resp3),
+    "request failed with Client error: \\(400\\) Bad Request"
+  )
 })
 
 test_that("Handling deprecation warnings", {
