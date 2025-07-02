@@ -37,6 +37,7 @@ test_that("Handling error responses", {
   con <- Connect$new(server = "https://connect.example", api_key = "fake")
   resp <- fake_response(
     "https://connect.example/__api__/",
+    headers = list(`Content-Type` = "application/json; charset=utf-8"),
     status_code = 400L,
     content = list(code = 3, error = "Invalid GUID: abc", payload = NULL)
   )
@@ -50,16 +51,19 @@ test_that("Handling error responses without all expected fields", {
   con <- Connect$new(server = "https://connect.example", api_key = "fake")
   resp1 <- fake_response(
     "https://connect.example/__api__/",
+    headers = list(`Content-Type` = "application/json; charset=utf-8"),
     status_code = 400L,
-    content = list(code = 3)
+    content = list(code = 3L)
   )
   resp2 <- fake_response(
     "https://connect.example/__api__/",
+    headers = list(`Content-Type` = "application/json; charset=utf-8"),
     status_code = 400L,
     content = list(error = "Invalid GUID: abc")
   )
   resp3 <- fake_response(
     "https://connect.example/__api__/",
+    headers = list(`Content-Type` = "application/json; charset=utf-8"),
     status_code = 400L,
     content = NULL
   )
@@ -85,7 +89,7 @@ test_that("Handling deprecation warnings", {
   resp <- fake_response(
     "https://connect.example/__api__/",
     headers = list(
-      `Content-Type` = "application/json"
+      `Content-Type` = "application/json; charset=utf-8"
     )
   )
   expect_warning(check_debug(resp), NA)
@@ -97,7 +101,8 @@ test_that("Handling deprecation warnings", {
       resp <- fake_response(
         "https://connect.example/__api__/",
         headers = list(
-          `X-Deprecated-Endpoint` = "/v1"
+          `X-Deprecated-Endpoint` = "/v1",
+          `Content-Type` = "application/json; charset=utf-8"
         )
       )
       expect_warning(

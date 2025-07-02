@@ -90,7 +90,7 @@ Connect <- R6::R6Class(
       if (httr::http_error(res)) {
         connect_error_details <- tryCatch(
           {
-            cont <- http_content(res)
+            cont <- httr::content(res)
             code <- sprintf("code: %d", cont$code)
             error <- sprintf("error: %s", cont$error)
             if (length(code) == 0 & length(error) == 0) {
