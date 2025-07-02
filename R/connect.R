@@ -93,6 +93,14 @@ Connect <- R6::R6Class(
           res$request$url,
           httr::http_status(res)$message
         )
+        tryCatch(
+          {
+            message(capture.output(str(httr::content(res))))
+          },
+          error = function(e) {
+            message(e)
+          }
+        )
         stop(err)
       }
     },
