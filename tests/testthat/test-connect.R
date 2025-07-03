@@ -77,7 +77,7 @@ test_that("Handling error responses without all expected fields", {
   )
   expect_error(
     con$raise_error(resp3),
-    "request failed with Client error: \\(400\\) Bad Request"
+    "request failed with Client error: \\(400\\) Bad Request $"
   )
 })
 
