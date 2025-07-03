@@ -59,7 +59,6 @@ MockConnect <- R6Class(
       if (!(route %in% names(self$responses))) {
         stop(glue::glue("Unexpected route: {route}"))
       }
-
       idx <- match(route, names(self$responses))
       res <- self$responses[[idx]]
       self$responses <- self$responses[-idx]

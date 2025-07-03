@@ -5,6 +5,9 @@ test_that("swap_vanity_urls() fails gracefully", {
     works <- content_item(client, "951bf3ad")
     fails <- content_item(client, "c3426b0b")
 
+    ## swap_vanity_urls emits multiple warnings about Posit Connect version;
+    ## suppress these
+    withr::local_options(list(rlib_warning_verbosity = "quiet"))
     expect_error(
       swap_vanity_urls(fails, works),
       paste(

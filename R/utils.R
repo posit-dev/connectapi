@@ -161,9 +161,6 @@ safe_server_settings <- function(client) {
 safe_server_version <- function(client) {
   version <- safe_server_settings(client)$version
   if (is.null(version) || nchar(version) == 0) {
-    message(
-      "Version information is not exposed by this Posit Connect instance."
-    )
     version <- NA
   }
   version
@@ -245,4 +242,17 @@ error_code <- function(res) {
 # `RSTUDIO_PRODUCT` env var, else `FALSE`.
 on_connect <- function() {
   Sys.getenv("RSTUDIO_PRODUCT") == "CONNECT"
+}
+
+# Returns `TRUE` if running via testthat
+is_testing <- function() {
+  identical(Sys.getenv("TESTTHAT"), "true")
+}
+
+# Calls `message()` if not running in testthat. Useful for messages that would
+# otherwise appear very frequently in test output.
+message_if_not_testing <- function(...) {
+  if (!is_testing()) {
+    message(...)
+  }
 }

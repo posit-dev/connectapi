@@ -20,7 +20,9 @@ with_mock_api({
     con <- Connect$new(server = "https://connect.example", api_key = "fake")
     content <- get_content(con)
 
-    expect_s3_class(audit_r_versions(content), "gtable")
+    withr::with_pdf(nullfile(), {
+      expect_s3_class(audit_r_versions(content), "gtable")
+    })
   })
 
   test_that("audit_access_open", {

@@ -4,7 +4,7 @@ structure(
     status_code = 404L,
     content = charToRaw("404 page not found"),
     headers = structure(
-      list(`content-type` = "text/plain"),
+      list(`content-type` = "text/plain; charset=utf-8"),
       class = "insensitive"
     )
   ),

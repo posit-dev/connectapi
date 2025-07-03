@@ -45,7 +45,7 @@ Connect <- R6::R6Class(
     #' @param server The base URL of your Posit Connect server.
     #' @param api_key Your Posit Connect API key.
     initialize = function(server, api_key) {
-      message(glue::glue("Defining Connect with server: {server}"))
+      message_if_not_testing(glue::glue("Defining Connect with server: {server}"))
       if (is.null(httr::parse_url(server)$scheme)) {
         stop(glue::glue(
           "ERROR: Please provide a protocol (http / https). You gave: {server}"
@@ -88,20 +88,28 @@ Connect <- R6::R6Class(
     #' @param res HTTP result.
     raise_error = function(res) {
       if (httr::http_error(res)) {
-        err <- sprintf(
-          "%s request failed with %s",
-          res$request$url,
-          httr::http_status(res)$message
-        )
-        tryCatch(
+        connect_error_details <- tryCatch(
           {
-            message(capture.output(str(httr::content(res))))
+            cont <- httr::content(res)
+            code <- sprintf("code: %d", cont$code)
+            error <- sprintf("error: %s", cont$error)
+            if (length(code) == 0 & length(error) == 0) {
+              ""
+            } else {
+              paste0("(", paste0(c(code, error), collapse = ", "), ")")
+            }
           },
-          error = function(e) {
-            message(e)
-          }
+          error = function(e) ""
         )
-        stop(err)
+
+        err <- sprintf(
+          "%s request failed with %s %s",
+          res$request$url,
+          httr::http_status(res)$message,
+          connect_error_details
+        )
+
+        stop(err, call. = FALSE)
       }
     },
 
