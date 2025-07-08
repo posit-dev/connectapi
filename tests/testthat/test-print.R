@@ -13,5 +13,8 @@
 # nolint end
 
 test_that("output matches previous expectation", {
-  expect_snapshot(generate_R6_print_output())
+  withr::with_envvar(
+    list(TESTTHAT = ""),
+    expect_snapshot(generate_R6_print_output())
+  )
 })
