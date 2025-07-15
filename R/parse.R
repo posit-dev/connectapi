@@ -108,30 +108,10 @@ parse_connectapi <- function(data) {
 # nolint start
 # Unnests a list column similarly to `tidyr::unnest_wider()`, bringing the
 # entries of each list-item up to the top level. Makes some simplifying
-# assumptions for the sake of performance:
+# assumptions.
 # 1. All inner variables are treated as character vectors;
 # 2. The names of the first entry of the list-column are used as the
 #    names of variables to extract.
-# Performance example:
-# > nrow(x_raw)
-# [1] 373632
-# > nrow(x_raw)
-# [1] 373632
-# > t_tidyr <- system.time(
-# +   x_tidyr <- tidyr::unnest_wider(x_raw, data)
-# + )
-# > t_custom <- system.time(
-# +   x_custom <- fast_unnest_character(x_raw, "data")
-# + )
-# > identical(x_tidyr, x_custom)
-# [1] TRUE
-# > t_tidyr
-#    user  system elapsed
-#   7.018   0.137   7.172
-# > t_custom
-#    user  system elapsed
-#   0.281   0.005   0.285
-# nolint end
 fast_unnest_character <- function(df, col_name) {
   if (!is.character(col_name)) {
     stop("col_name must be a character vector")
