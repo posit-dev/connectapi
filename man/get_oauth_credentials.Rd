@@ -4,7 +4,12 @@
 \alias{get_oauth_credentials}
 \title{Perform an OAuth credential exchange to obtain a visitor's OAuth access token.}
 \usage{
-get_oauth_credentials(connect, user_session_token, requested_token_type = NULL)
+get_oauth_credentials(
+  connect,
+  user_session_token,
+  requested_token_type = NULL,
+  audience = NULL
+)
 }
 \arguments{
 \item{connect}{A Connect R6 object.}
@@ -18,6 +23,10 @@ Read this value from the HTTP header: \code{Posit-Connect-User-Session-Token}}
 default to \code{urn:ietf:params:oauth:token-type:access_token}. Otherwise, this can
 be set to \code{urn:ietf:params:aws:token-type:credentials} for AWS integrations or
 \code{urn:posit:connect:api-key} for Connect API Key integrations.}
+
+\item{audience}{Optional. The audience field used for credential exchange.
+This must be a valid integration GUID. When provided, the specified requested
+token type will be ignored.}
 }
 \value{
 The OAuth credential exchange response.
