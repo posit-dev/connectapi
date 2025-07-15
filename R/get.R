@@ -538,12 +538,12 @@ get_usage_static <- function(
 #' If no date-times are provided, all usage data will be returned.
 
 #' @param client A `Connect` R6 client object.
-#' @param from Optional `Date` or date-time (`POSIXct` or `POSIXlt`). Only
-#'   records after this time are returned. If a `Date`, treated as the start of
-#'   that day in the local time zone; if a date-time, used verbatim.
-#' @param to Optional `Date` or date-time (`POSIXct` or `POSIXlt`). Only records
-#'   before this time are returned. If a `Date`, treated as end of that day
-#'   (`23:59:59`) in the local time zone; if a date-time, used verbatim.
+#' @param from Optional date-time (`POSIXct` or `POSIXlt`). Only
+#'   records after this time are returned. If not provided, records
+#'   are returned back to the first record available.
+#' @param to Optional date-time (`POSIXct` or `POSIXlt`). Only records
+#'   before this time are returned. If not provided, all records up to
+#'   the most recent are returned.
 #'
 #' @return A tibble with columns:
 #' * `id`: An identifier for the record.
@@ -562,8 +562,8 @@ get_usage_static <- function(
 #' `get_usage_shiny()` and `get_usage_static()`.
 #'
 #' When possible, however, we recommend using `get_usage()` over
-#' `get_usage_static()` or `get_usage_shiny()`, as it will be much faster for
-#' large datasets.
+#' `get_usage_static()` or `get_usage_shiny()`, as it will perform better
+#' than those endpoints, which use pagination.
 #'
 #' @examples
 #' \dontrun{
@@ -584,11 +584,15 @@ get_usage_static <- function(
 #'
 #' @export
 get_usage <- function(client, from = NULL, to = NULL) {
-  usage_raw <- client$inst_content_hits(
-    from = from,
-    to = to
-  )
+  error_if_less_than(client$version, "2025.04.0")
 
+  usage_raw <- client$GET(
+    v1_url("instrumentation", "content", "hits"),
+    query = list(
+      from = make_timestamp(from),
+      to = make_timestamp(to)
+    )
+  )
   usage <- parse_connectapi_typed(usage_raw, connectapi_ptypes$usage)
   fast_unnest_character(usage, "data")
 }
