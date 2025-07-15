@@ -643,6 +643,9 @@ get_procs <- function(src) {
 #' default to `urn:ietf:params:oauth:token-type:access_token`. Otherwise, this can
 #' be set to `urn:ietf:params:aws:token-type:credentials` for AWS integrations or
 #' `urn:posit:connect:api-key` for Connect API Key integrations.
+#' @param audience Optional. The audience field used for credential exchange.
+#' This must be a valid integration GUID. When provided, the specified requested
+#' token type will be ignored.
 #'
 #' @examples
 #' \dontrun{
@@ -671,7 +674,8 @@ get_procs <- function(src) {
 get_oauth_credentials <- function(
   connect,
   user_session_token,
-  requested_token_type = NULL
+  requested_token_type = NULL,
+  audience = NULL
 ) {
   validate_R6_class(connect, "Connect")
   url <- v1_url("oauth", "integrations", "credentials")
@@ -679,7 +683,8 @@ get_oauth_credentials <- function(
     grant_type = "urn:ietf:params:oauth:grant-type:token-exchange",
     subject_token_type = "urn:posit:connect:user-session-token",
     subject_token = user_session_token,
-    requested_token_type = requested_token_type
+    requested_token_type = requested_token_type,
+    audience = audience,
   )
   connect$POST(
     url,
@@ -701,6 +706,9 @@ get_oauth_credentials <- function(
 #' will default to `urn:ietf:params:oauth:token-type:access_token`. Otherwise,
 #' this can be set to `urn:ietf:params:aws:token-type:credentials` for AWS
 #' integrations or `urn:posit:connect:api-key` for Connect API Key integrations.
+#' @param audience Optional. The audience field used for credential exchange.
+#' This must be a valid integration GUID. When provided, the specified requested
+#' token type will be ignored.
 #'
 #' @examples
 #' \dontrun{
@@ -728,7 +736,8 @@ get_oauth_credentials <- function(
 get_oauth_content_credentials <- function(
   connect,
   content_session_token = NULL,
-  requested_token_type = NULL
+  requested_token_type = NULL,
+  audience = NULL
 ) {
   validate_R6_class(connect, "Connect")
   error_if_less_than(connect$version, "2024.12.0")
@@ -745,7 +754,8 @@ get_oauth_content_credentials <- function(
     grant_type = "urn:ietf:params:oauth:grant-type:token-exchange",
     subject_token_type = "urn:posit:connect:content-session-token",
     subject_token = content_session_token,
-    requested_token_type = requested_token_type
+    requested_token_type = requested_token_type,
+    audience = audience,
   )
   connect$POST(
     url,
@@ -761,6 +771,9 @@ get_oauth_content_credentials <- function(
 #' can only be obtained when the content is running on a Connect server. The token
 #' identifies the user who is viewing the content interactively on the Connect server.
 #' Read this value from the HTTP header: `Posit-Connect-User-Session-Token`
+#' @param audience Optional. The audience field used for credential exchange.
+#' This must be a valid integration GUID. When provided, the specified requested
+#' token type will be ignored.
 #'
 #' @return The AWS credentials as a list with fields named `access_key_id`,
 #' `secret_access_key`, `session_token`, and `expiration`.
@@ -806,12 +819,13 @@ get_oauth_content_credentials <- function(
 #' }
 #'
 #' @export
-get_aws_credentials <- function(connect, user_session_token) {
+get_aws_credentials <- function(connect, user_session_token, audience = NULL) {
   error_if_less_than(connect$version, "2025.03.0")
   response <- get_oauth_credentials(
     connect,
     user_session_token,
-    requested_token_type = "urn:ietf:params:aws:token-type:credentials"
+    requested_token_type = "urn:ietf:params:aws:token-type:credentials",
+    audience = audience,
   )
 
   # Extract access token and decode it
@@ -834,6 +848,9 @@ get_aws_credentials <- function(connect, user_session_token) {
 #' token identifies the service account integration previously configured by
 #' the publisher on the Connect server. Defaults to the value from the
 #' environment variable: `CONNECT_CONTENT_SESSION_TOKEN`
+#' @param audience Optional. The audience field used for credential exchange.
+#' This must be a valid integration GUID. When provided, the specified requested
+#' token type will be ignored.
 #'
 #' @return The AWS credentials as a list with fields named `access_key_id`,
 #' `secret_access_key`, `session_token`, and `expiration`.
@@ -873,12 +890,13 @@ get_aws_credentials <- function(connect, user_session_token) {
 #' }
 #'
 #' @export
-get_aws_content_credentials <- function(connect, content_session_token = NULL) {
+get_aws_content_credentials <- function(connect, content_session_token = NULL, audience = NULL) {
   error_if_less_than(connect$version, "2025.03.0")
   response <- get_oauth_content_credentials(
     connect,
     content_session_token,
-    requested_token_type = "urn:ietf:params:aws:token-type:credentials"
+    requested_token_type = "urn:ietf:params:aws:token-type:credentials",
+    audience = audience
   )
 
   # Extract access token and decode it
