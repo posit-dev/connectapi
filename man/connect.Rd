@@ -10,6 +10,7 @@ connect(
   token,
   token_local_testing_key = api_key,
   prefix = "CONNECT",
+  audience = NULL,
   ...,
   .check_is_fatal = TRUE
 )
@@ -32,6 +33,10 @@ key here you can test a visitor client with differently-scoped
 permissions.}
 
 \item{prefix}{The prefix used to determine environment variables}
+
+\item{audience}{Optional. The audience field used for credential exchange.
+This must be a valid integration GUID. When provided in conjunction with the
+token field, it will use the Connect API integation based on the specified GUID.}
 
 \item{...}{Additional arguments. Not used at present}
 
