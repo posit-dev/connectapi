@@ -117,7 +117,6 @@ Other R6 classes:
 \item \href{#method-Connect-group_content}{\code{Connect$group_content()}}
 \item \href{#method-Connect-inst_content_visits}{\code{Connect$inst_content_visits()}}
 \item \href{#method-Connect-inst_shiny_usage}{\code{Connect$inst_shiny_usage()}}
-\item \href{#method-Connect-inst_content_hits}{\code{Connect$inst_content_hits()}}
 \item \href{#method-Connect-procs}{\code{Connect$procs()}}
 \item \href{#method-Connect-repo_account}{\code{Connect$repo_account()}}
 \item \href{#method-Connect-repo_branches}{\code{Connect$repo_branches()}}
@@ -1189,27 +1188,6 @@ Get (non-interactive) content visits.
 \item{\code{nxt}}{Next item.}
 
 \item{\code{asc_order}}{Indicates ascending result order.}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Connect-inst_content_hits"></a>}}
-\if{latex}{\out{\hypertarget{method-Connect-inst_content_hits}{}}}
-\subsection{Method \code{inst_content_hits()}}{
-Get content usage data.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Connect$inst_content_hits(from = NULL, to = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{from}}{Optional \code{Date} or \code{POSIXt}; start of the time window. If a
-\code{Date}, coerced to \code{YYYY-MM-DDT00:00:00} in the caller's time zone.}
-
-\item{\code{to}}{Optional \code{Date} or \code{POSIXt}; end of the time window. If a
-\code{Date}, coerced to \code{YYYY-MM-DDT23:59:59} in the caller's time zone.}
 }
 \if{html}{\out{</div>}}
 }

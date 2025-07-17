@@ -9,13 +9,13 @@ get_usage(client, from = NULL, to = NULL)
 \arguments{
 \item{client}{A \code{Connect} R6 client object.}
 
-\item{from}{Optional \code{Date} or date-time (\code{POSIXct} or \code{POSIXlt}). Only
-records after this time are returned. If a \code{Date}, treated as the start of
-that day in the local time zone; if a date-time, used verbatim.}
+\item{from}{Optional date-time (\code{POSIXct} or \code{POSIXlt}). Only
+records after this time are returned. If not provided, records
+are returned back to the first record available.}
 
-\item{to}{Optional \code{Date} or date-time (\code{POSIXct} or \code{POSIXlt}). Only records
-before this time are returned. If a \code{Date}, treated as end of that day
-(\code{23:59:59}) in the local time zone; if a date-time, used verbatim.}
+\item{to}{Optional date-time (\code{POSIXct} or \code{POSIXlt}). Only records
+before this time are returned. If not provided, all records up to
+the most recent are returned.}
 }
 \value{
 A tibble with columns:
@@ -41,11 +41,12 @@ If no date-times are provided, all usage data will be returned.
 The data returned by \code{get_usage()} includes all content types. For Shiny
 content, the \code{timestamp} indicates the \emph{start} of the Shiny session.
 Additional fields for Shiny and non-Shiny are available respectively from
-\code{get_usage_shiny()} and \code{get_usage_static()}.
+\code{\link[=get_usage_shiny]{get_usage_shiny()}} and \code{\link[=get_usage_static]{get_usage_static()}}. \code{get_usage_shiny()} includes a
+field for the session end time; \code{get_usage_static()} includes variant,
+rendering, and bundle identifiers for the visited content.
 
 When possible, however, we recommend using \code{get_usage()} over
-\code{get_usage_static()} or \code{get_usage_shiny()}, as it will be much faster for
-large datasets.
+\code{get_usage_static()} or \code{get_usage_shiny()}, as it is faster and more efficient.
 }
 \examples{
 \dontrun{
