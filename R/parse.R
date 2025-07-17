@@ -105,7 +105,6 @@ parse_connectapi <- function(data) {
   ))
 }
 
-# nolint start
 # Unnests a list column similarly to `tidyr::unnest_wider()`, bringing the
 # entries of each list-item up to the top level. Makes some simplifying
 # assumptions.
