@@ -559,7 +559,7 @@ get_usage_static <- function(
 #' The data returned by `get_usage()` includes all content types. For Shiny
 #' content, the `timestamp` indicates the *start* of the Shiny session.
 #' Additional fields for Shiny and non-Shiny are available respectively from
-#' `get_usage_shiny()` and `get_usage_static()`.
+#' [get_usage_shiny()] and [get_usage_static()].
 #'
 #' When possible, however, we recommend using `get_usage()` over
 #' `get_usage_static()` or `get_usage_shiny()`, as it will perform better
