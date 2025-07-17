@@ -60,6 +60,8 @@ Other R6 classes:
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{version}}{The server version.}
+
+\item{\code{timezones}}{The server timezones.}
 }
 \if{html}{\out{</div>}}
 }
@@ -90,7 +92,6 @@ Other R6 classes:
 \item \href{#method-Connect-tag_create}{\code{Connect$tag_create()}}
 \item \href{#method-Connect-tag}{\code{Connect$tag()}}
 \item \href{#method-Connect-tag_delete}{\code{Connect$tag_delete()}}
-\item \href{#method-Connect-get_apps}{\code{Connect$get_apps()}}
 \item \href{#method-Connect-get_schedule}{\code{Connect$get_schedule()}}
 \item \href{#method-Connect-content_create}{\code{Connect$content_create()}}
 \item \href{#method-Connect-content_upload}{\code{Connect$content_upload()}}
@@ -598,29 +599,6 @@ Delete a tag.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{id}}{The tag identifier.}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Connect-get_apps"></a>}}
-\if{latex}{\out{\hypertarget{method-Connect-get_apps}{}}}
-\subsection{Method \code{get_apps()}}{
-Get content items.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Connect$get_apps(filter = NULL, .collapse = "&", .limit = Inf, page_size = 25)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{filter}}{Named list containing filter conditions.}
-
-\item{\code{.collapse}}{How multiple filters are combined.}
-
-\item{\code{.limit}}{The limit.}
-
-\item{\code{page_size}}{The page size.}
 }
 \if{html}{\out{</div>}}
 }

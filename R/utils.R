@@ -7,6 +7,11 @@ unversioned_url <- function(...) {
   paste(..., sep = "/")
 }
 
+# Make an alias of unversioned_url to help us be able to search for the places
+# where we call the unversioned API, but not be misled by places we've left in
+# for backwards compatibility.
+unversioned_fallback_url <- unversioned_url
+
 valid_page_size <- function(x, min = 1, max = 500) {
   # This could be changed to error if x is outside the range
   min(max(min, x), max)
@@ -20,6 +25,7 @@ generate_R6_print_output <- # nolint: object_name_linter
     ex_content <- list(
       guid = "content-guid",
       title = "content-title",
+      dashboard_url = "http://test_host/connect/#/apps/content-guid/",
       url = "http://content-url"
     )
     cnt1 <- Content$new(connect = con, ex_content)
@@ -155,9 +161,6 @@ safe_server_settings <- function(client) {
 safe_server_version <- function(client) {
   version <- safe_server_settings(client)$version
   if (is.null(version) || nchar(version) == 0) {
-    message(
-      "Version information is not exposed by this Posit Connect instance."
-    )
     version <- NA
   }
   version
@@ -239,4 +242,17 @@ error_code <- function(res) {
 # `RSTUDIO_PRODUCT` env var, else `FALSE`.
 on_connect <- function() {
   Sys.getenv("RSTUDIO_PRODUCT") == "CONNECT"
+}
+
+# Returns `TRUE` if running via testthat
+is_testing <- function() {
+  identical(Sys.getenv("TESTTHAT"), "true")
+}
+
+# Calls `message()` if not running in testthat. Useful for messages that would
+# otherwise appear very frequently in test output.
+message_if_not_testing <- function(...) {
+  if (!is_testing()) {
+    message(...)
+  }
 }

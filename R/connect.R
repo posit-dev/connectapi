@@ -45,7 +45,7 @@ Connect <- R6::R6Class(
     #' @param server The base URL of your Posit Connect server.
     #' @param api_key Your Posit Connect API key.
     initialize = function(server, api_key) {
-      message(glue::glue("Defining Connect with server: {server}"))
+      message_if_not_testing(glue::glue("Defining Connect with server: {server}"))
       if (is.null(httr::parse_url(server)$scheme)) {
         stop(glue::glue(
           "ERROR: Please provide a protocol (http / https). You gave: {server}"
@@ -88,20 +88,28 @@ Connect <- R6::R6Class(
     #' @param res HTTP result.
     raise_error = function(res) {
       if (httr::http_error(res)) {
-        err <- sprintf(
-          "%s request failed with %s",
-          res$request$url,
-          httr::http_status(res)$message
-        )
-        tryCatch(
+        connect_error_details <- tryCatch(
           {
-            message(capture.output(str(httr::content(res))))
+            cont <- httr::content(res)
+            code <- sprintf("code: %d", cont$code)
+            error <- sprintf("error: %s", cont$error)
+            if (length(code) == 0 & length(error) == 0) {
+              ""
+            } else {
+              paste0("(", paste0(c(code, error), collapse = ", "), ")")
+            }
           },
-          error = function(e) {
-            message(e)
-          }
+          error = function(e) ""
         )
-        stop(err)
+
+        err <- sprintf(
+          "%s request failed with %s %s",
+          res$request$url,
+          httr::http_status(res)$message,
+          connect_error_details
+        )
+
+        stop(err, call. = FALSE)
       }
     },
 
@@ -383,61 +391,6 @@ Connect <- R6::R6Class(
       invisible(self$DELETE(v1_url("tags", id)))
     },
 
-    # content listing ----------------------------------------------------------
-
-    # filter is a named list, e.g. list(name = 'appname')
-    # this function supports pages
-    #' @description Get content items.
-    #' @param filter Named list containing filter conditions.
-    #' @param .collapse How multiple filters are combined.
-    #' @param .limit The limit.
-    #' @param page_size The page size.
-    get_apps = function(
-      filter = NULL,
-      .collapse = "&",
-      .limit = Inf,
-      page_size = 25
-    ) {
-      path <- unversioned_url("applications")
-      query <- list(
-        count = min(page_size, .limit)
-      )
-      if (!is.null(filter)) {
-        query$filter <- paste(
-          sapply(seq_along(filter), function(i) {
-            sprintf("%s:%s", names(filter)[i], filter[[i]])
-          }),
-          collapse = .collapse
-        )
-      }
-
-      prg <- optional_progress_bar(
-        format = "downloading page :current (:tick_rate/sec) :elapsedfull",
-        total = NA,
-        clear = FALSE
-      )
-
-      # handle paging
-      prg$tick()
-      res <- self$GET(path, query = query)
-
-      all <- res$applications
-      all_l <- length(all)
-      query$start <- 1
-      while (length(res$applications) > 0 && all_l < .limit) {
-        prg$tick()
-
-        query$start <- query$start + page_size
-        query$page_size <- min(page_size, .limit - all_l)
-        query$cont <- res$continuation
-        res <- self$GET(path, query = query)
-
-        all <- c(all, res$applications)
-        all_l <- length(all)
-      }
-      all
-    },
-
     #' @description Get a schedule.
     #' @param schedule_id The schedule identifier.
     get_schedule = function(schedule_id) {
@@ -497,7 +450,7 @@ Connect <- R6::R6Class(
       include = "tags,owner"
     ) {
       if (!is.null(guid)) {
-        return(self$GET(v1_url("content", guid)))
+        return(self$GET(v1_url("content", guid), query = list(include = include)))
       }
 
       query <- list(
@@ -957,7 +910,8 @@ Connect <- R6::R6Class(
     # end --------------------------------------------------------
   ),
   private = list(
-    .version = NULL
+    .version = NULL,
+    .timezones = NULL
   ),
   active = list(
     #' @field version The server version.
@@ -966,6 +920,18 @@ Connect <- R6::R6Class(
         private$.version <- safe_server_version(self)
       }
       private$.version
+    },
+    #' @field timezones The server timezones.
+    timezones = function() {
+      if (is.null(private$.timezones)) {
+        private$.timezones <- tryCatch(
+          self$GET(v1_url("timezones")),
+          error = function(e) {
+            self$GET(unversioned_fallback_url("timezones"))
+          }
+        )
+      }
+      private$.timezones
     }
   )
 )

@@ -745,9 +745,6 @@ get_oauth_credentials <- function(
   requested_token_type = NULL
 ) {
   validate_R6_class(connect, "Connect")
-  if (is.null(requested_token_type)) {
-    requested_token_type <- "urn:ietf:params:oauth:token-type:access_token"
-  }
   url <- v1_url("oauth", "integrations", "credentials")
   body <- list(
     grant_type = "urn:ietf:params:oauth:grant-type:token-exchange",
@@ -813,9 +810,6 @@ get_oauth_content_credentials <- function(
         "Could not find the CONNECT_CONTENT_SESSION_TOKEN environment variable."
       )
     }
-  }
-  if (is.null(requested_token_type)) {
-    requested_token_type <- "urn:ietf:params:oauth:token-type:access_token"
   }
   url <- v1_url("oauth", "integrations", "credentials")
   body <- list(

@@ -29,6 +29,7 @@ test_that("compare_connect_version works", {
 })
 
 test_that("error_if_less_than errors works as expected", {
+  withr::local_options(list(rlib_warning_verbosity = "verbose"))
   expect_silent(error_if_less_than("2024.09.0", "1.8.6"))
   expect_error(
     error_if_less_than("2024.08.2", "2024.09"),
@@ -41,6 +42,7 @@ test_that("error_if_less_than errors works as expected", {
 })
 
 test_that("warn_untested_connect works", {
+  withr::local_options(list(rlib_warning_verbosity = "verbose"))
   # silent for patch version changes
   expect_silent(warn_untested_connect("1.8.2.1-10", "1.8.2-4"))
 
@@ -55,8 +57,16 @@ test_that("warn_untested_connect works", {
 test_that("warn_untested_connect warning snapshot", {
   # warning messages seem to cause issues in different environments based on color codes
   skip_on_cran()
+  withr::local_options(list(rlib_warning_verbosity = "verbose"))
   # No warning
   expect_snapshot(capture_warning(warn_untested_connect("2022.02", "2022.01")))
   expect_snapshot(capture_warning(warn_untested_connect("2022.01", "2022.02")))
-  rlang::reset_warning_verbosity("old-connect")
+})
+
+test_that("message_if_not_testing messages appropriately", {
+  expect_no_message(message_if_not_testing("a message"))
+
+  withr::with_envvar(list(TESTTHAT = ""), {
+    expect_message(message_if_not_testing("a message"), "a message")
+  })
 })

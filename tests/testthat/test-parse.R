@@ -131,7 +131,7 @@ test_that("parse_connect_rfc3339() handles fractional seconds", {
       "2024-12-06T19:09:29.948070345+0000"
     ),
     format = "%Y-%m-%dT%H:%M:%OS%z",
-    tz = "UTC"
+    tz = Sys.timezone()
   ))
 
   x <- c("2024-12-06T19:09:29.948016766Z", "2024-12-06T19:09:29.948070345Z")

@@ -20,7 +20,6 @@ Other content functions:
 \code{\link{content_update}()},
 \code{\link{create_random_name}()},
 \code{\link{dashboard_url}()},
-\code{\link{dashboard_url_chr}()},
 \code{\link{delete_thumbnail}()},
 \code{\link{deploy_repo}()},
 \code{\link{get_bundles}()},

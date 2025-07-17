@@ -53,7 +53,7 @@ VariantSchedule <- R6::R6Class(
           app_id = self$get_variant()$app_id,
           variant_id = self$get_variant()$id
         )
-        path <- "schedules"
+        path <- unversioned_url("schedules")
       } else {
         path <- unversioned_url("schedules", self$get_schedule()$id)
       }
@@ -129,7 +129,6 @@ VariantSchedule <- R6::R6Class(
           "year" = glue::glue("Every {schdata$N} year{plural}"),
           "Unknown schedule"
         )
-        # TODO: is fetching data during a PRINT a bit overkill?
         tz_offset <- .get_offset(self$get_connect(), rawdata$timezone)
         c(
           desc,
@@ -143,9 +142,7 @@ VariantSchedule <- R6::R6Class(
 )
 
 .get_offset <- function(connect, timezone) {
-  # TODO: some type of cache to reduce churn here?
-  tz <- connect$GET(unversioned_url("timezones"))
-  res <- purrr::keep(tz, ~ .x[["timezone"]] == timezone)
+  res <- purrr::keep(connect$timezones, ~ .x[["timezone"]] == timezone)
   if (length(res) != 1) {
     stop(glue::glue("ERROR: timezone '{timezone}' not found"))
   }
@@ -528,12 +525,7 @@ schedule_describe <- function(.schedule) {
 #' @family schedule functions
 #' @export
 get_timezones <- function(connect) {
-  raw_tz <- tryCatch(
-    connect$GET(v1_url("timezones")),
-    error = function(e) {
-      connect$GET(unversioned_url("timezones"))
-    }
-  )
+  raw_tz <- connect$timezones
 
   tz_values <- purrr::map_chr(raw_tz, ~ .x[["timezone"]])
   tz_display <- purrr::map_chr(

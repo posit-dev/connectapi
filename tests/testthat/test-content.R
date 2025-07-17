@@ -80,12 +80,17 @@ with_mock_api({
   })
 
   test_that("we can modify a content item", {
+    withr::local_options(list(rlib_warning_verbosity = "verbose"))
+
     con <- Connect$new(server = "https://connect.example", api_key = "fake")
     item <- content_item(con, "f2f37341-e21d-3d80-c698-a935ad614066")
-    expect_PATCH(
-      item$update(description = "new description"),
-      "https://connect.example/__api__/v1/content/f2f37341-e21d-3d80-c698-a935ad614066",
-      '{"description":"new description"}'
+    expect_warning(
+      expect_PATCH(
+        item$update(description = "new description"),
+        "https://connect.example/__api__/v1/content/f2f37341-e21d-3d80-c698-a935ad614066",
+        '{"description":"new description"}'
+      ),
+      "the server version is not exposed by this Posit Connect instance"
     )
   })
 
@@ -168,6 +173,16 @@ without_internet({
       con$content(name = "A name for content"),
       "https://connect.example/__api__/v1/content?name=A%20name%20for%20content&include=tags%2Cowner"
     )
+
+    expect_GET(
+      con$content(guid = 1),
+      "https://connect.example/__api__/v1/content/1?include=tags%2Cowner"
+    )
+
+    expect_GET(
+      con$content(guid = 1, include = "owner,tags"),
+      "https://connect.example/__api__/v1/content/1?include=owner%2Ctags"
+    )
   })
 })
 
@@ -235,12 +250,16 @@ with_mock_api({
   })
 
   test_that("content$default_variant gets the default variant", {
+    withr::local_options(list(rlib_warning_verbosity = "verbose"))
     client <- Connect$new(
       server = "http://connect.example",
       api_key = "not-a-key"
     )
     x <- content_item(client, "951bf3ad-82d0-4bca-bba8-9b27e35c49fa")
-    v <- x$default_variant
+    expect_warning(
+      v <- x$default_variant,
+      "experimental"
+    )
     expect_identical(v$key, "WrEKKa77")
   })
 })
@@ -382,6 +401,8 @@ test_that("an error is raised when terminate_jobs() calls a bad URL", {
 
 test_that("get_log() gets job logs", {
   with_mock_api({
+    withr::local_options(list(rlib_warning_verbosity = "verbose"))
+
     client <- Connect$new(
       server = "http://connect.example",
       api_key = "not-a-key"
@@ -390,7 +411,10 @@ test_that("get_log() gets job logs", {
     job_list <- get_job_list(item)
     # This job's log is present at {mock_dir}/v1/content/8f37d6e0/jobs/mxPGVOMVk6f8dso2/log.json.
     job <- purrr::keep(job_list, ~ .x$key == "mxPGVOMVk6f8dso2")[[1]]
-    log <- get_log(job)
+    expect_warning(
+      log <- get_log(job),
+      "the server version is not exposed by this Posit Connect instance"
+    )
     expect_identical(
       log,
       tibble::tibble(
@@ -409,7 +433,7 @@ test_that("get_log() gets job logs", {
     )
 
     expect_GET(
-      get_log(job, max_log_lines = 10),
+      expect_warning(get_log(job, max_log_lines = 10)),
       "http://connect.example/__api__/v1/content/8f37d6e0/jobs/mxPGVOMVk6f8dso2/log?maxLogLines=10"
     )
   })
@@ -417,23 +441,28 @@ test_that("get_log() gets job logs", {
 
 test_that("get_content_packages() gets packages", {
   with_mock_api({
+    withr::local_options(list(rlib_warning_verbosity = "verbose"))
     client <- Connect$new(
       server = "http://connect.example",
       api_key = "not-a-key"
     )
     item <- content_item(client, "8f37d6e0")
-    expect_identical(
-      p <- get_content_packages(item),
-      tibble::tibble(
-        language = c("r", "r", "r"),
-        name = c("askpass", "backports", "base64enc"),
-        version = c("1.2.1", "1.5.0", "0.1-3"),
-        hash = c(
-          "449d6f179d9b3b5df1dc44fad2930b83",
-          "6c5e6997f9a6836358ea459b93f2bc39",
-          "c590d29e555926af053055e23ee79efb"
+    expect_warning(
+      expect_identical(
+        get_content_packages(item),
+
+        tibble::tibble(
+          language = c("r", "r", "r"),
+          name = c("askpass", "backports", "base64enc"),
+          version = c("1.2.1", "1.5.0", "0.1-3"),
+          hash = c(
+            "449d6f179d9b3b5df1dc44fad2930b83",
+            "6c5e6997f9a6836358ea459b93f2bc39",
+            "c590d29e555926af053055e23ee79efb"
+          )
         )
-      )
+      ),
+      "the server version is not exposed by this Posit Connect instance"
     )
   })
 })

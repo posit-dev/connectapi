@@ -13,3 +13,28 @@ skip_if_connect_older_than <- function(client, version) {
     skip(paste("Requires Connect >=", version))
   }
 }
+
+deploy_example <- function(connect, name, ...) {
+  example_dir <- rprojroot::find_package_root_file(
+    "tests",
+    "testthat",
+    "examples",
+    name
+  )
+  bundle_file <- fs::file_temp(pattern = name, ext = ".tar.gz")
+  bund <- bundle_dir(path = example_dir, filename = bundle_file)
+
+  tsk <- deploy(
+    connect = connect,
+    bundle = bund,
+    name = name,
+    ...
+  )
+
+  guid <- tsk$get_content()$guid
+  content <- content_item(tsk$get_connect(), guid)
+
+  # TODO: a smarter, noninteractive wait...
+  suppressMessages(poll_task(tsk))
+  content
+}
