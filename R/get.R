@@ -562,8 +562,7 @@ get_usage_static <- function(
 #' [get_usage_shiny()] and [get_usage_static()].
 #'
 #' When possible, however, we recommend using `get_usage()` over
-#' `get_usage_static()` or `get_usage_shiny()`, as it will perform better
-#' than those endpoints, which use pagination.
+#' `get_usage_static()` or `get_usage_shiny()`, as it is faster and more efficient.
 #'
 #' @examples
 #' \dontrun{
