@@ -134,7 +134,7 @@ fast_unnest_character <- function(df, col_name) {
           row[[col]]
         }
       },
-      "1",
+      character(1),
       USE.NAMES = FALSE
     )
   }
