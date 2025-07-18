@@ -383,8 +383,28 @@ test_that("get_usage() returns usage data in the expected shape", {
       from = as.POSIXct("2025-04-01 00:00:01", tz = "UTC")
     )
 
+    expect_s3_class(usage, "connect_list_hits")
+    expect_s3_class(usage, "list")
+
+    expect_length(usage, 5)
+
+    # Check first element
     expect_equal(
-      usage,
+      usage[[1]],
+      list(
+        id = 8966707L,
+        user_guid = NA_character_,
+        content_guid = "475618c9",
+        timestamp = "2025-04-30T12:49:16.269904Z",
+        path = "/hello",
+        user_agent = "Datadog/Synthetics"
+      )
+    )
+
+    # Check conversion to data.frame
+    usage_df <- as.data.frame(usage)
+    expect_equal(
+      usage_df,
       tibble::tibble(
         id = c(8966707L, 8966708L, 8967206L, 8967210L, 8966214L),
         user_guid = c(NA, NA, NA, NA, "fecbd383"),
@@ -414,6 +434,10 @@ test_that("get_usage() returns usage data in the expected shape", {
         )
       )
     )
+
+    # Check conversion with unnest=FALSE
+    usage_df_no_unnest <- as.data.frame(usage, unnest = FALSE)
+    expect_equal(names(usage_df_no_unnest), c("id", "user_guid", "content_guid", "timestamp", "data"))
   })
 })
 

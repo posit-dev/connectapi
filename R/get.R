@@ -529,14 +529,13 @@ get_usage_static <- function(
 #' Get usage information for deployed content
 #'
 #' @description
-
 #' Retrieve content hits for all available content on the server. Available
 #' content depends on the user whose API key is in use. Administrator accounts
 #' will receive data for all content on the server. Publishers will receive data
 #' for all content they own or collaborate on.
 #'
 #' If no date-times are provided, all usage data will be returned.
-
+#'
 #' @param client A `Connect` R6 client object.
 #' @param from Optional date-time (`POSIXct` or `POSIXlt`). Only
 #'   records after this time are returned. If not provided, records
@@ -545,14 +544,28 @@ get_usage_static <- function(
 #'   before this time are returned. If not provided, all records up to
 #'   the most recent are returned.
 #'
-#' @return A tibble with columns:
-#' * `id`: An identifier for the record.
-#' * `user_guid`: The GUID of logged-in visitors, NA for anonymous.
-#' * `content_guid`: The GUID of the content.
-#' * `timestamp`: The time of the hit as `POSIXct`.
-#' * `path`: The path of the hit. Not recorded for all content types.
-#' * `user_agent`: If available, the user agent string for the hit. Not
-#'   available for all records.
+#' @return A list of usage records. Each record is a list with all elements
+#'   as character strings unless otherwise specified.
+#'
+#' * `id`: An integer identifier for the hit.
+#' * `user_guid`: The user GUID if the visitor is logged-in, `NULL` for
+#'   anonymous hits.
+#' * `content_guid`: The GUID of the visited content.
+#' * `timestamp`: The time of the hit in RFC3339 format.
+#' * `data`: A nested list with optional fields:
+#'     * `path`: The request path (if recorded).
+#'     * `user_agent`: The user agent string (if available).
+#'
+#' Use [as.data.frame()] or [tibble::as_tibble()] to convert to a flat
+#' table with parsed types. In the resulting data frame:
+#'
+#' * `timestamp` is parsed to `POSIXct`.
+#' * `path` and `user_agent` are extracted from the nested `data` field.
+#'
+#' By default, [as.data.frame()] attempts to extract the nested fields using
+#' the \pkg{tidyr} package. If \pkg{tidyr} is not available, or if you want to
+#' skip unnesting, call `as.data.frame(x, unnest = FALSE)` to leave `data` as
+#' a list-column.
 #'
 #' @details
 #'
@@ -566,6 +579,8 @@ get_usage_static <- function(
 #' When possible, however, we recommend using `get_usage()` over
 #' `get_usage_static()` or `get_usage_shiny()`, as it is faster and more efficient.
 #'
+#' @seealso [as.data.frame.connect_list_hits()], [as_tibble.connect_list_hits()]
+#'
 #' @examples
 #' \dontrun{
 #' client <- connect()
@@ -573,7 +588,7 @@ get_usage_static <- function(
 #' # Fetch the last 2 days of hits
 #' usage <- get_usage(client, from = Sys.Date() - 2, to = Sys.Date())
 #'
-#' # Fetch usage after a specified date
+#' # Fetch usage after a specified date and convert to a data frame.
 #' usage <- get_usage(
 #'   client,
 #'   from = as.POSIXct("2025-05-02 12:40:00", tz = "UTC")
@@ -581,21 +596,74 @@ get_usage_static <- function(
 #'
 #' # Fetch all usage
 #' usage <- get_usage(client)
+#'
+#' # Convert to tibble or data frame
+#' usage_df <- tibble::as_tibble(usage)
+#'
+#' # Skip unnesting if tidyr is not installed
+#' usage_df <- as.data.frame(usage, unnest = FALSE)
 #' }
 #'
 #' @export
 get_usage <- function(client, from = NULL, to = NULL) {
   error_if_less_than(client$version, "2025.04.0")
 
-  usage_raw <- client$GET(
+  usage <- client$GET(
     v1_url("instrumentation", "content", "hits"),
     query = list(
       from = make_timestamp(from),
       to = make_timestamp(to)
     )
   )
-  usage <- parse_connectapi_typed(usage_raw, connectapi_ptypes$usage)
-  fast_unnest_character(usage, "data")
+
+  class(usage) <- c("connect_list_hits", class(usage))
+  usage
+}
+
+#' Convert usage data to a data frame
+#'
+#' @description
+#' Converts an object returned by [get_usage()] into a data frame with parsed
+#' column types. By default, extracts `path` and `user_agent` from the `data`
+#' field, if available.
+#'
+#' @param x A `connect_list_hits` object (from [get_usage()]).
+#' @param unnest Logical; if `TRUE` (default), extracts nested fields using
+#'   \pkg{tidyr}. Set to `FALSE` to skip unnesting.
+#' @param ... Ignored.
+#'
+#' @return A `data.frame` with one row per usage record.
+#' @export
+#' @method as.data.frame connect_list_hits
+as.data.frame.connect_list_hits <- function(x, unnest = TRUE, ...) {
+  usage_df <- parse_connectapi_typed(x, connectapi_ptypes$usage)
+  if (unnest) {
+    if (!requireNamespace("tidyr", quietly = TRUE)) {
+      stop(
+        "`unnest = TRUE` requires tidyr. Install tidyr or set `unnest = FALSE`.",
+        call. = FALSE
+      )
+    }
+    usage_df <- tidyr::unnest_wider(usage_df, data, ptype = list(path = character(0), user_agent = character(0)))
+  }
+  as.data.frame(usage_df)
+}
+
+#' Convert usage data to a tibble
+#'
+#' @description
+#' Converts an object returned by [get_usage()] to a tibble via
+#' [as.data.frame.connect_list_hits()].
+#'
+#' @param x A `connect_list_hits` object.
+#' @param ... Passed to [as.data.frame()].
+#'
+#' @return A tibble with one row per usage record.
+#' @export
+#' @importFrom tibble as_tibble
+#' @method as_tibble connect_list_hits
+as_tibble.connect_list_hits <- function(x, ...) {
+  tibble::as_tibble(as.data.frame(x, ...))
 }
 
 #' Get Audit Logs from Posit Connect Server

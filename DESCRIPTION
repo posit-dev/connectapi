@@ -57,6 +57,7 @@ Suggests:
     rsconnect,
     spelling,
     testthat,
+    tidyr,
     webshot2,
     withr
 VignetteBuilder:

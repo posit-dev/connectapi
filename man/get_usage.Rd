@@ -18,16 +18,32 @@ before this time are returned. If not provided, all records up to
 the most recent are returned.}
 }
 \value{
-A tibble with columns:
+A list of usage records. Each record is a list with all elements
+as character strings unless otherwise specified.
 \itemize{
-\item \code{id}: An identifier for the record.
-\item \code{user_guid}: The GUID of logged-in visitors, NA for anonymous.
-\item \code{content_guid}: The GUID of the content.
-\item \code{timestamp}: The time of the hit as \code{POSIXct}.
-\item \code{path}: The path of the hit. Not recorded for all content types.
-\item \code{user_agent}: If available, the user agent string for the hit. Not
-available for all records.
+\item \code{id}: An integer identifier for the hit.
+\item \code{user_guid}: The user GUID if the visitor is logged-in, \code{NULL} for
+anonymous hits.
+\item \code{content_guid}: The GUID of the visited content.
+\item \code{timestamp}: The time of the hit in RFC3339 format.
+\item \code{data}: A nested list with optional fields:
+\itemize{
+\item \code{path}: The request path (if recorded).
+\item \code{user_agent}: The user agent string (if available).
 }
+}
+
+Use \code{\link[=as.data.frame]{as.data.frame()}} or \code{\link[tibble:as_tibble]{tibble::as_tibble()}} to convert to a flat
+table with parsed types. In the resulting data frame:
+\itemize{
+\item \code{timestamp} is parsed to \code{POSIXct}.
+\item \code{path} and \code{user_agent} are extracted from the nested \code{data} field.
+}
+
+By default, \code{\link[=as.data.frame]{as.data.frame()}} attempts to extract the nested fields using
+the \pkg{tidyr} package. If \pkg{tidyr} is not available, or if you want to
+skip unnesting, call \code{as.data.frame(x, unnest = FALSE)} to leave \code{data} as
+a list-column.
 }
 \description{
 Retrieve content hits for all available content on the server. Available
@@ -55,7 +71,7 @@ client <- connect()
 # Fetch the last 2 days of hits
 usage <- get_usage(client, from = Sys.Date() - 2, to = Sys.Date())
 
-# Fetch usage after a specified date
+# Fetch usage after a specified date and convert to a data frame.
 usage <- get_usage(
   client,
   from = as.POSIXct("2025-05-02 12:40:00", tz = "UTC")
@@ -63,6 +79,15 @@ usage <- get_usage(
 
 # Fetch all usage
 usage <- get_usage(client)
+
+# Convert to tibble or data frame
+usage_df <- tibble::as_tibble(usage)
+
+# Skip unnesting if tidyr is not installed
+usage_df <- as.data.frame(usage, unnest = FALSE)
 }
 
+}
+\seealso{
+\code{\link[=as.data.frame.connect_list_hits]{as.data.frame.connect_list_hits()}}, \code{\link[=as_tibble.connect_list_hits]{as_tibble.connect_list_hits()}}
 }

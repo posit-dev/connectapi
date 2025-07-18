@@ -105,43 +105,6 @@ parse_connectapi <- function(data) {
   ))
 }
 
-# Unnests a list column similarly to `tidyr::unnest_wider()`, bringing the
-# entries of each list-item up to the top level. Makes some simplifying
-# assumptions.
-# 1. All inner variables are treated as character vectors;
-# 2. The names of the first entry of the list-column are used as the
-#    names of variables to extract.
-fast_unnest_character <- function(df, col_name) {
-  if (!is.character(col_name)) {
-    stop("col_name must be a character vector")
-  }
-  if (!col_name %in% names(df)) {
-    stop("col_name is not present in df")
-  }
-
-  list_col <- df[[col_name]]
-
-  new_cols <- names(list_col[[1]])
-
-  df2 <- df
-  for (col in new_cols) {
-    df2[[col]] <- vapply(
-      list_col,
-      function(row) {
-        if (is.null(row[[col]])) {
-          NA_character_
-        } else {
-          row[[col]]
-        }
-      },
-      character(1),
-      USE.NAMES = FALSE
-    )
-  }
-
-  df2[[col_name]] <- NULL
-  df2
-}
 
 coerce_fsbytes <- function(x, to, ...) {
   if (is.numeric(x)) {
