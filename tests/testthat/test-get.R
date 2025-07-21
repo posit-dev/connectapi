@@ -202,7 +202,7 @@ test_that("get_vanity_urls() works", {
             1602623489,
             1677679943
           ),
-          tzone = "UTC",
+          tzone = Sys.timezone(),
           class = c("POSIXct", "POSIXt")
         )
       )
@@ -330,7 +330,10 @@ test_that("get_packages() works as expected with `content_guid` names in API res
 
 test_that("get_content only requests vanity URLs for Connect 2024.06.0 and up", {
   with_mock_dir("2024.05.0", {
-    client <- Connect$new(server = "http://connect.example", api_key = "not-a-key")
+    client <- Connect$new(
+      server = "http://connect.example",
+      api_key = "not-a-key"
+    )
     # `$version` is lazy, so we need to call it before `without_internet()`.
     client$version
   })
@@ -342,7 +345,10 @@ test_that("get_content only requests vanity URLs for Connect 2024.06.0 and up", 
   })
 
   with_mock_dir("2024.06.0", {
-    client <- Connect$new(server = "http://connect.example", api_key = "not-a-key")
+    client <- Connect$new(
+      server = "http://connect.example",
+      api_key = "not-a-key"
+    )
     # `$version` is lazy, so we need to call it before `without_internet()`.
     client$version
   })
@@ -354,7 +360,10 @@ test_that("get_content only requests vanity URLs for Connect 2024.06.0 and up", 
   })
 
   with_mock_dir("2024.07.0", {
-    client <- Connect$new(server = "http://connect.example", api_key = "not-a-key")
+    client <- Connect$new(
+      server = "http://connect.example",
+      api_key = "not-a-key"
+    )
     # `$version` is lazy, so we need to call it before `without_internet()`.
     client$version
   })
@@ -363,5 +372,100 @@ test_that("get_content only requests vanity URLs for Connect 2024.06.0 and up", 
       get_content(client),
       "http://connect.example/__api__/v1/content?include=tags%2Cowner%2Cvanity_url"
     )
+  })
+})
+
+with_mock_dir("2025.04.0", {
+  test_that("get_usage() returns usage data in the expected shape", {
+    client <- connect(server = "https://connect.example", api_key = "fake")
+    usage <- get_usage(
+      client,
+      from = as.POSIXct("2025-04-01 00:00:01", tz = "UTC")
+    )
+
+    expect_s3_class(usage, "connect_list_hits")
+    expect_s3_class(usage, "list")
+
+    expect_length(usage, 5)
+
+    # Check first element
+    expect_equal(
+      usage[[1]],
+      list(
+        id = 8966707L,
+        user_guid = NULL,
+        content_guid = "475618c9",
+        timestamp = "2025-04-30T12:49:16.269904Z",
+        data = list(
+          path = "/hello",
+          user_agent = "Datadog/Synthetics"
+        )
+      )
+    )
+
+    # Check conversion to data.frame
+    usage_df <- as.data.frame(usage)
+    expect_equal(
+      usage_df,
+      data.frame(
+        id = c(8966707L, 8966708L, 8967206L, 8967210L, 8966214L),
+        user_guid = c(NA, NA, NA, NA, "fecbd383"),
+        content_guid = c(
+          "475618c9",
+          "475618c9",
+          "475618c9",
+          "475618c9",
+          "b0eaf295"
+        ),
+        timestamp = c(
+          parse_connect_rfc3339(c(
+            "2025-04-30T12:49:16.269904Z",
+            "2025-04-30T12:49:17.002848Z",
+            "2025-04-30T13:01:47.40738Z",
+            "2025-04-30T13:04:13.176791Z",
+            "2025-04-30T12:36:13.818466Z"
+          ))
+        ),
+        path = c("/hello", "/world", "/chinchilla", "/lava-lamp", NA),
+        user_agent = c(
+          "Datadog/Synthetics",
+          NA,
+          "Datadog/Synthetics",
+          "Datadog/Synthetics",
+          NA
+        )
+      )
+    )
+
+    # Check conversion with unnest=FALSE
+    usage_df_no_unnest <- as.data.frame(usage, unnest = FALSE)
+    expect_equal(
+      names(usage_df_no_unnest),
+      c("id", "user_guid", "content_guid", "timestamp", "data")
+    )
+  })
+
+  test_that("Metrics firehose is called with expected parameters", {
+    client <- Connect$new(server = "https://connect.example", api_key = "fake")
+    # $version is loaded lazily, we need it before calling get_usage()
+    client$version
+
+    without_internet({
+      expect_GET(
+        get_usage(client),
+        "https://connect.example/__api__/v1/instrumentation/content/hits"
+      )
+      expect_GET(
+        get_usage(
+          client,
+          from = as.POSIXct("2025-04-01 00:00:01", tz = "UTC"),
+          to = as.POSIXct("2025-04-02 00:00:01", tz = "UTC")
+        ),
+        paste0(
+          "https://connect.example/__api__/v1/instrumentation/content/hits?",
+          "from=2025-04-01T00%3A00%3A01Z&to=2025-04-02T00%3A00%3A01Z"
+        )
+      )
+    })
   })
 })

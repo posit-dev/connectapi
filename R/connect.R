@@ -858,7 +858,9 @@ Connect <- R6::R6Class(
     docs = function(docs = "api", browse = TRUE) {
       stopifnot(docs %in% c("admin", "user", "api"))
       url <- paste0(self$server, "/__docs__/", docs)
-      if (browse) utils::browseURL(url)
+      if (browse) {
+        utils::browseURL(url)
+      }
       url
     },
 
