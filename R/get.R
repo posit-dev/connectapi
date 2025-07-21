@@ -628,9 +628,11 @@ get_usage <- function(client, from = NULL, to = NULL) {
 #' field, if available.
 #'
 #' @param x A `connect_list_hits` object (from [get_usage()]).
+#' @param row.names Passed to [base::as.data.frame()].
+#' @param optional Passed to [base::as.data.frame()].
+#' @param ... Passed to [base::as.data.frame()].
 #' @param unnest Logical; if `TRUE` (default), extracts nested fields using
 #'   \pkg{tidyr}. Set to `FALSE` to skip unnesting.
-#' @param ... Ignored.
 #'
 #' @return A `data.frame` with one row per usage record.
 #' @export

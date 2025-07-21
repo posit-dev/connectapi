@@ -9,7 +9,11 @@
 \arguments{
 \item{x}{A \code{connect_list_hits} object (from \code{\link[=get_usage]{get_usage()}}).}
 
-\item{...}{Ignored.}
+\item{row.names}{Passed to \code{\link[base:as.data.frame]{base::as.data.frame()}}.}
+
+\item{optional}{Passed to \code{\link[base:as.data.frame]{base::as.data.frame()}}.}
+
+\item{...}{Passed to \code{\link[base:as.data.frame]{base::as.data.frame()}}.}
 
 \item{unnest}{Logical; if \code{TRUE} (default), extracts nested fields using
 \pkg{tidyr}. Set to \code{FALSE} to skip unnesting.}
