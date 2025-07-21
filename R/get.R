@@ -644,7 +644,7 @@ as.data.frame.connect_list_hits <- function(x, unnest = TRUE, ...) {
         call. = FALSE
       )
     }
-    usage_df <- tidyr::unnest_wider(usage_df, data, ptype = list(path = character(0), user_agent = character(0)))
+    usage_df <- tidyr::unnest_wider(usage_df, "data", ptype = list(path = character(0), user_agent = character(0)))
   }
   as.data.frame(usage_df)
 }
