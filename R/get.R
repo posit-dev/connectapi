@@ -635,7 +635,13 @@ get_usage <- function(client, from = NULL, to = NULL) {
 #' @return A `data.frame` with one row per usage record.
 #' @export
 #' @method as.data.frame connect_list_hits
-as.data.frame.connect_list_hits <- function(x, unnest = TRUE, ...) {
+as.data.frame.connect_list_hits <- function(
+  x,
+  row.names = NULL,
+  optional = FALSE,
+  ...,
+  unnest = TRUE
+) {
   usage_df <- parse_connectapi_typed(x, connectapi_ptypes$usage)
   if (unnest) {
     if (!requireNamespace("tidyr", quietly = TRUE)) {
@@ -644,9 +650,13 @@ as.data.frame.connect_list_hits <- function(x, unnest = TRUE, ...) {
         call. = FALSE
       )
     }
-    usage_df <- tidyr::unnest_wider(usage_df, "data", ptype = list(path = character(0), user_agent = character(0)))
+    usage_df <- tidyr::unnest_wider(
+      usage_df,
+      "data",
+      ptype = list(path = character(0), user_agent = character(0))
+    )
   }
-  as.data.frame(usage_df)
+  as.data.frame(usage_df, row.names = row.names, optional = optional, ...)
 }
 
 #' Convert usage data to a tibble

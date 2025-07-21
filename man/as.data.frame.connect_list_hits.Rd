@@ -4,15 +4,15 @@
 \alias{as.data.frame.connect_list_hits}
 \title{Convert usage data to a data frame}
 \usage{
-\method{as.data.frame}{connect_list_hits}(x, unnest = TRUE, ...)
+\method{as.data.frame}{connect_list_hits}(x, row.names = NULL, optional = FALSE, ..., unnest = TRUE)
 }
 \arguments{
 \item{x}{A \code{connect_list_hits} object (from \code{\link[=get_usage]{get_usage()}}).}
 
+\item{...}{Ignored.}
+
 \item{unnest}{Logical; if \code{TRUE} (default), extracts nested fields using
 \pkg{tidyr}. Set to \code{FALSE} to skip unnesting.}
-
-\item{...}{Ignored.}
 }
 \value{
 A \code{data.frame} with one row per usage record.
