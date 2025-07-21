@@ -639,7 +639,7 @@ get_usage <- function(client, from = NULL, to = NULL) {
 #' @method as.data.frame connect_list_hits
 as.data.frame.connect_list_hits <- function(
   x,
-  row.names = NULL,
+  row.names = NULL, # nolint
   optional = FALSE,
   ...,
   unnest = TRUE
