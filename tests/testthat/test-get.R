@@ -375,8 +375,8 @@ test_that("get_content only requests vanity URLs for Connect 2024.06.0 and up", 
   })
 })
 
-test_that("get_usage() returns usage data in the expected shape", {
-  with_mock_dir("2025.04.0", {
+with_mock_dir("2025.04.0", {
+  test_that("get_usage() returns usage data in the expected shape", {
     client <- connect(server = "https://connect.example", api_key = "fake")
     usage <- get_usage(
       client,
@@ -393,11 +393,13 @@ test_that("get_usage() returns usage data in the expected shape", {
       usage[[1]],
       list(
         id = 8966707L,
-        user_guid = NA_character_,
+        user_guid = NULL,
         content_guid = "475618c9",
         timestamp = "2025-04-30T12:49:16.269904Z",
-        path = "/hello",
-        user_agent = "Datadog/Synthetics"
+        data = list(
+          path = "/hello",
+          user_agent = "Datadog/Synthetics"
+        )
       )
     )
 
@@ -405,7 +407,7 @@ test_that("get_usage() returns usage data in the expected shape", {
     usage_df <- as.data.frame(usage)
     expect_equal(
       usage_df,
-      tibble::tibble(
+      data.frame(
         id = c(8966707L, 8966708L, 8967206L, 8967210L, 8966214L),
         user_guid = c(NA, NA, NA, NA, "fecbd383"),
         content_guid = c(
@@ -437,12 +439,13 @@ test_that("get_usage() returns usage data in the expected shape", {
 
     # Check conversion with unnest=FALSE
     usage_df_no_unnest <- as.data.frame(usage, unnest = FALSE)
-    expect_equal(names(usage_df_no_unnest), c("id", "user_guid", "content_guid", "timestamp", "data"))
+    expect_equal(
+      names(usage_df_no_unnest),
+      c("id", "user_guid", "content_guid", "timestamp", "data")
+    )
   })
-})
 
-test_that("Metrics firehose is called with expected parameters", {
-  with_mock_api({
+  test_that("Metrics firehose is called with expected parameters", {
     client <- Connect$new(server = "https://connect.example", api_key = "fake")
     # $version is loaded lazily, we need it before calling get_usage()
     client$version
