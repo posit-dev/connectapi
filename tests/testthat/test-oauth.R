@@ -150,8 +150,17 @@ with_mock_api({
   })
 
   test_that("we can retrieve the oauth user credentials with audience", {
-    client <- Connect$new(server = "https://connect.example", api_key = "fake")
-    expect_true(validate_R6_class(client, "Connect"))
+    client <- MockConnect$new("2025.07.0")
+    client$mock_response(
+      "POST",
+      v1_url("oauth", "integrations", "credentials"),
+      content = list(
+        access_token = "user-access-token",
+        issued_token_type = "urn:ietf:params:oauth:token-type:access_token",
+        token_type = "Bearer"
+      )
+    )
+
     credentials <- get_oauth_credentials(
       client,
       user_session_token = "user-session-token",
@@ -168,12 +177,21 @@ with_mock_api({
   })
 
   test_that("we can retrieve the oauth user credentials with audience and req token type", {
-    client <- Connect$new(server = "https://connect.example", api_key = "fake")
-    expect_true(validate_R6_class(client, "Connect"))
+    client <- MockConnect$new("2025.07.0")
+    client$mock_response(
+      "POST",
+      v1_url("oauth", "integrations", "credentials"),
+      content = list(
+        access_token = "user-access-token",
+        issued_token_type = "urn:ietf:params:oauth:token-type:access_token",
+        token_type = "Bearer"
+      )
+    )
+
     credentials <- get_oauth_credentials(
       client,
       user_session_token = "user-session-token",
-      requested_token_type = "urn:ietf:params:oauth:token-type:access_token",      
+      requested_token_type = "urn:ietf:params:oauth:token-type:access_token",
       audience = "audience"
     )
     expect_equal(
@@ -187,16 +205,20 @@ with_mock_api({
   })
 
   test_that("we can retrieve the oauth content credentials with audience", {
-    withr::local_options(list(rlib_warning_verbosity = "verbose"))
-
-    client <- Connect$new(server = "https://connect.example", api_key = "fake")
-    expect_true(validate_R6_class(client, "Connect"))
-    expect_warning(
-      credentials <- get_oauth_content_credentials(
-        client,
-        content_session_token = "content-session-token",
-        audience = "audience",
+    client <- MockConnect$new("2025.07.0")
+    client$mock_response(
+      "POST",
+      v1_url("oauth", "integrations", "credentials"),
+      content = list(
+        access_token = "content-access-token",
+        issued_token_type = "urn:ietf:params:oauth:token-type:access_token",
+        token_type = "Bearer"
       )
+    )
+    credentials <- get_oauth_content_credentials(
+      client,
+      content_session_token = "content-session-token",
+      audience = "audience",
     )
     expect_equal(
       credentials,
@@ -209,17 +231,22 @@ with_mock_api({
   })
 
   test_that("we can retrieve the oauth content credentials with audience and req token type", {
-    withr::local_options(list(rlib_warning_verbosity = "verbose"))
-
-    client <- Connect$new(server = "https://connect.example", api_key = "fake")
-    expect_true(validate_R6_class(client, "Connect"))
-    expect_warning(
-      credentials <- get_oauth_content_credentials(
-        client,
-        content_session_token = "content-session-token",
-        requested_token_type = "urn:ietf:params:oauth:token-type:access_token",
-        audience = "audience",
+    client <- MockConnect$new("2025.07.0")
+    client$mock_response(
+      "POST",
+      v1_url("oauth", "integrations", "credentials"),
+      content = list(
+        access_token = "content-access-token",
+        issued_token_type = "urn:ietf:params:oauth:token-type:access_token",
+        token_type = "Bearer"
       )
+    )
+
+    credentials <- get_oauth_content_credentials(
+      client,
+      content_session_token = "content-session-token",
+      requested_token_type = "urn:ietf:params:oauth:token-type:access_token",
+      audience = "audience"
     )
     expect_equal(
       credentials,
@@ -232,16 +259,21 @@ with_mock_api({
   })
 
   test_that("we can retrieve the AWS viewer credentials with audience", {
-    withr::local_options(list(rlib_warning_verbosity = "verbose"))
-
-    client <- Connect$new(server = "https://connect.example", api_key = "fake")
-    expect_true(validate_R6_class(client, "Connect"))
-    expect_warning(
-      credentials <- get_aws_credentials(
-        client,
-        user_session_token = "user-session-token",
-        audience = "audience"
+    client <- MockConnect$new("2025.07.0")
+    client$mock_response(
+      "POST",
+      v1_url("oauth", "integrations", "credentials"),
+      content = list(
+        access_token = "eyJhY2Nlc3NLZXlJZCI6ICJhYmMxMjMiLCAic2VjcmV0QWNjZXNzS2V5IjogImRlZjQ1NiIsICJzZXNzaW9uVG9rZW4iOiAiZ2hpNzg5IiwgImV4cGlyYXRpb24iOiAiMjAyNS0wMS0wMVQwMDowMDowMFoifQ==",
+        issued_token_type = "urn:ietf:params:aws:token-type:credentials",
+        token_type = "aws_credentials"
       )
+    )
+
+    credentials <- get_aws_credentials(
+      client,
+      user_session_token = "user-session-token",
+      audience = "audience"
     )
     expect_equal(
       credentials,
@@ -255,12 +287,16 @@ with_mock_api({
   })
 
   test_that("we can retrieve the AWS content credentials with audience", {
-    # get_aws_content_credentials produces multiple warnings about the Posit
-    # Connect version; suppress these
-    withr::local_options(list(rlib_warning_verbosity = "quiet"))
-
-    client <- Connect$new(server = "https://connect.example", api_key = "fake")
-    expect_true(validate_R6_class(client, "Connect"))
+    client <- MockConnect$new("2025.07.0")
+    client$mock_response(
+      "POST",
+      v1_url("oauth", "integrations", "credentials"),
+      content = list(
+        access_token = "eyJhY2Nlc3NLZXlJZCI6ICJhYmMxMjMiLCAic2VjcmV0QWNjZXNzS2V5IjogImRlZjQ1NiIsICJzZXNzaW9uVG9rZW4iOiAiZ2hpNzg5IiwgImV4cGlyYXRpb24iOiAiMjAyNS0wMS0wMVQwMDowMDowMFoifQ==",
+        issued_token_type = "urn:ietf:params:aws:token-type:credentials",
+        token_type = "aws_credentials"
+      )
+    )
 
     credentials <- get_aws_content_credentials(
       client,

@@ -643,7 +643,7 @@ get_procs <- function(src) {
 #' default to `urn:ietf:params:oauth:token-type:access_token`. Otherwise, this can
 #' be set to `urn:ietf:params:aws:token-type:credentials` for AWS integrations or
 #' `urn:posit:connect:api-key` for Connect API Key integrations.
-#' @param audience Optional. The GUID of an OAuth integration associated with 
+#' @param audience Optional. The GUID of an OAuth integration associated with
 #' this piece of content.
 #'
 #' @examples
@@ -705,7 +705,7 @@ get_oauth_credentials <- function(
 #' will default to `urn:ietf:params:oauth:token-type:access_token`. Otherwise,
 #' this can be set to `urn:ietf:params:aws:token-type:credentials` for AWS
 #' integrations or `urn:posit:connect:api-key` for Connect API Key integrations.
-#' @param audience Optional. The GUID of an OAuth integration associated with 
+#' @param audience Optional. The GUID of an OAuth integration associated with
 #' this piece of content.
 #'
 #' @examples
@@ -769,7 +769,7 @@ get_oauth_content_credentials <- function(
 #' can only be obtained when the content is running on a Connect server. The token
 #' identifies the user who is viewing the content interactively on the Connect server.
 #' Read this value from the HTTP header: `Posit-Connect-User-Session-Token`
-#' @param audience Optional. The GUID of an OAuth integration associated with 
+#' @param audience Optional. The GUID of an OAuth integration associated with
 #' this piece of content.
 #'
 #' @return The AWS credentials as a list with fields named `access_key_id`,
@@ -845,7 +845,7 @@ get_aws_credentials <- function(connect, user_session_token, audience = NULL) {
 #' token identifies the service account integration previously configured by
 #' the publisher on the Connect server. Defaults to the value from the
 #' environment variable: `CONNECT_CONTENT_SESSION_TOKEN`
-#' @param audience Optional. The GUID of an OAuth integration associated with 
+#' @param audience Optional. The GUID of an OAuth integration associated with
 #' this piece of content.
 #'
 #' @return The AWS credentials as a list with fields named `access_key_id`,
