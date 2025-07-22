@@ -684,7 +684,7 @@ get_oauth_credentials <- function(
     subject_token_type = "urn:posit:connect:user-session-token",
     subject_token = user_session_token,
     requested_token_type = requested_token_type,
-    audience = audience,
+    audience = audience
   )
   connect$POST(
     url,
@@ -755,7 +755,7 @@ get_oauth_content_credentials <- function(
     subject_token_type = "urn:posit:connect:content-session-token",
     subject_token = content_session_token,
     requested_token_type = requested_token_type,
-    audience = audience,
+    audience = audience
   )
   connect$POST(
     url,
@@ -825,7 +825,7 @@ get_aws_credentials <- function(connect, user_session_token, audience = NULL) {
     connect,
     user_session_token,
     requested_token_type = "urn:ietf:params:aws:token-type:credentials",
-    audience = audience,
+    audience = audience
   )
 
   # Extract access token and decode it

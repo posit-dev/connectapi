@@ -149,12 +149,31 @@ with_mock_api({
     )
   })
 
-    test_that("we can retrieve the oauth user credentials and audience", {
+  test_that("we can retrieve the oauth user credentials with audience", {
     client <- Connect$new(server = "https://connect.example", api_key = "fake")
     expect_true(validate_R6_class(client, "Connect"))
     credentials <- get_oauth_credentials(
       client,
       user_session_token = "user-session-token",
+      audience = "audience"
+    )
+    expect_equal(
+      credentials,
+      list(
+        access_token = "user-access-token",
+        issued_token_type = "urn:ietf:params:oauth:token-type:access_token",
+        token_type = "Bearer"
+      )
+    )
+  })
+
+  test_that("we can retrieve the oauth user credentials with audience and req token type", {
+    client <- Connect$new(server = "https://connect.example", api_key = "fake")
+    expect_true(validate_R6_class(client, "Connect"))
+    credentials <- get_oauth_credentials(
+      client,
+      user_session_token = "user-session-token",
+      requested_token_type = "urn:ietf:params:oauth:token-type:access_token",      
       audience = "audience"
     )
     expect_equal(
@@ -176,6 +195,29 @@ with_mock_api({
       credentials <- get_oauth_content_credentials(
         client,
         content_session_token = "content-session-token",
+        audience = "audience",
+      )
+    )
+    expect_equal(
+      credentials,
+      list(
+        access_token = "content-access-token",
+        issued_token_type = "urn:ietf:params:oauth:token-type:access_token",
+        token_type = "Bearer"
+      )
+    )
+  })
+
+  test_that("we can retrieve the oauth content credentials with audience and req token type", {
+    withr::local_options(list(rlib_warning_verbosity = "verbose"))
+
+    client <- Connect$new(server = "https://connect.example", api_key = "fake")
+    expect_true(validate_R6_class(client, "Connect"))
+    expect_warning(
+      credentials <- get_oauth_content_credentials(
+        client,
+        content_session_token = "content-session-token",
+        requested_token_type = "urn:ietf:params:oauth:token-type:access_token",
         audience = "audience",
       )
     )

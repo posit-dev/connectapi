@@ -1020,7 +1020,7 @@ connect <- function(
         con,
         user_session_token = token,
         requested_token_type = "urn:posit:connect:api-key",
-        audience = audience,
+        audience = audience
       )
       con <- connect(server = server, api_key = visitor_creds$access_token)
     } else {
