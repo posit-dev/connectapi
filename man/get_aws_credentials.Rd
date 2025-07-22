@@ -14,9 +14,8 @@ can only be obtained when the content is running on a Connect server. The token
 identifies the user who is viewing the content interactively on the Connect server.
 Read this value from the HTTP header: \code{Posit-Connect-User-Session-Token}}
 
-\item{audience}{Optional. The audience field used for credential exchange.
-This must be a valid integration GUID. When provided, the specified requested
-token type will be ignored.}
+\item{audience}{Optional. The GUID of an OAuth integration associated with
+this piece of content.}
 }
 \value{
 The AWS credentials as a list with fields named \code{access_key_id},

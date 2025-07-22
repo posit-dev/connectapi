@@ -999,7 +999,7 @@ connect <- function(
   token,
   token_local_testing_key = api_key,
   prefix = "CONNECT",
-  audience = NULL,
+  integration_guid = NULL,
   ...,
   .check_is_fatal = TRUE
 ) {
@@ -1020,7 +1020,7 @@ connect <- function(
         con,
         user_session_token = token,
         requested_token_type = "urn:posit:connect:api-key",
-        audience = audience
+        audience = integration_guid
       )
       con <- connect(server = server, api_key = visitor_creds$access_token)
     } else {

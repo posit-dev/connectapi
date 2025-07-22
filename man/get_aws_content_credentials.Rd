@@ -19,9 +19,8 @@ token identifies the service account integration previously configured by
 the publisher on the Connect server. Defaults to the value from the
 environment variable: \code{CONNECT_CONTENT_SESSION_TOKEN}}
 
-\item{audience}{Optional. The audience field used for credential exchange.
-This must be a valid integration GUID. When provided, the specified requested
-token type will be ignored.}
+\item{audience}{Optional. The GUID of an OAuth integration associated with
+this piece of content.}
 }
 \value{
 The AWS credentials as a list with fields named \code{access_key_id},

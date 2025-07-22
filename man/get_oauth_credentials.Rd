@@ -24,9 +24,8 @@ default to \code{urn:ietf:params:oauth:token-type:access_token}. Otherwise, this
 be set to \code{urn:ietf:params:aws:token-type:credentials} for AWS integrations or
 \code{urn:posit:connect:api-key} for Connect API Key integrations.}
 
-\item{audience}{Optional. The audience field used for credential exchange.
-This must be a valid integration GUID. When provided, the specified requested
-token type will be ignored.}
+\item{audience}{Optional. The GUID of an OAuth integration associated with
+this piece of content.}
 }
 \value{
 The OAuth credential exchange response.
