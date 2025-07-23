@@ -10,7 +10,7 @@ connect(
   token,
   token_local_testing_key = api_key,
   prefix = "CONNECT",
-  integration_guid = NULL,
+  audience = NULL,
   ...,
   .check_is_fatal = TRUE
 )
@@ -34,7 +34,7 @@ permissions.}
 
 \item{prefix}{The prefix used to determine environment variables}
 
-\item{integration_guid}{Optional. The GUID of a Connect API integration associated with this piece of content.}
+\item{audience}{Optional. The GUID of a Connect API integration associated with this piece of content.}
 
 \item{...}{Additional arguments. Not used at present}
 
