@@ -230,6 +230,19 @@ with_mock_api({
     )
   })
 
+  test_that("oauth viewer credentials retrieval with audience on unsupported version fails", {
+    client <- MockConnect$new("2025.06.0")
+
+    expect_error(
+      get_oauth_credentials(
+        client,
+        user_session_token = "user-session-token",
+        audience = "audience"
+      ),
+      "ERROR: This feature requires Posit Connect version 2025.07"
+    )
+  })
+
   test_that("we can retrieve the oauth content credentials with audience and req token type", {
     client <- MockConnect$new("2025.07.0")
     client$mock_response(
@@ -255,6 +268,19 @@ with_mock_api({
         issued_token_type = "urn:ietf:params:oauth:token-type:access_token",
         token_type = "Bearer"
       )
+    )
+  })
+
+  test_that("oauth content credentials retrieval with audience on unsupported version fails", {
+    client <- MockConnect$new("2025.06.0")
+
+    expect_error(
+      get_oauth_content_credentials(
+        client,
+        content_session_token = "content-session-token",
+        audience = "audience"
+      ),
+      "ERROR: This feature requires Posit Connect version 2025.07"
     )
   })
 
@@ -286,6 +312,19 @@ with_mock_api({
     )
   })
 
+  test_that("AWS viewer credentials retrieval with audience on unsupported version fails", {
+    client <- MockConnect$new("2025.06.0")
+
+    expect_error(
+      get_aws_credentials(
+        client,
+        user_session_token = "user-session-token",
+        audience = "audience"
+      ),
+      "ERROR: This feature requires Posit Connect version 2025.07"
+    )
+  })
+
   test_that("we can retrieve the AWS content credentials with audience", {
     client <- MockConnect$new("2025.07.0")
     client$mock_response(
@@ -312,6 +351,19 @@ with_mock_api({
         session_token = "ghi789",
         expiration = "2025-01-01T00:00:00Z"
       )
+    )
+  })
+
+  test_that("AWS content credentials retrieval with audience on unsupported version fails", {
+    client <- MockConnect$new("2025.06.0")
+
+    expect_error(
+      get_aws_content_credentials(
+        client,
+        content_session_token = "content-session-token",
+        audience = "audience"
+      ),
+      "ERROR: This feature requires Posit Connect version 2025.07"
     )
   })
 })

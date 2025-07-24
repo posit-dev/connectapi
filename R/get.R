@@ -677,6 +677,11 @@ get_oauth_credentials <- function(
   audience = NULL
 ) {
   validate_R6_class(connect, "Connect")
+
+  if (!is.null(audience)) {
+    error_if_less_than(connect$version, "2025.07.0")
+  }
+
   url <- v1_url("oauth", "integrations", "credentials")
   body <- list(
     grant_type = "urn:ietf:params:oauth:grant-type:token-exchange",
@@ -739,6 +744,11 @@ get_oauth_content_credentials <- function(
 ) {
   validate_R6_class(connect, "Connect")
   error_if_less_than(connect$version, "2024.12.0")
+
+  if (!is.null(audience)) {
+    error_if_less_than(connect$version, "2025.07.0")
+  }
+
   if (is.null(content_session_token)) {
     content_session_token <- Sys.getenv("CONNECT_CONTENT_SESSION_TOKEN")
     if (nchar(content_session_token) == 0) {
@@ -818,6 +828,11 @@ get_oauth_content_credentials <- function(
 #' @export
 get_aws_credentials <- function(connect, user_session_token, audience = NULL) {
   error_if_less_than(connect$version, "2025.03.0")
+
+  if (!is.null(audience)) {
+    error_if_less_than(connect$version, "2025.07.0")
+  }
+
   response <- get_oauth_credentials(
     connect,
     user_session_token,
@@ -888,6 +903,11 @@ get_aws_credentials <- function(connect, user_session_token, audience = NULL) {
 #' @export
 get_aws_content_credentials <- function(connect, content_session_token = NULL, audience = NULL) {
   error_if_less_than(connect$version, "2025.03.0")
+
+  if (!is.null(audience)) {
+    error_if_less_than(connect$version, "2025.07.0")
+  }
+
   response <- get_oauth_content_credentials(
     connect,
     content_session_token,
