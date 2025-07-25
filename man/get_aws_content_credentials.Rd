@@ -4,7 +4,11 @@
 \alias{get_aws_content_credentials}
 \title{Obtain AWS credentials for your content.}
 \usage{
-get_aws_content_credentials(connect, content_session_token = NULL)
+get_aws_content_credentials(
+  connect,
+  content_session_token = NULL,
+  audience = NULL
+)
 }
 \arguments{
 \item{connect}{A Connect R6 object.}
@@ -14,6 +18,9 @@ can only be obtained when the content is running on a Connect server. The
 token identifies the service account integration previously configured by
 the publisher on the Connect server. Defaults to the value from the
 environment variable: \code{CONNECT_CONTENT_SESSION_TOKEN}}
+
+\item{audience}{Optional. The GUID of an OAuth integration associated with
+this piece of content.}
 }
 \value{
 The AWS credentials as a list with fields named \code{access_key_id},

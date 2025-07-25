@@ -964,6 +964,7 @@ Connect <- R6::R6Class(
 #'   key here you can test a visitor client with differently-scoped
 #'   permissions.
 #' @param prefix The prefix used to determine environment variables
+#' @param audience Optional. The GUID of a Connect API integration associated with this piece of content.
 #' @param ... Additional arguments. Not used at present
 #' @param .check_is_fatal Whether to fail if "check" requests fail. Useful in
 #'   rare cases where more http request customization is needed for requests to
@@ -1000,6 +1001,7 @@ connect <- function(
   token,
   token_local_testing_key = api_key,
   prefix = "CONNECT",
+  audience = NULL,
   ...,
   .check_is_fatal = TRUE
 ) {
@@ -1019,7 +1021,8 @@ connect <- function(
       visitor_creds <- get_oauth_credentials(
         con,
         user_session_token = token,
-        requested_token_type = "urn:posit:connect:api-key"
+        requested_token_type = "urn:posit:connect:api-key",
+        audience = audience
       )
       con <- connect(server = server, api_key = visitor_creds$access_token)
     } else {

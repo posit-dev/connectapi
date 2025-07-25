@@ -10,6 +10,7 @@ connect(
   token,
   token_local_testing_key = api_key,
   prefix = "CONNECT",
+  audience = NULL,
   ...,
   .check_is_fatal = TRUE
 )
@@ -32,6 +33,8 @@ key here you can test a visitor client with differently-scoped
 permissions.}
 
 \item{prefix}{The prefix used to determine environment variables}
+
+\item{audience}{Optional. The GUID of a Connect API integration associated with this piece of content.}
 
 \item{...}{Additional arguments. Not used at present}
 

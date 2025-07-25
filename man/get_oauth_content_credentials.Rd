@@ -8,7 +8,8 @@ access token.}
 get_oauth_content_credentials(
   connect,
   content_session_token = NULL,
-  requested_token_type = NULL
+  requested_token_type = NULL,
+  audience = NULL
 )
 }
 \arguments{
@@ -24,6 +25,9 @@ environment variable: \code{CONNECT_CONTENT_SESSION_TOKEN}}
 will default to \code{urn:ietf:params:oauth:token-type:access_token}. Otherwise,
 this can be set to \code{urn:ietf:params:aws:token-type:credentials} for AWS
 integrations or \code{urn:posit:connect:api-key} for Connect API Key integrations.}
+
+\item{audience}{Optional. The GUID of an OAuth integration associated with
+this piece of content.}
 }
 \value{
 The OAuth credential exchange response.

@@ -4,7 +4,7 @@
 \alias{get_aws_credentials}
 \title{Obtain a visitor's AWS credentials}
 \usage{
-get_aws_credentials(connect, user_session_token)
+get_aws_credentials(connect, user_session_token, audience = NULL)
 }
 \arguments{
 \item{connect}{A Connect R6 object.}
@@ -13,6 +13,9 @@ get_aws_credentials(connect, user_session_token)
 can only be obtained when the content is running on a Connect server. The token
 identifies the user who is viewing the content interactively on the Connect server.
 Read this value from the HTTP header: \code{Posit-Connect-User-Session-Token}}
+
+\item{audience}{Optional. The GUID of an OAuth integration associated with
+this piece of content.}
 }
 \value{
 The AWS credentials as a list with fields named \code{access_key_id},
