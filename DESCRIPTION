@@ -78,6 +78,7 @@ Collate:
     'get.R'
     'git.R'
     'groups.R'
+    'integrations.R'
     'lazy.R'
     'page.R'
     'parse.R'
