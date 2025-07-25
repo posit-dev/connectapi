@@ -207,7 +207,7 @@ test_that("Visitor client can successfully be created running on Connect with au
       CONNECT_API_KEY = "fake",
       RSTUDIO_PRODUCT = "CONNECT"
     )
-    
+
     client <- connect(token = "my-token", audience = "audience")
 
     expect_equal(
