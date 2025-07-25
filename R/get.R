@@ -820,6 +820,8 @@ get_procs <- function(src) {
 #' Please see https://docs.posit.co/connect/user/oauth-integrations/#obtaining-a-viewer-oauth-access-token
 #' for more information.
 #'
+#' @seealso [get_integrations()], [get_oauth_content_credentials()]
+#'
 #' @export
 get_oauth_credentials <- function(
   connect,
@@ -885,6 +887,8 @@ get_oauth_credentials <- function(
 #' @details
 #' Please see https://docs.posit.co/connect/user/oauth-integrations/#obtaining-a-service-account-oauth-access-token
 #' for more information.
+#'
+#' @seealso [get_integrations()], [get_oauth_credentials()]
 #'
 #' @export
 get_oauth_content_credentials <- function(

@@ -69,6 +69,8 @@ reference:
       - starts_with("get")
       - as.data.frame.connect_list_hits
       - as_tibble.connect_list_hits
+      - as.data.frame.connect_list_integrations
+      - as_tibble.connect_list_integrations
 
   - title: "Other"
     desc: >

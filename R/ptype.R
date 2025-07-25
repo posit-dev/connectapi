@@ -271,5 +271,16 @@ connectapi_ptypes <- list(
     name = NA_character_,
     version = NA_character_,
     hash = NA_character_
+  ),
+  integrations = tibble::tibble(
+    id = NA_character_,
+    guid = NA_character_,
+    created_time = NA_datetime_,
+    updated_time = NA_datetime_,
+    name = NA_character_,
+    description = NA_character_,
+    template = NA_character_,
+    auth_type = NA_character_,
+    config = NA_list_
   )
 )
