@@ -200,18 +200,15 @@ test_that("Visitor client can successfully be created running on Connect", {
 })
 
 test_that("Visitor client can successfully be created running on Connect with audience", {
-  with_mock_api({
+  with_mock_dir("2025.07.0", {
     withr::local_options(list(rlib_warning_verbosity = "verbose"))
     withr::local_envvar(
       CONNECT_SERVER = "https://connect.example",
       CONNECT_API_KEY = "fake",
       RSTUDIO_PRODUCT = "CONNECT"
     )
-
-    expect_warning(
-      client <- connect(token = "my-token", audience = "audience"),
-      "This feature requires Posit Connect version"
-    )
+    
+    client <- connect(token = "my-token", audience = "audience")
 
     expect_equal(
       client$server,
