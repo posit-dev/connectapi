@@ -7,7 +7,7 @@
   (#390)
 - New `get_integrations()` function lists all OAuth integrations available on the
   Connect server from the `GET v1/oauth/integrations` endpoint on Connect v2024.12.0
-  and higher.
+  and higher. (#413)
 
 ## Enhancements and fixes
 
