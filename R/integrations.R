@@ -97,9 +97,10 @@ as.data.frame.connect_list_integrations <- function(
 #' Converts a list returned by [get_integrations()] to a tibble.
 #'
 #' @param x A `connect_list_integrations` object.
+#' @param ... Unused.
 #'
 #' @return A tibble with one row per integration.
 #' @export
-as_tibble.connect_list_integrations <- function(x) {
+as_tibble.connect_list_integrations <- function(x, ...) {
   parse_connectapi_typed(x, connectapi_ptypes$integrations)
 }

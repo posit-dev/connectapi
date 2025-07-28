@@ -4,10 +4,12 @@
 \alias{as_tibble.connect_list_integrations}
 \title{Convert integrations data to a tibble}
 \usage{
-\method{as_tibble}{connect_list_integrations}(x)
+\method{as_tibble}{connect_list_integrations}(x, ...)
 }
 \arguments{
 \item{x}{A \code{connect_list_integrations} object.}
+
+\item{...}{Unused.}
 }
 \value{
 A tibble with one row per integration.
