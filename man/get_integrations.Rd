@@ -46,6 +46,20 @@ client <- connect()
 # Fetch all OAuth integrations
 integrations <- get_integrations(client)
 
+
+# Update the configuration and metadata for a subset of integrations.
+json_payload <- toJSON(list(
+  description = "New Description",
+  config = list(
+    client_secret = "new-client-secret"
+  )
+), auto_unbox = TRUE)
+
+results <- integrations |>
+  purrr::keep(\(x) x$template == "service_to_update") |>
+  purrr::map(\(x) client$PATCH(paste0("v1/oauth/integrations/", x$guid), body = json_payload))
+
+
 # Convert to tibble or data frame
 integrations_df <- tibble::as_tibble(integrations)
 }

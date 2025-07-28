@@ -38,6 +38,20 @@
 #' # Fetch all OAuth integrations
 #' integrations <- get_integrations(client)
 #'
+#'
+#' # Update the configuration and metadata for a subset of integrations.
+#' json_payload <- toJSON(list(
+#'   description = "New Description",
+#'   config = list(
+#'     client_secret = "new-client-secret"
+#'   )
+#' ), auto_unbox = TRUE)
+#'
+#' results <- integrations |>
+#'   purrr::keep(\(x) x$template == "service_to_update") |>
+#'   purrr::map(\(x) client$PATCH(paste0("v1/oauth/integrations/", x$guid), body = json_payload))
+#'
+#'
 #' # Convert to tibble or data frame
 #' integrations_df <- tibble::as_tibble(integrations)
 #' }
@@ -53,8 +67,7 @@ get_integrations <- function(client) {
 #' Convert integrations data to a data frame
 #'
 #' @description
-#' Converts an object returned by [get_integrations()] into a data frame with parsed
-#' column types.
+#' Converts an list returned by [get_integrations()] into a data frame.
 #'
 #' @param x A `connect_list_integrations` object (from [get_integrations()]).
 #' @param row.names Passed to [base::as.data.frame()].
@@ -63,16 +76,15 @@ get_integrations <- function(client) {
 #'
 #' @return A `data.frame` with one row per integration.
 #' @export
-#' @method as.data.frame connect_list_integrations
 as.data.frame.connect_list_integrations <- function(
   x,
-  row.names = NULL,
+  row.names = NULL, # nolint
   optional = FALSE,
   ...
 ) {
-  integrations_df <- parse_connectapi_typed(x, connectapi_ptypes$integrations)
+  integrations_tbl <- as_tibble(x)
   as.data.frame(
-    integrations_df,
+    integrations_tbl,
     row.names = row.names,
     optional = optional,
     ...
@@ -82,16 +94,12 @@ as.data.frame.connect_list_integrations <- function(
 #' Convert integrations data to a tibble
 #'
 #' @description
-#' Converts an object returned by [get_integrations()] to a tibble via
-#' [as.data.frame.connect_list_integrations()].
+#' Converts a list returned by [get_integrations()] to a tibble.
 #'
 #' @param x A `connect_list_integrations` object.
-#' @param ... Passed to [as.data.frame()].
 #'
 #' @return A tibble with one row per integration.
 #' @export
-#' @importFrom tibble as_tibble
-#' @method as_tibble connect_list_integrations
-as_tibble.connect_list_integrations <- function(x, ...) {
-  tibble::as_tibble(as.data.frame(x, ...))
+as_tibble.connect_list_integrations <- function(x) {
+  parse_connectapi_typed(x, connectapi_ptypes$integrations)
 }

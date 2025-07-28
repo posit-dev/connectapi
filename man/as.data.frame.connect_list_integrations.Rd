@@ -19,6 +19,5 @@
 A \code{data.frame} with one row per integration.
 }
 \description{
-Converts an object returned by \code{\link[=get_integrations]{get_integrations()}} into a data frame with parsed
-column types.
+Converts an list returned by \code{\link[=get_integrations]{get_integrations()}} into a data frame.
 }

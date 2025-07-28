@@ -4,17 +4,14 @@
 \alias{as_tibble.connect_list_integrations}
 \title{Convert integrations data to a tibble}
 \usage{
-\method{as_tibble}{connect_list_integrations}(x, ...)
+\method{as_tibble}{connect_list_integrations}(x)
 }
 \arguments{
 \item{x}{A \code{connect_list_integrations} object.}
-
-\item{...}{Passed to \code{\link[=as.data.frame]{as.data.frame()}}.}
 }
 \value{
 A tibble with one row per integration.
 }
 \description{
-Converts an object returned by \code{\link[=get_integrations]{get_integrations()}} to a tibble via
-\code{\link[=as.data.frame.connect_list_integrations]{as.data.frame.connect_list_integrations()}}.
+Converts a list returned by \code{\link[=get_integrations]{get_integrations()}} to a tibble.
 }
