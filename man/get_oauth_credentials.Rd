@@ -55,3 +55,6 @@ function(req) {
 }
 
 }
+\seealso{
+\code{\link[=get_integrations]{get_integrations()}}, \code{\link[=get_oauth_content_credentials]{get_oauth_content_credentials()}}
+}
