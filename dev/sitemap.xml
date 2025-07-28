@@ -26,7 +26,9 @@
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/VariantSchedule.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/VariantTask.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/as.data.frame.connect_list_hits.html</loc></url>
+<url><loc>https://posit-dev.github.io/connectapi/dev/reference/as.data.frame.connect_list_integrations.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/as_tibble.connect_list_hits.html</loc></url>
+<url><loc>https://posit-dev.github.io/connectapi/dev/reference/as_tibble.connect_list_integrations.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/audit_access_open.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/audit_r_versions.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/audit_runas.html</loc></url>
@@ -63,6 +65,7 @@
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_group_members.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_groups.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_image.html</loc></url>
+<url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_integrations.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_job.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_jobs.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_log.html</loc></url>
