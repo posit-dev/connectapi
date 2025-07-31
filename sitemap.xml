@@ -26,6 +26,10 @@
 <url><loc>https://posit-dev.github.io/connectapi/reference/VariantR6.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/VariantSchedule.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/VariantTask.html</loc></url>
+<url><loc>https://posit-dev.github.io/connectapi/reference/as.data.frame.connect_list_hits.html</loc></url>
+<url><loc>https://posit-dev.github.io/connectapi/reference/as.data.frame.connect_list_integrations.html</loc></url>
+<url><loc>https://posit-dev.github.io/connectapi/reference/as_tibble.connect_list_hits.html</loc></url>
+<url><loc>https://posit-dev.github.io/connectapi/reference/as_tibble.connect_list_integrations.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/audit_access_open.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/audit_r_versions.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/audit_runas.html</loc></url>
@@ -45,7 +49,6 @@
 <url><loc>https://posit-dev.github.io/connectapi/reference/content_update.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/create_random_name.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/dashboard_url.html</loc></url>
-<url><loc>https://posit-dev.github.io/connectapi/reference/dashboard_url_chr.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/delete_runtime_cache.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/delete_thumbnail.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/delete_vanity_url.html</loc></url>
@@ -63,6 +66,7 @@
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_group_members.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_groups.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_image.html</loc></url>
+<url><loc>https://posit-dev.github.io/connectapi/reference/get_integrations.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_job.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_jobs.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_log.html</loc></url>
@@ -74,6 +78,7 @@
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_runtimes.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_thumbnail.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_timezones.html</loc></url>
+<url><loc>https://posit-dev.github.io/connectapi/reference/get_usage.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_usage_shiny.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_usage_static.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/reference/get_users.html</loc></url>
