@@ -60,11 +60,12 @@
 get_integrations <- function(client) {
   error_if_less_than(client$version, "2024.12.0")
   integrations <- client$GET(v1_url("oauth", "integrations"))
+  integrations <- lapply(integrations, as_integration)
   class(integrations) <- c("connect_list_integrations", class(integrations))
   integrations
 }
 
-#' Convert integrations data to a data frame
+#' Convert integrations list to a data frame
 #'
 #' @description
 #' Converts an list returned by [get_integrations()] into a data frame.
@@ -91,7 +92,7 @@ as.data.frame.connect_list_integrations <- function(
   )
 }
 
-#' Convert integrations data to a tibble
+#' Convert integrations list to a tibble
 #'
 #' @description
 #' Converts a list returned by [get_integrations()] to a tibble.
@@ -103,4 +104,59 @@ as.data.frame.connect_list_integrations <- function(
 #' @export
 as_tibble.connect_list_integrations <- function(x, ...) {
   parse_connectapi_typed(x, connectapi_ptypes$integrations)
+}
+
+# Integration class ----
+
+validate_integration <- function(x) {
+  fields <- c(
+    "id",
+    "guid",
+    "created_time",
+    "updated_time",
+    "name",
+    "description",
+    "template",
+    "auth_type",
+    "config"
+  )
+  missing_fields <- setdiff(fields, names(x))
+  if (length(missing_fields) > 0) {
+    stop("Missing required fields: ", paste(missing_fields, collapse = ","))
+  }
+}
+
+#' Convert objects to integration class
+#'
+#' @param x An object to convert to an integration
+#' @param ... Additional arguments passed to methods
+#'
+#' @return An integration object
+#' @export
+as_integration <- function(x, ...) {
+  UseMethod("as_integration")
+}
+
+#' @export
+as_integration.default <- function(x, ...) {
+  stop(
+    "Cannot convert object of class '",
+    class(x)[1],
+    "' to an integration"
+  )
+}
+
+#' @method as_integration list
+as_integration.list <- function(x) {
+  y <- structure(x, class = c("connect_integration", "list"))
+  validate_integration(y)
+  y
+}
+
+#' @export
+print.connect_integration <- function(x, ...) {
+  cat("Integration:", x$name, "\n")
+  cat("GUID:", x$guid, "\n")
+  cat("Template:", x$template, "\n")
+  invisible(x)
 }
