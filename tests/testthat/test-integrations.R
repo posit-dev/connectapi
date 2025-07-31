@@ -4,7 +4,6 @@ with_mock_dir("2024.12.0", {
     integrations <- get_integrations(client)
     expect_s3_class(integrations, "connect_list_integrations")
 
-    # Check a few fields
     expect_equal(integrations[[1]]$name, "GitHub Integration")
     expect_equal(integrations[[2]]$updated_time, "2025-03-25T19:07:01Z")
     expect_equal(integrations[[1]]$config$client_id, "client_id_123")
@@ -97,14 +96,10 @@ test_that("print.integration produces expected output", {
     class = c("connect_integration", "list")
   )
 
-  # Capture print output
   output <- capture.output(result <- print(test_int))
 
-  # Check output contains expected text
   expect_match(output[1], "Integration: Test Integration")
   expect_match(output[2], "GUID: abc-123")
   expect_match(output[3], "Template: github")
-
-  # Check it returns invisibly
   expect_identical(result, test_int)
 })
