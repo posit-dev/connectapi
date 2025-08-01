@@ -130,16 +130,15 @@ validate_integration <- function(x) {
 #' Convert objects to integration class
 #'
 #' @param x An object to convert to an integration
-#' @param ... Additional arguments passed to methods
 #'
 #' @return An integration object
 #' @export
-as_integration <- function(x, ...) {
+as_integration <- function(x) {
   UseMethod("as_integration")
 }
 
 #' @export
-as_integration.default <- function(x, ...) {
+as_integration.default <- function(x) {
   stop(
     "Cannot convert object of class '",
     class(x)[1],
