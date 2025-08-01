@@ -21,6 +21,7 @@ logs, and resources about a content item. It \emph{cannot} be undone.
 \seealso{
 Other content functions: 
 \code{\link{content_item}()},
+\code{\link{content_set_all_integrations}()},
 \code{\link{content_title}()},
 \code{\link{content_update}()},
 \code{\link{create_random_name}()},

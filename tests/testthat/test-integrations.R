@@ -103,3 +103,13 @@ test_that("print.integration produces expected output", {
   expect_match(output[3], "Template: github")
   expect_identical(result, test_int)
 })
+
+with_mock_dir("2024.12.0", {
+  test_that("integration creates a single integration", {
+    client <- Connect$new(server = "https://connect.example", api_key = "fake")
+    x <- integration(client, "f8688548")
+    expect_s3_class(x, "connect_integration")
+    expect_equal(x$template, "custom")
+    expect_equal(x$guid, "f8688548")
+  })
+})

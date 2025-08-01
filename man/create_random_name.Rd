@@ -21,6 +21,7 @@ connectapi::verify_content_name
 Other content functions: 
 \code{\link{content_delete}()},
 \code{\link{content_item}()},
+\code{\link{content_set_all_integrations}()},
 \code{\link{content_title}()},
 \code{\link{content_update}()},
 \code{\link{dashboard_url}()},

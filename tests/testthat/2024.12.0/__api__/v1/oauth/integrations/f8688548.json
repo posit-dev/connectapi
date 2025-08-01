@@ -1,0 +1,20 @@
+{
+    "id": "4",
+    "guid": "f8688548",
+    "created_time": "2024-08-01T20:14:31Z",
+    "updated_time": "2025-03-25T19:08:26Z",
+    "name": "GitHub Integration",
+    "description": "with refresh support ",
+    "template": "custom",
+    "auth_type": "Viewer",
+    "config": {
+        "auth_mode": "Confidential",
+        "auth_type": "Viewer",
+        "authorization_uri": "https://github.com/login/oauth/authorize",
+        "client_id": "client_id_123",
+        "scopes": "offline_access openid profile email repo read:user",
+        "token_endpoint_auth_method": "client_secret_post",
+        "token_uri": "https://github.com/login/oauth/access_token",
+        "use_pkce": true
+    }
+}
