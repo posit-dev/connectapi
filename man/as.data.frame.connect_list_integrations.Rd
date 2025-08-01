@@ -2,7 +2,7 @@
 % Please edit documentation in R/integrations.R
 \name{as.data.frame.connect_list_integrations}
 \alias{as.data.frame.connect_list_integrations}
-\title{Convert integrations data to a data frame}
+\title{Convert integrations list to a data frame}
 \usage{
 \method{as.data.frame}{connect_list_integrations}(x, row.names = NULL, optional = FALSE, ...)
 }

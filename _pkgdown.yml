@@ -62,6 +62,16 @@ reference:
     contents:
       - matches("repo")
 
+  - title: "OAuth Integrations"
+    desc: >
+      Functions to work with OAuth integrations
+    contents:
+      - matches("integration")
+      - content_set_all_integrations
+      - get_integrations
+      - get_oauth_credentials
+      - get_oauth_content_credentials
+
   - title: "Reporting"
     desc: >
       Helpers to "get" data out of Connect

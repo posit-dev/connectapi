@@ -24,7 +24,7 @@ was last updated
 \item \code{template}: The template used to configure this OAuth integration.
 \item \code{auth_type}: The authentication type indicates which OAuth flow is used by
 this integration.
-\item \code{config}: A sub-list list with the OAuth integration configuration. Fields
+\item \code{config}: A list with the OAuth integration configuration. Fields
 differ between integrations.
 }
 
@@ -66,5 +66,10 @@ integrations_df <- tibble::as_tibble(integrations)
 
 }
 \seealso{
-\code{\link[=get_oauth_credentials]{get_oauth_credentials()}}, \code{\link[=get_oauth_content_credentials]{get_oauth_content_credentials()}}
+\code{\link[=get_oauth_credentials]{get_oauth_credentials()}}, \code{\link[=get_oauth_content_credentials]{get_oauth_content_credentials()}}, \code{\link[=integration]{integration()}}
+
+Other oauth integration functions: 
+\code{\link{content_set_all_integrations}()},
+\code{\link{integration}()}
 }
+\concept{oauth integration functions}
