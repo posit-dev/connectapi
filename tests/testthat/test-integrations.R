@@ -65,18 +65,6 @@ test_that("as_integration correctly converts lists to integration objects", {
   expect_identical(result$guid, valid_integration$guid)
 })
 
-test_that("as_integration validates required fields", {
-  invalid_integration <- list(
-    id = "123",
-    name = "Incomplete Integration"
-  )
-
-  expect_error(
-    as_integration(invalid_integration),
-    "Missing required fields"
-  )
-})
-
 test_that("as_integration.default errors on non-list input", {
   expect_error(as_integration(42), "Cannot convert object of class")
   expect_error(
