@@ -27,6 +27,7 @@
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/VariantTask.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/as.data.frame.connect_list_hits.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/as.data.frame.connect_list_integrations.html</loc></url>
+<url><loc>https://posit-dev.github.io/connectapi/dev/reference/as_integration.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/as_tibble.connect_list_hits.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/as_tibble.connect_list_integrations.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/audit_access_open.html</loc></url>
@@ -44,6 +45,7 @@
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/content_list_with_permissions.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/content_render.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/content_restart.html</loc></url>
+<url><loc>https://posit-dev.github.io/connectapi/dev/reference/content_set_integrations.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/content_title.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/content_update.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/create_random_name.html</loc></url>
@@ -65,6 +67,7 @@
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_group_members.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_groups.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_image.html</loc></url>
+<url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_integration.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_integrations.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_job.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_jobs.html</loc></url>

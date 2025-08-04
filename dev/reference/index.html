@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">connectapi</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.7.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.8.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -190,6 +190,12 @@
 
         </dt>
         <dd>Restart a content item.</dd>
+      </dl><dl><dt>
+
+          <code><a href="content_set_integrations.html">content_set_integrations()</a></code>
+
+        </dt>
+        <dd>Set all OAuth integration associations for a content item</dd>
       </dl><dl><dt>
 
           <code><a href="content_title.html">content_title()</a></code>
@@ -476,6 +482,65 @@
         </dt>
         <dd>Git Repository Helpers</dd>
       </dl></div><div class="section level2">
+      <h2 id="oauth-integrations">OAuth Integrations<a class="anchor" aria-label="anchor" href="#oauth-integrations"></a></h2>
+
+      <div class="section-desc"><p>Functions to work with OAuth integrations</p></div>
+
+
+    </div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="as.data.frame.connect_list_integrations.html">as.data.frame(<i>&lt;connect_list_integrations&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Convert integrations list to a data frame</dd>
+      </dl><dl><dt>
+
+          <code><a href="as_integration.html">as_integration()</a></code>
+
+        </dt>
+        <dd>Convert objects to integration class</dd>
+      </dl><dl><dt>
+
+          <code><a href="as_tibble.connect_list_integrations.html">as_tibble(<i>&lt;connect_list_integrations&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Convert integrations list to a tibble</dd>
+      </dl><dl><dt>
+
+          <code><a href="content_set_integrations.html">content_set_integrations()</a></code>
+
+        </dt>
+        <dd>Set all OAuth integration associations for a content item</dd>
+      </dl><dl><dt>
+
+          <code><a href="get_integration.html">get_integration()</a></code>
+
+        </dt>
+        <dd>Get the details of an OAuth integration</dd>
+      </dl><dl><dt>
+
+          <code><a href="get_integrations.html">get_integrations()</a></code>
+
+        </dt>
+        <dd>List all OAuth integrations on the Connect server</dd>
+      </dl><dl><dt>
+
+          <code><a href="get_oauth_credentials.html">get_oauth_credentials()</a></code>
+
+        </dt>
+        <dd>Perform an OAuth credential exchange to obtain a visitor's OAuth access token.</dd>
+      </dl><dl><dt>
+
+          <code><a href="get_oauth_content_credentials.html">get_oauth_content_credentials()</a></code>
+
+        </dt>
+        <dd>Perform an OAuth credential exchange to obtain a content-specific OAuth access token.</dd>
+      </dl></div><div class="section level2">
       <h2 id="reporting">Reporting<a class="anchor" aria-label="anchor" href="#reporting"></a></h2>
 
       <div class="section-desc"><p>Helpers to “get” data out of Connect</p></div>
@@ -552,6 +617,12 @@
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Get the Content Image</dd>
+      </dl><dl><dt>
+
+          <code><a href="get_integration.html">get_integration()</a></code>
+
+        </dt>
+        <dd>Get the details of an OAuth integration</dd>
       </dl><dl><dt>
 
           <code><a href="get_integrations.html">get_integrations()</a></code>
@@ -707,13 +778,13 @@
           <code><a href="as.data.frame.connect_list_integrations.html">as.data.frame(<i>&lt;connect_list_integrations&gt;</i>)</a></code>
 
         </dt>
-        <dd>Convert integrations data to a data frame</dd>
+        <dd>Convert integrations list to a data frame</dd>
       </dl><dl><dt>
 
           <code><a href="as_tibble.connect_list_integrations.html">as_tibble(<i>&lt;connect_list_integrations&gt;</i>)</a></code>
 
         </dt>
-        <dd>Convert integrations data to a tibble</dd>
+        <dd>Convert integrations list to a tibble</dd>
       </dl></div><div class="section level2">
       <h2 id="other">Other<a class="anchor" aria-label="anchor" href="#other"></a></h2>
 

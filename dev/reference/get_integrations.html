@@ -9,7 +9,7 @@ You must have administrator or publisher privileges to perform this action."><me
 
     <a class="navbar-brand me-2" href="../index.html">connectapi</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.7.0.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.8.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,7 +74,7 @@ was last updated</p></li>
 <li><p><code>template</code>: The template used to configure this OAuth integration.</p></li>
 <li><p><code>auth_type</code>: The authentication type indicates which OAuth flow is used by
 this integration.</p></li>
-<li><p><code>config</code>: A sub-list list with the OAuth integration configuration. Fields
+<li><p><code>config</code>: A list with the OAuth integration configuration. Fields
 differ between integrations.</p></li>
 </ul><p>Use <code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> or <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">tibble::as_tibble()</a></code> to convert to a data frame with
 parsed types. In the resulting data frame:</p><ul><li><p><code>created_time</code> and <code>updated_time</code> are parsed to <code>POSIXct</code>.</p></li>
@@ -82,7 +82,11 @@ parsed types. In the resulting data frame:</p><ul><li><p><code>created_time</cod
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
-    <div class="dont-index"><p><code><a href="get_oauth_credentials.html">get_oauth_credentials()</a></code>, <code><a href="get_oauth_content_credentials.html">get_oauth_content_credentials()</a></code></p></div>
+    <div class="dont-index"><p><code><a href="get_oauth_credentials.html">get_oauth_credentials()</a></code>, <code><a href="get_oauth_content_credentials.html">get_oauth_content_credentials()</a></code>,
+<code><a href="get_integration.html">get_integration()</a></code></p>
+<p>Other oauth integration functions:
+<code><a href="content_set_integrations.html">content_set_integrations</a>()</code>,
+<code><a href="get_integration.html">get_integration</a>()</code></p></div>
     </div>
 
     <div class="section level2">
