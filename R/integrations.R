@@ -111,19 +111,11 @@ as_tibble.connect_list_integrations <- function(x, ...) {
 
 # Integration class ----
 
-validate_integration <- function(x) {
-  missing_fields <- setdiff(names(connectapi_ptypes$integrations), names(x))
-  if (length(missing_fields) > 0) {
-    stop("Missing required fields: ", paste(missing_fields, collapse = ","))
-  }
-}
-
 #' Convert objects to integration class
 #'
 #' @param x An object to convert to an integration
 #'
 #' @return An integration object
-#' @export
 as_integration <- function(x) {
   UseMethod("as_integration")
 }
@@ -139,9 +131,7 @@ as_integration.default <- function(x) {
 
 #' @export
 as_integration.list <- function(x) {
-  y <- structure(x, class = c("connect_integration", "list"))
-  validate_integration(y)
-  y
+  structure(x, class = c("connect_integration", "list"))
 }
 
 #' @export
