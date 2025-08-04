@@ -20,7 +20,7 @@
 #'   * `template`: The template used to configure this OAuth integration.
 #'   * `auth_type`: The authentication type indicates which OAuth flow is used by
 #'     this integration.
-#'   * `config`: A sub-list list with the OAuth integration configuration. Fields
+#'   * `config`: A list with the OAuth integration configuration. Fields
 #'     differ between integrations.
 #'
 #' Use [as.data.frame()] or [tibble::as_tibble()] to convert to a data frame with
@@ -29,7 +29,8 @@
 #'   * `created_time` and `updated_time` are parsed to `POSIXct`.
 #'   * `config` remains as a list-column.
 #'
-#' @seealso [get_oauth_credentials()], [get_oauth_content_credentials()]
+#' @seealso [get_oauth_credentials()], [get_oauth_content_credentials()],
+#' [get_integration()]
 #'
 #' @examples
 #' \dontrun{
@@ -56,15 +57,18 @@
 #' integrations_df <- tibble::as_tibble(integrations)
 #' }
 #'
+#' @family oauth integration functions
 #' @export
 get_integrations <- function(client) {
+  validate_R6_class(client, "Connect")
   error_if_less_than(client$version, "2024.12.0")
   integrations <- client$GET(v1_url("oauth", "integrations"))
+  integrations <- lapply(integrations, as_integration)
   class(integrations) <- c("connect_list_integrations", class(integrations))
   integrations
 }
 
-#' Convert integrations data to a data frame
+#' Convert integrations list to a data frame
 #'
 #' @description
 #' Converts an list returned by [get_integrations()] into a data frame.
@@ -91,7 +95,7 @@ as.data.frame.connect_list_integrations <- function(
   )
 }
 
-#' Convert integrations data to a tibble
+#' Convert integrations list to a tibble
 #'
 #' @description
 #' Converts a list returned by [get_integrations()] to a tibble.
@@ -103,4 +107,79 @@ as.data.frame.connect_list_integrations <- function(
 #' @export
 as_tibble.connect_list_integrations <- function(x, ...) {
   parse_connectapi_typed(x, connectapi_ptypes$integrations)
+}
+
+# Integration class ----
+
+#' Convert objects to integration class
+#'
+#' @param x An object to convert to an integration
+#'
+#' @return An integration object
+as_integration <- function(x) {
+  UseMethod("as_integration")
+}
+
+#' @export
+as_integration.default <- function(x) {
+  stop(
+    "Cannot convert object of class '",
+    class(x)[1],
+    "' to an integration"
+  )
+}
+
+#' @export
+as_integration.list <- function(x) {
+  structure(x, class = c("connect_integration", "list"))
+}
+
+#' @export
+print.connect_integration <- function(x, ...) {
+  cat("Integration:", x$name, "\n")
+  cat("GUID:", x$guid, "\n")
+  cat("Template:", x$template, "\n")
+  invisible(x)
+}
+
+#' Get the details of an OAuth integration
+#'
+#' @description
+#' Given the GUID of an OAuth integration available on a Connect server, retrieve
+#' its details. You must have administrator or publisher privileges to perform
+#' this action.
+#'
+#' @param client A `Connect` R6 client object.
+#' @param guid The GUID of an integration available on the Connect server.
+#'
+#' @return A `connect_integration` object representing an OAuth integration,
+#' which has the following fields:
+#'
+#'   * `id`: The internal identifier of this OAuth integration.
+#'   * `guid`: The GUID of this OAuth integration.
+#'   * `created_time`: The timestamp (RFC3339) indicating when this integration
+#'     was created.
+#'   * `updated_time`: The timestamp (RFC3339) indicating when this integration
+#'     was last updated
+#'   * `name`: A descriptive name to identify the OAuth integration.
+#'   * `description`: A brief text to describe the OAuth integration.
+#'   * `template`: The template used to configure this OAuth integration.
+#'   * `auth_type`: The authentication type indicates which OAuth flow is used by
+#'     this integration.
+#'   * `config`: A list with the OAuth integration configuration. Fields
+#'     differ between integrations.
+#'
+#' @seealso [get_oauth_credentials()], [get_oauth_content_credentials()], [get_integrations()]
+#'
+#' @examples
+#' \dontrun{
+#' client <- connect()
+#' x <- get_integration(client, guid)
+#' }
+#'
+#' @family oauth integration functions
+#' @export
+get_integration <- function(client, guid) {
+  validate_R6_class(client, "Connect")
+  as_integration(client$GET(v1_url("oauth", "integrations", guid)))
 }
