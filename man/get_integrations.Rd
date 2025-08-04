@@ -66,10 +66,11 @@ integrations_df <- tibble::as_tibble(integrations)
 
 }
 \seealso{
-\code{\link[=get_oauth_credentials]{get_oauth_credentials()}}, \code{\link[=get_oauth_content_credentials]{get_oauth_content_credentials()}}, \code{\link[=integration]{integration()}}
+\code{\link[=get_oauth_credentials]{get_oauth_credentials()}}, \code{\link[=get_oauth_content_credentials]{get_oauth_content_credentials()}},
+\code{\link[=get_integration]{get_integration()}}
 
 Other oauth integration functions: 
-\code{\link{content_set_all_integrations}()},
-\code{\link{integration}()}
+\code{\link{content_set_integrations}()},
+\code{\link{get_integration}()}
 }
 \concept{oauth integration functions}

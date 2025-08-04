@@ -24,7 +24,7 @@ is missing (deleted) or not visible, then returns the \code{default}
 Other content functions: 
 \code{\link{content_delete}()},
 \code{\link{content_item}()},
-\code{\link{content_set_all_integrations}()},
+\code{\link{content_set_integrations}()},
 \code{\link{content_update}()},
 \code{\link{create_random_name}()},
 \code{\link{dashboard_url}()},

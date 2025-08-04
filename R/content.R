@@ -1451,7 +1451,7 @@ get_content_packages <- function(content) {
 #' @return Invisibly returns `NULL`. A message is printed on success.
 #'
 #' @seealso
-#' [get_integrations()], [integration()], [content_item()]
+#' [get_integrations()], [get_integration()], [content_item()]
 #'
 #' @examples
 #' \dontrun{
@@ -1463,17 +1463,17 @@ get_content_packages <- function(content) {
 #'
 #' # Associate a single integration
 #' github_integration <- purrr::keep(integrations, \(x) x$template == "github")[[1]]
-#' content_set_all_integrations(content, github_integration)
+#' content_set_integrations(content, github_integration)
 #'
 #' # Associate multiple integrations at once
 #' selected_integrations <- integrations[1:2]
-#' content_set_all_integrations(content, selected_integrations)
+#' content_set_integrations(content, selected_integrations)
 #' }
 #'
 #' @family oauth integration functions
 #' @family content functions
 #' @export
-content_set_all_integrations <- function(content, integrations) {
+content_set_integrations <- function(content, integrations) {
   validate_R6_class(content, "Content")
   # Handle a single integration
   if (inherits(integrations, "connect_integration")) {
@@ -1485,14 +1485,12 @@ content_set_all_integrations <- function(content, integrations) {
     )
   }
   # Ensure that all the items we've been passed are integrations
-  if (!all(vapply(integrations, inherits, logical(1), "connect_integration"))) {
+  if (!purrr::every(integrations, \(x) inherits(x, "connect_integration"))) {
     stop("All items must be `connect_integration` objects")
   }
 
-  json_payload <- jsonlite::toJSON(
-    lapply(integrations, \(x) list(oauth_integration_guid = x$guid)),
-    auto_unbox = TRUE
-  )
+  payload <- purrr::map(integrations, \(x) list(oauth_integration_guid = x$guid))
+
   content$connect$PUT(
     v1_url(
       "content",
@@ -1501,7 +1499,7 @@ content_set_all_integrations <- function(content, integrations) {
       "integrations",
       "associations"
     ),
-    body = json_payload
+    body = payload
   )
   invisible(NULL)
 }

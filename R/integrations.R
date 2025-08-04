@@ -29,7 +29,8 @@
 #'   * `created_time` and `updated_time` are parsed to `POSIXct`.
 #'   * `config` remains as a list-column.
 #'
-#' @seealso [get_oauth_credentials()], [get_oauth_content_credentials()], [integration()]
+#' @seealso [get_oauth_credentials()], [get_oauth_content_credentials()],
+#' [get_integration()]
 #'
 #' @examples
 #' \dontrun{
@@ -59,6 +60,7 @@
 #' @family oauth integration functions
 #' @export
 get_integrations <- function(client) {
+  validate_R6_class(client, "Connect")
   error_if_less_than(client$version, "2024.12.0")
   integrations <- client$GET(v1_url("oauth", "integrations"))
   integrations <- lapply(integrations, as_integration)
@@ -110,18 +112,7 @@ as_tibble.connect_list_integrations <- function(x, ...) {
 # Integration class ----
 
 validate_integration <- function(x) {
-  fields <- c(
-    "id",
-    "guid",
-    "created_time",
-    "updated_time",
-    "name",
-    "description",
-    "template",
-    "auth_type",
-    "config"
-  )
-  missing_fields <- setdiff(fields, names(x))
+  missing_fields <- setdiff(names(connectapi_ptypes$integrations), names(x))
   if (length(missing_fields) > 0) {
     stop("Missing required fields: ", paste(missing_fields, collapse = ","))
   }
@@ -193,12 +184,12 @@ print.connect_integration <- function(x, ...) {
 #' @examples
 #' \dontrun{
 #' client <- connect()
-#' x <- integration(client, guid)
+#' x <- get_integration(client, guid)
 #' }
 #'
 #' @family oauth integration functions
 #' @export
-integration <- function(client, guid) {
+get_integration <- function(client, guid) {
   validate_R6_class(client, "Connect")
   as_integration(client$GET(v1_url("oauth", "integrations", guid)))
 }
