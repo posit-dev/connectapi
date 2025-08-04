@@ -1485,11 +1485,11 @@ content_set_integrations <- function(content, integrations) {
     )
   }
   # Ensure that all the items we've been passed are integrations
-  if (!purrr::every(integrations, ~ inherits(x, "connect_integration"))) {
+  if (!purrr::every(integrations, ~ inherits(.x, "connect_integration"))) {
     stop("All items must be `connect_integration` objects")
   }
 
-  payload <- purrr::map(integrations, ~ list(oauth_integration_guid = x$guid))
+  payload <- purrr::map(integrations, ~ list(oauth_integration_guid = .x$guid))
 
   content$connect$PUT(
     v1_url(
