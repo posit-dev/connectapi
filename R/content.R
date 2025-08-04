@@ -1503,6 +1503,5 @@ content_set_all_integrations <- function(content, integrations) {
     ),
     body = json_payload
   )
-  print("Successfully set the associations for the content item.")
   invisible(NULL)
 }
