@@ -491,7 +491,7 @@ test_that("content_set_integrations() fails when provided the wrong class", {
     content_set_integrations(x, "string"),
     "`integrations` must be a `connect_integration` class object or a list"
   )
-    expect_error(
+  expect_error(
     content_set_integrations(x, list("string")),
     "All items must be `connect_integration` objects"
   )

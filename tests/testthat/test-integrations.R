@@ -47,8 +47,7 @@ test_that("get_integrations() errs on older Connect versions", {
   )
 })
 
-test_that("as_integration correctly converts lists to integration
-  objects", {
+test_that("as_integration correctly converts lists to integration objects", {
   valid_integration <- list(
     id = "123",
     guid = "abc-123",
