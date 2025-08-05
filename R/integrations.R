@@ -126,7 +126,8 @@ as_tibble.connect_integration_list <- function(x, ...) {
 
 #' Convert objects to integration class
 #'
-#' @param x An object to convert to an integration
+#' @param x An object to convert to an integration.
+#' @param ... Unused.
 #'
 #' @return An integration object
 as_integration <- function(x, ...) {

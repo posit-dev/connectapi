@@ -143,6 +143,7 @@ with_mock_dir("2025.07.0", {
     expect_equal(integrations[[2]]$template, "template2")
     expect_s3_class(integrations[[1]], "connect_integration")
   })
+})
 
 test_that("get_integrations() with Content errs on older Connect versions", {
   client <- MockConnect$new("2024.11.1")

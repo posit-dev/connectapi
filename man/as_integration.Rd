@@ -7,7 +7,9 @@
 as_integration(x, ...)
 }
 \arguments{
-\item{x}{An object to convert to an integration}
+\item{x}{An object to convert to an integration.}
+
+\item{...}{Unused.}
 }
 \value{
 An integration object
