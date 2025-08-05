@@ -148,8 +148,8 @@ with_mock_dir("2025.07.0", {
 test_that("get_integrations() with Content errs on older Connect versions", {
   client <- MockConnect$new("2024.11.1")
   content <- Content$new(
-      connect = client,
-      content = list(guid = "12345678")
+    connect = client,
+    content = list(guid = "12345678")
   )
   expect_error(
     get_integrations(content),
