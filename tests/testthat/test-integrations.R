@@ -100,3 +100,33 @@ with_mock_dir("2024.12.0", {
     expect_equal(x$guid, "f8688548")
   })
 })
+
+test_that("set_integrations() sends expected request", {
+  with_mock_dir("2024.12.0", {
+    client <- Connect$new(server = "https://connect.example", api_key = "fake")
+    x <- content_item(client, "12345678")
+    y <- get_integration(client, "f8688548")
+  })
+  without_internet(
+    expect_PUT(
+      set_integrations(x, y),
+      url = "https://connect.example/__api__/v1/content/12345678/oauth/integrations/associations",
+      '[{"oauth_integration_guid":"f8688548"}]'
+    )
+  )
+})
+
+test_that("set_integrations() fails when provided the wrong class", {
+  with_mock_dir("2024.12.0", {
+    client <- Connect$new(server = "https://connect.example", api_key = "fake")
+    x <- content_item(client, "12345678")
+  })
+  expect_error(
+    set_integrations(x, "string"),
+    "`integrations` must be a `connect_integration` class object or a list"
+  )
+  expect_error(
+    set_integrations(x, list("string")),
+    "All items must be `connect_integration` objects"
+  )
+})

@@ -183,3 +183,185 @@ get_integration <- function(client, guid) {
   validate_R6_class(client, "Connect")
   as_integration(client$GET(v1_url("oauth", "integrations", guid)))
 }
+
+# Get and set integrations on content
+
+#' Set all OAuth integrations for a content item
+#'
+#' @description
+#' Removes all existing OAuth integrations associated with a content item, and
+#' creates associations with the integrations provided. You must have
+#' administrator or publisher privileges to perform this action.
+#'
+#' @param content A `Content` R6 object representing the content item to modify.
+#' @param integrations The complete set of integrations to be associated with the
+#'   content. May be a single `connect_integration` object, a list of
+#'   `connect_integration` objects, or `NULL`. Passing in an empty list or
+#'   explicitly passing `NULL` will remove all associated integrations from the
+#'   content.
+#'
+#' @return Invisibly returns `NULL`.
+#'
+#' @seealso
+#' [get_integrations()], [get_integration()], [content_item()]
+#'
+#' @examples
+#' \dontrun{
+#' client <- connect()
+#'
+#' content <- content_item(client, "12345678-90ab-cdef-1234-567890abcdef")
+#'
+#' integrations <- get_integrations(client)
+#'
+#' # Associate a single integration
+#' github_integration <- purrr::keep(integrations, \(x) x$template == "github")[[1]]
+#' set_integrations(content, github_integration)
+#'
+#' # Associate multiple integrations at once
+#' selected_integrations <- integrations[1:2]
+#' set_integrations(content, selected_integrations)
+#'
+#' # Unset integrations
+#' set_integrations(content, NULL)
+#' }
+#'
+#' @family oauth integration functions
+#' @family content functions
+#' @export
+set_integrations <- function(content, integrations) {
+  validate_R6_class(content, "Content")
+  # Handle a single integration
+  if (inherits(integrations, "connect_integration")) {
+    integrations <- list(integrations)
+  } else if (!is.null(integrations) && !inherits(integrations, "list")) {
+    stop(
+      "`integrations` must be a `connect_integration` class object, a list, ",
+      "or NULL."
+    )
+  }
+  # Ensure that all the items we've been passed are integrations
+  if (!purrr::every(integrations, ~ inherits(.x, "connect_integration"))) {
+    stop("All items must be `connect_integration` objects")
+  }
+
+  payload <- purrr::map(integrations, ~ list(oauth_integration_guid = .x$guid))
+
+  content$connect$PUT(
+    v1_url(
+      "content",
+      content$content$guid,
+      "oauth",
+      "integrations",
+      "associations"
+    ),
+    body = payload
+  )
+  invisible(NULL)
+}
+
+#' Get OAuth integrations associated with a piece of content
+#'
+#' @description
+#' Retrieves the complete set of OAuth integrations associated with a content item.
+#' This function returns the full integration objects rather than just the association
+#' metadata returned by [content_get_oauth_associations()].
+#'
+#' @param content A `Content` R6 object representing the content item.
+#'
+#' @return A list of class `connect_list_integrations` containing all OAuth integrations
+#' associated with the content item. Each integration is an object of class
+#' `connect_integration` with the following fields:
+#'
+#'   * `id`: The internal identifier of this OAuth integration.
+#'   * `guid`: The GUID of this OAuth integration.
+#'   * `created_time`: The timestamp (RFC3339) indicating when this integration
+#'     was created.
+#'   * `updated_time`: The timestamp (RFC3339) indicating when this integration
+#'     was last updated
+#'   * `name`: A descriptive name to identify the OAuth integration.
+#'   * `description`: A brief text to describe the OAuth integration.
+#'   * `template`: The template used to configure this OAuth integration.
+#'   * `auth_type`: The authentication type indicates which OAuth flow is used by
+#'     this integration.
+#'   * `config`: A list with the OAuth integration configuration. Fields
+#'     differ between integrations.
+#'
+#' @seealso
+#' [set_integrations()], [content_get_oauth_associations()], [get_integrations()]
+#'
+#' @examples
+#' \dontrun{
+#' client <- connect()
+#' content <- content_item(client, "12345678-90ab-cdef-1234-567890abcdef")
+#'
+#' # Get all integrations associated with this content
+#' integrations <- content_get_integrations(content)
+#'
+#' # Filter to show only specific types of integrations
+#' snowflake_integrations <- purrr::keep(integrations, ~ .x$template == "snowflake")
+#'
+#' }
+#'
+#' @family oauth integration functions
+#' @family content functions
+#' @export
+content_get_integrations <- function(content) {
+  validate_R6_class(content, "Content")
+  assoc <- content$connect$GET(v1_url(
+    "content",
+    content$content$guid,
+    "oauth",
+    "integrations",
+    "associations"
+  ))
+  # For each association, create an integration object. The result is an integration list object.
+  integrations <- purrr::map(
+    assoc,
+    ~ get_integration(content$connect, .x$oauth_integration_guid)
+  )
+  class(integrations) <- c("connect_list_integrations", class(integrations))
+  integrations
+}
+
+#' Get OAuth integration associations for a piece of content
+#'
+#' @description
+#' Retrieves a list of all OAuth integration associations for a content item.
+#' These associations represent the OAuth integrations that have been set up for
+#' the content to authenticate with external services.
+#'
+#' @param content A `Content` R6 object representing the content item.
+#'
+#' @return A list of OAuth integration associations. Each association includes details such as:
+#' * `app_guid`: The content item's GUID (deprecated, use `content_guid` instead).
+#' * `content_guid`: The content item's GUID.
+#' * `oauth_integration_guid`: The GUID of the OAuth integration.
+#' * `oauth_integration_name`: The name of the OAuth integration.
+#' * `oauth_integration_description`: A description of the OAuth integration.
+#' * `oauth_integration_template`: The template used for this OAuth integration.
+#' * `oauth_integration_auth_type`: The authentication type (e.g., "Viewer" or "Service Account").
+#' * `created_time`: The timestamp when the association was created.
+#'
+#' @seealso
+#' [set_integrations()], [content_get_integrations()], [get_integrations()]
+#'
+#' @examples
+#' \dontrun{
+#' client <- connect()
+#' content <- content_item(client, "12345678-90ab-cdef-1234-567890abcdef")
+#' associations <- content_get_oauth_associations(content)
+#' }
+#'
+#' @family oauth integration functions
+#' @family content functions
+#' @export
+get_oauth_associations <- function(content) {
+  validate_R6_class(content, "Content")
+  content$connect$GET(v1_url(
+    "content",
+    content$content$guid,
+    "oauth",
+    "integrations",
+    "associations"
+  ))
+}
