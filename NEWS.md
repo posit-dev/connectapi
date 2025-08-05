@@ -1,9 +1,11 @@
 # connectapi (development version)
 
-- New `content_set_integrations()` function to set the OAuth integration
+- New `set_integrations()` function to set the OAuth integration
   associations for a content item. (#414)
 - New `get_integration()` function to retrieve details of a specific OAuth integration
   from a Connect server. (#431)
+- `get_integrations()` can now be passed a `Content` class object to retrieve a
+  list of integrations associated with that piece of content. (#432)
 
 # connectapi 0.8.0
 

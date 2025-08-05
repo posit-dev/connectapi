@@ -2,7 +2,7 @@
 % Please edit documentation in R/integrations.R
 \name{as_tibble.connect_integration_list}
 \alias{as_tibble.connect_integration_list}
-\title{Convert integrations list to a tibble}
+\title{Convert integration list to a tibble}
 \usage{
 \method{as_tibble}{connect_integration_list}(x, ...)
 }

@@ -144,21 +144,6 @@ with_mock_dir("2025.07.0", {
     expect_s3_class(integrations[[1]], "connect_integration")
   })
 
-  test_that("get_oauth_associations() returns association metadata", {
-    client <- Connect$new(server = "https://connect.example", api_key = "fake")
-    content <- content_item(client, "12345678")
-    associations <- get_oauth_associations(content)
-
-    expect_type(associations, "list")
-    expect_equal(length(associations), 2)
-    expect_equal(associations[[1]]$oauth_integration_guid, "0000001")
-    expect_equal(associations[[1]]$oauth_integration_name, "Integration 1")
-    expect_equal(associations[[1]]$oauth_integration_template, "template1")
-    expect_equal(associations[[2]]$oauth_integration_template, "template2")
-    expect_true(!is.null(associations[[1]]$created_time))
-  })
-})
-
 test_that("get_integrations() with Content errs on older Connect versions", {
   client <- MockConnect$new("2024.11.1")
   content <- Content$new(

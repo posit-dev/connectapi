@@ -67,7 +67,7 @@ reference:
       Functions to work with OAuth integrations
     contents:
       - matches("integration")
-      - content_set_integrations
+      - set_integrations
       - get_integrations
       - get_oauth_credentials
       - get_oauth_content_credentials

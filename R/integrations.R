@@ -25,7 +25,7 @@
 #'
 #' Use [as.data.frame()] or [tibble::as_tibble()] to convert the result to a data frame with parsed types.
 #'
-#' @seealso [get_integration()], [set_integrations()], [get_oauth_associations()]
+#' @seealso [get_integration()], [set_integrations()]
 #'
 #' @examples
 #' \dontrun{
@@ -108,7 +108,7 @@ as.data.frame.connect_integration_list <- function(
   )
 }
 
-#' Convert integrations list to a tibble
+#' Convert integration list to a tibble
 #'
 #' @description
 #' Converts a list returned by [get_integrations()] to a tibble.
@@ -129,12 +129,12 @@ as_tibble.connect_integration_list <- function(x, ...) {
 #' @param x An object to convert to an integration
 #'
 #' @return An integration object
-as_integration <- function(x) {
+as_integration <- function(x, ...) {
   UseMethod("as_integration")
 }
 
 #' @export
-as_integration.default <- function(x) {
+as_integration.default <- function(x, ...) {
   stop(
     "Cannot convert object of class '",
     class(x)[1],
@@ -143,7 +143,7 @@ as_integration.default <- function(x) {
 }
 
 #' @export
-as_integration.list <- function(x) {
+as_integration.list <- function(x, client, ...) {
   structure(x, class = c("connect_integration", "list"))
 }
 
@@ -270,47 +270,4 @@ set_integrations <- function(content, integrations) {
     body = payload
   )
   invisible(NULL)
-}
-
-#' Get OAuth integration associations for a piece of content
-#'
-#' @description
-#' Retrieves a list of all OAuth integration associations for a content item.
-#' These associations represent the OAuth integrations that have been set up for
-#' the content to authenticate with external services.
-#'
-#' @param content A `Content` R6 object representing the content item.
-#'
-#' @return A list of OAuth integration associations. Each association includes details such as:
-#' * `app_guid`: The content item's GUID (deprecated, use `content_guid` instead).
-#' * `content_guid`: The content item's GUID.
-#' * `oauth_integration_guid`: The GUID of the OAuth integration.
-#' * `oauth_integration_name`: The name of the OAuth integration.
-#' * `oauth_integration_description`: A description of the OAuth integration.
-#' * `oauth_integration_template`: The template used for this OAuth integration.
-#' * `oauth_integration_auth_type`: The authentication type (e.g., "Viewer" or "Service Account").
-#' * `created_time`: The timestamp when the association was created.
-#'
-#' @seealso
-#' [set_integrations()], [content_get_integrations()], [get_integrations()]
-#'
-#' @examples
-#' \dontrun{
-#' client <- connect()
-#' content <- content_item(client, "12345678-90ab-cdef-1234-567890abcdef")
-#' associations <- get_oauth_associations(content)
-#' }
-#'
-#' @family oauth integration functions
-#' @family content functions
-#' @export
-get_oauth_associations <- function(content) {
-  validate_R6_class(content, "Content")
-  content$connect$GET(v1_url(
-    "content",
-    content$content$guid,
-    "oauth",
-    "integrations",
-    "associations"
-  ))
 }
