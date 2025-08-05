@@ -114,7 +114,7 @@ Returns the \code{Connect} instance.
 \if{html}{\out{<a id="method-Content-get_content"></a>}}
 \if{latex}{\out{\hypertarget{method-Content-get_content}{}}}
 \subsection{Method \code{get_content()}}{
-Returns the underlying contjent data.
+Returns the underlying content data.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Content$get_content()}\if{html}{\out{</div>}}
 }
