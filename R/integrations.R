@@ -1,70 +1,83 @@
-#' List all OAuth integrations on the Connect server
+#' Get OAuth integrations
 #'
 #' @description
-#' Retrieve information about all OAuth integrations available to Posit Connect.
-#' You must have administrator or publisher privileges to perform this action.
+#' Retrieve OAuth integrations either from the Connect server or associated with a specific content item.
 #'
-#' @param client A `Connect` R6 client object.
+#' If `x` is a `Connect` object, this function lists all OAuth integrations on the server.
+#' If `x` is a `Content` object, it returns the integrations associated with that content item.
 #'
-#' @return A list of OAuth integrations. Each integration is a list with the
-#'   following elements (all character strings unless indicated otherwise):
+#' You must have administrator or publisher privileges to use this function.
+#'
+#' @param x A `Connect` or `Content` R6 object.
+#'
+#' @return A list of class `connect_integration_list`, where each element is a `connect_integration` object
+#'   with the following fields (all character strings unless noted otherwise):
 #'
 #'   * `id`: The internal identifier of this OAuth integration.
 #'   * `guid`: The GUID of this OAuth integration.
-#'   * `created_time`: The timestamp (RFC3339) indicating when this integration
-#'     was created.
-#'   * `updated_time`: The timestamp (RFC3339) indicating when this integration
-#'     was last updated
-#'   * `name`: A descriptive name to identify the OAuth integration.
-#'   * `description`: A brief text to describe the OAuth integration.
-#'   * `template`: The template used to configure this OAuth integration.
-#'   * `auth_type`: The authentication type indicates which OAuth flow is used by
-#'     this integration.
-#'   * `config`: A list with the OAuth integration configuration. Fields
-#'     differ between integrations.
+#'   * `created_time`: Timestamp (RFC3339) when the integration was created.
+#'   * `updated_time`: Timestamp (RFC3339) when the integration was last updated.
+#'   * `name`: A descriptive name.
+#'   * `description`: A brief description.
+#'   * `template`: The template used to configure the integration.
+#'   * `auth_type`: The OAuth flow used.
+#'   * `config`: A list with integration-specific config fields.
 #'
-#' Use [as.data.frame()] or [tibble::as_tibble()] to convert to a data frame with
-#' parsed types. In the resulting data frame:
+#' Use [as.data.frame()] or [tibble::as_tibble()] to convert the result to a data frame with parsed types.
 #'
-#'   * `created_time` and `updated_time` are parsed to `POSIXct`.
-#'   * `config` remains as a list-column.
-#'
-#' @seealso [get_oauth_credentials()], [get_oauth_content_credentials()],
-#' [get_integration()]
+#' @seealso [get_integration()], [set_integrations()], [get_oauth_associations()]
 #'
 #' @examples
 #' \dontrun{
+#' # From a Connect client
 #' client <- connect()
-#'
-#' # Fetch all OAuth integrations
 #' integrations <- get_integrations(client)
 #'
+#' # Filter or update specific ones
+#' github_integration <- purrr::keep(integrations, \(x) x$template == "github")[[1]]
 #'
-#' # Update the configuration and metadata for a subset of integrations.
-#' json_payload <- toJSON(list(
-#'   description = "New Description",
-#'   config = list(
-#'     client_secret = "new-client-secret"
-#'   )
+#' json_payload <- jsonlite::toJSON(list(
+#'   description = "Updated Description",
+#'   config = list(client_secret = "new-secret")
 #' ), auto_unbox = TRUE)
 #'
-#' results <- integrations |>
-#'   purrr::keep(\(x) x$template == "service_to_update") |>
-#'   purrr::map(\(x) client$PATCH(paste0("v1/oauth/integrations/", x$guid), body = json_payload))
+#' client$PATCH(
+#'   paste0("v1/oauth/integrations/", github_integration$guid),
+#'   body = json_payload
+#' )
 #'
+#' # From a Content item
+#' content <- content_item(client, "12345678-90ab-cdef-1234-567890abcdef")
+#' content_integrations <- get_integrations(content)
 #'
-#' # Convert to tibble or data frame
-#' integrations_df <- tibble::as_tibble(integrations)
+#' # Filter content integrations
+#' snowflake_integrations <- purrr::keep(content_integrations, ~ .x$template == "snowflake")
 #' }
 #'
-#' @family oauth integration functions
 #' @export
-get_integrations <- function(client) {
-  validate_R6_class(client, "Connect")
-  error_if_less_than(client$version, "2024.12.0")
-  integrations <- client$GET(v1_url("oauth", "integrations"))
-  integrations <- lapply(integrations, as_integration)
-  class(integrations) <- c("connect_list_integrations", class(integrations))
+get_integrations <- function(x) {
+  if (inherits(x, "Connect")) {
+    error_if_less_than(x$version, "2024.12.0")
+    integrations <- x$GET(v1_url("oauth", "integrations"))
+    integrations <- lapply(integrations, as_integration)
+  } else if (inherits(x, "Content")) {
+    error_if_less_than(x$connect$version, "2024.12.0")
+    assoc <- x$connect$GET(v1_url(
+      "content",
+      x$content$guid,
+      "oauth",
+      "integrations",
+      "associations"
+    ))
+    integrations <- purrr::map(
+      assoc,
+      ~ get_integration(x$connect, .x$oauth_integration_guid)
+    )
+  } else {
+    stop("`x` must be a Connect or Content object.")
+  }
+
+  class(integrations) <- c("connect_integration_list", class(integrations))
   integrations
 }
 
@@ -73,14 +86,14 @@ get_integrations <- function(client) {
 #' @description
 #' Converts an list returned by [get_integrations()] into a data frame.
 #'
-#' @param x A `connect_list_integrations` object (from [get_integrations()]).
+#' @param x A `connect_integration_list` object (from [get_integrations()]).
 #' @param row.names Passed to [base::as.data.frame()].
 #' @param optional Passed to [base::as.data.frame()].
 #' @param ... Passed to [base::as.data.frame()].
 #'
 #' @return A `data.frame` with one row per integration.
 #' @export
-as.data.frame.connect_list_integrations <- function(
+as.data.frame.connect_integration_list <- function(
   x,
   row.names = NULL, # nolint
   optional = FALSE,
@@ -100,12 +113,12 @@ as.data.frame.connect_list_integrations <- function(
 #' @description
 #' Converts a list returned by [get_integrations()] to a tibble.
 #'
-#' @param x A `connect_list_integrations` object.
+#' @param x A `connect_integration_list` object.
 #' @param ... Unused.
 #'
 #' @return A tibble with one row per integration.
 #' @export
-as_tibble.connect_list_integrations <- function(x, ...) {
+as_tibble.connect_integration_list <- function(x, ...) {
   parse_connectapi_typed(x, connectapi_ptypes$integrations)
 }
 
@@ -259,70 +272,6 @@ set_integrations <- function(content, integrations) {
   invisible(NULL)
 }
 
-#' Get OAuth integrations associated with a piece of content
-#'
-#' @description
-#' Retrieves the complete set of OAuth integrations associated with a content item.
-#' This function returns the full integration objects rather than just the association
-#' metadata returned by [content_get_oauth_associations()].
-#'
-#' @param content A `Content` R6 object representing the content item.
-#'
-#' @return A list of class `connect_list_integrations` containing all OAuth integrations
-#' associated with the content item. Each integration is an object of class
-#' `connect_integration` with the following fields:
-#'
-#'   * `id`: The internal identifier of this OAuth integration.
-#'   * `guid`: The GUID of this OAuth integration.
-#'   * `created_time`: The timestamp (RFC3339) indicating when this integration
-#'     was created.
-#'   * `updated_time`: The timestamp (RFC3339) indicating when this integration
-#'     was last updated
-#'   * `name`: A descriptive name to identify the OAuth integration.
-#'   * `description`: A brief text to describe the OAuth integration.
-#'   * `template`: The template used to configure this OAuth integration.
-#'   * `auth_type`: The authentication type indicates which OAuth flow is used by
-#'     this integration.
-#'   * `config`: A list with the OAuth integration configuration. Fields
-#'     differ between integrations.
-#'
-#' @seealso
-#' [set_integrations()], [content_get_oauth_associations()], [get_integrations()]
-#'
-#' @examples
-#' \dontrun{
-#' client <- connect()
-#' content <- content_item(client, "12345678-90ab-cdef-1234-567890abcdef")
-#'
-#' # Get all integrations associated with this content
-#' integrations <- content_get_integrations(content)
-#'
-#' # Filter to show only specific types of integrations
-#' snowflake_integrations <- purrr::keep(integrations, ~ .x$template == "snowflake")
-#'
-#' }
-#'
-#' @family oauth integration functions
-#' @family content functions
-#' @export
-content_get_integrations <- function(content) {
-  validate_R6_class(content, "Content")
-  assoc <- content$connect$GET(v1_url(
-    "content",
-    content$content$guid,
-    "oauth",
-    "integrations",
-    "associations"
-  ))
-  # For each association, create an integration object. The result is an integration list object.
-  integrations <- purrr::map(
-    assoc,
-    ~ get_integration(content$connect, .x$oauth_integration_guid)
-  )
-  class(integrations) <- c("connect_list_integrations", class(integrations))
-  integrations
-}
-
 #' Get OAuth integration associations for a piece of content
 #'
 #' @description
@@ -349,7 +298,7 @@ content_get_integrations <- function(content) {
 #' \dontrun{
 #' client <- connect()
 #' content <- content_item(client, "12345678-90ab-cdef-1234-567890abcdef")
-#' associations <- content_get_oauth_associations(content)
+#' associations <- get_oauth_associations(content)
 #' }
 #'
 #' @family oauth integration functions
