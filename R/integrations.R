@@ -263,13 +263,13 @@ set_integrations <- function(content, integrations) {
     integrations <- list(integrations)
   } else if (!is.null(integrations) && !inherits(integrations, "list")) {
     stop(
-      "`integrations` must be a `connect_integration` class object, a list, ",
+      "'integrations' must be a 'connect_integration' class object, a list, ",
       "or NULL."
     )
   }
   # Ensure that all the items we've been passed are integrations
   if (!purrr::every(integrations, ~ inherits(.x, "connect_integration"))) {
-    stop("All items must be `connect_integration` objects")
+    stop("All items must be 'connect_integration' objects")
   }
 
   payload <- purrr::map(integrations, ~ list(oauth_integration_guid = .x$guid))
@@ -329,10 +329,10 @@ set_integrations <- function(content, integrations) {
 #' @family content functions
 #' @export
 get_associations <- function(x) {
-  validate_R6_class(content, "Content")
+  validate_R6_class(x, "Content")
   x$connect$GET(v1_url(
     "content",
-    content$content$guid,
+    x$content$guid,
     "oauth",
     "integrations",
     "associations"

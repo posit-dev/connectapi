@@ -123,11 +123,11 @@ test_that("set_integrations() fails when provided the wrong class", {
   })
   expect_error(
     set_integrations(x, "string"),
-    "`integrations` must be a `connect_integration` class object, a list, or NULL"
+    "'integrations' must be a 'connect_integration' class object, a list, or NULL"
   )
   expect_error(
     set_integrations(x, list("string")),
-    "All items must be `connect_integration` objects"
+    "All items must be 'connect_integration' objects"
   )
 })
 
@@ -175,10 +175,10 @@ test_that("get_integrations() with Content errs on older Connect versions", {
 test_that("get_integrations() fails when provided the wrong class", {
   expect_error(
     get_integrations("string"),
-    "`x` must be a Connect or Content object"
+    "Cannot get integrations for an object of class 'character'"
   )
   expect_error(
     get_integrations(list()),
-    "`x` must be a Connect or Content object"
+    "Cannot get integrations for an object of class 'list'"
   )
 })
