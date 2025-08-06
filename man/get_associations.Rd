@@ -2,7 +2,7 @@
 % Please edit documentation in R/integrations.R
 \name{get_associations}
 \alias{get_associations}
-\title{Get OAuth integration associations for a piece of content}
+\title{Get OAuth associations for a piece of content}
 \usage{
 get_associations(x)
 }

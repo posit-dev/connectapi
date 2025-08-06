@@ -56,27 +56,41 @@
 #'
 #' @export
 get_integrations <- function(x) {
-  if (inherits(x, "Connect")) {
-    error_if_less_than(x$version, "2024.12.0")
-    integrations <- x$GET(v1_url("oauth", "integrations"))
-    integrations <- lapply(integrations, as_integration)
-  } else if (inherits(x, "Content")) {
-    error_if_less_than(x$connect$version, "2024.12.0")
-    assoc <- x$connect$GET(v1_url(
-      "content",
-      x$content$guid,
-      "oauth",
-      "integrations",
-      "associations"
-    ))
-    integrations <- purrr::map(
-      assoc,
-      ~ get_integration(x$connect, .x$oauth_integration_guid)
-    )
-  } else {
-    stop("`x` must be a Connect or Content object.")
-  }
+  UseMethod("get_integrations")
+}
 
+#' @export
+get_integrations.default <- function(x) {
+  stop(
+    "Cannot get integrations for an object of class '",
+    class(x)[1],
+    "'"
+  )
+}
+
+#' @export
+get_integrations.Connect <- function(x) {
+  error_if_less_than(x$version, "2024.12.0")
+  integrations <- x$GET(v1_url("oauth", "integrations"))
+  integrations <- lapply(integrations, as_integration)
+  class(integrations) <- c("connect_integration_list", class(integrations))
+  integrations
+}
+
+#' @export
+get_integrations.Content <- function(x) {
+  error_if_less_than(x$connect$version, "2024.12.0")
+  assoc <- x$connect$GET(v1_url(
+    "content",
+    x$content$guid,
+    "oauth",
+    "integrations",
+    "associations"
+  ))
+  integrations <- purrr::map(
+    assoc,
+    ~ get_integration(x$connect, .x$oauth_integration_guid)
+  )
   class(integrations) <- c("connect_integration_list", class(integrations))
   integrations
 }
@@ -273,7 +287,7 @@ set_integrations <- function(content, integrations) {
   invisible(NULL)
 }
 
-#' Get OAuth integration associations for a piece of content
+#' Get OAuth associations for a piece of content
 #'
 #' @description
 #' Given a `Content` object, retrieves a list of its
