@@ -45,11 +45,12 @@ set_integrations(content, NULL)
 
 }
 \seealso{
-\code{\link[=get_integrations]{get_integrations()}}, \code{\link[=get_integration]{get_integration()}}, \code{\link[=content_item]{content_item()}}
+\code{\link[=get_integrations]{get_integrations()}}, \code{\link[=get_integration]{get_integration()}}, \code{\link[=get_associations]{get_associations()}}, \code{\link[=content_item]{content_item()}}
 
 Other oauth integration functions: 
 \code{\link{get_associations}()},
-\code{\link{get_integration}()}
+\code{\link{get_integration}()},
+\code{\link{get_integrations}()}
 
 Other content functions: 
 \code{\link{content_delete}()},

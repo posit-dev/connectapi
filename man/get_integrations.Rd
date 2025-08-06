@@ -64,4 +64,10 @@ snowflake_integrations <- purrr::keep(content_integrations, ~ .x$template == "sn
 }
 \seealso{
 \code{\link[=get_integration]{get_integration()}}, \code{\link[=set_integrations]{set_integrations()}}, \code{\link[=get_associations]{get_associations()}}
+
+Other oauth integration functions: 
+\code{\link{get_associations}()},
+\code{\link{get_integration}()},
+\code{\link{set_integrations}()}
 }
+\concept{oauth integration functions}

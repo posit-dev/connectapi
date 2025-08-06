@@ -45,10 +45,11 @@ my_app_integrations <- purrr::map(
 
 }
 \seealso{
-\code{\link[=set_integrations]{set_integrations()}}, \code{\link[=content_get_integrations]{content_get_integrations()}}, \code{\link[=get_integrations]{get_integrations()}}
+\code{\link[=set_integrations]{set_integrations()}}, \code{\link[=get_integrations]{get_integrations()}}, \code{\link[=get_integration]{get_integration()}}
 
 Other oauth integration functions: 
 \code{\link{get_integration}()},
+\code{\link{get_integrations}()},
 \code{\link{set_integrations}()}
 
 Other content functions: 

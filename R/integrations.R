@@ -25,7 +25,10 @@
 #'
 #' Use [as.data.frame()] or [tibble::as_tibble()] to convert the result to a data frame with parsed types.
 #'
-#' @seealso [get_integration()], [set_integrations()], [get_associations()]
+#' @seealso
+#' [get_integration()], [set_integrations()], [get_associations()]
+#'
+#' @family oauth integration functions
 #'
 #' @examples
 #' \dontrun{
@@ -197,7 +200,7 @@ print.connect_integration <- function(x, ...) {
 #'   * `config`: A list with the OAuth integration configuration. Fields
 #'     differ between integrations.
 #'
-#' @seealso [get_oauth_credentials()], [get_oauth_content_credentials()], [get_integrations()]
+#' @seealso [get_integrations()], [get_associations()], [set_integrations()]
 #'
 #' @examples
 #' \dontrun{
@@ -231,7 +234,7 @@ get_integration <- function(client, guid) {
 #' @return Invisibly returns `NULL`.
 #'
 #' @seealso
-#' [get_integrations()], [get_integration()], [content_item()]
+#' [get_integrations()], [get_integration()], [get_associations()], [content_item()]
 #'
 #' @examples
 #' \dontrun{
@@ -308,7 +311,7 @@ set_integrations <- function(content, integrations) {
 #' * `created_time`: The timestamp when the association was created.
 #'
 #' @seealso
-#' [set_integrations()], [content_get_integrations()], [get_integrations()]
+#' [set_integrations()], [get_integrations()], [get_integration()]
 #'
 #' @examples
 #' \dontrun{
