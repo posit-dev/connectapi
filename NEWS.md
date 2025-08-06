@@ -4,6 +4,9 @@
   associations for a content item. (#414)
 - New `get_integration()` function to retrieve details of a specific OAuth integration
   from a Connect server. (#431)
+- New functions allow you to manage the OAuth integrations on your Connect
+  server: `create_integration()`, `update_integration()` and
+  `delete_integration()`. (#434)
 
 # connectapi 0.8.0
 
