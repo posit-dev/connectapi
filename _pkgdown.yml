@@ -69,6 +69,7 @@ reference:
       - matches("integration")
       - set_integrations
       - get_integrations
+      - get_associations
       - get_oauth_credentials
       - get_oauth_content_credentials
 
