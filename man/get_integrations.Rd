@@ -71,6 +71,9 @@ integrations_df <- tibble::as_tibble(integrations)
 
 Other oauth integration functions: 
 \code{\link{content_set_integrations}()},
-\code{\link{get_integration}()}
+\code{\link{create_integration}()},
+\code{\link{delete_integration}()},
+\code{\link{get_integration}()},
+\code{\link{update_integration}()}
 }
 \concept{oauth integration functions}

@@ -63,8 +63,7 @@ get_integrations <- function(client) {
   validate_R6_class(client, "Connect")
   error_if_less_than(client$version, "2024.12.0")
   integrations <- client$GET(v1_url("oauth", "integrations"))
-  integrations <- lapply(integrations, as_integration)
-  class(integrations) <- c("connect_list_integrations", class(integrations))
+  integrations <- purrr::map(integrations, ~ as_integration(.x, client))
   integrations
 }
 
@@ -114,14 +113,17 @@ as_tibble.connect_list_integrations <- function(x, ...) {
 #' Convert objects to integration class
 #'
 #' @param x An object to convert to an integration
+#' @param client The Connect client object where the integration comes from.
 #'
-#' @return An integration object
-as_integration <- function(x) {
+#' @return An integration object. The object has all the fields from the
+#' integrations endpoint (see [get_integrations()]) and a Connect client as a
+#' `client` attribute (`attr(x, "client")`)
+as_integration <- function(x, ...) {
   UseMethod("as_integration")
 }
 
 #' @export
-as_integration.default <- function(x) {
+as_integration.default <- function(x, ...) {
   stop(
     "Cannot convert object of class '",
     class(x)[1],
@@ -130,8 +132,8 @@ as_integration.default <- function(x) {
 }
 
 #' @export
-as_integration.list <- function(x) {
-  structure(x, class = c("connect_integration", "list"))
+as_integration.list <- function(x, client, ...) {
+  structure(x, class = c("connect_integration", "list"), client = client)
 }
 
 #' @export
@@ -181,5 +183,196 @@ print.connect_integration <- function(x, ...) {
 #' @export
 get_integration <- function(client, guid) {
   validate_R6_class(client, "Connect")
-  as_integration(client$GET(v1_url("oauth", "integrations", guid)))
+  as_integration(client$GET(v1_url("oauth", "integrations", guid)), client)
+}
+
+
+# Manage integrations ----
+
+#' Create an OAuth integration
+#'
+#' @description
+#' Creates a new OAuth integration on the Posit Connect server. OAuth integrations
+#' allow content to access external resources using OAuth credentials.
+#' You must have administrator privileges to perform this action.
+#'
+#' @param client A `Connect` R6 client object.
+#' @param name A descriptive name to identify the integration.
+#' @param description Optional, default `NULL.` A brief description of the integration.
+#' @param template The template to use to configure this integration (e.g.,
+#'   "custom", "github", "google", "connect").
+#' @param config A list containing the configuration for the integration. The
+#'   required fields vary depending on the template selected.
+#'
+#' @return A `connect_integration` object representing the newly created
+#'   integration. See [get_integration()] for details on the returned object.
+#'
+#' @seealso [get_integrations()], [get_integration()], [update_integration()],
+#'   [delete_integration()]
+#'
+#' @examples
+#' \dontrun{
+#' client <- connect()
+#'
+#' # Create a GitHub OAuth integration
+#' github_integration <- create_integration(
+#'   client,
+#'   name = "GitHub Integration",
+#'   description = "Integration with GitHub for OAuth access",
+#'   template = "github",
+#'   config = list(
+#'     client_id = "your-client-id",
+#'     client_secret = "your-client-secret"
+#'   )
+#' )
+#'
+#' # Create a custom OAuth integration
+#' custom_integration <- create_integration(
+#'   client,
+#'   name = "Custom API Integration",
+#'   description = "Integration with our custom API",
+#'   template = "custom",
+#'   config = list(
+#'     auth_mode = "Confidential",
+#'     auth_type = "Viewer",
+#'     authorization_uri = "https://api.example.com/oauth/authorize",
+#'     client_id = "your-client-id",
+#'     client_secret = "your-client-secret",
+#'     token_uri = "https://api.example.com/oauth/token"
+#'   )
+#' )
+#' }
+#'
+#' @family oauth integration functions
+#' @export
+create_integration <- function(
+  client,
+  name,
+  description = NULL,
+  template,
+  config
+) {
+  validate_R6_class(client, "Connect")
+  error_if_less_than(client$version, "2024.12.0")
+  result <- client$POST(
+    v1_url("oauth", "integrations"),
+    body = list(
+      name = name,
+      description = description,
+      template = template,
+      config = config
+    )
+  )
+  as_integration(result, client)
+}
+
+#' Update an OAuth integration
+#'
+#' @description
+#' Updates an existing OAuth integration. All fields except `integration` are optional,
+#' and are unchanged if not provided.
+#' You must have administrator privileges to perform this action.
+#'
+#' @param integration A `connect_integration` object (as returned by [get_integrations()],
+#'   [get_integration()], or [create_integration()]).
+#' @param name A new name for the integration.
+#' @param description A new description for the integration.
+#' @param template The template to use (generally not changed after creation).
+#' @param config A list with updated OAuth integration configuration. If `NULL`
+#'   (default), the configuration remains unchanged. You can update individual
+#'   configuration fields without affecting others.
+#'
+#' @return A `connect_integration` object representing the updated OAuth
+#'   integration. See [get_integration()] for details on the returned object.
+#'
+#' @seealso [get_integrations()], [get_integration()], [create_integration()],
+#'   [delete_integration()]
+#'
+#' @examples
+#' \dontrun{
+#' client <- connect()
+#'
+#' # Get an existing integration
+#' integration <- get_integration(client, "your-integration-guid")
+#'
+#' # Update the integration's name and description
+#' updated_integration <- update_integration(
+#'   integration,
+#'   name = "Updated GitHub Integration",
+#'   description = "A more descriptive description."
+#' )
+#'
+#' # Update only the client secret in the configuration
+#' updated_integration <- update_integration(
+#'   integration,
+#'   config = list(
+#'     client_secret = "your-new-client-secret"
+#'   )
+#' )
+#' }
+#'
+#' @family oauth integration functions
+#' @export
+update_integration <- function(
+  integration,
+  name = NULL,
+  description = NULL,
+  template = NULL,
+  config = NULL
+) {
+  if (!inherits(integration, "connect_integration")) {
+    stop("'integration' must be a 'connect_integration' object")
+  }
+  client <- attr(integration, "client")
+  validate_R6_class(client, "Connect")
+  error_if_less_than(client$version, "2024.12.0")
+  result <- client$PATCH(
+    v1_url("oauth", "integrations", integration$guid),
+    body = list(
+      name = name,
+      description = description,
+      template = template,
+      config = config
+    )
+  )
+  as_integration(result, client)
+}
+
+#' Delete an OAuth integration
+#'
+#' @description
+#' Deletes an OAuth integration from the Posit Connect server. This permanently
+#' removes the integration and any associated content associations.
+#' You must have administrator privileges to perform this action.
+#'
+#' @param integration A `connect_integration` object (as returned by [get_integrations()],
+#'   [get_integration()], or [create_integration()]).
+#'
+#' @return Returns `NULL` invisibly if successful.
+#'
+#' @seealso [get_integrations()], [get_integration()], [create_integration()],
+#'   [update_integration()]
+#'
+#' @examples
+#' \dontrun{
+#' client <- connect()
+#'
+#' # Get an integration to delete
+#' integration <- get_integration(client, "your-integration-guid")
+#'
+#' # Delete the integration
+#' delete_integration(integration)
+#' }
+#'
+#' @family oauth integration functions
+#' @export
+delete_integration <- function(integration) {
+  if (!inherits(integration, "connect_integration")) {
+    stop("'integration' must be a 'connect_integration' object")
+  }
+  client <- attr(integration, "client")
+  validate_R6_class(client, "Connect")
+  error_if_less_than(client$version, "2024.12.0")
+  client$DELETE(v1_url("oauth", "integrations", integration$guid))
+  invisible(NULL)
 }
