@@ -25,7 +25,7 @@
 #'
 #' Use [as.data.frame()] or [tibble::as_tibble()] to convert the result to a data frame with parsed types.
 #'
-#' @seealso [get_integration()], [set_integrations()]
+#' @seealso [get_integration()], [set_integrations()], [get_associations()]
 #'
 #' @examples
 #' \dontrun{
@@ -271,4 +271,56 @@ set_integrations <- function(content, integrations) {
     body = payload
   )
   invisible(NULL)
+}
+
+#' Get OAuth integration associations for a piece of content
+#'
+#' @description
+#' Given a `Content` object, retrieves a list of its
+#' OAuth associations. An association contains a content GUID and an association
+#' GUID, and indicates that the integration can be used by the content when it
+#' runs.
+#'
+#' @param x A `Content` object
+#'
+#' @return A list of OAuth integration associations. Each association includes details such as:
+#' * `app_guid`: The content item's GUID (deprecated, use `content_guid` instead).
+#' * `content_guid`: The content item's GUID.
+#' * `oauth_integration_guid`: The GUID of the OAuth integration.
+#' * `oauth_integration_name`: The name of the OAuth integration.
+#' * `oauth_integration_description`: A description of the OAuth integration.
+#' * `oauth_integration_template`: The template used for this OAuth integration.
+#' * `oauth_integration_auth_type`: The authentication type (e.g., "Viewer" or "Service Account").
+#' * `created_time`: The timestamp when the association was created.
+#'
+#' @seealso
+#' [set_integrations()], [content_get_integrations()], [get_integrations()]
+#'
+#' @examples
+#' \dontrun{
+#' client <- connect()
+#'
+#' # Get OAuth associations for an app.
+#' my_app <- content_item(client, "12345678-90ab-cdef-1234-567890abcdef")
+#' my_app_associations <- get_associations(my_app)
+#'
+#' # Given those associations, retrieve the integrations themselves.
+#' my_app_integrations <- purrr::map(
+#'   my_app_associations,
+#'   ~ get_integration(client, .x$oauth_integration_guid)
+#' )
+#' }
+#'
+#' @family oauth integration functions
+#' @family content functions
+#' @export
+get_associations <- function(x) {
+  validate_R6_class(content, "Content")
+  x$connect$GET(v1_url(
+    "content",
+    content$content$guid,
+    "oauth",
+    "integrations",
+    "associations"
+  ))
 }

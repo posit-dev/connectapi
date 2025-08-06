@@ -48,6 +48,7 @@ set_integrations(content, NULL)
 \code{\link[=get_integrations]{get_integrations()}}, \code{\link[=get_integration]{get_integration()}}, \code{\link[=content_item]{content_item()}}
 
 Other oauth integration functions: 
+\code{\link{get_associations}()},
 \code{\link{get_integration}()}
 
 Other content functions: 
@@ -60,6 +61,7 @@ Other content functions:
 \code{\link{delete_thumbnail}()},
 \code{\link{delete_vanity_url}()},
 \code{\link{deploy_repo}()},
+\code{\link{get_associations}()},
 \code{\link{get_bundles}()},
 \code{\link{get_environment}()},
 \code{\link{get_image}()},
