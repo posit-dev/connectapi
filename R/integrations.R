@@ -75,7 +75,7 @@ get_integrations.default <- function(x) {
 get_integrations.Connect <- function(x) {
   error_if_less_than(x$version, "2024.12.0")
   integrations <- x$GET(v1_url("oauth", "integrations"))
-  integrations <- lapply(integrations, as_integration)
+  integrations <- purrr::map(integrations, ~ as_integration(.x, client = x))
   class(integrations) <- c("connect_integration_list", class(integrations))
   integrations
 }

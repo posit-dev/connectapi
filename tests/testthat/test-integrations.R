@@ -3,7 +3,6 @@ with_mock_dir("2024.12.0", {
     client <- Connect$new(server = "https://connect.example", api_key = "fake")
     integrations <- get_integrations(client)
     expect_s3_class(integrations, "connect_integration_list")
-
     expect_equal(integrations[[1]]$name, "GitHub Integration")
     expect_equal(integrations[[2]]$updated_time, "2025-03-25T19:07:01Z")
     expect_equal(integrations[[1]]$config$client_id, "client_id_123")
@@ -48,6 +47,7 @@ test_that("get_integrations() errs on older Connect versions", {
 })
 
 test_that("as_integration correctly converts lists to integration objects", {
+  client <- MockConnect$new("2024.11.1")
   valid_integration <- list(
     id = "123",
     guid = "abc-123",
@@ -60,9 +60,10 @@ test_that("as_integration correctly converts lists to integration objects", {
     config = list(client_id = "client_id")
   )
 
-  result <- as_integration(valid_integration)
+  result <- as_integration(valid_integration, client)
   expect_s3_class(result, "connect_integration")
   expect_identical(result$guid, valid_integration$guid)
+  expect_identical(attr(result, "client"), client)
 })
 
 test_that("as_integration.default errors on non-list input", {
