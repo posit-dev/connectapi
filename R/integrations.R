@@ -161,7 +161,7 @@ as_integration.default <- function(x, ...) {
 }
 
 #' @export
-as_integration.list <- function(x, client, ...) {
+as_integration.list <- function(x, ...) {
   structure(x, class = c("connect_integration", "list"))
 }
 
