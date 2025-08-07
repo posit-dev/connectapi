@@ -10,9 +10,13 @@ as_integration(x, ...)
 \item{x}{An object to convert to an integration.}
 
 \item{...}{Unused.}
+
+\item{client}{The Connect client object where the integration comes from.}
 }
 \value{
-An integration object
+An integration object. The object has all the fields from the
+integrations endpoint (see \code{\link[=get_integrations]{get_integrations()}}) and a Connect client as a
+\code{client} attribute (\code{attr(x, "client")})
 }
 \description{
 Convert objects to integration class

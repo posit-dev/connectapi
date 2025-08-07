@@ -156,7 +156,6 @@ as_integration <- function(x, ...) {
 
 #' @export
 as_integration.default <- function(x, ...) {
-as_integration.default <- function(x, ...) {
   stop(
     "Cannot convert object of class '",
     class(x)[1],
