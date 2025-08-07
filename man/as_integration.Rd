@@ -4,14 +4,14 @@
 \alias{as_integration}
 \title{Convert objects to integration class}
 \usage{
-as_integration(x, ...)
+as_integration(x, client)
 }
 \arguments{
 \item{x}{An object to convert to an integration.}
 
-\item{...}{Unused.}
-
 \item{client}{The Connect client object where the integration comes from.}
+
+\item{...}{Unused.}
 }
 \value{
 An integration object. The object has all the fields from the
