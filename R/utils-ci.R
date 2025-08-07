@@ -107,6 +107,10 @@ compose_find_hosts <- function(prefix) {
   ports <- sub(".*0\\.0\\.0\\.0:([0-9]+)->3939.*", "\\1", containers)
   cat_line(glue::glue("docker: got ports {ports[1]} and {ports[2]}"))
 
+  # TODO: make this silly sleep more savvy
+  cat_line("connect: sleeping - waiting for connect to start")
+  Sys.sleep(10)
+
   paste0("http://localhost:", ports)
 }
 
@@ -135,9 +139,7 @@ update_renviron_creds <- function(
     "{prefix}_API_KEY={api_key}",
     .sep = "\n"
   )
-  if (!fs::file_exists(.file)) {
-    fs::file_touch(.file)
-  }
+  if (!fs::file_exists(.file)) fs::file_touch(.file)
   writeLines(output_environ, .file)
   invisible()
 }
@@ -161,26 +163,6 @@ build_test_env <- function(
   # It was ci_connect before but it's ci-connect on my machine now;
   # this is a regex so it will match either
   hosts <- compose_find_hosts(prefix = "ci.connect")
-
-  wait_for_connect_ready <- function(host, timeout = 60) {
-    start <- Sys.time()
-    repeat {
-      try(
-        {
-          res <- httr::GET(paste0(host, "/__ping__"))
-          if (httr::status_code(res) == 200) return(TRUE)
-        },
-        silent = TRUE
-      )
-      if (Sys.time() - start > timeout) {
-        stop("Connect did not become ready in time: ", host)
-      }
-      Sys.sleep(1)
-    }
-  }
-
-  wait_for_connect_ready(hosts[1])
-  wait_for_connect_ready(hosts[2])
 
   cat_line("connect: creating first admin...")
   a1 <- create_first_admin(
