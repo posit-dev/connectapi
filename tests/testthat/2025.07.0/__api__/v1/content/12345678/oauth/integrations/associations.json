@@ -1,0 +1,22 @@
+[
+    {
+        "app_guid": "12345678",
+        "content_guid": "12345678",
+        "oauth_integration_guid": "0000001",
+        "oauth_integration_name": "Integration 1",
+        "oauth_integration_description": "This is the first description",
+        "oauth_integration_template": "template1",
+        "oauth_integration_auth_type": "Viewer",
+        "created_time": "2025-08-05T20:02:39Z"
+    },
+    {
+        "app_guid": "12345678",
+        "content_guid": "12345678",
+        "oauth_integration_guid": "0000002",
+        "oauth_integration_name": "Integration 2",
+        "oauth_integration_description": "This is the second description",
+        "oauth_integration_template": "template2",
+        "oauth_integration_auth_type": "Different",
+        "created_time": "2025-08-05T20:02:39Z"
+    }
+]

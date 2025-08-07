@@ -4,10 +4,12 @@
 \alias{as_integration}
 \title{Convert objects to integration class}
 \usage{
-as_integration(x)
+as_integration(x, ...)
 }
 \arguments{
-\item{x}{An object to convert to an integration}
+\item{x}{An object to convert to an integration.}
+
+\item{...}{Unused.}
 }
 \value{
 An integration object

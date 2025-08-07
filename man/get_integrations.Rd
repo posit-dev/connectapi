@@ -2,75 +2,72 @@
 % Please edit documentation in R/integrations.R
 \name{get_integrations}
 \alias{get_integrations}
-\title{List all OAuth integrations on the Connect server}
+\title{Get OAuth integrations}
 \usage{
-get_integrations(client)
+get_integrations(x)
 }
 \arguments{
-\item{client}{A \code{Connect} R6 client object.}
+\item{x}{A \code{Connect} or \code{Content} R6 object.}
 }
 \value{
-A list of OAuth integrations. Each integration is a list with the
-following elements (all character strings unless indicated otherwise):
+A list of class \code{connect_integration_list}, where each element is a \code{connect_integration} object
+with the following fields (all character strings unless noted otherwise):
 \itemize{
 \item \code{id}: The internal identifier of this OAuth integration.
 \item \code{guid}: The GUID of this OAuth integration.
-\item \code{created_time}: The timestamp (RFC3339) indicating when this integration
-was created.
-\item \code{updated_time}: The timestamp (RFC3339) indicating when this integration
-was last updated
-\item \code{name}: A descriptive name to identify the OAuth integration.
-\item \code{description}: A brief text to describe the OAuth integration.
-\item \code{template}: The template used to configure this OAuth integration.
-\item \code{auth_type}: The authentication type indicates which OAuth flow is used by
-this integration.
-\item \code{config}: A list with the OAuth integration configuration. Fields
-differ between integrations.
+\item \code{created_time}: Timestamp (RFC3339) when the integration was created.
+\item \code{updated_time}: Timestamp (RFC3339) when the integration was last updated.
+\item \code{name}: A descriptive name.
+\item \code{description}: A brief description.
+\item \code{template}: The template used to configure the integration.
+\item \code{auth_type}: The OAuth flow used.
+\item \code{config}: A list with integration-specific config fields.
 }
 
-Use \code{\link[=as.data.frame]{as.data.frame()}} or \code{\link[tibble:as_tibble]{tibble::as_tibble()}} to convert to a data frame with
-parsed types. In the resulting data frame:
-\itemize{
-\item \code{created_time} and \code{updated_time} are parsed to \code{POSIXct}.
-\item \code{config} remains as a list-column.
-}
+Use \code{\link[=as.data.frame]{as.data.frame()}} or \code{\link[tibble:as_tibble]{tibble::as_tibble()}} to convert the result to a data frame with parsed types.
 }
 \description{
-Retrieve information about all OAuth integrations available to Posit Connect.
-You must have administrator or publisher privileges to perform this action.
+Retrieve OAuth integrations either from the Connect server or associated with a specific content item.
+
+If \code{x} is a \code{Connect} object, this function lists all OAuth integrations on the server.
+If \code{x} is a \code{Content} object, it returns the integrations associated with that content item.
+
+You must have administrator or publisher privileges to use this function.
 }
 \examples{
 \dontrun{
+# From a Connect client
 client <- connect()
-
-# Fetch all OAuth integrations
 integrations <- get_integrations(client)
 
+# Filter or update specific ones
+github_integration <- purrr::keep(integrations, \(x) x$template == "github")[[1]]
 
-# Update the configuration and metadata for a subset of integrations.
-json_payload <- toJSON(list(
-  description = "New Description",
-  config = list(
-    client_secret = "new-client-secret"
-  )
+json_payload <- jsonlite::toJSON(list(
+  description = "Updated Description",
+  config = list(client_secret = "new-secret")
 ), auto_unbox = TRUE)
 
-results <- integrations |>
-  purrr::keep(\(x) x$template == "service_to_update") |>
-  purrr::map(\(x) client$PATCH(paste0("v1/oauth/integrations/", x$guid), body = json_payload))
+client$PATCH(
+  paste0("v1/oauth/integrations/", github_integration$guid),
+  body = json_payload
+)
 
+# From a Content item
+content <- content_item(client, "12345678-90ab-cdef-1234-567890abcdef")
+content_integrations <- get_integrations(content)
 
-# Convert to tibble or data frame
-integrations_df <- tibble::as_tibble(integrations)
+# Filter content integrations
+snowflake_integrations <- purrr::keep(content_integrations, ~ .x$template == "snowflake")
 }
 
 }
 \seealso{
-\code{\link[=get_oauth_credentials]{get_oauth_credentials()}}, \code{\link[=get_oauth_content_credentials]{get_oauth_content_credentials()}},
-\code{\link[=get_integration]{get_integration()}}
+\code{\link[=get_integration]{get_integration()}}, \code{\link[=set_integrations]{set_integrations()}}, \code{\link[=get_associations]{get_associations()}}
 
 Other oauth integration functions: 
-\code{\link{content_set_integrations}()},
-\code{\link{get_integration}()}
+\code{\link{get_associations}()},
+\code{\link{get_integration}()},
+\code{\link{set_integrations}()}
 }
 \concept{oauth integration functions}

@@ -43,10 +43,11 @@ x <- get_integration(client, guid)
 
 }
 \seealso{
-\code{\link[=get_oauth_credentials]{get_oauth_credentials()}}, \code{\link[=get_oauth_content_credentials]{get_oauth_content_credentials()}}, \code{\link[=get_integrations]{get_integrations()}}
+\code{\link[=get_integrations]{get_integrations()}}, \code{\link[=get_associations]{get_associations()}}, \code{\link[=set_integrations]{set_integrations()}}
 
 Other oauth integration functions: 
-\code{\link{content_set_integrations}()},
-\code{\link{get_integrations}()}
+\code{\link{get_associations}()},
+\code{\link{get_integrations}()},
+\code{\link{set_integrations}()}
 }
 \concept{oauth integration functions}

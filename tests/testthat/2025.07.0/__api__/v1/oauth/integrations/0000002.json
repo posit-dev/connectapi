@@ -1,0 +1,17 @@
+{
+    "id": "2",
+    "guid": "0000002",
+    "created_time": "2025-07-15T10:30:00Z",
+    "updated_time": "2025-08-05T20:02:39Z",
+    "name": "Integration 2",
+    "description": "This is the second description",
+    "template": "template2",
+    "auth_type": "Different",
+    "config": {
+        "account_url": "https://template2.example.com",
+        "auth_mode": "Public",
+        "client_id": "client_id_template2",
+        "scopes": "api:read api:write",
+        "credential_type": "oauth2"
+    }
+}

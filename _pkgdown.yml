@@ -67,8 +67,9 @@ reference:
       Functions to work with OAuth integrations
     contents:
       - matches("integration")
-      - content_set_integrations
+      - set_integrations
       - get_integrations
+      - get_associations
       - get_oauth_credentials
       - get_oauth_content_credentials
 
@@ -79,8 +80,8 @@ reference:
       - starts_with("get")
       - as.data.frame.connect_list_hits
       - as_tibble.connect_list_hits
-      - as.data.frame.connect_list_integrations
-      - as_tibble.connect_list_integrations
+      - as.data.frame.connect_integration_list
+      - as_tibble.connect_integration_list
 
   - title: "Other"
     desc: >
