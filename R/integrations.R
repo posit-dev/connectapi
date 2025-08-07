@@ -150,21 +150,13 @@ as_tibble.connect_integration_list <- function(x, ...) {
 #' @return An integration object. The object has all the fields from the
 #' integrations endpoint (see [get_integrations()]) and a Connect client as a
 #' `client` attribute (`attr(x, "client")`)
-as_integration <- function(x, ...) {
-  UseMethod("as_integration")
-}
-
-#' @export
-as_integration.default <- function(x, ...) {
+as_integration <- function(x, client) {
+  if (!inherits(x, "list"))
   stop(
     "Cannot convert object of class '",
     class(x)[1],
     "' to an integration"
   )
-}
-
-#' @export
-as_integration.list <- function(x, client, ...) {
   structure(x, class = c("connect_integration", "list"), client = client)
 }
 
