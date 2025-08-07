@@ -11,7 +11,7 @@ get_integrations(x)
 }
 \value{
 A list of class \code{connect_integration_list}, where each element is a \code{connect_integration} object
-with the following fields (all character strings unless noted otherwise):
+with the following fields. (Raw API fields are character strings unless noted otherwise):
 \itemize{
 \item \code{id}: The internal identifier of this OAuth integration.
 \item \code{guid}: The GUID of this OAuth integration.

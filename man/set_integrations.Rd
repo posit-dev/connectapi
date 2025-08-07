@@ -5,8 +5,6 @@
 \title{Set all OAuth integrations for a content item}
 \usage{
 set_integrations(content, integrations)
-
-set_integrations(content, integrations)
 }
 \arguments{
 \item{content}{A \code{Content} R6 object representing the content item to modify.}
@@ -19,14 +17,8 @@ content.}
 }
 \value{
 Invisibly returns \code{NULL}.
-
-Invisibly returns \code{NULL}.
 }
 \description{
-Removes all existing OAuth integrations associated with a content item, and
-creates associations with the integrations provided. You must have
-administrator or publisher privileges to perform this action.
-
 Removes all existing OAuth integrations associated with a content item, and
 creates associations with the integrations provided. You must have
 administrator or publisher privileges to perform this action.
@@ -51,69 +43,9 @@ set_integrations(content, selected_integrations)
 set_integrations(content, NULL)
 }
 
-\dontrun{
-client <- connect()
-
-content <- content_item(client, "12345678-90ab-cdef-1234-567890abcdef")
-
-integrations <- get_integrations(client)
-
-# Associate a single integration
-github_integration <- purrr::keep(integrations, \(x) x$template == "github")[[1]]
-set_integrations(content, github_integration)
-
-# Associate multiple integrations at once
-selected_integrations <- integrations[1:2]
-set_integrations(content, selected_integrations)
-
-# Unset integrations
-set_integrations(content, NULL)
-}
-
 }
 \seealso{
 \code{\link[=get_integrations]{get_integrations()}}, \code{\link[=get_integration]{get_integration()}}, \code{\link[=get_associations]{get_associations()}}, \code{\link[=content_item]{content_item()}}
-
-\code{\link[=get_integrations]{get_integrations()}}, \code{\link[=get_integration]{get_integration()}}, \code{\link[=get_associations]{get_associations()}}, \code{\link[=content_item]{content_item()}}
-
-Other oauth integration functions: 
-\code{\link{create_integration}()},
-\code{\link{delete_integration}()},
-\code{\link{get_associations}()},
-\code{\link{get_integration}()},
-\code{\link{get_integrations}()},
-\code{\link{update_integration}()}
-
-Other content functions: 
-\code{\link{content_delete}()},
-\code{\link{content_item}()},
-\code{\link{content_title}()},
-\code{\link{content_update}()},
-\code{\link{create_random_name}()},
-\code{\link{dashboard_url}()},
-\code{\link{delete_thumbnail}()},
-\code{\link{delete_vanity_url}()},
-\code{\link{deploy_repo}()},
-\code{\link{get_associations}()},
-\code{\link{get_bundles}()},
-\code{\link{get_environment}()},
-\code{\link{get_image}()},
-\code{\link{get_job}()},
-\code{\link{get_jobs}()},
-\code{\link{get_log}()},
-\code{\link{get_thumbnail}()},
-\code{\link{get_vanity_url}()},
-\code{\link{git}},
-\code{\link{has_thumbnail}()},
-\code{\link{permissions}},
-\code{\link{set_image_path}()},
-\code{\link{set_run_as}()},
-\code{\link{set_thumbnail}()},
-\code{\link{set_vanity_url}()},
-\code{\link{swap_vanity_url}()},
-\code{\link{swap_vanity_urls}()},
-\code{\link{terminate_jobs}()},
-\code{\link{verify_content_name}()}
 
 Other oauth integration functions: 
 \code{\link{create_integration}()},

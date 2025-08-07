@@ -11,7 +11,7 @@
 #' @param x A `Connect` or `Content` R6 object.
 #'
 #' @return A list of class `connect_integration_list`, where each element is a `connect_integration` object
-#'   with the following fields (all character strings unless noted otherwise):
+#'   with the following fields. (Raw API fields are character strings unless noted otherwise):
 #'
 #'   * `id`: The internal identifier of this OAuth integration.
 #'   * `guid`: The GUID of this OAuth integration.
@@ -67,7 +67,7 @@ get_integrations.default <- function(x) {
   stop(
     "Cannot get integrations for an object of class '",
     class(x)[1],
-    "'"
+    "'. 'x' must be a 'Connect' or 'Content' object."
   )
 }
 
@@ -101,7 +101,7 @@ get_integrations.Content <- function(x) {
 #' Convert integrations list to a data frame
 #'
 #' @description
-#' Converts an list returned by [get_integrations()] into a data frame.
+#' Converts a list returned by [get_integrations()] into a data frame.
 #'
 #' @param x A `connect_integration_list` object (from [get_integrations()]).
 #' @param row.names Passed to [base::as.data.frame()].
@@ -145,18 +145,18 @@ as_tibble.connect_integration_list <- function(x, ...) {
 #'
 #' @param x An object to convert to an integration.
 #' @param client The Connect client object where the integration comes from.
-#' @param ... Unused.
 #'
 #' @return An integration object. The object has all the fields from the
 #' integrations endpoint (see [get_integrations()]) and a Connect client as a
 #' `client` attribute (`attr(x, "client")`)
 as_integration <- function(x, client) {
-  if (!inherits(x, "list"))
-  stop(
-    "Cannot convert object of class '",
-    class(x)[1],
-    "' to an integration"
-  )
+  if (!inherits(x, "list")) {
+    stop(
+      "Cannot convert object of class '",
+      class(x)[1],
+      "' to an integration"
+    )
+  }
   structure(x, class = c("connect_integration", "list"), client = client)
 }
 
@@ -207,6 +207,7 @@ print.connect_integration <- function(x, ...) {
 #' @export
 get_integration <- function(client, guid) {
   validate_R6_class(client, "Connect")
+  error_if_less_than(client$version, "2024.12.0")
   as_integration(client$GET(v1_url("oauth", "integrations", guid)), client)
 }
 

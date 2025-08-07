@@ -5,8 +5,6 @@
 \title{Get OAuth associations for a piece of content}
 \usage{
 get_associations(x)
-
-get_associations(x)
 }
 \arguments{
 \item{x}{A \code{Content} object}
@@ -23,25 +21,8 @@ A list of OAuth integration associations. Each association includes details such
 \item \code{oauth_integration_auth_type}: The authentication type (e.g., "Viewer" or "Service Account").
 \item \code{created_time}: The timestamp when the association was created.
 }
-
-A list of OAuth integration associations. Each association includes details such as:
-\itemize{
-\item \code{app_guid}: The content item's GUID (deprecated, use \code{content_guid} instead).
-\item \code{content_guid}: The content item's GUID.
-\item \code{oauth_integration_guid}: The GUID of the OAuth integration.
-\item \code{oauth_integration_name}: The name of the OAuth integration.
-\item \code{oauth_integration_description}: A description of the OAuth integration.
-\item \code{oauth_integration_template}: The template used for this OAuth integration.
-\item \code{oauth_integration_auth_type}: The authentication type (e.g., "Viewer" or "Service Account").
-\item \code{created_time}: The timestamp when the association was created.
-}
 }
 \description{
-Given a \code{Content} object, retrieves a list of its
-OAuth associations. An association contains a content GUID and an association
-GUID, and indicates that the integration can be used by the content when it
-runs.
-
 Given a \code{Content} object, retrieves a list of its
 OAuth associations. An association contains a content GUID and an association
 GUID, and indicates that the integration can be used by the content when it
@@ -62,64 +43,9 @@ my_app_integrations <- purrr::map(
 )
 }
 
-\dontrun{
-client <- connect()
-
-# Get OAuth associations for an app.
-my_app <- content_item(client, "12345678-90ab-cdef-1234-567890abcdef")
-my_app_associations <- get_associations(my_app)
-
-# Given those associations, retrieve the integrations themselves.
-my_app_integrations <- purrr::map(
-  my_app_associations,
-  ~ get_integration(client, .x$oauth_integration_guid)
-)
-}
-
 }
 \seealso{
 \code{\link[=set_integrations]{set_integrations()}}, \code{\link[=get_integrations]{get_integrations()}}, \code{\link[=get_integration]{get_integration()}}
-
-\code{\link[=set_integrations]{set_integrations()}}, \code{\link[=get_integrations]{get_integrations()}}, \code{\link[=get_integration]{get_integration()}}
-
-Other oauth integration functions: 
-\code{\link{create_integration}()},
-\code{\link{delete_integration}()},
-\code{\link{get_integration}()},
-\code{\link{get_integrations}()},
-\code{\link{set_integrations}()},
-\code{\link{update_integration}()}
-
-Other content functions: 
-\code{\link{content_delete}()},
-\code{\link{content_item}()},
-\code{\link{content_title}()},
-\code{\link{content_update}()},
-\code{\link{create_random_name}()},
-\code{\link{dashboard_url}()},
-\code{\link{delete_thumbnail}()},
-\code{\link{delete_vanity_url}()},
-\code{\link{deploy_repo}()},
-\code{\link{get_bundles}()},
-\code{\link{get_environment}()},
-\code{\link{get_image}()},
-\code{\link{get_job}()},
-\code{\link{get_jobs}()},
-\code{\link{get_log}()},
-\code{\link{get_thumbnail}()},
-\code{\link{get_vanity_url}()},
-\code{\link{git}},
-\code{\link{has_thumbnail}()},
-\code{\link{permissions}},
-\code{\link{set_image_path}()},
-\code{\link{set_integrations}()},
-\code{\link{set_run_as}()},
-\code{\link{set_thumbnail}()},
-\code{\link{set_vanity_url}()},
-\code{\link{swap_vanity_url}()},
-\code{\link{swap_vanity_urls}()},
-\code{\link{terminate_jobs}()},
-\code{\link{verify_content_name}()}
 
 Other oauth integration functions: 
 \code{\link{create_integration}()},

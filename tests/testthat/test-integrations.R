@@ -93,13 +93,21 @@ test_that("print.integration produces expected output", {
 })
 
 with_mock_dir("2024.12.0", {
-  test_that("integration creates a single integration", {
+  test_that("get_integration() creates a single integration", {
     client <- Connect$new(server = "https://connect.example", api_key = "fake")
     x <- get_integration(client, "f8688548")
     expect_s3_class(x, "connect_integration")
     expect_equal(x$template, "custom")
     expect_equal(x$guid, "f8688548")
   })
+})
+
+test_that("get_integration() errs with old Connect", {
+  client <- MockConnect$new("2024.11.1")
+  expect_error(
+    get_integration(client, "12345678"),
+    "This feature requires Posit Connect version 2024.12.0 but you are using 2024.11.1"
+  )
 })
 
 test_that("set_integrations() sends expected request", {

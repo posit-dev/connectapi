@@ -10,8 +10,6 @@ as_integration(x, client)
 \item{x}{An object to convert to an integration.}
 
 \item{client}{The Connect client object where the integration comes from.}
-
-\item{...}{Unused.}
 }
 \value{
 An integration object. The object has all the fields from the
