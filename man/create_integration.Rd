@@ -26,7 +26,12 @@ integration. See \code{\link[=get_integration]{get_integration()}} for details o
 \description{
 Creates a new OAuth integration on the Posit Connect server. OAuth integrations
 allow content to access external resources using OAuth credentials.
+
 You must have administrator privileges to perform this action.
+
+See the Posit Connect documentation on
+\href{https://docs.posit.co/connect/admin/integrations/oauth-integrations/}{OAuth integrations} for
+more information.
 }
 \examples{
 \dontrun{

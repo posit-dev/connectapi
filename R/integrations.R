@@ -346,7 +346,12 @@ get_associations <- function(x) {
 #' @description
 #' Creates a new OAuth integration on the Posit Connect server. OAuth integrations
 #' allow content to access external resources using OAuth credentials.
+#'
 #' You must have administrator privileges to perform this action.
+#'
+#' See the Posit Connect documentation on
+#' [OAuth integrations](https://docs.posit.co/connect/admin/integrations/oauth-integrations/) for
+#' more information.
 #'
 #' @param client A `Connect` R6 client object.
 #' @param name A descriptive name to identify the integration.
@@ -423,7 +428,12 @@ create_integration <- function(
 #' @description
 #' Updates an existing OAuth integration. All fields except `integration` are optional,
 #' and are unchanged if not provided.
+#'
 #' You must have administrator privileges to perform this action.
+#'
+#' See the Posit Connect documentation on
+#' [OAuth integrations](https://docs.posit.co/connect/admin/integrations/oauth-integrations/) for
+#' more information.
 #'
 #' @param integration A `connect_integration` object (as returned by [get_integrations()],
 #'   [get_integration()], or [create_integration()]).
@@ -495,7 +505,12 @@ update_integration <- function(
 #' @description
 #' Deletes an OAuth integration from the Posit Connect server. This permanently
 #' removes the integration and any associated content associations.
+#'
 #' You must have administrator privileges to perform this action.
+#'
+#' See the Posit Connect documentation on
+#' [OAuth integrations](https://docs.posit.co/connect/admin/integrations/oauth-integrations/) for
+#' more information.
 #'
 #' @param integration A `connect_integration` object (as returned by [get_integrations()],
 #'   [get_integration()], or [create_integration()]).

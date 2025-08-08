@@ -33,7 +33,12 @@ integration. See \code{\link[=get_integration]{get_integration()}} for details o
 \description{
 Updates an existing OAuth integration. All fields except \code{integration} are optional,
 and are unchanged if not provided.
+
 You must have administrator privileges to perform this action.
+
+See the Posit Connect documentation on
+\href{https://docs.posit.co/connect/admin/integrations/oauth-integrations/}{OAuth integrations} for
+more information.
 }
 \examples{
 \dontrun{

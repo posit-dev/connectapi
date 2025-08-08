@@ -1,27 +1,14 @@
-structure(list(url = "__api__/v1/oauth/integrations", status_code = 400L, 
-    headers = structure(list(date = "Wed, 06 Aug 2025 23:06:37 GMT", 
-        `content-type` = "application/json", `content-length` = "103", 
-        `set-cookie` = "AWSALB=9mN5qlJwx5BLvdRYWDHEJjg7DOZzKW/EG88UrtYfTluTTzuV6cGdvXdvesJWTq3QmWoKGmO6CjIwib30wDgHv7xPqaXHB3OQRrXs9tMhZtst8L+/YCrnJdpmAljL; Expires=Wed, 13 Aug 2025 23:06:37 GMT; Path=/", 
-        `set-cookie` = "AWSALBCORS=9mN5qlJwx5BLvdRYWDHEJjg7DOZzKW/EG88UrtYfTluTTzuV6cGdvXdvesJWTq3QmWoKGmO6CjIwib30wDgHv7xPqaXHB3OQRrXs9tMhZtst8L+/YCrnJdpmAljL; Expires=Wed, 13 Aug 2025 23:06:37 GMT; Path=/; SameSite=None; Secure", 
-        `cache-control` = "no-cache, no-store, must-revalidate", 
-        expires = "0", pragma = "no-cache", server = "Posit Connect v2025.08.0-dev+23-gc5b3d6bdf1", 
-        `x-content-type-options` = "nosniff", `x-correlation-id` = "98227671-62fe-495d-ba88-a2c48c45ca59"), class = c("insensitive", 
-    "list")), all_headers = list(list(status = 400L, version = "HTTP/2", 
-        headers = structure(list(date = "Wed, 06 Aug 2025 23:06:37 GMT", 
-            `content-type` = "application/json", `content-length` = "103", 
-            `set-cookie` = "AWSALB=9mN5qlJwx5BLvdRYWDHEJjg7DOZzKW/EG88UrtYfTluTTzuV6cGdvXdvesJWTq3QmWoKGmO6CjIwib30wDgHv7xPqaXHB3OQRrXs9tMhZtst8L+/YCrnJdpmAljL; Expires=Wed, 13 Aug 2025 23:06:37 GMT; Path=/", 
-            `set-cookie` = "AWSALBCORS=9mN5qlJwx5BLvdRYWDHEJjg7DOZzKW/EG88UrtYfTluTTzuV6cGdvXdvesJWTq3QmWoKGmO6CjIwib30wDgHv7xPqaXHB3OQRrXs9tMhZtst8L+/YCrnJdpmAljL; Expires=Wed, 13 Aug 2025 23:06:37 GMT; Path=/; SameSite=None; Secure", 
-            `cache-control` = "no-cache, no-store, must-revalidate", 
-            expires = "0", pragma = "no-cache", server = "Posit Connect v2025.08.0-dev+23-gc5b3d6bdf1", 
-            `x-content-type-options` = "nosniff", `x-correlation-id` = "98227671-62fe-495d-ba88-a2c48c45ca59"), class = c("insensitive", 
-        "list")))), cookies = structure(list(domain = c("dogfood.team.pct.posit.it", 
-    "dogfood.team.pct.posit.it"), flag = c(FALSE, FALSE), path = c("/", 
-    "/"), secure = c(FALSE, TRUE), expiration = structure(c(1755126397, 
-    1755126397), class = c("POSIXct", "POSIXt")), name = c("AWSALB", 
-    "AWSALBCORS"), value = c("9mN5qlJwx5BLvdRYWDHEJjg7DOZzKW/EG88UrtYfTluTTzuV6cGdvXdvesJWTq3QmWoKGmO6CjIwib30wDgHv7xPqaXHB3OQRrXs9tMhZtst8L+/YCrnJdpmAljL", 
-    "9mN5qlJwx5BLvdRYWDHEJjg7DOZzKW/EG88UrtYfTluTTzuV6cGdvXdvesJWTq3QmWoKGmO6CjIwib30wDgHv7xPqaXHB3OQRrXs9tMhZtst8L+/YCrnJdpmAljL"
-    )), row.names = c(NA, -2L), class = "data.frame"), content = charToRaw("{\"code\":228,\"error\":\"The config key max_role must be one of (Viewer, Publisher, Admin)\",\"payload\":null}"), 
-    date = structure(1754521597, class = c("POSIXct", "POSIXt"
-    ), tzone = "GMT"), times = c(redirect = 0, namelookup = 0, 
-    connect = 0, pretransfer = 0.000177, starttransfer = 0.132928, 
-    total = 0.133044)), class = "response")
+structure(
+  list(
+    url = "__api__/v1/oauth/integrations",
+    status_code = 400L,
+    headers = structure(
+      list(`content-type` = "application/json"),
+      class = c("insensitive", "list")
+    ),
+    content = charToRaw(
+      "{\"code\":228,\"error\":\"The config key max_role must be one of (Viewer, Publisher, Admin)\",\"payload\":null}"
+    )
+  ),
+  class = "response"
+)

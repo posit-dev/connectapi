@@ -16,7 +16,12 @@ Returns \code{NULL} invisibly if successful.
 \description{
 Deletes an OAuth integration from the Posit Connect server. This permanently
 removes the integration and any associated content associations.
+
 You must have administrator privileges to perform this action.
+
+See the Posit Connect documentation on
+\href{https://docs.posit.co/connect/admin/integrations/oauth-integrations/}{OAuth integrations} for
+more information.
 }
 \examples{
 \dontrun{
