@@ -93,7 +93,7 @@ test_that("print.integration produces expected output", {
 })
 
 with_mock_dir("2024.12.0", {
-  test_that("get_integration() creates a single integration", {
+  test_that("get_integration() gets a single integration", {
     client <- Connect$new(server = "https://connect.example", api_key = "fake")
     x <- get_integration(client, "f8688548")
     expect_s3_class(x, "connect_integration")
