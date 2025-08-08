@@ -107,10 +107,6 @@ compose_find_hosts <- function(prefix) {
   ports <- sub(".*0\\.0\\.0\\.0:([0-9]+)->3939.*", "\\1", containers)
   cat_line(glue::glue("docker: got ports {ports[1]} and {ports[2]}"))
 
-  # TODO: make this silly sleep more savvy
-  cat_line("connect: sleeping - waiting for connect to start")
-  Sys.sleep(10)
-
   paste0("http://localhost:", ports)
 }
 
@@ -139,7 +135,9 @@ update_renviron_creds <- function(
     "{prefix}_API_KEY={api_key}",
     .sep = "\n"
   )
-  if (!fs::file_exists(.file)) fs::file_touch(.file)
+  if (!fs::file_exists(.file)) {
+    fs::file_touch(.file)
+  }
   writeLines(output_environ, .file)
   invisible()
 }
@@ -163,6 +161,36 @@ build_test_env <- function(
   # It was ci_connect before but it's ci-connect on my machine now;
   # this is a regex so it will match either
   hosts <- compose_find_hosts(prefix = "ci.connect")
+
+  wait_for_connect_ready <- function(host, timeout = 120) {
+    client <- HackyConnect$new(server = host, api_key = NULL)
+    start_time <- Sys.time()
+    last_msg <- start_time
+    ping_url <- client$server_url("__ping__")
+
+    while (
+      as.numeric(difftime(Sys.time(), start_time, units = "secs")) < timeout
+    ) {
+      ok <- try(
+        {
+          res <- client$GET(url = client$server_url("__ping__"), parser = NULL)
+          httr::status_code(res) == 200
+        }
+      )
+      if (isTRUE(ok)) {
+        return(invisible(TRUE))
+      }
+      if (difftime(Sys.time(), last_msg, units = "secs") >= 5) {
+        cat_line(glue::glue("waiting for {ping_url} ..."))
+        last_msg <- Sys.time()
+      }
+      Sys.sleep(1)
+    }
+    stop("Connect did not become ready in time: ", ping_url)
+  }
+
+  wait_for_connect_ready(hosts[1])
+  wait_for_connect_ready(hosts[2])
 
   cat_line("connect: creating first admin...")
   a1 <- create_first_admin(

@@ -48,9 +48,12 @@ my_app_integrations <- purrr::map(
 \code{\link[=set_integrations]{set_integrations()}}, \code{\link[=get_integrations]{get_integrations()}}, \code{\link[=get_integration]{get_integration()}}
 
 Other oauth integration functions: 
+\code{\link{create_integration}()},
+\code{\link{delete_integration}()},
 \code{\link{get_integration}()},
 \code{\link{get_integrations}()},
-\code{\link{set_integrations}()}
+\code{\link{set_integrations}()},
+\code{\link{update_integration}()}
 
 Other content functions: 
 \code{\link{content_delete}()},

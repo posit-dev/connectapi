@@ -72,6 +72,9 @@ reference:
       - get_associations
       - get_oauth_credentials
       - get_oauth_content_credentials
+      - create_integration
+      - update_integration
+      - delete_integration
 
   - title: "Reporting"
     desc: >

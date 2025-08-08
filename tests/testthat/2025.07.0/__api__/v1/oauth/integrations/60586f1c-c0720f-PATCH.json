@@ -1,0 +1,13 @@
+{
+    "id": "77",
+    "guid": "60586f1c",
+    "created_time": "2025-08-06T23:06:42Z",
+    "updated_time": "2025-08-06T23:06:58Z",
+    "name": "Connect API Integration",
+    "description": "Improved description too, and now Viewer role",
+    "template": "connect",
+    "auth_type": "Visitor API Key",
+    "config": {
+        "max_role": "Viewer"
+    }
+}
