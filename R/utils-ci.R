@@ -162,7 +162,7 @@ build_test_env <- function(
   # this is a regex so it will match either
   hosts <- compose_find_hosts(prefix = "ci.connect")
 
-  wait_for_connect_ready <- function(host, timeout = 60) {
+  wait_for_connect_ready <- function(host, timeout = 120) {
     client <- HackyConnect$new(server = host, api_key = NULL)
     start_time <- Sys.time()
     last_msg <- start_time
