@@ -163,19 +163,19 @@ build_test_env <- function(
   hosts <- compose_find_hosts(prefix = "ci.connect")
 
   wait_for_connect_ready <- function(host, timeout = 60) {
-    ping_url <- paste0(host, "/__ping__")
+    client <- HackyConnect$new(server = host, api_key = NULL)
     start_time <- Sys.time()
     last_msg <- start_time
+    ping_url <- client$server_url("__ping__")
 
     while (
       as.numeric(difftime(Sys.time(), start_time, units = "secs")) < timeout
     ) {
       ok <- try(
         {
-          res <- httr::GET(ping_url, httr::timeout(5))
+          res <- client$GET(url = client$server_url("__ping__"), parser = NULL)
           httr::status_code(res) == 200
-        },
-        silent = TRUE
+        }
       )
       if (isTRUE(ok)) {
         return(invisible(TRUE))
