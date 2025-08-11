@@ -285,3 +285,23 @@ with_mock_dir("2025.07.0", {
     expect_null(delete_integration(created))
   })
 })
+
+with_mock_dir("2025.07.0", {
+  test_that("get_content_list() gets content items for integration", {
+    client <- Connect$new(server = "https://connect.example", api_key = "fake")
+    integration <- get_integration(client, "0000001")
+    result <- get_content_list(integration)
+    expect_equal(length(result), 1)
+    expect_true(validate_R6_class(result[[1]], "Content"))
+    expect_equal(result[[1]]$content$name, "fake-app-2000")
+  })
+})
+
+test_that("get_content_list() errs with too-old Connect", {
+  client <- MockConnect$new("2024.11.1")
+  client$version
+  expect_error(
+    get_integrations(client),
+    "This feature requires Posit Connect version 2024.12.0 but you are using 2024.11.1"
+  )
+})

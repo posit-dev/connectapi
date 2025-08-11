@@ -286,6 +286,57 @@ set_integrations <- function(content, integrations) {
   invisible(NULL)
 }
 
+
+#' Get content items using an OAuth integration
+#'
+#' @description
+#' Retrieves a list of content items that are associated with a specific OAuth
+#' integration.
+#'
+#' You must have administrator privileges to use this function.
+#'
+#' @param x A `connect_integration` object (as returned by [get_integrations()],
+#'   [get_integration()], [create_integration()], or [update_integration()]).
+#'
+#' @return A list of `Content` R6 objects representing all pieces of content
+#' that use the specified OAuth integration. See [content_item()] for details
+#' on the object.
+#'
+#' @seealso
+#' [get_integrations()], [get_integration()], [get_associations()],
+#' [content_item()]
+#'
+#' @examples
+#' \dontrun{
+#' client <- connect()
+#'
+#' # Get an integration
+#' integration <- get_integration(client, "12345678-90ab-cdef-1234-567890abcdef")
+#'
+#' # Find all content using this integration
+#' content_using_integration <- get_content_list(integration)
+#' }
+#'
+#' @family oauth integration functions
+#' @export
+get_content_list <- function(x) {
+  if (!inherits(x, "connect_integration")) {
+    stop("'x' must be a 'connect_integration' object")
+  }
+  client <- attr(x, "client")
+  error_if_less_than(client$version, "2024.12.0")
+  assoc <- client$GET(v1_url(
+    "oauth",
+    "integrations",
+    x$guid,
+    "associations"
+  ))
+  purrr::map(
+    assoc,
+    ~ content_item(client, .x$content_guid)
+  )
+}
+
 #' Get OAuth associations for a piece of content
 #'
 #' @description

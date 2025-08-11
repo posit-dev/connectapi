@@ -74,6 +74,7 @@ custom_integration <- create_integration(
 Other oauth integration functions: 
 \code{\link{delete_integration}()},
 \code{\link{get_associations}()},
+\code{\link{get_content_list}()},
 \code{\link{get_integration}()},
 \code{\link{get_integrations}()},
 \code{\link{set_integrations}()},

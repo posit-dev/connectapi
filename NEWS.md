@@ -9,6 +9,8 @@
 - New functions allow you to manage the OAuth integrations on your Connect
   server: `create_integration()`, `update_integration()` and
   `delete_integration()`. (#434)
+- New `get_content_list()` function retrieves a list of content items associated with
+  a specific OAuth integration. (#433)
 
 # connectapi 0.8.0
 
