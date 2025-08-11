@@ -6,6 +6,9 @@
   from a Connect server. (#431)
 - `get_integrations()` can now be passed a `Content` class object to retrieve a
   list of integrations associated with that piece of content. (#432)
+- New functions allow you to manage the OAuth integrations on your Connect
+  server: `create_integration()`, `update_integration()` and
+  `delete_integration()`. (#434)
 
 # connectapi 0.8.0
 

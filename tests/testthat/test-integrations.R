@@ -3,7 +3,6 @@ with_mock_dir("2024.12.0", {
     client <- Connect$new(server = "https://connect.example", api_key = "fake")
     integrations <- get_integrations(client)
     expect_s3_class(integrations, "connect_integration_list")
-
     expect_equal(integrations[[1]]$name, "GitHub Integration")
     expect_equal(integrations[[2]]$updated_time, "2025-03-25T19:07:01Z")
     expect_equal(integrations[[1]]$config$client_id, "client_id_123")
@@ -48,6 +47,7 @@ test_that("get_integrations() errs on older Connect versions", {
 })
 
 test_that("as_integration correctly converts lists to integration objects", {
+  client <- MockConnect$new("2024.11.1")
   valid_integration <- list(
     id = "123",
     guid = "abc-123",
@@ -60,9 +60,10 @@ test_that("as_integration correctly converts lists to integration objects", {
     config = list(client_id = "client_id")
   )
 
-  result <- as_integration(valid_integration)
+  result <- as_integration(valid_integration, client)
   expect_s3_class(result, "connect_integration")
   expect_identical(result$guid, valid_integration$guid)
+  expect_identical(attr(result, "client"), client)
 })
 
 test_that("as_integration.default errors on non-list input", {
@@ -92,13 +93,21 @@ test_that("print.integration produces expected output", {
 })
 
 with_mock_dir("2024.12.0", {
-  test_that("integration creates a single integration", {
+  test_that("get_integration() gets a single integration", {
     client <- Connect$new(server = "https://connect.example", api_key = "fake")
     x <- get_integration(client, "f8688548")
     expect_s3_class(x, "connect_integration")
     expect_equal(x$template, "custom")
     expect_equal(x$guid, "f8688548")
   })
+})
+
+test_that("get_integration() errs with old Connect", {
+  client <- MockConnect$new("2024.11.1")
+  expect_error(
+    get_integration(client, "12345678"),
+    "This feature requires Posit Connect version 2024.12.0 but you are using 2024.11.1"
+  )
 })
 
 test_that("set_integrations() sends expected request", {
@@ -181,4 +190,98 @@ test_that("get_integrations() fails when provided the wrong class", {
     get_integrations(list()),
     "Cannot get integrations for an object of class 'list'"
   )
+})
+
+with_mock_dir("2025.07.0", {
+  client <- Connect$new(server = "https://connect.example", api_key = "fake")
+
+  test_that("create_integration() with bad data returns an error", {
+    expect_error(
+      create_integration(
+        client,
+        name = "Connect API Integration",
+        description = "Authenticate against the Connect API, but only as a publisher",
+        template = "connect",
+        config = list(
+          max_role = "Not a Role"
+        )
+      ),
+      "The config key max_role must be one of \\(Viewer, Publisher, Admin\\)"
+    )
+  })
+
+  test_that("create_integration() with good data creates an integration", {
+    created <- create_integration(
+      client,
+      name = "Connect API Integration",
+      description = "Authenticate against the Connect API, but only as a publisher",
+      template = "connect",
+      config = list(
+        max_role = "Publisher"
+      )
+    )
+    expect_s3_class(created, "connect_integration")
+    expect_equal(created$guid, "60586f1c")
+    expect_equal(created$name, "Connect API Integration")
+    expect_equal(created$config$max_role, "Publisher")
+  })
+
+  test_that("update_integration() with bad data returns an error", {
+    created <- create_integration(
+      client,
+      name = "Connect API Integration",
+      description = "Authenticate against the Connect API, but only as a publisher",
+      template = "connect",
+      config = list(
+        max_role = "Publisher"
+      )
+    )
+
+    expect_error(
+      update_integration(
+        created,
+        config = list(
+          max_role = "Not a Role"
+        )
+      ),
+      "The config key max_role must be one of \\(Viewer, Publisher, Admin\\)"
+    )
+  })
+
+  test_that("update_integration() with good data returns an integration object", {
+    created <- create_integration(
+      client,
+      name = "Connect API Integration",
+      description = "Authenticate against the Connect API, but only as a publisher",
+      template = "connect",
+      config = list(
+        max_role = "Publisher"
+      )
+    )
+    updated <- update_integration(
+      created,
+      description = "Improved description too, and now Viewer role",
+      config = list(max_role = "Viewer")
+    )
+    expect_s3_class(created, "connect_integration")
+    expect_equal(updated$guid, "60586f1c")
+    expect_equal(
+      updated$description,
+      "Improved description too, and now Viewer role"
+    )
+    expect_equal(updated$config$max_role, "Viewer")
+  })
+
+  test_that("delete_integration() returns NULL on success", {
+    created <- create_integration(
+      client,
+      name = "Connect API Integration",
+      description = "Authenticate against the Connect API, but only as a publisher",
+      template = "connect",
+      config = list(
+        max_role = "Publisher"
+      )
+    )
+    expect_null(delete_integration(created))
+  })
 })

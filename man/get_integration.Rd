@@ -46,8 +46,11 @@ x <- get_integration(client, guid)
 \code{\link[=get_integrations]{get_integrations()}}, \code{\link[=get_associations]{get_associations()}}, \code{\link[=set_integrations]{set_integrations()}}
 
 Other oauth integration functions: 
+\code{\link{create_integration}()},
+\code{\link{delete_integration}()},
 \code{\link{get_associations}()},
 \code{\link{get_integrations}()},
-\code{\link{set_integrations}()}
+\code{\link{set_integrations}()},
+\code{\link{update_integration}()}
 }
 \concept{oauth integration functions}
