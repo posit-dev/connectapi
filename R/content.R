@@ -1434,3 +1434,28 @@ get_content_packages <- function(content) {
   res <- content$packages()
   parse_connectapi_typed(res, connectapi_ptypes$content_packages)
 }
+
+search_content <- function(client, terms = character()) {
+  path <- v1_url("search", "content")
+
+  page_size <- 500
+  limit <- Inf
+
+  search_query <- terms
+
+  query <- list(
+    page_number = 1,
+    page_size = page_size,
+    include = "owner,vanity_url"
+  )
+
+  if (length(search_query) > 0) {
+    query["q"] <- search_query
+  }
+
+  page_offset(
+    client,
+    client$GET(path, query = query),
+    limit = limit
+  )
+}
