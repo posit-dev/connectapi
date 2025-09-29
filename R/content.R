@@ -1435,7 +1435,7 @@ get_content_packages <- function(content) {
   parse_connectapi_typed(res, connectapi_ptypes$content_packages)
 }
 
-search_content <- function(client, terms = character()) {
+search_content <- function(client, q = NULL, include = "owner,vanity_url", limit = Inf, page_size = 500, page_number = 1, ...) {
   path <- v1_url("search", "content")
 
   page_size <- 500
