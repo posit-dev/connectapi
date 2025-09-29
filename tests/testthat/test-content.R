@@ -466,3 +466,55 @@ test_that("get_content_packages() gets packages", {
     )
   })
 })
+
+# content search ----
+
+with_mock_dir("2025.09.0", {
+  client <- Connect$new(
+    server = "https://connect.example",
+    api_key = "not-a-key"
+  )
+
+  test_that("content search returns the expected list of content", {
+    res <- search_content(client, q = "sea bream")
+    expect_equal(
+      purrr::map_chr(res$results, "owner_guid"),
+      c("c2250bb4", "c2250bb4")
+    )
+    expect_equal(
+      purrr::map_chr(res$results, "title"),
+      c("sea bream report", "sea bream dashboard")
+    )
+  })
+
+  test_that("content search passes all parameters through correctly", {
+    without_internet(
+      expect_GET(
+        search_content(
+          client,
+          q = "bream",
+          include = "owner",
+          page_number = 2,
+          page_size = 5
+        ),
+        "https://connect.example/__api__/v1/search/content?q=bream&page_number=2&page_size=5&include=owner"
+      )
+    )
+  })
+})
+
+test_that("content search errors on Connect < 2024.04.0", {
+  client <- MockConnect$new("2024.04.0")
+  client$mock_response(
+    "GET",
+    "v1/search/content",
+    content = list()
+  )
+  expect_no_error(search_content(client))
+
+  client <- MockConnect$new("2024.03.0")
+  expect_error(
+    search_content(client),
+    "ERROR: This feature requires Posit Connect version 2024.04.0 but you are using 2024.03.0."
+  )
+})
