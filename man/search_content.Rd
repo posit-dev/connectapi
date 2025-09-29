@@ -34,8 +34,13 @@ both are included by default.}
 \item{...}{Extra arguments. Currently not used.}
 }
 \value{
-A list of lists. Each sub-list represents a piece of content on the Connect
-server and contains the following fields.
+A list containing sub-fields:
+\itemize{
+\item \code{total}: The total number of results.
+\item \code{results}: A list of lists representing content items on Connect.
+}
+
+Each piece of content contains the following fields:
 \itemize{
 \item \code{guid}: The unique identifier of this content item.
 \item \code{name}: A simple, URL-friendly identifier. Allows alpha-numeric

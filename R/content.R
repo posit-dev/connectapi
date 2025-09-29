@@ -1453,8 +1453,11 @@ get_content_packages <- function(content) {
 #' @param ... Extra arguments. Currently not used.
 #'
 #' @return
-#' A list of lists. Each sub-list represents a piece of content on the Connect
-#' server and contains the following fields.
+#' A list containing sub-fields:
+#'   * `total`: The total number of results.
+#'   * `results`: A list of lists representing content items on Connect.
+#'
+#' Each piece of content contains the following fields:
 #'   * `guid`: The unique identifier of this content item.
 #'   * `name`: A simple, URL-friendly identifier. Allows alpha-numeric
 #'     characters, hyphens ("-"), and underscores ("_").
