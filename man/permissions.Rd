@@ -84,6 +84,7 @@ Other content functions:
 \code{\link{get_vanity_url}()},
 \code{\link{git}},
 \code{\link{has_thumbnail}()},
+\code{\link{search_content}()},
 \code{\link{set_image_path}()},
 \code{\link{set_integrations}()},
 \code{\link{set_run_as}()},
