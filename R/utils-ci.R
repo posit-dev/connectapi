@@ -162,7 +162,7 @@ build_test_env <- function(
   # this is a regex so it will match either
   hosts <- compose_find_hosts(prefix = "ci.connect")
 
-  wait_for_connect_ready <- function(host, timeout = 120, container_name = NULL) {
+  wait_for_connect_ready <- function(host, container_name, timeout = 120) {
     client <- HackyConnect$new(server = host, api_key = NULL)
     start_time <- Sys.time()
     last_msg <- start_time
@@ -190,20 +190,32 @@ build_test_env <- function(
 
     # Before failing, capture diagnostics
     cat_line("Connect did not become ready in time. Capturing diagnostics...")
-    if (!is.null(container_name)) {
-      cat_line(glue::glue("=== Docker logs for {container_name} ==="))
-      logs <- try(system2("docker", c("logs", "--tail", "100", container_name),
-                          stdout = TRUE, stderr = TRUE), silent = TRUE)
-      if (!inherits(logs, "try-error")) {
-        cat(logs, sep = "\n")
-      }
+    cat_line(glue::glue("=== Docker logs for {container_name} ==="))
+    logs <- try(
+      system2(
+        "docker",
+        c("logs", "--tail", "100", container_name),
+        stdout = TRUE,
+        stderr = TRUE
+      ),
+      silent = TRUE
+    )
+    if (!inherits(logs, "try-error")) {
+      cat(logs, sep = "\n")
+    }
 
-      cat_line(glue::glue("=== Docker inspect for {container_name} ==="))
-      inspect <- try(system2("docker", c("inspect", container_name),
-                             stdout = TRUE, stderr = TRUE), silent = TRUE)
-      if (!inherits(inspect, "try-error")) {
-        cat(inspect, sep = "\n")
-      }
+    cat_line(glue::glue("=== Docker inspect for {container_name} ==="))
+    inspect <- try(
+      system2(
+        "docker",
+        c("inspect", container_name),
+        stdout = TRUE,
+        stderr = TRUE
+      ),
+      silent = TRUE
+    )
+    if (!inherits(inspect, "try-error")) {
+      cat(inspect, sep = "\n")
     }
 
     stop("Connect did not become ready in time: ", ping_url)
