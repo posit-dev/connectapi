@@ -166,7 +166,6 @@ build_test_env <- function(
     client <- HackyConnect$new(server = host, api_key = NULL)
     start_time <- Sys.time()
     last_msg <- start_time
-    last_health_check <- start_time
     ping_url <- client$server_url("__ping__")
 
     # Give Connect a few seconds to start before first ping attempt
@@ -188,19 +187,6 @@ build_test_env <- function(
       if (difftime(Sys.time(), last_msg, units = "secs") >= 5) {
         cat_line(glue::glue("waiting for {ping_url} ..."))
         last_msg <- Sys.time()
-      }
-      # Every 30 seconds, check if container is still running
-      if (!is.null(container_name) &&
-          difftime(Sys.time(), last_health_check, units = "secs") >= 30) {
-        status <- try(system2("docker", c("ps", "-f", paste0("name=", container_name),
-                                          "--format", "{{.Status}}"),
-                              stdout = TRUE, stderr = TRUE), silent = TRUE)
-        if (!inherits(status, "try-error") && length(status) > 0) {
-          cat_line(glue::glue("Container {container_name} status: {status}"))
-        } else {
-          cat_line(glue::glue("WARNING: Container {container_name} may not be running!"))
-        }
-        last_health_check <- Sys.time()
       }
       Sys.sleep(1)
     }
