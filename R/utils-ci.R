@@ -166,38 +166,43 @@ build_test_env <- function(
     cat_line("Connect did not become ready in time. Capturing diagnostics...")
     cat_line(glue::glue("=== Docker logs for {container_name} ==="))
     try(
-    {
-      logs <- system2(
-        "docker",
-        c("logs", "--tail", "100", container_name),
-        stdout = TRUE,
-        stderr = TRUE
-      )
-      cat(logs, sep = "\n")
-    },
-    silent = TRUE
+      {
+        logs <- system2(
+          "docker",
+          c("logs", "--tail", "100", container_name),
+          stdout = TRUE,
+          stderr = TRUE
+        )
+        cat(logs, sep = "\n")
+      },
+      silent = TRUE
     )
 
     cat_line(glue::glue("=== Docker inspect for {container_name} ==="))
     try(
-    {
-      inspect <- system2(
-        "docker",
-        c("inspect", container_name),
-        stdout = TRUE,
-        stderr = TRUE
-      )
-      cat(inspect, sep = "\n")
-    },
-    silent = TRUE
+      {
+        inspect <- system2(
+          "docker",
+          c("inspect", container_name),
+          stdout = TRUE,
+          stderr = TRUE
+        )
+        cat(inspect, sep = "\n")
+      },
+      silent = TRUE
     )
-
 
     stop("Connect did not become ready in time: ", ping_url)
   }
 
-  wait_for_connect_ready(container_info$hosts[1], container_name = container_info$container_names[1])
-  wait_for_connect_ready(container_info$hosts[2], container_name = container_info$container_names[2])
+  wait_for_connect_ready(
+    container_info$hosts[1],
+    container_name = container_info$container_names[1]
+  )
+  wait_for_connect_ready(
+    container_info$hosts[2],
+    container_name = container_info$container_names[2]
+  )
 
   cat_line("connect: creating first admin...")
   a1 <- create_first_admin(
