@@ -56,6 +56,7 @@ Other content functions:
 \code{\link{git}},
 \code{\link{has_thumbnail}()},
 \code{\link{permissions}},
+\code{\link{search_content}()},
 \code{\link{set_integrations}()},
 \code{\link{set_run_as}()},
 \code{\link{set_thumbnail}()},

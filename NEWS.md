@@ -9,6 +9,7 @@
 - New functions allow you to manage the OAuth integrations on your Connect
   server: `create_integration()`, `update_integration()` and
   `delete_integration()`. (#434)
+- Support content search API with the `search_content()` function. (#272)
 
 # connectapi 0.8.0
 
