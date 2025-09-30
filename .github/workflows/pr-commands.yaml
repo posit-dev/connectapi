@@ -31,13 +31,11 @@ jobs:
           needs: coverage
 
       - name: Set up license file
-        run: |
-          echo "$CONNECT_LICENSE_FILE" > /tmp/connect.lic
-          echo "RSC_LICENSE=/tmp/connect.lic" >> $GITHUB_ENV
+        run: echo "$CONNECT_LICENSE_FILE" > /tmp/connect.lic
 
       - name: Setup test environment
         run: |
-          connectapi:::build_test_env()
+          connectapi:::build_test_env(connect_license_path = "/tmp/connect.lic")
         shell: Rscript {0}
 
       - uses: r-lib/actions/check-r-package@v2

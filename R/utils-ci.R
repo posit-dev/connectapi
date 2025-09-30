@@ -1,33 +1,5 @@
 # nocov start
 
-# TODO: A nicer way to execute these system commands...
-# - debug output... better error handling... etc.
-
-determine_license_env <- function(license) {
-  if (fs::file_exists(license) && fs::path_ext(license) == "lic") {
-    # Docker needs this to be an absolute path
-    license <- fs::path_abs(license)
-    cat_line("determine_license: looks like a license file")
-    return(list(
-      type = "file",
-      cmd_params = c(
-        "-v",
-        paste0(license, ":/var/lib/rstudio-connect/license.lic")
-      ),
-      env_params = c(RSC_LICENSE_FILE = license)
-    ))
-  } else {
-    cat_line("determine_license: looks like a license key")
-    return(list(
-      type = "key",
-      cmd_params = c(),
-      env_params = c(
-        RSC_LICENSE = license
-      )
-    ))
-  }
-}
-
 version_to_docker_tag <- function(version) {
   # Prior to 2022.09.0, the plain version number was the tag
   # After, it's "<ubuntu-codename>-<version>"
@@ -49,27 +21,25 @@ version_to_docker_tag <- function(version) {
 }
 
 compose_start <- function(
-  connect_license = Sys.getenv("RSC_LICENSE"),
+  connect_license_path,
   connect_version,
   clean = TRUE
 ) {
   warn_dire("compose_start")
   scoped_dire_silence()
 
-  stopifnot(nchar(connect_license) > 0)
+  stopifnot(fs::file_exists(connect_license_path))
+  connect_license_path <- fs::path_abs(connect_license_path)
 
-  license_details <- determine_license_env(connect_license)
-  compose_file <- switch(
-    license_details$type,
-    "file" = "ci/test-connect-lic.yml",
-    "ci/test-connect.yml"
+  compose_file_path <- system.file(
+    "ci/test-connect-lic.yml",
+    package = "connectapi"
   )
 
-  compose_file_path <- system.file(compose_file, package = "connectapi")
   env_vars <- c(
     CONNECT_VERSION = version_to_docker_tag(connect_version),
     PATH = Sys.getenv("PATH"),
-    license_details$env_params
+    RSC_LICENSE_FILE = connect_license_path
   )
   # system2 needs a character vector of name=value
   env_vars <- paste(names(env_vars), env_vars, sep = "=")
@@ -143,7 +113,7 @@ update_renviron_creds <- function(
 }
 
 build_test_env <- function(
-  connect_license = Sys.getenv("RSC_LICENSE"),
+  connect_license_path,
   clean = TRUE,
   username = "admin",
   password = "admin0",
@@ -153,7 +123,7 @@ build_test_env <- function(
   scoped_dire_silence()
 
   compose_start(
-    connect_license = connect_license,
+    connect_license_path = connect_license_path,
     clean = clean,
     connect_version = connect_version
   )

@@ -36,13 +36,11 @@ jobs:
           needs: website
 
       - name: Set up license file
-        run: |
-          echo "$CONNECT_LICENSE_FILE" > /tmp/connect.lic
-          echo "RSC_LICENSE=/tmp/connect.lic" >> $GITHUB_ENV
+        run: echo "$CONNECT_LICENSE_FILE" > /tmp/connect.lic
 
       - name: Start Connect
         run: |
-          Rscript -e 'connectapi:::build_test_env()'
+          Rscript -e 'connectapi:::build_test_env(connect_license_path = "/tmp/connect.lic")'
 
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
