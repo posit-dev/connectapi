@@ -75,9 +75,13 @@ compose_find_hosts <- function(prefix) {
 
   containers <- grep(prefix, docker_ps_output, value = TRUE)
   ports <- sub(".*0\\.0\\.0\\.0:([0-9]+)->3939.*", "\\1", containers)
+  container_names <- sub(".*\\s+([^ ]+)$", "\\1", containers)
   cat_line(glue::glue("docker: got ports {ports[1]} and {ports[2]}"))
 
-  paste0("http://localhost:", ports)
+  list(
+    hosts = paste0("http://localhost:", ports),
+    container_names = container_names
+  )
 }
 
 
@@ -130,7 +134,7 @@ build_test_env <- function(
 
   # It was ci_connect before but it's ci-connect on my machine now;
   # this is a regex so it will match either
-  hosts <- compose_find_hosts(prefix = "ci.connect")
+  container_info <- compose_find_hosts(prefix = "ci.connect")
 
   wait_for_connect_ready <- function(host, container_name, timeout = 120) {
     client <- HackyConnect$new(server = host, api_key = NULL)
@@ -192,18 +196,18 @@ build_test_env <- function(
     stop("Connect did not become ready in time: ", ping_url)
   }
 
-  wait_for_connect_ready(hosts[1], container_name = "ci-connect-1")
-  wait_for_connect_ready(hosts[2], container_name = "ci-connect-2")
+  wait_for_connect_ready(container_info$hosts[1], container_name = container_info$container_names[1])
+  wait_for_connect_ready(container_info$hosts[2], container_name = container_info$container_names[2])
 
   cat_line("connect: creating first admin...")
   a1 <- create_first_admin(
-    hosts[1],
+    container_info$hosts[1],
     "admin",
     "admin0",
     "admin@example.com"
   )
   a2 <- create_first_admin(
-    hosts[2],
+    container_info$hosts[2],
     "admin",
     "admin0",
     "admin@example.com"
