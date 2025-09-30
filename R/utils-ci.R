@@ -161,32 +161,33 @@ build_test_env <- function(
     # Before failing, capture diagnostics
     cat_line("Connect did not become ready in time. Capturing diagnostics...")
     cat_line(glue::glue("=== Docker logs for {container_name} ==="))
-    logs <- try(
-      system2(
+    try(
+    {
+      logs <- system2(
         "docker",
         c("logs", "--tail", "100", container_name),
         stdout = TRUE,
         stderr = TRUE
-      ),
-      silent = TRUE
-    )
-    if (!inherits(logs, "try-error")) {
+      )
       cat(logs, sep = "\n")
-    }
+    },
+    silent = TRUE
+    )
 
     cat_line(glue::glue("=== Docker inspect for {container_name} ==="))
-    inspect <- try(
-      system2(
+    try(
+    {
+      inspect <- system2(
         "docker",
         c("inspect", container_name),
         stdout = TRUE,
         stderr = TRUE
-      ),
-      silent = TRUE
-    )
-    if (!inherits(inspect, "try-error")) {
+      )
       cat(inspect, sep = "\n")
-    }
+    },
+    silent = TRUE
+    )
+
 
     stop("Connect did not become ready in time: ", ping_url)
   }
