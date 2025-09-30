@@ -162,11 +162,15 @@ build_test_env <- function(
   # this is a regex so it will match either
   hosts <- compose_find_hosts(prefix = "ci.connect")
 
-  wait_for_connect_ready <- function(host, timeout = 120) {
+  wait_for_connect_ready <- function(host, timeout = 120, container_name = NULL) {
     client <- HackyConnect$new(server = host, api_key = NULL)
     start_time <- Sys.time()
     last_msg <- start_time
+    last_health_check <- start_time
     ping_url <- client$server_url("__ping__")
+
+    # Give Connect a few seconds to start before first ping attempt
+    Sys.sleep(3)
 
     while (
       as.numeric(difftime(Sys.time(), start_time, units = "secs")) < timeout
@@ -175,7 +179,8 @@ build_test_env <- function(
         {
           res <- client$GET(url = client$server_url("__ping__"), parser = NULL)
           httr::status_code(res) == 200
-        }
+        },
+        silent = TRUE
       )
       if (isTRUE(ok)) {
         return(invisible(TRUE))
@@ -184,13 +189,45 @@ build_test_env <- function(
         cat_line(glue::glue("waiting for {ping_url} ..."))
         last_msg <- Sys.time()
       }
+      # Every 30 seconds, check if container is still running
+      if (!is.null(container_name) &&
+          difftime(Sys.time(), last_health_check, units = "secs") >= 30) {
+        status <- try(system2("docker", c("ps", "-f", paste0("name=", container_name),
+                                          "--format", "{{.Status}}"),
+                              stdout = TRUE, stderr = TRUE), silent = TRUE)
+        if (!inherits(status, "try-error") && length(status) > 0) {
+          cat_line(glue::glue("Container {container_name} status: {status}"))
+        } else {
+          cat_line(glue::glue("WARNING: Container {container_name} may not be running!"))
+        }
+        last_health_check <- Sys.time()
+      }
       Sys.sleep(1)
     }
+
+    # Before failing, capture diagnostics
+    cat_line("Connect did not become ready in time. Capturing diagnostics...")
+    if (!is.null(container_name)) {
+      cat_line(glue::glue("=== Docker logs for {container_name} ==="))
+      logs <- try(system2("docker", c("logs", "--tail", "100", container_name),
+                          stdout = TRUE, stderr = TRUE), silent = TRUE)
+      if (!inherits(logs, "try-error")) {
+        cat(logs, sep = "\n")
+      }
+
+      cat_line(glue::glue("=== Docker inspect for {container_name} ==="))
+      inspect <- try(system2("docker", c("inspect", container_name),
+                             stdout = TRUE, stderr = TRUE), silent = TRUE)
+      if (!inherits(inspect, "try-error")) {
+        cat(inspect, sep = "\n")
+      }
+    }
+
     stop("Connect did not become ready in time: ", ping_url)
   }
 
-  wait_for_connect_ready(hosts[1])
-  wait_for_connect_ready(hosts[2])
+  wait_for_connect_ready(hosts[1], container_name = "ci-connect-1")
+  wait_for_connect_ready(hosts[2], container_name = "ci-connect-2")
 
   cat_line("connect: creating first admin...")
   a1 <- create_first_admin(
