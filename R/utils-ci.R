@@ -168,9 +168,6 @@ build_test_env <- function(
     last_msg <- start_time
     ping_url <- client$server_url("__ping__")
 
-    # Give Connect a few seconds to start before first ping attempt
-    Sys.sleep(3)
-
     while (
       as.numeric(difftime(Sys.time(), start_time, units = "secs")) < timeout
     ) {
