@@ -19,7 +19,6 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       CONNECT_VERSION: 2024.03.0
-      RSC_LICENSE: ${{ secrets.RSC_LICENSE }}
       CONNECT_LICENSE_FILE: ${{ secrets.CONNECT_LICENSE_FILE }}
 
     steps:
@@ -37,11 +36,11 @@ jobs:
           needs: website
 
       - name: Set up license file
-        run: echo "$CONNECT_LICENSE_FILE" > $RSC_LICENSE
+        run: echo "$CONNECT_LICENSE_FILE" > /tmp/connect.lic
 
       - name: Start Connect
         run: |
-          Rscript -e 'connectapi:::build_test_env()'
+          Rscript -e 'connectapi:::build_test_env(connect_license_path = "/tmp/connect.lic")'
 
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)

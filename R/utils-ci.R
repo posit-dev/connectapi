@@ -1,33 +1,5 @@
 # nocov start
 
-# TODO: A nicer way to execute these system commands...
-# - debug output... better error handling... etc.
-
-determine_license_env <- function(license) {
-  if (fs::file_exists(license) && fs::path_ext(license) == "lic") {
-    # Docker needs this to be an absolute path
-    license <- fs::path_abs(license)
-    cat_line("determine_license: looks like a license file")
-    return(list(
-      type = "file",
-      cmd_params = c(
-        "-v",
-        paste0(license, ":/var/lib/rstudio-connect/license.lic")
-      ),
-      env_params = c(RSC_LICENSE_FILE = license)
-    ))
-  } else {
-    cat_line("determine_license: looks like a license key")
-    return(list(
-      type = "key",
-      cmd_params = c(),
-      env_params = c(
-        RSC_LICENSE = license
-      )
-    ))
-  }
-}
-
 version_to_docker_tag <- function(version) {
   # Prior to 2022.09.0, the plain version number was the tag
   # After, it's "<ubuntu-codename>-<version>"
@@ -49,27 +21,25 @@ version_to_docker_tag <- function(version) {
 }
 
 compose_start <- function(
-  connect_license = Sys.getenv("RSC_LICENSE"),
+  connect_license_path,
   connect_version,
   clean = TRUE
 ) {
   warn_dire("compose_start")
   scoped_dire_silence()
 
-  stopifnot(nchar(connect_license) > 0)
+  stopifnot(fs::file_exists(connect_license_path))
+  connect_license_path <- fs::path_abs(connect_license_path)
 
-  license_details <- determine_license_env(connect_license)
-  compose_file <- switch(
-    license_details$type,
-    "file" = "ci/test-connect-lic.yml",
-    "ci/test-connect.yml"
+  compose_file_path <- system.file(
+    "ci/test-connect-lic.yml",
+    package = "connectapi"
   )
 
-  compose_file_path <- system.file(compose_file, package = "connectapi")
   env_vars <- c(
     CONNECT_VERSION = version_to_docker_tag(connect_version),
     PATH = Sys.getenv("PATH"),
-    license_details$env_params
+    RSC_LICENSE_FILE = connect_license_path
   )
   # system2 needs a character vector of name=value
   env_vars <- paste(names(env_vars), env_vars, sep = "=")
@@ -105,9 +75,13 @@ compose_find_hosts <- function(prefix) {
 
   containers <- grep(prefix, docker_ps_output, value = TRUE)
   ports <- sub(".*0\\.0\\.0\\.0:([0-9]+)->3939.*", "\\1", containers)
+  container_names <- sub(".*\\s+([^ ]+)$", "\\1", containers)
   cat_line(glue::glue("docker: got ports {ports[1]} and {ports[2]}"))
 
-  paste0("http://localhost:", ports)
+  list(
+    hosts = paste0("http://localhost:", ports),
+    container_names = container_names
+  )
 }
 
 
@@ -143,7 +117,7 @@ update_renviron_creds <- function(
 }
 
 build_test_env <- function(
-  connect_license = Sys.getenv("RSC_LICENSE"),
+  connect_license_path,
   clean = TRUE,
   username = "admin",
   password = "admin0",
@@ -153,16 +127,16 @@ build_test_env <- function(
   scoped_dire_silence()
 
   compose_start(
-    connect_license = connect_license,
+    connect_license_path = connect_license_path,
     clean = clean,
     connect_version = connect_version
   )
 
   # It was ci_connect before but it's ci-connect on my machine now;
   # this is a regex so it will match either
-  hosts <- compose_find_hosts(prefix = "ci.connect")
+  container_info <- compose_find_hosts(prefix = "ci.connect")
 
-  wait_for_connect_ready <- function(host, timeout = 120) {
+  wait_for_connect_ready <- function(host, container_name, timeout = 120) {
     client <- HackyConnect$new(server = host, api_key = NULL)
     start_time <- Sys.time()
     last_msg <- start_time
@@ -175,7 +149,8 @@ build_test_env <- function(
         {
           res <- client$GET(url = client$server_url("__ping__"), parser = NULL)
           httr::status_code(res) == 200
-        }
+        },
+        silent = TRUE
       )
       if (isTRUE(ok)) {
         return(invisible(TRUE))
@@ -186,21 +161,58 @@ build_test_env <- function(
       }
       Sys.sleep(1)
     }
+
+    # Before failing, capture diagnostics
+    cat_line("Connect did not become ready in time. Capturing diagnostics...")
+    cat_line(glue::glue("=== Docker logs for {container_name} ==="))
+    try(
+      {
+        logs <- system2(
+          "docker",
+          c("logs", "--tail", "100", container_name),
+          stdout = TRUE,
+          stderr = TRUE
+        )
+        cat(logs, sep = "\n")
+      },
+      silent = TRUE
+    )
+
+    cat_line(glue::glue("=== Docker inspect for {container_name} ==="))
+    try(
+      {
+        inspect <- system2(
+          "docker",
+          c("inspect", container_name),
+          stdout = TRUE,
+          stderr = TRUE
+        )
+        cat(inspect, sep = "\n")
+      },
+      silent = TRUE
+    )
+
     stop("Connect did not become ready in time: ", ping_url)
   }
 
-  wait_for_connect_ready(hosts[1])
-  wait_for_connect_ready(hosts[2])
+  wait_for_connect_ready(
+    container_info$hosts[1],
+    container_name = container_info$container_names[1]
+  )
+  wait_for_connect_ready(
+    container_info$hosts[2],
+    container_name = container_info$container_names[2]
+  )
 
   cat_line("connect: creating first admin...")
   a1 <- create_first_admin(
-    hosts[1],
+    container_info$hosts[1],
     "admin",
     "admin0",
     "admin@example.com"
   )
   a2 <- create_first_admin(
-    hosts[2],
+    container_info$hosts[2],
     "admin",
     "admin0",
     "admin@example.com"

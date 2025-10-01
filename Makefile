@@ -48,27 +48,17 @@ mail-down:
 
 connect-up:
 	NETWORK=${NETWORK} \
-	RSC_LICENSE=$(RSC_LICENSE) \
-	CONNECT_VERSION=$(CONNECT_VERSION) \
-	docker compose -f inst/ci/test-connect.yml -f .github/local/make-network.yml up -d
-
-connect-down:
-	NETWORK=${NETWORK} \
-	docker compose -f inst/ci/test-connect.yml -f .github/local/make-network.yml down
-
-connect-file-up:
-	NETWORK=${NETWORK} \
-	RSC_LICENSE=$(RSC_LICENSE) \
+	RSC_LICENSE_FILE=$(RSC_LICENSE_FILE) \
 	CONNECT_VERSION=$(CONNECT_VERSION) \
 	docker compose -f inst/ci/test-connect-lic.yml -f .github/local/make-network.yml up -d
 
-connect-file-down:
+connect-down:
 	NETWORK=${NETWORK} \
 	docker compose -f inst/ci/test-connect-lic.yml -f .github/local/make-network.yml down
 
 test-env-up:
 	NETWORK=${NETWORK} \
-	RSC_LICENSE=$(RSC_LICENSE) \
+	RSC_LICENSE_FILE=$(RSC_LICENSE_FILE) \
 	CONNECT_VERSION=$(CONNECT_VERSION) \
 	docker compose -f .github/local/test-connect-ci.yml -f .github/local/make-network.yml up -d
 

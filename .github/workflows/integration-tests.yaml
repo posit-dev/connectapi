@@ -28,7 +28,6 @@ jobs:
     env:
       CONNECT_VERSION: ${{ matrix.version }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      RSC_LICENSE: ${{ secrets.RSC_LICENSE }}
       CONNECT_LICENSE_FILE: ${{ secrets.CONNECT_LICENSE_FILE }}
       CONNECTAPI_INTEGRATED: true
 
@@ -54,11 +53,11 @@ jobs:
         shell: Rscript {0}
 
       - name: Set up license file
-        run: echo "$CONNECT_LICENSE_FILE" > $RSC_LICENSE
+        run: echo "$CONNECT_LICENSE_FILE" > /tmp/connect.lic
 
       - name: Setup test environment
         run: |
-          connectapi:::build_test_env()
+          connectapi:::build_test_env(connect_license_path = "/tmp/connect.lic")
         shell: Rscript {0}
 
       - uses: r-lib/actions/check-r-package@v2
