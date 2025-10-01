@@ -192,12 +192,6 @@
         <dd>Restart a content item.</dd>
       </dl><dl><dt>
 
-          <code><a href="content_set_integrations.html">content_set_integrations()</a></code>
-
-        </dt>
-        <dd>Set all OAuth integration associations for a content item</dd>
-      </dl><dl><dt>
-
           <code><a href="content_title.html">content_title()</a></code>
 
         </dt>
@@ -244,6 +238,12 @@
 
         </dt>
         <dd>Content permissions</dd>
+      </dl><dl><dt>
+
+          <code><a href="search_content.html">search_content()</a></code>
+
+        </dt>
+        <dd>Search for content on the Connect server</dd>
       </dl><dl><dt>
 
           <code><a href="tags.html">get_tags()</a></code> <code><a href="tags.html">get_tag_data()</a></code> <code><a href="tags.html">create_tag()</a></code> <code><a href="tags.html">create_tag_tree()</a></code> <code><a href="tags.html">delete_tag()</a></code> <code><a href="tags.html">get_content_tags()</a></code> <code><a href="tags.html">set_content_tag_tree()</a></code> <code><a href="tags.html">set_content_tags()</a></code> <code><a href="tags.html">filter_tag_tree_id()</a></code> <code><a href="tags.html">filter_tag_tree_chr()</a></code>
@@ -494,7 +494,7 @@
 
       <dl><dt>
 
-          <code><a href="as.data.frame.connect_list_integrations.html">as.data.frame(<i>&lt;connect_list_integrations&gt;</i>)</a></code>
+          <code><a href="as.data.frame.connect_integration_list.html">as.data.frame(<i>&lt;connect_integration_list&gt;</i>)</a></code>
 
         </dt>
         <dd>Convert integrations list to a data frame</dd>
@@ -506,16 +506,22 @@
         <dd>Convert objects to integration class</dd>
       </dl><dl><dt>
 
-          <code><a href="as_tibble.connect_list_integrations.html">as_tibble(<i>&lt;connect_list_integrations&gt;</i>)</a></code>
+          <code><a href="as_tibble.connect_integration_list.html">as_tibble(<i>&lt;connect_integration_list&gt;</i>)</a></code>
 
         </dt>
-        <dd>Convert integrations list to a tibble</dd>
+        <dd>Convert integration list to a tibble</dd>
       </dl><dl><dt>
 
-          <code><a href="content_set_integrations.html">content_set_integrations()</a></code>
+          <code><a href="create_integration.html">create_integration()</a></code>
 
         </dt>
-        <dd>Set all OAuth integration associations for a content item</dd>
+        <dd>Create an OAuth integration</dd>
+      </dl><dl><dt>
+
+          <code><a href="delete_integration.html">delete_integration()</a></code>
+
+        </dt>
+        <dd>Delete an OAuth integration</dd>
       </dl><dl><dt>
 
           <code><a href="get_integration.html">get_integration()</a></code>
@@ -527,7 +533,25 @@
           <code><a href="get_integrations.html">get_integrations()</a></code>
 
         </dt>
-        <dd>List all OAuth integrations on the Connect server</dd>
+        <dd>Get OAuth integrations</dd>
+      </dl><dl><dt>
+
+          <code><a href="set_integrations.html">set_integrations()</a></code>
+
+        </dt>
+        <dd>Set all OAuth integrations for a content item</dd>
+      </dl><dl><dt>
+
+          <code><a href="update_integration.html">update_integration()</a></code>
+
+        </dt>
+        <dd>Update an OAuth integration</dd>
+      </dl><dl><dt>
+
+          <code><a href="get_associations.html">get_associations()</a></code>
+
+        </dt>
+        <dd>Get OAuth associations for a piece of content</dd>
       </dl><dl><dt>
 
           <code><a href="get_oauth_credentials.html">get_oauth_credentials()</a></code>
@@ -557,6 +581,12 @@
 
         </dt>
         <dd>Manage Environment Variables</dd>
+      </dl><dl><dt>
+
+          <code><a href="get_associations.html">get_associations()</a></code>
+
+        </dt>
+        <dd>Get OAuth associations for a piece of content</dd>
       </dl><dl><dt>
 
           <code><a href="get_audit_logs.html">get_audit_logs()</a></code>
@@ -628,7 +658,7 @@
           <code><a href="get_integrations.html">get_integrations()</a></code>
 
         </dt>
-        <dd>List all OAuth integrations on the Connect server</dd>
+        <dd>Get OAuth integrations</dd>
       </dl><dl><dt>
 
           <code><a href="get_job.html">get_job()</a></code>
@@ -775,16 +805,16 @@
         <dd>Convert usage data to a tibble</dd>
       </dl><dl><dt>
 
-          <code><a href="as.data.frame.connect_list_integrations.html">as.data.frame(<i>&lt;connect_list_integrations&gt;</i>)</a></code>
+          <code><a href="as.data.frame.connect_integration_list.html">as.data.frame(<i>&lt;connect_integration_list&gt;</i>)</a></code>
 
         </dt>
         <dd>Convert integrations list to a data frame</dd>
       </dl><dl><dt>
 
-          <code><a href="as_tibble.connect_list_integrations.html">as_tibble(<i>&lt;connect_list_integrations&gt;</i>)</a></code>
+          <code><a href="as_tibble.connect_integration_list.html">as_tibble(<i>&lt;connect_integration_list&gt;</i>)</a></code>
 
         </dt>
-        <dd>Convert integrations list to a tibble</dd>
+        <dd>Convert integration list to a tibble</dd>
       </dl></div><div class="section level2">
       <h2 id="other">Other<a class="anchor" aria-label="anchor" href="#other"></a></h2>
 

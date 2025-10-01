@@ -46,11 +46,11 @@
 <h2 id="testing">Testing<a class="anchor" aria-label="anchor" href="#testing"></a></h2>
 <p>There are two test suites in the package. One contains unit tests and tests that use API mocks, so you can run them without access to a running Connect server. Run these as you would any other R test suite with <code>devtools::test()</code>.</p>
 <p>A second suite runs integration tests against a live Connect server running locally in Docker. This has some additional requirements.</p>
-<ul><li>You need a valid Connect license key or file. Put the contents of the license key, or the path to the license file, in the <code>RSC_LICENSE</code> environment variable.</li>
+<ul><li>You need a valid Connect license file (<code>.lic</code> file). Place it in the root of the repository as <code>connect-license.lic</code>.</li>
 <li>You need Docker.</li>
 <li>If you’re running on an ARM (non-Intel) Mac, <code>export DOCKER_DEFAULT_PLATFORM=linux/amd64</code>
 </li>
-<li>Run <code>connectapi:::build_test_env()</code> to set up the Connect processes in docker</li>
+<li>Run <code>connectapi:::build_test_env(connect_license_path = "connect-license.lic")</code> to set up the Connect processes in docker</li>
 <li>By default, this will run against a contemporary version of Connect. To test against an older version, set the environment variable <code>CONNECT_VERSION</code> to something else and then run <code>build_test_env()</code>.</li>
 <li>Set <code>CONNECTAPI_INTEGRATED=true</code> in the environment to enable running the integration tests (they’re skipped by default).</li>
 <li>Run them with <code>source("tests/test-integrated.R")</code>
