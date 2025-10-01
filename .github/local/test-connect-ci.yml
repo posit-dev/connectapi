@@ -7,13 +7,13 @@ services:
     ports:
       - 3939
     privileged: true
-    environment:
-      - RSC_LICENSE
+    volumes:
+      - "${RSC_LICENSE_FILE}:/var/lib/rstudio-connect/license.lic"
   connect2:
     hostname: connect2
     image: rstudio/rstudio-connect:${CONNECT_VERSION}
     ports:
       - 3939
     privileged: true
-    environment:
-      - RSC_LICENSE
+    volumes:
+      - "${RSC_LICENSE_FILE}:/var/lib/rstudio-connect/license.lic"
