@@ -10,6 +10,8 @@
   server: `create_integration()`, `update_integration()` and
   `delete_integration()`. (#434)
 - Support content search API with the `search_content()` function. (#272)
+- New `search_content()` function which lets you search and filter content items
+  on the Connect server. (#272, #447)
 
 # connectapi 0.8.0
 
