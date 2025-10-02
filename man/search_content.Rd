@@ -4,28 +4,13 @@
 \alias{search_content}
 \title{Search for content on the Connect server}
 \usage{
-search_content(
-  client,
-  q = NULL,
-  page_number = 1,
-  page_size = 500,
-  include = "owner,vanity_url",
-  ...
-)
+search_content(client, q = NULL, include = "owner,vanity_url", ...)
 }
 \arguments{
 \item{client}{A Connect object}
 
 \item{q}{The search query, using the syntax described in the Connect
 documentation on \href{https://docs.posit.co/connect/user/viewing-content/#searching-content}{content search terms}}
-
-\item{page_number}{Integer. The page to return relative to the given \code{page_size}.
-Must be greater than 0.}
-
-\item{page_size}{Integer. The number of items to include in each page. This
-parameter is "best effort" since there may not be enough results to honor the
-request. If \code{page_size} is less than 1 or greater than 500, an error will be
-returned.}
 
 \item{include}{Comma-separated character string of values indicating additional
 details to include in the response. Values can be \code{owner} and \code{vanity_url};

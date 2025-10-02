@@ -478,12 +478,21 @@ with_mock_dir("2025.09.0", {
   test_that("content search returns the expected list of content", {
     res <- search_content(client, q = "sea bream")
     expect_equal(
-      purrr::map_chr(res$results, "owner_guid"),
+      purrr::map_chr(res, "owner_guid"),
       c("c2250bb4", "c2250bb4")
     )
     expect_equal(
-      purrr::map_chr(res$results, "title"),
+      purrr::map_chr(res, "title"),
       c("sea bream report", "sea bream dashboard")
+    )
+  })
+
+  test_that("content search fetches multiple pages correctly", {
+    res <- search_content(client, q = "blobfish")
+    expect_equal(length(res), 3)
+    expect_equal(
+      purrr::map_chr(res, "title"),
+      c("blobfish dashboard", "blobfish api", "blobfish report")
     )
   })
 
@@ -493,11 +502,9 @@ with_mock_dir("2025.09.0", {
         search_content(
           client,
           q = "bream",
-          include = "owner",
-          page_number = 2,
-          page_size = 5
+          include = "owner"
         ),
-        "https://connect.example/__api__/v1/search/content?q=bream&page_number=2&page_size=5&include=owner"
+        "https://connect.example/__api__/v1/search/content?q=bream&page_number=1&page_size=500&include=owner"
       )
     )
   })

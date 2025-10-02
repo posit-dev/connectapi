@@ -1441,12 +1441,6 @@ get_content_packages <- function(content) {
 #' @param q The search query, using the syntax described in the Connect
 #'   documentation on [content search
 #'   terms](https://docs.posit.co/connect/user/viewing-content/#searching-content)
-#' @param page_number Integer. The page to return relative to the given `page_size`.
-#'   Must be greater than 0.
-#' @param page_size Integer. The number of items to include in each page. This
-#'   parameter is "best effort" since there may not be enough results to honor the
-#'   request. If `page_size` is less than 1 or greater than 500, an error will be
-#'   returned.
 #' @param include Comma-separated character string of values indicating additional
 #'   details to include in the response. Values can be `owner` and `vanity_url`;
 #'   both are included by default.
@@ -1587,21 +1581,38 @@ get_content_packages <- function(content) {
 search_content <- function(
   client,
   q = NULL,
-  page_number = 1,
-  page_size = 500,
   include = "owner,vanity_url",
   ...
 ) {
   error_if_less_than(client$version, "2024.04.0")
 
-  path <- v1_url("search", "content")
+  inner_search <- function(
+    client,
+    q,
+    page_number,
+    page_size,
+    include
+  ) {
+    path <- v1_url("search", "content")
 
-  query <- list(
-    q = q,
-    page_number = page_number,
-    page_size = page_size,
-    include = include
+    query <- list(
+      q = q,
+      page_number = page_number,
+      page_size = page_size,
+      include = include
+    )
+
+    client$GET(path, query = query)
+  }
+
+  page_offset(
+    client,
+    req = inner_search(
+      client,
+      q = q,
+      page_number = 1,
+      page_size = 500,
+      include = include
+    )
   )
-
-  client$GET(path, query = query)
 }
