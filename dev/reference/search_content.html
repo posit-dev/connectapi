@@ -46,14 +46,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">search_content</span><span class="op">(</span></span>
-<span>  <span class="va">client</span>,</span>
-<span>  q <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  page_number <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  page_size <span class="op">=</span> <span class="fl">500</span>,</span>
-<span>  include <span class="op">=</span> <span class="st">"owner,vanity_url"</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">search_content</span><span class="op">(</span><span class="va">client</span>, q <span class="op">=</span> <span class="cn">NULL</span>, include <span class="op">=</span> <span class="st">"owner,vanity_url"</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -69,18 +62,6 @@
 documentation on <a href="https://docs.posit.co/connect/user/viewing-content/#searching-content" class="external-link">content search terms</a></p></dd>
 
 
-<dt id="arg-page-number">page_number<a class="anchor" aria-label="anchor" href="#arg-page-number"></a></dt>
-<dd><p>Integer. The page to return relative to the given <code>page_size</code>.
-Must be greater than 0.</p></dd>
-
-
-<dt id="arg-page-size">page_size<a class="anchor" aria-label="anchor" href="#arg-page-size"></a></dt>
-<dd><p>Integer. The number of items to include in each page. This
-parameter is "best effort" since there may not be enough results to honor the
-request. If <code>page_size</code> is less than 1 or greater than 500, an error will be
-returned.</p></dd>
-
-
 <dt id="arg-include">include<a class="anchor" aria-label="anchor" href="#arg-include"></a></dt>
 <dd><p>Comma-separated character string of values indicating additional
 details to include in the response. Values can be <code>owner</code> and <code>vanity_url</code>;
@@ -88,7 +69,10 @@ both are included by default.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Extra arguments. Currently not used.</p></dd>
+<dd><p>Extra arguments. Passing in <code>page_number</code> and <code>page_size</code> will
+affect the internal pagination for Connect's content search API. Setting
+<code>page_number</code> will change the page at which pagination <em>starts</em>, and
+<code>page_size</code> will control the size of pages (max 500).</p></dd>
 
 </dl></div>
     <div class="section level2">
