@@ -1,0 +1,17 @@
+// Used in test-content.R
+{
+    "total": 3,
+    "current_page": 1,
+    "results": [
+        {
+            "guid": "c9f68287",
+            "name": "blobfish-dashboard",
+            "title": "blobfish dashboard"
+        },
+        {
+            "guid": "53032a0e",
+            "name": "blobfish-api",
+            "title": "blobfish api"
+        }
+    ]
+}

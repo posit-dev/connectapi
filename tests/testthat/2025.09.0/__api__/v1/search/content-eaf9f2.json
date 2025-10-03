@@ -1,0 +1,12 @@
+// Used in test-content.R
+{
+    "total": 3,
+    "current_page": 2,
+    "results": [
+        {
+            "guid": "abc12345",
+            "name": "blobfish-report",
+            "title": "blobfish report"
+        }
+    ]
+}

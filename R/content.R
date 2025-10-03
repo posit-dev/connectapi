@@ -1441,16 +1441,13 @@ get_content_packages <- function(content) {
 #' @param q The search query, using the syntax described in the Connect
 #'   documentation on [content search
 #'   terms](https://docs.posit.co/connect/user/viewing-content/#searching-content)
-#' @param page_number Integer. The page to return relative to the given `page_size`.
-#'   Must be greater than 0.
-#' @param page_size Integer. The number of items to include in each page. This
-#'   parameter is "best effort" since there may not be enough results to honor the
-#'   request. If `page_size` is less than 1 or greater than 500, an error will be
-#'   returned.
 #' @param include Comma-separated character string of values indicating additional
 #'   details to include in the response. Values can be `owner` and `vanity_url`;
 #'   both are included by default.
-#' @param ... Extra arguments. Currently not used.
+#' @param ... Extra arguments. Passing in `page_number` and `page_size` will
+#'   affect the internal pagination for Connect's content search API. Setting
+#'   `page_number` will change the page at which pagination *starts*, and
+#'   `page_size` will control the size of pages (max 500).
 #'
 #' @return
 #' A list containing sub-fields:
@@ -1587,13 +1584,32 @@ get_content_packages <- function(content) {
 search_content <- function(
   client,
   q = NULL,
-  page_number = 1,
-  page_size = 500,
   include = "owner,vanity_url",
   ...
 ) {
   error_if_less_than(client$version, "2024.04.0")
 
+  page_offset(
+    client,
+    req = .search_content(
+      client,
+      q = q,
+      include = include,
+      # page_size and page_number can be passed in via `...`. Since this call is
+      # still passed to page_offset, page_number affects the *starting* page,
+      # but pagination still continues.
+      ...
+    )
+  )
+}
+
+.search_content <- function(
+  client,
+  q,
+  page_number = 1,
+  page_size = 500,
+  include
+) {
   path <- v1_url("search", "content")
 
   query <- list(
