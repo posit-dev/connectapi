@@ -502,9 +502,11 @@ with_mock_dir("2025.09.0", {
         search_content(
           client,
           q = "bream",
+          page_number = 2,
+          page_size = 20,
           include = "owner"
         ),
-        "https://connect.example/__api__/v1/search/content?q=bream&page_number=1&page_size=500&include=owner"
+        "https://connect.example/__api__/v1/search/content?q=bream&page_number=2&page_size=20&include=owner"
       )
     )
   })

@@ -16,7 +16,10 @@ documentation on \href{https://docs.posit.co/connect/user/viewing-content/#searc
 details to include in the response. Values can be \code{owner} and \code{vanity_url};
 both are included by default.}
 
-\item{...}{Extra arguments. Currently not used.}
+\item{...}{Extra arguments. Passing in \code{page_number} and \code{page_size} will
+affect the internal pagination for Connect's content search API. Setting
+\code{page_number} will change the page at which pagination \emph{starts}, and
+\code{page_size} will control the size of pages (max 500).}
 }
 \value{
 A list containing sub-fields:
