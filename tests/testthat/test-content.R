@@ -478,8 +478,8 @@ with_mock_dir("2025.09.0", {
   test_that("content search returns the expected list of content", {
     res <- search_content(client, q = "sea bream")
     expect_equal(
-      purrr::map_chr(res, "owner_guid"),
-      c("c2250bb4", "c2250bb4")
+      purrr::map_chr(res, "guid"),
+      c("c9f68287", "53032a0e")
     )
     expect_equal(
       purrr::map_chr(res, "title"),
