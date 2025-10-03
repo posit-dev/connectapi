@@ -511,7 +511,7 @@ with_mock_dir("2025.09.0", {
     )
   })
 
-    test_that("the inner .search_content() func calls the endpoint correctly", {
+  test_that("the inner .search_content() func calls the endpoint correctly", {
     without_internet(
       expect_GET(
         .search_content(
