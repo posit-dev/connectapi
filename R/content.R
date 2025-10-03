@@ -1589,25 +1589,6 @@ search_content <- function(
 ) {
   error_if_less_than(client$version, "2024.04.0")
 
-  .search_content <- function(
-    client,
-    q,
-    page_number = 1,
-    page_size = 500,
-    include
-  ) {
-    path <- v1_url("search", "content")
-
-    query <- list(
-      q = q,
-      page_number = page_number,
-      page_size = page_size,
-      include = include
-    )
-
-    client$GET(path, query = query)
-  }
-
   page_offset(
     client,
     req = .search_content(
@@ -1620,4 +1601,23 @@ search_content <- function(
       ...
     )
   )
+}
+
+.search_content <- function(
+  client,
+  q,
+  page_number = 1,
+  page_size = 500,
+  include
+) {
+  path <- v1_url("search", "content")
+
+  query <- list(
+    q = q,
+    page_number = page_number,
+    page_size = page_size,
+    include = include
+  )
+
+  client$GET(path, query = query)
 }

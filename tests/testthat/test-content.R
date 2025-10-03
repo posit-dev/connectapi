@@ -510,6 +510,21 @@ with_mock_dir("2025.09.0", {
       )
     )
   })
+
+    test_that("the inner .search_content() func calls the endpoint correctly", {
+    without_internet(
+      expect_GET(
+        .search_content(
+          client,
+          q = "bream",
+          page_number = 2,
+          page_size = 20,
+          include = "owner"
+        ),
+        "https://connect.example/__api__/v1/search/content?q=bream&page_number=2&page_size=20&include=owner"
+      )
+    )
+  })
 })
 
 test_that("content search errors on Connect < 2024.04.0", {
