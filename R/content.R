@@ -1610,7 +1610,7 @@ search_content <- function(
 
   page_offset(
     client,
-    req = inner_search(
+    req = .search_content(
       client,
       q = q,
       include = include,
