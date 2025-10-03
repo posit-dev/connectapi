@@ -1589,7 +1589,7 @@ search_content <- function(
 ) {
   error_if_less_than(client$version, "2024.04.0")
 
-  inner_search <- function(
+  .search_content <- function(
     client,
     q,
     page_number = 1,
