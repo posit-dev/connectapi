@@ -508,7 +508,7 @@ with_mock_dir("2025.09.0", {
           include = "owner",
           page_number = 2
         ),
-        "https://connect.example/__api__/v1/search/content?q=bream&page_number=2&page_size=100&include=owner"
+        "https://connect.example/__api__/v1/search/content?q=bream&page_number=2&page_size=100&include=owner" #nolint
       )
     )
   })
@@ -517,7 +517,7 @@ with_mock_dir("2025.09.0", {
     without_internet(
       expect_GET(
         search_content(client, q = "bream"),
-        "https://connect.example/__api__/v1/search/content?q=bream&page_number=1&page_size=500&include=owner%2Cvanity_url"
+        "https://connect.example/__api__/v1/search/content?q=bream&page_number=1&page_size=500&include=owner%2Cvanity_url" #nolint
       )
     )
   })
@@ -531,7 +531,7 @@ with_mock_dir("2025.09.0", {
           q = "bream",
           future_param = "value"
         ),
-        "https://connect.example/__api__/v1/search/content?q=bream&page_number=1&page_size=500&include=owner%2Cvanity_url&future_param=value"
+        "https://connect.example/__api__/v1/search/content?q=bream&page_number=1&page_size=500&include=owner%2Cvanity_url&future_param=value" #nolint
       )
     )
   })
