@@ -522,6 +522,20 @@ with_mock_dir("2025.09.0", {
     )
   })
 
+  test_that("content search passes arbitrary parameters through ... to query
+   string", {
+    without_internet(
+      expect_GET(
+        search_content(
+          client,
+          q = "bream",
+          future_param = "value"
+        ),
+        "https://connect.example/__api__/v1/search/content?q=bream&page_number=1&page_size=500&include=owner%2Cvanity_url&future_param=value"
+      )
+    )
+  })
+
   test_that("the inner .search_content() func calls the endpoint correctly", {
     without_internet(
       expect_GET(
