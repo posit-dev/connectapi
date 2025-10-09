@@ -337,3 +337,23 @@ test_that("remove a collaborator twice works", {
   )
   expect_false(any(which_match))
 })
+
+# Lock / Unlock -----------------------------------------
+
+test_that("lock and unlock content works", {
+  tar_path <- rprojroot::find_package_root_file(
+    "tests/testthat/examples/static.tar.gz"
+  )
+  bund <- bundle_path(path = tar_path)
+  tsk <- deploy(connect = test_conn_1, bundle = bund)
+
+  # Lock with message
+  lock_content(tsk, locked_message = "Maintenance in progress")
+  expect_true(tsk$content$locked)
+  expect_equal(tsk$content$locked_message, "Maintenance in progress")
+
+  # Unlock
+  unlock_content(tsk)
+  expect_false(tsk$content$locked)
+  expect_equal(tsk$content$locked_message, "")
+})
