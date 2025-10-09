@@ -543,6 +543,8 @@ test_that("content search errors on Connect < 2024.04.0", {
   )
 })
 
+# lock content ----
+
 with_mock_dir("2025.09.0", {
   test_that("lock_content() and unlock_content() make the expected requests", {
     client <- Connect$new(
@@ -570,3 +572,26 @@ with_mock_dir("2025.09.0", {
     })
   })
 })
+
+test_that("lock_content() and unlock_content() error on Connect < 2024.08.0", {
+  client <- MockConnect$new("2024.07.0")
+  client$mock_response(
+    "GET",
+    "v1/content/test-guid",
+    content = list(
+      guid = "test-guid",
+      title = "Test Content",
+      app_mode = "static"
+    )
+  )
+  item <- content_item(client, "test-guid")
+  expect_error(
+    lock_content(item),
+    "ERROR: This feature requires Posit Connect version 2024.08.0 but you are using 2024.07.0."
+  )
+  expect_error(
+    unlock_content(item),
+    "ERROR: This feature requires Posit Connect version 2024.08.0 but you are using 2024.07.0."
+  )
+})
+

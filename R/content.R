@@ -1085,6 +1085,7 @@ content_update_owner <- function(content, owner_guid) {
 #' }
 lock_content <- function(content, locked_message = NULL) {
   validate_R6_class(content, "Content")
+  error_if_less_than(content$connect$version, "2024.08.0")
 
   update_params <- list(locked = TRUE)
   if (!is.null(locked_message)) {
@@ -1101,6 +1102,7 @@ lock_content <- function(content, locked_message = NULL) {
 #' @export
 unlock_content <- function(content) {
   validate_R6_class(content, "Content")
+  error_if_less_than(content$connect$version, "2024.08.0")
 
   content$update(locked = FALSE, locked_message = "")
   content$get_content_remote()
