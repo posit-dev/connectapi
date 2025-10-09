@@ -46,7 +46,14 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">search_content</span><span class="op">(</span><span class="va">client</span>, q <span class="op">=</span> <span class="cn">NULL</span>, include <span class="op">=</span> <span class="st">"owner,vanity_url"</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">search_content</span><span class="op">(</span></span>
+<span>  <span class="va">client</span>,</span>
+<span>  q <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  include <span class="op">=</span> <span class="st">"owner,vanity_url"</span>,</span>
+<span>  page_size <span class="op">=</span> <span class="fl">500</span>,</span>
+<span>  limit <span class="op">=</span> <span class="cn">Inf</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -68,11 +75,19 @@ details to include in the response. Values can be <code>owner</code> and <code>v
 both are included by default.</p></dd>
 
 
+<dt id="arg-page-size">page_size<a class="anchor" aria-label="anchor" href="#arg-page-size"></a></dt>
+<dd><p>The number of items to fetch per page. Maximum is 500.</p></dd>
+
+
+<dt id="arg-limit">limit<a class="anchor" aria-label="anchor" href="#arg-limit"></a></dt>
+<dd><p>Maximum number of items to return overall. Defaults to <code>Inf</code> (all items).</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Extra arguments. Passing in <code>page_number</code> and <code>page_size</code> will
-affect the internal pagination for Connect's content search API. Setting
-<code>page_number</code> will change the page at which pagination <em>starts</em>, and
-<code>page_size</code> will control the size of pages (max 500).</p></dd>
+<dd><p>Additional query parameters passed to the API for future expansion.
+Note: If you pass <code>page_number</code> here, it will affect the <em>starting</em> page
+for pagination, but all subsequent pages will still be fetched. This is
+usually not what you want.</p></dd>
 
 </dl></div>
     <div class="section level2">
