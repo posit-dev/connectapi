@@ -1444,10 +1444,12 @@ get_content_packages <- function(content) {
 #' @param include Comma-separated character string of values indicating additional
 #'   details to include in the response. Values can be `owner` and `vanity_url`;
 #'   both are included by default.
-#' @param ... Extra arguments. Passing in `page_number` and `page_size` will
-#'   affect the internal pagination for Connect's content search API. Setting
-#'   `page_number` will change the page at which pagination *starts*, and
-#'   `page_size` will control the size of pages (max 500).
+#' @param page_size The number of items to fetch per page. Maximum is 500.
+#' @param limit Maximum number of items to return overall. Defaults to `Inf` (all items).
+#' @param ... Additional query parameters passed to the API for future expansion.
+#'   Note: If you pass `page_number` here, it will affect the *starting* page
+#'   for pagination, but all subsequent pages will still be fetched. This is
+#'   usually not what you want.
 #'
 #' @return
 #' A list containing sub-fields:
@@ -1585,6 +1587,8 @@ search_content <- function(
   client,
   q = NULL,
   include = "owner,vanity_url",
+  page_size = 500,
+  limit = Inf,
   ...
 ) {
   error_if_less_than(client$version, "2024.04.0")
@@ -1595,20 +1599,20 @@ search_content <- function(
       client,
       q = q,
       include = include,
-      # page_size and page_number can be passed in via `...`. Since this call is
-      # still passed to page_offset, page_number affects the *starting* page,
-      # but pagination still continues.
+      page_size = page_size,
       ...
-    )
+    ),
+    limit = limit
   )
 }
 
 .search_content <- function(
   client,
   q,
+  include,
   page_number = 1,
   page_size = 500,
-  include
+  ...
 ) {
   path <- v1_url("search", "content")
 
@@ -1616,7 +1620,8 @@ search_content <- function(
     q = q,
     page_number = page_number,
     page_size = page_size,
-    include = include
+    include = include,
+    ...
   )
 
   client$GET(path, query = query)
