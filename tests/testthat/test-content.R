@@ -522,8 +522,7 @@ with_mock_dir("2025.09.0", {
     )
   })
 
-  test_that("content search passes arbitrary parameters through ... to query
-   string", {
+  test_that("content search passes arbitrary parameters through ... to query string", {
     without_internet(
       expect_GET(
         search_content(
