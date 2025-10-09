@@ -354,6 +354,16 @@ test_that("lock and unlock content works", {
   expect_true(tsk$content$locked)
   expect_equal(tsk$content$locked_message, "Maintenance in progress")
 
+  # Lock again with different message
+  lock_content(tsk, locked_message = "Still under maintenance")
+  expect_true(tsk$content$locked)
+  expect_equal(tsk$content$locked_message, "Still under maintenance")
+
+  # Lock again without message clears it
+  lock_content(tsk)
+  expect_true(tsk$content$locked)
+  expect_equal(tsk$content$locked_message, "")
+
   # Unlock
   unlock_content(tsk)
   expect_false(tsk$content$locked)
