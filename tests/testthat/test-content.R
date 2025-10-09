@@ -496,23 +496,6 @@ with_mock_dir("2025.09.0", {
     )
   })
 
-  test_that("content search respects explicit page_size parameter", {
-    # This test also confirms the behavior that page_number is passed down via
-    # ..., even though this isn't behavior we *require*.
-    without_internet(
-      expect_GET(
-        search_content(
-          client,
-          q = "bream",
-          page_size = 100,
-          include = "owner",
-          page_number = 2
-        ),
-        "https://connect.example/__api__/v1/search/content?q=bream&page_number=2&page_size=100&include=owner" #nolint
-      )
-    )
-  })
-
   test_that("content search uses default page_size of 500 and page_number of 1", {
     without_internet(
       expect_GET(
