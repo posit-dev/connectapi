@@ -1083,7 +1083,7 @@ content_update_owner <- function(content, owner_guid) {
 #' # Unlock content
 #' content <- unlock_content(content)
 #' }
-lock_content <- function(content, locked_message = NULL) {
+lock_content <- function(content, locked_message = "") {
   validate_R6_class(content, "Content")
   error_if_less_than(content$connect$version, "2024.08.0")
 
