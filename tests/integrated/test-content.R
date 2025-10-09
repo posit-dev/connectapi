@@ -341,6 +341,8 @@ test_that("remove a collaborator twice works", {
 # Lock / Unlock -----------------------------------------
 
 test_that("lock and unlock content works", {
+  skip_if_connect_older_than(test_conn_1, "2024.08.0")
+
   tar_path <- rprojroot::find_package_root_file(
     "tests/testthat/examples/static.tar.gz"
   )

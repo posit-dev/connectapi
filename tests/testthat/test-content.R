@@ -594,4 +594,3 @@ test_that("lock_content() and unlock_content() error on Connect < 2024.08.0", {
     "ERROR: This feature requires Posit Connect version 2024.08.0 but you are using 2024.07.0."
   )
 })
-
