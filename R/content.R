@@ -168,12 +168,8 @@ Content <- R6::R6Class(
     #' @param key The job key.
     job = function(key) {
       warn_experimental("job")
-      url <- unversioned_url(
-        "applications",
-        self$get_content()$guid,
-        "job",
-        key
-      )
+      guid <- self$get_content()$guid
+      url <- unversioned_url("applications", guid, "job", key)
       res <- self$get_connect()$GET(url)
 
       content_guid <- self$get_content()$guid
@@ -196,11 +192,8 @@ Content <- R6::R6Class(
     #' @description Return the variants for this content.
     variants = function() {
       warn_experimental("variants")
-      url <- unversioned_url(
-        "applications",
-        self$get_content()$guid,
-        "variants"
-      )
+      guid <- self$get_content()$guid
+      url <- unversioned_url("applications", guid, "variants")
       self$get_connect()$GET(url)
     },
     #' @description Set a tag for this content.
