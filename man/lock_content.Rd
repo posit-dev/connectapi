@@ -5,7 +5,7 @@
 \alias{unlock_content}
 \title{Lock or Unlock Content}
 \usage{
-lock_content(content, locked_message = NULL)
+lock_content(content, locked_message = "")
 
 unlock_content(content)
 }
