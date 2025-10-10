@@ -159,6 +159,11 @@ deploy_repo_update <- function(content) {
 
   con <- content$connect
   repo_data <- content$repository()
+  if (is.null(repo_data)) {
+    stop(glue::glue(
+      "Content item '{content$get_content()$guid}' is not git-backed content"
+    ))
+  }
   branch_status <- repo_check_branches_ref(con, repo_data$repository)
 
   if (!repo_data$branch %in% names(branch_status)) {
@@ -170,7 +175,7 @@ deploy_repo_update <- function(content) {
     identical(repo_data$last_known_commit, branch_status[[repo_data$branch]])
   ) {
     message(glue::glue(
-      "No changes were found in the Git repository: {repo_data$repository_url}@{repo_data$branch}"
+      "No changes were found in the Git repository: {repo_data$repository}@{repo_data$branch}"
     ))
     return(content)
   }
