@@ -158,12 +158,12 @@ deploy_repo_update <- function(content) {
   scoped_experimental_silence()
 
   con <- content$connect
-  internal_meta <- content$repository()
-  branch_status <- repo_check_branches_ref(con, repo_data$repository_url)
+  repo_data <- content$repository()
+  branch_status <- repo_check_branches_ref(con, repo_data$repository)
 
   if (!repo_data$branch %in% names(branch_status)) {
     stop(glue::glue(
-      "Branch '{repo_data$branch}' was no longer found on repository '{repo_data$repository_url}'"
+      "Branch '{repo_data$branch}' was no longer found on repository '{repo_data$repository}'"
     ))
   }
   if (

@@ -319,15 +319,21 @@ Content <- R6::R6Class(
     },
     #' @description Get Git repository details
     repository = function() {
-      # NOTE: the v1 and v0 endpoints don't have identical fields
-      # notably, v0 has "enabled" and v1 has "polling"
       GET <- self$connect$GET
       guid <- self$content$guid
       tryCatch(
-        # TODO: what does the API return if no repo is set?
+        # TODO: what does the v1 API return if no repo is set?
         v1_url("content", guid, "repository"),
         error = function(e) {
-          GET(unversioned_fallback_url("applications", guid))$git
+          resp <- GET(unversioned_fallback_url("applications", guid))$git
+          if (!is.null(resp)) {
+            # NOTE: the v1 and v0 endpoints don't have identical fields
+            # Rename to match v1 naming
+            names(resp)[names(resp) == "repository_url"] <- "repository"
+            names(resp)[names(resp) == "subdirectory"] <- "directory"
+            names(resp)[names(resp) == "enabled"] <- "polling"
+          }
+          resp
         }
       )
     },
