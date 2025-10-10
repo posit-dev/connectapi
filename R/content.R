@@ -161,18 +161,13 @@ Content <- R6::R6Class(
     #' @param key The job key.
     job = function(key) {
       warn_experimental("job")
-      url <- unversioned_url(
-        "applications",
-        self$content$guid,
-        "job",
-        key
-      )
+      guid <- self$content$guid
+      url <- unversioned_url("applications", guid, "job", key)
       res <- self$connect$GET(url)
 
-      content_guid <- self$content$guid
       purrr::map(
         list(res),
-        ~ purrr::list_modify(.x, app_guid = content_guid)
+        ~ purrr::list_modify(.x, app_guid = guid)
       )[[1]]
     },
     #' @description Terminate a single job for this content item.
@@ -189,11 +184,8 @@ Content <- R6::R6Class(
     #' @description Return the variants for this content.
     variants = function() {
       warn_experimental("variants")
-      url <- unversioned_url(
-        "applications",
-        self$content$guid,
-        "variants"
-      )
+      guid <- self$content$guid
+      url <- unversioned_url("applications", guid, "variants")
       self$connect$GET(url)
     },
     #' @description Set a tag for this content.

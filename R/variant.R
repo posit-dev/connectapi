@@ -87,12 +87,8 @@ Variant <- R6::R6Class(
     #' @param guid User GUID.
     remove_subscriber = function(guid) {
       warn_experimental("subscribers")
-      path <- unversioned_url(
-        "variants",
-        self$variant$id,
-        "subscribers",
-        guid
-      )
+      id <- self$variant$id
+      path <- unversioned_url("variants", id, "subscribers", guid)
       self$connect$DELETE(path)
     },
     #' @description Add named subscribers.
