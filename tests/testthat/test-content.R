@@ -557,7 +557,7 @@ with_mock_dir("2025.09.0", {
       expect_PATCH(
         lock_content(item),
         "https://connect.example/__api__/v1/content/6632a162",
-        '{"locked":true}'
+        '{"locked":true,"locked_message":""}'
       )
       expect_PATCH(
         lock_content(item, "ACCESS DENIED"),
