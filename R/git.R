@@ -158,21 +158,7 @@ deploy_repo_update <- function(content) {
   scoped_experimental_silence()
 
   con <- content$connect
-  internal_meta <- content$internal_content()
-  repo_data <- tryCatch(
-    {
-      internal_meta$git
-    },
-    error = function(e) {
-      message(e)
-      return(NULL)
-    }
-  )
-  if (is.null(repo_data)) {
-    stop(glue::glue(
-      "Content item '{internal_meta$guid}' is not git-backed content"
-    ))
-  }
+  internal_meta <- content$repository()
   branch_status <- repo_check_branches_ref(con, repo_data$repository_url)
 
   if (!repo_data$branch %in% names(branch_status)) {
