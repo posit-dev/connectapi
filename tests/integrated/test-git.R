@@ -106,10 +106,9 @@ test_that("deploy_repo_enable works", {
   expect_true(validate_R6_class(cont1, "Content"))
   expect_true(validate_R6_class(cont1, "ContentTask"))
 
-  # helper to handle the difference between API versions
   polling_enabled <- function(content) {
     git <- content$repository()
-    git$enabled || git$polling
+    isTRUE(git$polling)
   }
   # TODO: flaky... how to be safer?
   Sys.sleep(5) # sleep for deployment...?
