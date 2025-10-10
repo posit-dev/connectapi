@@ -318,12 +318,15 @@ Content <- R6::R6Class(
       )
     },
     #' @description Get Git repository details
+    #' @return a list of repo details, or NULL if no repo is set
     repository = function() {
       GET <- self$connect$GET
       guid <- self$content$guid
       tryCatch(
-        # TODO: what does the v1 API return if no repo is set?
-        v1_url("content", guid, "repository"),
+        # TODO: the v1 API returns 404 if no repo is set, so that means we fall
+        # back to the other API. The new API was added in October 2022, so maybe
+        # we just don't fall back.
+        GET(v1_url("content", guid, "repository")),
         error = function(e) {
           resp <- GET(unversioned_fallback_url("applications", guid))$git
           if (!is.null(resp)) {
