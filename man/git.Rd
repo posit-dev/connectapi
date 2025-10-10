@@ -61,6 +61,7 @@ Other content functions:
 \code{\link{get_thumbnail}()},
 \code{\link{get_vanity_url}()},
 \code{\link{has_thumbnail}()},
+\code{\link{lock_content}()},
 \code{\link{permissions}},
 \code{\link{search_content}()},
 \code{\link{set_image_path}()},

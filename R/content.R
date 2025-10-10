@@ -1051,6 +1051,65 @@ content_update_owner <- function(content, owner_guid) {
   content_update(content = content, owner_guid = owner_guid)
 }
 
+#' Lock or Unlock Content
+#'
+#' Lock or unlock a content item. When content is locked, all processes are
+#' terminated, rendering is disabled, and new bundles cannot be deployed.
+#'
+#' `lock_content()` locks a content item with an optional message displayed to
+#' visitors (supports Markdown).
+#'
+#' `unlock_content()` unlocks a content item, reverting the effects of locking.
+#'
+#' @param content An R6 content item
+#' @param locked_message Optional. A custom message that is displayed by the
+#' content item when locked. It is possible to format this message using Markdown.
+#'
+#' @return An R6 content item
+#'
+#' @family content functions
+#' @rdname lock_content
+#' @export
+#' @examples
+#' \dontrun{
+#' # Lock content with a message
+#' client <- connect()
+#' content <- content_item(client, "content-guid")
+#' content <- lock_content(content, locked_message = "Ah ah ah! You didn't say the magic word!")
+#'
+#' # Lock content without a message
+#' content <- lock_content(content)
+#'
+#' # Unlock content
+#' content <- unlock_content(content)
+#' }
+lock_content <- function(content, locked_message = "") {
+  validate_R6_class(content, "Content")
+  error_if_less_than(content$connect$version, "2024.08.0")
+
+  update_params <- list(locked = TRUE)
+  if (!is.null(locked_message)) {
+    update_params$locked_message <- locked_message
+  }
+
+  content$update(!!!update_params)
+  content$get_content_remote()
+
+  return(content)
+}
+
+#' @rdname lock_content
+#' @export
+unlock_content <- function(content) {
+  validate_R6_class(content, "Content")
+  error_if_less_than(content$connect$version, "2024.08.0")
+
+  content$update(locked = FALSE, locked_message = "")
+  content$get_content_remote()
+
+  return(content)
+}
+
 
 #' Verify Content Name
 #'
