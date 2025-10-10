@@ -70,11 +70,6 @@ Content <- R6::R6Class(
       url <- v1_url("content", self$get_content()$guid, "bundles", bundle_id)
       self$get_connect()$DELETE(url)
     },
-    #' @description Get this (remote) content item.
-    internal_content = function() {
-      url <- unversioned_url("applications", self$get_content()$guid)
-      self$get_connect()$GET(url)
-    },
     #' @description Update this content item.
     #' @param ... Content fields.
     update = function(...) {
@@ -330,15 +325,39 @@ Content <- R6::R6Class(
         body = body
       )
     },
+    #' @description Get Git repository details
+    repository = function() {
+      # NOTE: the v1 and v0 endpoints don't have identical fields
+      # notably, v0 has "enabled" and v1 has "polling"
+      GET <- self$get_connect()$GET
+      guid <- self$get_content()$guid
+      tryCatch(
+        # TODO: what does the API return if no repo is set?
+        v1_url("content", guid, "repository"),
+        error = function(e) {
+          GET(unversioned_fallback_url("applications", guid))$git
+        }
+      )
+    },
     #' @description Adjust Git polling.
     #' @param enabled Polling enabled.
     repo_enable = function(enabled = TRUE) {
-      warn_experimental("repo_enable")
-      self$get_connect()$PUT(
-        unversioned_url("applications", self$get_content()$guid, "repo"),
-        body = list(
-          enabled = enabled
-        )
+      guid <- self$get_content()$guid
+      tryCatch(
+        self$get_connect()$PATCH(
+          v1_url("content", guid, "repository"),
+          body = list(
+            polling = enabled
+          )
+        ),
+        error = function(e) {
+          self$get_connect()$PUT(
+            unversioned_fallback_url("applications", guid, "repo"),
+            body = list(
+              enabled = enabled
+            )
+          )
+        }
       )
     },
     #' @description Adjust Git repository
@@ -346,14 +365,26 @@ Content <- R6::R6Class(
     #' @param branch Git repository branch
     #' @param subdirectory Git repository directory
     repo_set = function(repository, branch, subdirectory) {
-      warn_experimental("repo_set")
-      self$get_connect()$POST(
-        unversioned_url("applications", self$get_content()$guid, "repo"),
-        body = list(
-          repository = repository,
-          branch = branch,
-          subdirectory = subdirectory
-        )
+      guid <- self$get_content()$guid
+      tryCatch(
+        self$get_connect()$PUT(
+          v1_url("content", guid, "repository"),
+          body = list(
+            repository = repository,
+            branch = branch,
+            directory = subdirectory
+          )
+        ),
+        error = function(e) {
+          self$get_connect()$POST(
+            unversioned_fallback_url("applications", guid, "repo"),
+            body = list(
+              repository = repository,
+              branch = branch,
+              subdirectory = subdirectory
+            )
+          )
+        }
       )
     },
     #' @description Get package dependencies

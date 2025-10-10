@@ -37,3 +37,10 @@ without_internet({
     )
   })
 })
+
+with_mock_api({
+  test_that("we can retrieve a content item", {
+    con <- Connect$new(server = "https://connect.example", api_key = "fake")
+    item <- content_item(con, "f2f37341-e21d-3d80-c698-a935ad614066")
+  })
+})
