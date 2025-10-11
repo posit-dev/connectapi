@@ -117,7 +117,6 @@ deploy_repo <- function(
   ...
 ) {
   validate_R6_class(client, "Connect")
-  warn_experimental("deploy_repo")
 
   content_metadata <- content_ensure(
     connect = client,
@@ -143,19 +142,16 @@ deploy_repo <- function(
 #' @export
 deploy_repo_enable <- function(content, enabled = TRUE) {
   validate_R6_class(content, "Content")
-  warn_experimental("deploy_repo_enable")
 
-  invisible(content$repo_enable(enabled))
-  invisible(content$get_content_remote())
-  return(content)
+  content$repo_enable(enabled)
+  content$get_content_remote()
+  content
 }
 
 #' @rdname deploy_repo
 #' @export
 deploy_repo_update <- function(content) {
   validate_R6_class(content, "Content")
-  warn_experimental("deploy_repo_update")
-  scoped_experimental_silence()
 
   con <- content$connect
   repo_data <- content$repository()

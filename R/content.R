@@ -318,74 +318,63 @@ Content <- R6::R6Class(
       )
     },
     #' @description Get Git repository details
-    #' @return a list of repo details, or NULL if no repo is set
+    #' @return NULL if no repo is set, otherwise a list with fields:
+    #' - repository
+    #' - branch
+    #' - directory
+    #' - polling
+    #' - last_error
+    #' - last_known_commit
     repository = function() {
-      GET <- self$connect$GET
+      con <- self$connect
       guid <- self$content$guid
-      tryCatch(
-        # TODO: the v1 API returns 404 if no repo is set, so that means we fall
-        # back to the other API. The new API was added in October 2022, so maybe
-        # we just don't fall back.
-        GET(v1_url("content", guid, "repository")),
-        error = function(e) {
-          resp <- GET(unversioned_fallback_url("applications", guid))$git
-          if (!is.null(resp)) {
-            # NOTE: the v1 and v0 endpoints don't have identical fields
-            # Rename to match v1 naming
-            names(resp)[names(resp) == "repository_url"] <- "repository"
-            names(resp)[names(resp) == "subdirectory"] <- "directory"
-            names(resp)[names(resp) == "enabled"] <- "polling"
-          }
-          resp
-        }
+      resp <- con$GET(
+        v1_url("content", guid, "repository"),
+        parser = NULL
       )
+      if (httr::status_code(resp) == 404) {
+        resp <- NULL
+      } else {
+        con$raise_error(resp)
+        resp <- httr::content(resp, as = "parsed")
+      }
+      resp
     },
     #' @description Adjust Git polling.
-    #' @param enabled Polling enabled.
-    repo_enable = function(enabled = TRUE) {
+    #' @param polling Polling enabled.
+    repo_enable = function(polling = TRUE) {
+      con <- self$connect
       guid <- self$content$guid
-      tryCatch(
-        self$connect$PATCH(
-          v1_url("content", guid, "repository"),
-          body = list(
-            polling = enabled
-          )
-        ),
-        error = function(e) {
-          self$connect$PUT(
-            unversioned_fallback_url("applications", guid, "repo"),
-            body = list(
-              enabled = enabled
-            )
-          )
-        }
+      resp <- con$PATCH(
+        v1_url("content", guid, "repository"),
+        body = list(polling = polling)
       )
+      if (httr::status_code(resp) == 404) {
+        stop("This content item is not git-backed")
+      }
+      con$raise_error(resp)
+      httr::content(resp, as = "parsed")
     },
     #' @description Adjust Git repository
     #' @param repository Git repository URL
     #' @param branch Git repository branch
-    #' @param subdirectory Git repository directory
-    repo_set = function(repository, branch, subdirectory) {
+    #' @param directory Git repository directory
+    #' @param polling Whether to check for updates
+    repo_set = function(
+      repository,
+      branch = "main",
+      directory = ".",
+      polling = FALSE
+    ) {
       guid <- self$content$guid
-      tryCatch(
-        self$connect$PUT(
-          v1_url("content", guid, "repository"),
-          body = list(
-            repository = repository,
-            branch = branch,
-            directory = subdirectory
-          )
-        ),
-        error = function(e) {
-          self$connect$POST(
-            unversioned_fallback_url("applications", guid, "repo"),
-            body = list(
-              repository = repository,
-              branch = branch,
-              subdirectory = subdirectory
-            )
-          )
-        }
+      self$connect$PUT(
+        v1_url("content", guid, "repository"),
+        body = list(
+          repository = repository,
+          branch = branch,
+          directory = subdirectory,
+          polling = polling
+        )
       )
     },
     #' @description Get package dependencies
