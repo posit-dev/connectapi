@@ -14,6 +14,7 @@
   on the Connect server. (#272, #447)
 - New `lock_content()` and `unlock_content()` functions for locking and unlocking
   content items. (#453)
+- Updated git-backed deployment functions to use v1 APIs (#459)
 
 # connectapi 0.8.0
 
