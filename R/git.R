@@ -130,7 +130,7 @@ deploy_repo <- function(
   deployed_content$repo_set(
     repository = repository,
     branch = branch,
-    subdirectory = subdirectory
+    directory = subdirectory
   )
 
   task <- deployed_content$deploy()
