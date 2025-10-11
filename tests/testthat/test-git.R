@@ -37,3 +37,38 @@ without_internet({
     )
   })
 })
+
+with_mock_api({
+  test_that("we can retrieve a repository information if it exists", {
+    con <- Connect$new(server = "https://connect.example", api_key = "fake")
+    item <- content_item(con, "f2f37341-e21d-3d80-c698-a935ad614066")
+    expect_true(item$repository()$polling)
+  })
+
+  test_that("repository is null if it is not set", {
+    con <- Connect$new(server = "https://connect.example", api_key = "fake")
+    item <- content_item(con, "c3426b0b-e21d-3d80-c698-a935ad614066")
+    expect_null(item$repository())
+  })
+
+  test_that("we can set a repository", {
+    con <- Connect$new(server = "https://connect.example", api_key = "fake")
+    item <- content_item(con, "c3426b0b-e21d-3d80-c698-a935ad614066")
+    expect_PUT(
+      item$repo_set(repository = "https://github.com/posit-dev/connectapi"),
+      "https://connect.example/__api__/v1/content/c3426b0b/repository",
+      '{"repository":"https://github.com/posit-dev/connectapi",',
+      '"branch":"main","directory":".","polling":false}'
+    )
+  })
+
+  test_that("we can enable polling", {
+    con <- Connect$new(server = "https://connect.example", api_key = "fake")
+    item <- content_item(con, "f2f37341-e21d-3d80-c698-a935ad614066")
+    expect_PATCH(
+      item$repo_enable(TRUE),
+      "https://connect.example/__api__/v1/content/f2f37341-e21d-3d80-c698-a935ad614066/repository",
+      '{"polling":true}'
+    )
+  })
+})

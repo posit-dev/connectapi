@@ -70,11 +70,6 @@ Content <- R6::R6Class(
       url <- v1_url("content", self$get_content()$guid, "bundles", bundle_id)
       self$get_connect()$DELETE(url)
     },
-    #' @description Get this (remote) content item.
-    internal_content = function() {
-      url <- unversioned_url("applications", self$get_content()$guid)
-      self$get_connect()$GET(url)
-    },
     #' @description Update this content item.
     #' @param ... Content fields.
     update = function(...) {
@@ -168,12 +163,8 @@ Content <- R6::R6Class(
     #' @param key The job key.
     job = function(key) {
       warn_experimental("job")
-      url <- unversioned_url(
-        "applications",
-        self$get_content()$guid,
-        "job",
-        key
-      )
+      guid <- self$get_content()$guid
+      url <- unversioned_url("applications", guid, "job", key)
       res <- self$get_connect()$GET(url)
 
       content_guid <- self$get_content()$guid
@@ -196,11 +187,8 @@ Content <- R6::R6Class(
     #' @description Return the variants for this content.
     variants = function() {
       warn_experimental("variants")
-      url <- unversioned_url(
-        "applications",
-        self$get_content()$guid,
-        "variants"
-      )
+      guid <- self$get_content()$guid
+      url <- unversioned_url("applications", guid, "variants")
       self$get_connect()$GET(url)
     },
     #' @description Set a tag for this content.
@@ -337,29 +325,57 @@ Content <- R6::R6Class(
         body = body
       )
     },
+    #' @description Get Git repository details
+    #' @return NULL if no repo is set, otherwise a list with fields:
+    #' - repository
+    #' - branch
+    #' - directory
+    #' - polling
+    #' - last_error
+    #' - last_known_commit
+    repository = function() {
+      con <- self$get_connect()
+      guid <- self$get_content()$guid
+      resp <- con$GET(
+        v1_url("content", guid, "repository"),
+        parser = NULL
+      )
+      if (httr::status_code(resp) == 404) {
+        # 404 means there is no repository set
+        return(NULL)
+      }
+      con$raise_error(resp)
+      httr::content(resp, as = "parsed")
+    },
     #' @description Adjust Git polling.
-    #' @param enabled Polling enabled.
-    repo_enable = function(enabled = TRUE) {
-      warn_experimental("repo_enable")
-      self$get_connect()$PUT(
-        unversioned_url("applications", self$get_content()$guid, "repo"),
-        body = list(
-          enabled = enabled
-        )
+    #' @param polling Polling enabled.
+    repo_enable = function(polling = TRUE) {
+      con <- self$get_connect()
+      guid <- self$get_content()$guid
+      con$PATCH(
+        v1_url("content", guid, "repository"),
+        body = list(polling = polling)
       )
     },
     #' @description Adjust Git repository
     #' @param repository Git repository URL
     #' @param branch Git repository branch
-    #' @param subdirectory Git repository directory
-    repo_set = function(repository, branch, subdirectory) {
-      warn_experimental("repo_set")
-      self$get_connect()$POST(
-        unversioned_url("applications", self$get_content()$guid, "repo"),
+    #' @param directory Git repository directory
+    #' @param polling Whether to check for updates
+    repo_set = function(
+      repository,
+      branch = "main",
+      directory = ".",
+      polling = FALSE
+    ) {
+      guid <- self$get_content()$guid
+      self$get_connect()$PUT(
+        v1_url("content", guid, "repository"),
         body = list(
           repository = repository,
           branch = branch,
-          subdirectory = subdirectory
+          directory = directory,
+          polling = polling
         )
       )
     },
