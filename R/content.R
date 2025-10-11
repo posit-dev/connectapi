@@ -333,27 +333,21 @@ Content <- R6::R6Class(
         parser = NULL
       )
       if (httr::status_code(resp) == 404) {
-        resp <- NULL
-      } else {
-        con$raise_error(resp)
-        resp <- httr::content(resp, as = "parsed")
+        # 404 means there is no repository set
+        return(NULL)
       }
-      resp
+      con$raise_error(resp)
+      httr::content(resp, as = "parsed")
     },
     #' @description Adjust Git polling.
     #' @param polling Polling enabled.
     repo_enable = function(polling = TRUE) {
       con <- self$connect
       guid <- self$content$guid
-      resp <- con$PATCH(
+      con$PATCH(
         v1_url("content", guid, "repository"),
         body = list(polling = polling)
       )
-      if (httr::status_code(resp) == 404) {
-        stop("This content item is not git-backed")
-      }
-      con$raise_error(resp)
-      httr::content(resp, as = "parsed")
     },
     #' @description Adjust Git repository
     #' @param repository Git repository URL
@@ -372,7 +366,7 @@ Content <- R6::R6Class(
         body = list(
           repository = repository,
           branch = branch,
-          directory = subdirectory,
+          directory = directory,
           polling = polling
         )
       )

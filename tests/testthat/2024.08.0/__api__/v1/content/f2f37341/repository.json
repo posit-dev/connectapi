@@ -1,0 +1,8 @@
+{
+  "repository": "https://github.com/dbkegley/rsc-sample-content",
+  "branch": "main",
+  "directory": "local/python-shiny",
+  "polling": true,
+  "last_error": "thread caused non-unwinding panic. aborting. (signal: aborted (core dumped))",
+  "last_known_commit": "5e69ff238376182fa7ed38b30497d457684c6e24"
+}
