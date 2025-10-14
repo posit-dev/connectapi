@@ -36,8 +36,7 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git add man/\* NAMESPACE
-          # Only commit if there are staged changes
-          git diff --staged --quiet || git commit -m 'Update documentation'
+          git commit -m 'Update documentation' || echo "No changes to commit"
 
       - uses: r-lib/actions/pr-push@v2
         with:
