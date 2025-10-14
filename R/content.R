@@ -1522,7 +1522,13 @@ get_content_packages <- function(content) {
 #' library(connectapi)
 #' client <- connect()
 #'
-#' search_content(client, q = "")
+#' my_content <- search_content(client, q = "owner:@me")
+#'
+#' shiny_content <- purrr::keep(my_content, function(x) {
+#'   x$content$app_mode == "rmd-shiny"
+#' })
+#'
+#' purrr::map(shiny_content, lock_content)
 #' }
 #'
 #' @family content functions
