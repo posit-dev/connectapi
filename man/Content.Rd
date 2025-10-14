@@ -334,7 +334,8 @@ Add a principal to the ACL for this content.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{principal_guid}}{GUID for the target user or group.}
+\item{\code{principal_guid}}{GUID for the target user or group. When
+\code{principal_type = "user"}, can also be a \code{connect_user} object.}
 
 \item{\code{principal_type}}{Acting on user or group.}
 
@@ -357,7 +358,8 @@ Alter a principal in the ACL for this content.
 \describe{
 \item{\code{id}}{The target identifier.}
 
-\item{\code{principal_guid}}{GUID for the target user or group.}
+\item{\code{principal_guid}}{GUID for the target user or group. When
+\code{principal_type = "user"}, can also be a \code{connect_user} object.}
 
 \item{\code{principal_type}}{Acting on user or group.}
 

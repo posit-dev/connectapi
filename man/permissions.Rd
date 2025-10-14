@@ -12,15 +12,15 @@
 \alias{get_content_permissions}
 \title{Content permissions}
 \usage{
-content_add_user(content, guid, role = c("viewer", "owner"))
+content_add_user(content, user, role = c("viewer", "owner"))
 
 content_add_group(content, guid, role = c("viewer", "owner"))
 
-content_delete_user(content, guid)
+content_delete_user(content, user)
 
 content_delete_group(content, guid)
 
-get_user_permission(content, guid, add_owner = TRUE)
+get_user_permission(content, user, add_owner = TRUE)
 
 get_my_permission(content, add_owner = TRUE)
 
@@ -31,9 +31,14 @@ get_content_permissions(content, add_owner = TRUE)
 \arguments{
 \item{content}{An R6 content object}
 
-\item{guid}{The guid associated with either a user (for \code{content_add_user}) or group (for \code{content_add_group})}
+\item{user}{The guid associated with either a user (for \code{content_add_user})
+or group (for \code{content_add_group}). Can also be a list of \code{connect_user}
+objects.}
 
-\item{role}{The role to assign to a user. Either "viewer" or "owner." Defaults to "viewer"}
+\item{role}{The role to assign to a user. Either "viewer" or "owner."
+Defaults to "viewer"}
+
+\item{guid}{The guid associated with a group.}
 
 \item{add_owner}{Optional. Whether to include the owner in returned
 permission sets. Default is TRUE. The owner will have an NA_character_

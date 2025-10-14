@@ -767,7 +767,7 @@ Get user details.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{guid}}{The user GUID.}
+\item{\code{guid}}{The user GUID or a \code{connect_user} object.}
 }
 \if{html}{\out{</div>}}
 }
@@ -889,7 +889,7 @@ Lock a user.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{user_guid}}{User GUID.}
+\item{\code{user_guid}}{User GUID or a \code{connect_user} object.}
 }
 \if{html}{\out{</div>}}
 }
@@ -906,7 +906,7 @@ Unlock a user.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{user_guid}}{User GUID.}
+\item{\code{user_guid}}{User GUID or a \code{connect_user} object.}
 }
 \if{html}{\out{</div>}}
 }
@@ -923,7 +923,7 @@ Update a user.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{user_guid}}{User GUID.}
+\item{\code{user_guid}}{User GUID or a \code{connect_user} object.}
 
 \item{\code{...}}{User fields.}
 }
@@ -982,7 +982,7 @@ Add a group member.
 \describe{
 \item{\code{group_guid}}{The group GUID.}
 
-\item{\code{user_guid}}{The user GUID.}
+\item{\code{user_guid}}{The user GUID or a \code{connect_user} object.}
 }
 \if{html}{\out{</div>}}
 }
@@ -1001,7 +1001,7 @@ Remove a group member.
 \describe{
 \item{\code{group_guid}}{The group GUID.}
 
-\item{\code{user_guid}}{The user GUID.}
+\item{\code{user_guid}}{The user GUID or a \code{connect_user} object.}
 }
 \if{html}{\out{</div>}}
 }
