@@ -8,7 +8,9 @@ cont1_content <- NULL
 
 test_that("get_users works", {
   users <- get_users(test_conn_1)
+  expect_s3_class(users, c("connect_users", "list"))
 
+  users <- as.data.frame(users)
   expect_s3_class(users, c("tbl_df", "tbl", "data.frame"))
   expect_equal(
     purrr::map_chr(vctrs::vec_ptype(users), typeof),
@@ -18,10 +20,10 @@ test_that("get_users works", {
   # Other tests create users, so specifying the exact number here is conditional
   # on the contents of other tests and the order that tests run in.
   admins <- get_users(test_conn_1, user_role = "administrator")
-  expect_true(nrow(admins) > 0)
+  expect_true(length(admins) > 0)
 
   licensed <- get_users(test_conn_1, account_status = "licensed")
-  expect_true(nrow(licensed) > 0)
+  expect_true(length(licensed) > 0)
 })
 
 test_that("get_groups works", {
