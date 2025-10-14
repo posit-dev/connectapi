@@ -16,7 +16,7 @@ Bundle A bundle object
 Define a bundle from a path (a path directly to a tar.gz file)
 }
 \examples{
-\dontshow{if (identical(Sys.getenv("IN_PKGDOWN"), "true")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (identical(Sys.getenv("IN_PKGDOWN"), "true")) withAutoprint(\{ # examplesIf}
 
 bundle_path(system.file("tests/testthat/examples/static.tar.gz", package = "connectapi"))
 \dontshow{\}) # examplesIf}
