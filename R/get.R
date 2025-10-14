@@ -13,8 +13,8 @@
 #' value (boolean OR). When `NULL` (the default), results are not filtered.
 
 #'
-#' @return
-#' A tibble with the following columns:
+#' @return For `get_users`, a list of objects of type `"connect_user"` which
+#'   contain the following information:
 #'
 #'   * `email`: The user's email
 #'   * `username`: The user's username
@@ -33,6 +33,8 @@
 #'   * `locked`: Whether or not the user is locked
 #'   * `guid`: The user's GUID, or unique identifier, in UUID RFC4122 format
 #'
+#' For `get_user`, a single `"connect_user"` object.
+#'
 #' @details
 #' Please see https://docs.posit.co/connect/api/#get-/v1/users for more information.
 #'
@@ -49,6 +51,10 @@
 #'
 #' # Get all users who are administrators or publishers
 #' get_users(client, user_role = c("administrator", "publisher"))
+#'
+#' # Convert to a data frame
+#' users_list <- get_users(client)
+#' as.data.frame(users_list)
 #' }
 #'
 #' @export
@@ -72,10 +78,23 @@ get_users <- function(
     ),
     limit = limit
   )
+  return(prepend_class(res, "connect_users"))
+}
 
-  out <- parse_connectapi_typed(res, connectapi_ptypes$users)
+#' @param guid user GUID
+#' @rdname get_users
+get_user <- function(src, guid) {
+  src$user(guid)
+}
 
-  return(out)
+#' @export
+as.data.frame.connect_users <- function(x, ...) {
+  parse_connectapi_typed(x, connectapi_ptypes$users)
+}
+
+#' @export
+as_tibble.connect_users <- function(x, ...) {
+  parse_connectapi_typed(x, connectapi_ptypes$users)
 }
 
 #' Get information about content on the Posit Connect server

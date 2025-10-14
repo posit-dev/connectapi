@@ -256,3 +256,9 @@ message_if_not_testing <- function(...) {
     message(...)
   }
 }
+
+# Prepends a new class to a given objec
+prepend_class <- function(x, class) {
+  class(x) <- c(class, class(x))
+  x
+}

@@ -497,7 +497,7 @@ Connect <- R6::R6Class(
     #' @description Get user details.
     #' @param guid The user GUID.
     user = function(guid) {
-      self$GET(v1_url("users", guid))
+      prepend_class(self$GET(v1_url("users", guid)), "connect_user")
     },
 
     #' @description Get users.
@@ -527,7 +527,11 @@ Connect <- R6::R6Class(
         user_role = user_role,
         account_status = account_status
       )
-      self$GET(path, query = query)
+      res <- self$GET(path, query = query)
+      if (!is.null(res$results)) {
+        res$results <- lapply(res$results, prepend_class, "connect_user")
+      }
+      res
     },
 
     #' @description Get remote users.
