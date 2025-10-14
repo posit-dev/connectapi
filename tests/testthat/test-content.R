@@ -549,3 +549,55 @@ test_that("content search errors on Connect < 2024.04.0", {
     "ERROR: This feature requires Posit Connect version 2024.04.0 but you are using 2024.03.0."
   )
 })
+
+# lock content ----
+
+with_mock_dir("2025.09.0", {
+  test_that("lock_content() and unlock_content() make the expected requests", {
+    client <- Connect$new(
+      server = "https://connect.example",
+      api_key = "not-a-key"
+    )
+    client$version # Hydrate version
+    item <- content_item(client, "6632a162")
+    without_internet({
+      expect_PATCH(
+        lock_content(item),
+        "https://connect.example/__api__/v1/content/6632a162",
+        '{"locked":true,"locked_message":""}'
+      )
+      expect_PATCH(
+        lock_content(item, "ACCESS DENIED"),
+        "https://connect.example/__api__/v1/content/6632a162",
+        '{"locked":true,"locked_message":"ACCESS DENIED"}'
+      )
+      expect_PATCH(
+        unlock_content(item),
+        "https://connect.example/__api__/v1/content/6632a162",
+        '{"locked":false,"locked_message":""}'
+      )
+    })
+  })
+})
+
+test_that("lock_content() and unlock_content() error on Connect < 2024.08.0", {
+  client <- MockConnect$new("2024.07.0")
+  client$mock_response(
+    "GET",
+    "v1/content/test-guid",
+    content = list(
+      guid = "test-guid",
+      title = "Test Content",
+      app_mode = "static"
+    )
+  )
+  item <- content_item(client, "test-guid")
+  expect_error(
+    lock_content(item),
+    "ERROR: This feature requires Posit Connect version 2024.08.0 but you are using 2024.07.0."
+  )
+  expect_error(
+    unlock_content(item),
+    "ERROR: This feature requires Posit Connect version 2024.08.0 but you are using 2024.07.0."
+  )
+})

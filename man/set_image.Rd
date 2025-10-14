@@ -55,6 +55,7 @@ Other content functions:
 \code{\link{get_vanity_url}()},
 \code{\link{git}},
 \code{\link{has_thumbnail}()},
+\code{\link{lock_content}()},
 \code{\link{permissions}},
 \code{\link{search_content}()},
 \code{\link{set_integrations}()},
