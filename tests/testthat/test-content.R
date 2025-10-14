@@ -478,11 +478,15 @@ with_mock_dir("2025.09.0", {
   test_that("content search returns the expected list of content", {
     res <- search_content(client, q = "sea bream")
     expect_equal(
-      purrr::map_chr(res, "guid"),
+      class(res[[1]]),
+      c("Content", "R6")
+    )
+    expect_equal(
+      purrr::map_chr(res, list("content", "guid")),
       c("c9f68287", "53032a0e")
     )
     expect_equal(
-      purrr::map_chr(res, "title"),
+      purrr::map_chr(res, list("content", "title")),
       c("sea bream report", "sea bream dashboard")
     )
   })
@@ -491,7 +495,7 @@ with_mock_dir("2025.09.0", {
     res <- search_content(client, q = "blobfish")
     expect_equal(length(res), 3)
     expect_equal(
-      purrr::map_chr(res, "title"),
+      purrr::map_chr(res, list("content", "title")),
       c("blobfish dashboard", "blobfish api", "blobfish report")
     )
   })

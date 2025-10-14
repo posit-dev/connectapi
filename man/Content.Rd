@@ -9,7 +9,7 @@ Content
 Content
 }
 \details{
-An R6 class that represents content
+An R6 class that represents content.
 }
 \seealso{
 Other R6 classes: 
@@ -27,9 +27,9 @@ Other R6 classes:
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{connect}}{An R6 Connect object}
+\item{\code{connect}}{An R6 Connect object.}
 
-\item{\code{content}}{The content details from Posit Connect}
+\item{\code{content}}{The content details from Posit Connect. Properties are described in \code{\link[=get_content]{get_content()}}.}
 }
 \if{html}{\out{</div>}}
 }
