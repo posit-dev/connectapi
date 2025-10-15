@@ -36,11 +36,6 @@ Connect <- R6::R6Class(
     #' @field using_auth Indicates that the API key is added to each HTTP call.
     using_auth = TRUE,
 
-    #' @description Return this connect.
-    get_connect = function() {
-      self
-    },
-
     #' @description Initialize a new connect.
     #' @param server The base URL of your Posit Connect server.
     #' @param api_key Your Posit Connect API key.

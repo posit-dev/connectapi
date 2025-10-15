@@ -9,13 +9,13 @@ test_that("set_run_as works with a good linux user", {
   scoped_experimental_silence()
   res <- set_run_as(shiny_content, "rstudio-connect")
   expect_equal(
-    res$get_content()$run_as,
+    res$content$run_as,
     "rstudio-connect"
   )
 
   skip("TODO: failing because of a bug in Connect")
   res2 <- set_run_as(shiny_content, NULL)
-  expect_null(res2$get_content()$run_as)
+  expect_null(res2$content$run_as)
 })
 
 test_that("set_run_as fails with a bad linux user", {
@@ -37,7 +37,7 @@ test_that("set_run_as works for run_as_current_user", {
   )
 
   expect_true(
-    shiny_content$get_content()$run_as_current_user
+    shiny_content$content$run_as_current_user
   )
 
   res2 <- set_run_as(
@@ -47,6 +47,6 @@ test_that("set_run_as works for run_as_current_user", {
   )
 
   expect_false(
-    shiny_content$get_content()$run_as_current_user
+    shiny_content$content$run_as_current_user
   )
 })

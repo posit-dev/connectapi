@@ -23,18 +23,18 @@ VariantSchedule <- R6::R6Class(
     #' @description Perform an HTTP GET request of the named API path. Returns an object parsed from the HTTP response.
     #' @param path API path.
     GET = function(path) {
-      self$get_connect()$GET(path)
+      self$connect$GET(path)
     },
     #' @description Perform an HTTP POST request of the named API path. Returns an object parsed from the HTTP response.
     #' @param path API path.
     #' @param body The HTTP payload.
     POST = function(path, body) {
-      self$get_connect()$POST(path = path, body = body)
+      self$connect$POST(path = path, body = body)
     },
     #' @description Perform an HTTP DELETE request of the named API path. Returns the HTTP response object.
     #' @param path API path.
     DELETE = function(path) {
-      self$get_connect()$DELETE(path = path)
+      self$connect$DELETE(path = path)
     },
     #' @description Set the schedule for this variant
     #' @param ... Schedule fields.
@@ -50,14 +50,14 @@ VariantSchedule <- R6::R6Class(
       if (self$is_empty()) {
         params <- purrr::list_modify(
           params,
-          app_id = self$get_variant()$app_id,
-          variant_id = self$get_variant()$id
+          app_id = self$variant$app_id,
+          variant_id = self$variant$id
         )
         path <- unversioned_url("schedules")
       } else {
         path <- unversioned_url("schedules", self$get_schedule()$id)
       }
-      cli <- self$get_connect()
+      cli <- self$connect
       res <- cli$POST(path = path, body = params)
 
       self$schedule_data <- res
@@ -129,7 +129,7 @@ VariantSchedule <- R6::R6Class(
           "year" = glue::glue("Every {schdata$N} year{plural}"),
           "Unknown schedule"
         )
-        tz_offset <- .get_offset(self$get_connect(), rawdata$timezone)
+        tz_offset <- .get_offset(self$connect, rawdata$timezone)
         c(
           desc,
           # TODO: a nice way to print out relative times...?
@@ -165,8 +165,8 @@ get_variant_schedule <- function(variant) {
   scoped_experimental_silence()
   validate_R6_class(variant, "Variant")
 
-  content_details <- variant$get_content()
-  connect_client <- variant$get_connect()
+  content_details <- variant$content
+  connect_client <- variant$connect
 
   variant_key <- variant$key
   variant_schedule <- variant$get_schedule_remote()
@@ -500,7 +500,7 @@ example_schedules <- list(
 #' @export
 set_schedule_remove <- function(.schedule) {
   validate_R6_class(.schedule, "VariantSchedule")
-  cli <- .schedule$get_connect()
+  cli <- .schedule$connect
   path <- unversioned_url("schedules", .schedule$get_schedule()$id)
   cli$DELETE(path = path)
   get_variant(.schedule, .schedule$key)

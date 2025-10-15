@@ -68,7 +68,6 @@ Other R6 classes:
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-Connect-get_connect}{\code{Connect$get_connect()}}
 \item \href{#method-Connect-new}{\code{Connect$new()}}
 \item \href{#method-Connect-httr_config}{\code{Connect$httr_config()}}
 \item \href{#method-Connect-print}{\code{Connect$print()}}
@@ -131,16 +130,6 @@ Other R6 classes:
 \item \href{#method-Connect-server_settings}{\code{Connect$server_settings()}}
 \item \href{#method-Connect-clone}{\code{Connect$clone()}}
 }
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Connect-get_connect"></a>}}
-\if{latex}{\out{\hypertarget{method-Connect-get_connect}{}}}
-\subsection{Method \code{get_connect()}}{
-Return this connect.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Connect$get_connect()}\if{html}{\out{</div>}}
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Connect-new"></a>}}

@@ -109,7 +109,7 @@ test_that("content_list_with_permissions predicate works", {
     progress_enabled = FALSE,
     cl <- content_list_with_permissions(
       test_conn_1,
-      .p = ~ .x$guid == deployed$get_content()$guid
+      .p = ~ .x$guid == deployed$content$guid
     )
   )
 
@@ -141,7 +141,7 @@ test_that("content_list_guid_has_access works", {
   expect_true(nrow(filt) <= nrow(cl))
 
   expect_true(nrow(filt) > 0)
-  expect_true(deployed$get_content()$guid %in% filt$guid)
+  expect_true(deployed$content$guid %in% filt$guid)
 })
 
 test_that("content_list_by_tag works", {

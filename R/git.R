@@ -157,7 +157,7 @@ deploy_repo_update <- function(content) {
   warn_experimental("deploy_repo_update")
   scoped_experimental_silence()
 
-  con <- content$get_connect()
+  con <- content$connect
   internal_meta <- content$internal_content()
   repo_data <- tryCatch(
     {
@@ -190,5 +190,5 @@ deploy_repo_update <- function(content) {
   }
   task <- content$deploy()
 
-  ContentTask$new(connect = con, content = content$get_content(), task = task)
+  ContentTask$new(connect = con, content = content$content, task = task)
 }

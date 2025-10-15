@@ -41,13 +41,13 @@ test_that("bundle_dir deploys", {
     title = cont1_title
   )
 
-  cont1_guid <<- tsk$get_content()$guid
+  cont1_guid <<- tsk$content$guid
   cont1_content <<- tsk
 
   # how should we test that deployment happened?
   expect_true(validate_R6_class(tsk, "Content"))
-  expect_equal(tsk$get_content()$name, cont1_name)
-  expect_equal(tsk$get_content()$title, cont1_title)
+  expect_equal(tsk$content$name, cont1_name)
+  expect_equal(tsk$content$title, cont1_title)
 
   expect_true(validate_R6_class(tsk, "ContentTask"))
   expect_gt(nchar(tsk$get_task()$task_id), 0)
@@ -55,9 +55,9 @@ test_that("bundle_dir deploys", {
   # with a guid
   tsk2 <- deploy(connect = test_conn_1, bundle = bund, guid = cont1_guid)
   expect_true(validate_R6_class(tsk2, "Content"))
-  expect_equal(tsk2$get_content()$name, cont1_name)
-  expect_equal(tsk2$get_content()$title, cont1_title)
-  expect_equal(tsk2$get_content()$guid, cont1_guid)
+  expect_equal(tsk2$content$name, cont1_name)
+  expect_equal(tsk2$content$title, cont1_title)
+  expect_equal(tsk2$content$guid, cont1_guid)
 })
 
 test_that("bundle_path deploys", {
@@ -104,7 +104,7 @@ test_that("delete_bundle() and get_bundles() work", {
   tsk <- deploy(connect = test_conn_1, bundle = bund)
   poll_task(tsk)
   first_bnd <- tsk$get_content_remote()$bundle_id
-  my_guid <- tsk$get_content()$guid
+  my_guid <- tsk$content$guid
 
   tsk <- deploy(connect = test_conn_1, bundle = bund, guid = my_guid)
   poll_task(tsk)
@@ -292,7 +292,7 @@ test_that("set_image_url works", {
 
   res <- set_image_url(
     cont1_content,
-    glue::glue("{cont1_content$get_connect()$server}/connect/__favicon__")
+    glue::glue("{cont1_content$connect$server}/connect/__favicon__")
   )
 
   expect_true(validate_R6_class(res, "Content"))
@@ -491,7 +491,7 @@ test_that("deployment timestamps respect timezone", {
     )
   )
   myc <- deploy(test_conn_1, bnd)
-  myc_guid <- myc$get_content()$guid
+  myc_guid <- myc$content$guid
 
   # will fail without the png package
   invisible(tryCatch(test_conn_1$GET(url = myc$get_url()), error = function(e) {
@@ -602,7 +602,7 @@ test_that("set_thumbnail works with remote paths", {
 
   res <- set_thumbnail(
     cont1_content,
-    glue::glue("{cont1_content$get_connect()$server}/connect/__favicon__")
+    glue::glue("{cont1_content$connect$server}/connect/__favicon__")
   )
 
   expect_true(validate_R6_class(res, "Content"))

@@ -72,10 +72,6 @@ Task <- R6::R6Class(
       }
       self$task <- task
     },
-    #' @description Return the associated Connect instance.
-    get_connect = function() {
-      self$connect
-    },
     #' @description Return the underlying task.
     get_task = function() {
       self$task
@@ -146,10 +142,10 @@ ContentTask <- R6::R6Class(
     #' @param ... Unused.
     print = function(...) {
       cat("Posit Connect Content Task: \n")
-      cat("  Content GUID: ", self$get_content()$guid, "\n", sep = "")
+      cat("  Content GUID: ", self$content$guid, "\n", sep = "")
       cat(
         "  URL: ",
-        self$get_content()$dashboard_url,
+        self$content$dashboard_url,
         "\n",
         sep = ""
       )
@@ -193,7 +189,7 @@ Vanity <- R6::R6Class(
     #' @param ... Unused.
     print = function(...) {
       cat("Posit Connect Content Vanity URL: \n")
-      cat("  Content GUID: ", self$get_content()$guid, "\n", sep = "")
+      cat("  Content GUID: ", self$content$guid, "\n", sep = "")
       cat("  Vanity URL: ", self$get_vanity()$path, "\n", sep = "")
       cat("\n")
       invisible(self)
@@ -463,7 +459,7 @@ deploy_current <- function(content) {
   validate_R6_class(content, "Content")
   res <- content$deploy()
   return(ContentTask$new(
-    connect = content$get_connect(),
+    connect = content$connect,
     content = content,
     task = res
   ))
@@ -491,9 +487,9 @@ deploy_current <- function(content) {
 #' @export
 set_vanity_url <- function(content, url, force = FALSE) {
   validate_R6_class(content, "Content")
-  con <- content$get_connect()
+  con <- content$connect
   error_if_less_than(con$version, "1.8.6")
-  guid <- content$get_content()$guid
+  guid <- content$content$guid
 
   scoped_experimental_silence()
   # TODO: Check that the URL provided is appropriate
@@ -522,9 +518,9 @@ set_vanity_url <- function(content, url, force = FALSE) {
 #' @family content functions
 #' @export
 delete_vanity_url <- function(content) {
-  con <- content$get_connect()
+  con <- content$connect
   error_if_less_than(con$version, "1.8.6")
-  guid <- content$get_content()$guid
+  guid <- content$content$guid
 
   con$DELETE(v1_url("content", guid, "vanity"), parser = "parsed")
 
@@ -543,9 +539,9 @@ delete_vanity_url <- function(content) {
 #' @export
 get_vanity_url <- function(content) {
   validate_R6_class(content, "Content")
-  con <- content$get_connect()
+  con <- content$connect
   error_if_less_than(con$version, "1.8.6")
-  guid <- content$get_content()$guid
+  guid <- content$content$guid
 
   van <- tryCatch(
     {
@@ -667,7 +663,7 @@ swap_vanity_url <- function(from, to) {
 #' @export
 poll_task <- function(task, wait = 1, callback = message) {
   validate_R6_class(task, c("Task", "ContentTask", "VariantTask"))
-  con <- task$get_connect()
+  con <- task$connect
 
   all_task_data <- list()
 
