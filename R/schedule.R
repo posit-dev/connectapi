@@ -165,7 +165,7 @@ get_variant_schedule <- function(variant) {
   scoped_experimental_silence()
   validate_R6_class(variant, "Variant")
 
-  content_details <- variant$get_content()
+  content_details <- variant$content
   connect_client <- variant$connect
 
   variant_key <- variant$key

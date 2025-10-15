@@ -330,7 +330,7 @@ variant_render <- function(variant) {
 
   VariantTask$new(
     connect = variant$connect,
-    content = variant$get_content(),
+    content = variant$content,
     key = variant$key,
     task = rendered
   )
