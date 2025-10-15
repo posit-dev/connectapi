@@ -157,7 +157,7 @@ deploy_repo_update <- function(content) {
   repo_data <- content$repository()
   if (is.null(repo_data)) {
     stop(glue::glue(
-      "Content item '{content$get_content()$guid}' is not git-backed content"
+      "Content item '{content$content$guid}' is not git-backed content"
     ))
   }
   branch_status <- repo_check_branches_ref(con, repo_data$repository)
