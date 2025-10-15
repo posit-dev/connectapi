@@ -102,6 +102,9 @@ get_users <- function(
 #'     indicates that all Posit Connect accounts may view the content. The
 #'     `acl` value lets specifically enumerated users and groups view the
 #'     content. Users configured as collaborators may always view content.
+#'   * `locked`: Whether or not the content is locked.
+#'   * `locked_message`: A custom message that is displayed by the content
+#'     item when locked. It is possible to format this message using Markdown.
 #'   * `connection_timeout`: Maximum number of seconds allowed without data
 #'     sent or received across a client connection. A value of 0 means
 #'     connections will never time-out (not recommended). When null, the
@@ -137,6 +140,47 @@ get_users <- function(
 #'   * `load_factor`: Controls how aggressively new processes are spawned.
 #'     When null, the default `Scheduler.LoadFactor` is used. Applies only to
 #'     content types that are executed on demand.
+#'   * `memory_request`: The minimum amount of RAM this content needs when
+#'     executing or rendering, expressed in bytes. When null, the default
+#'     `Scheduler.MemoryRequest` is used. Used for off-host execution.
+#'   * `memory_limit`: The maximum amount of RAM this content will be allowed
+#'     to consume when executing or rendering, expressed in bytes. If the
+#'     process tries to use more memory than allowed, it will be terminated.
+#'     When null, the default `Scheduler.MemoryLimit` is used. Used for
+#'     off-host execution.
+#'   * `cpu_request`: The minimum amount of compute power this content needs
+#'     when executing or rendering, expressed in CPU Units, where 1.0 unit is
+#'     equivalent to 1 physical or virtual core. Fractional values are allowed.
+#'     When null, the default `Scheduler.CPURequest` is used. Used for off-host
+#'     execution.
+#'   * `cpu_limit`: The maximum amount of compute power this content will be
+#'     allowed to consume when executing or rendering, expressed in CPU Units.
+#'     If the process tries to use more CPU than allowed, it will be throttled.
+#'     When null, the default `Scheduler.CPULimit` is used. Used for off-host
+#'     execution.
+#'   * `amd_gpu_limit`: The number of AMD GPUs that will be allocated by
+#'     Kubernetes to run this content. When null, the default
+#'     `Scheduler.AMDGPULimit` is used. Used for off-host execution.
+#'   * `nvidia_gpu_limit`: The number of NVIDIA GPUs that will be allocated by
+#'     Kubernetes to run this content. When null, the default
+#'     `Scheduler.NvidiaGPULimit` is used. Used for off-host execution.
+#'   * `service_account_name`: The name of the Kubernetes service account that
+#'     is used to run a particular piece of content. It must adhere to valid
+#'     Kubernetes service account naming rules. Only administrators and
+#'     publishers can view this value. Only administrators can set or change
+#'     this value.
+#'   * `default_image_name`: The default image that will be used when none is
+#'     defined by the bundle's manifest. If either environment.identifier or
+#'     environment.image is specified in the bundle's manifest.json, then the
+#'     settings in the manifest are used and the content-level default settings
+#'     will be ignored. A null value is returned when the client does not have
+#'     sufficient rights to see this information.
+#'   * `default_environment_guid`: The default execution environment that will
+#'     be used when none is defined by the bundle's manifest. If either
+#'     environment.identifier or environment.image is specified in the bundle's
+#'     manifest.json, then the settings in the manifest are used and the
+#'     content-level default settings will be ignored. A null value is returned
+#'     when the client does not have sufficient rights to see this information.
 #'   * `created_time`: The timestamp (RFC3339) indicating when this
 #'     content was created.
 #'   * `last_deployed_time`: The timestamp (RFC3339) indicating when
@@ -146,9 +190,10 @@ get_users <- function(
 #'   * `app_mode`: The runtime model for this content. Has a value
 #'     of `unknown` before data is deployed to this item. Automatically assigned
 #'     upon the first successful bundle deployment. Allowed: `api`,
-#'     `jupyter-static`, `python-api`, `python-bokeh`, `python-dash`,
-#'     `python-streamlit`, `rmd-shiny`, `rmd-static`, `shiny`, `static`,
-#'     `tensorflow-saved-model`, `unknown`.
+#'     `jupyter-static`, `jupyter-voila`, `python-api`, `python-bokeh`,
+#'     `python-dash`, `python-fastapi`, `python-gradio`, `python-shiny`,
+#'     `python-streamlit`, `quarto-shiny`, `quarto-static`, `rmd-shiny`,
+#'     `rmd-static`, `shiny`, `static`, `tensorflow-saved-model`, `unknown`.
 #'   * `content_category`: Describes the specialization of the content
 #'     runtime model. Automatically assigned upon the first successful bundle
 #'     deployment.
@@ -156,6 +201,20 @@ get_users <- function(
 #'     allows parameter configuration. Automatically assigned upon the first
 #'     successful bundle deployment. Applies only to content with an app_mode
 #'     of rmd-static.
+#'   * `environment_guid`: The GUID of the execution environment used to run
+#'     this content. Content running locally on the same server as Connect will
+#'     have a null value. A null value is also returned when the client does
+#'     not have sufficient rights to see this information.
+#'   * `cluster_name`: The location where this content runs. Content running
+#'     on the same server as Connect will have either a null value or the
+#'     string "Local". Gives the name of the cluster when run external to the
+#'     Connect host. A null value is returned when the client does not have
+#'     sufficient rights to see this information.
+#'   * `image_name`: The name of the container image used to run this content
+#'     in containerized environments such as Kubernetes. Content running
+#'     locally on the same server as Connect will have either a null value or
+#'     the string "Local". A null value is returned when the client does not
+#'     have sufficient rights to see this information.
 #'   * `r_version`: The version of the R interpreter associated
 #'     with this content. The value null represents that an R interpreter is
 #'     not used by this content or that the R package environment has not been
@@ -166,25 +225,77 @@ get_users <- function(
 #'     interpreter is not used by this content or that the Python package
 #'     environment has not been successfully restored. Automatically assigned
 #'     upon the successful deployment of a bundle.
-#'   * `run_as`: The UNIX user that executes this content.
-#'     When null, the default Applications.RunAs is used. Applies
-#'     only to executable content types - not static.
-#'   * `run_as_current_user`: Indicates if this content is allowed
-#'     to execute as the logged-in user when using PAM authentication.
-#'     Applies only to executable content types - not static.
+#'   * `quarto_version`: The version of Quarto associated with this content.
+#'     A null value represents that Quarto is not used by this content, that
+#'     the content has not been prepared for execution, or that the client does
+#'     not have sufficient rights to see this information. Automatically
+#'     assigned upon the successful deployment of a bundle.
+#'   * `r_environment_management`: Indicates whether or not Connect is
+#'     managing an R environment and has installed the required packages for
+#'     this content. A null value represents that R is not used by this content,
+#'     that the content has not been prepared for execution, or that the client
+#'     does not have sufficient rights to see this information. Automatically
+#'     assigned upon the successful deployment of a bundle.
+#'   * `default_r_environment_management`: Indicates whether or not Connect
+#'     should create and manage an R environment (installing required packages)
+#'     for this content. When null, Connect makes this determination based on
+#'     the server configuration. A null value is also returned when the client
+#'     does not have sufficient rights to see this information. This value is
+#'     ignored if the server setting
+#'     Applications.DefaultEnvironmentManagementSelection is disabled.
+#'   * `py_environment_management`: Indicates whether or not Connect is
+#'     managing a Python environment and has installed the required packages
+#'     for this content. A null value represents that Python is not used by
+#'     this content, that the content has not been prepared for execution, or
+#'     that the client does not have sufficient rights to see this information.
+#'     Automatically assigned upon the successful deployment of a bundle.
+#'   * `default_py_environment_management`: Indicates whether or not Connect
+#'     should create and manage a Python environment (installing required
+#'     packages) for this content. When null, Connect makes this determination
+#'     based on the server configuration. A null value is also returned when
+#'     the client does not have sufficient rights to see this information.
+#'     This value is ignored if the server setting
+#'     Applications.DefaultEnvironmentManagementSelection is disabled.
+#'   * `run_as`: The UNIX user that executes this content. When null, the
+#'     default Applications.RunAs is used. Applies only to executable content
+#'     types - not static. Only administrators can change this value. If
+#'     Applications.RunAsEnabled = false, this value will be ignored when
+#'     executing content.
+#'   * `run_as_current_user`: Indicates that Connect should run processes for
+#'     this content item under the Unix account of the user who visits it.
+#'     Content accessed anonymously will continue to run as the specified
+#'     run_as user. Connect must be configured to use PAM authentication with
+#'     the server settings Applications.RunAsCurrentUser = true and
+#'     PAM.ForwardPassword = true. This setting has no effect for other
+#'     authentication types. This setting only applies to application content
+#'     types (Shiny, Dash, Streamlit, and Bokeh). Only administrators can
+#'     change this value.
 #'   * `owner_guid`: The unique identifier for the owner
 #'   * `content_url`: The URL associated with this content. Computed
 #'     from the GUID for this content.
 #'   * `dashboard_url`: The URL within the Connect dashboard where
 #'     this content can be configured. Computed from the GUID for this content.
-#'   * `role`: The relationship of the accessing user to this
+#'   * `vanity_url`: The vanity URL associated with this content item.
+#'   * `app_role`: The relationship of the accessing user to this
 #'     content. A value of owner is returned for the content owner. editor
 #'     indicates a collaborator. The viewer value is given to users who are
 #'     permitted to view the content. A none role is returned for
 #'     administrators who cannot view the content but are permitted to view
-#'     its configuration. Computed at the time of the request.
-#'   * `vanity_url`: The vanity URL associated with this content item.
+#'     its configuration. Computed at the time of the request. Note: This field
+#'     may also appear as `role` in some contexts.
 #'   * `id`: The internal numeric identifier of this content item.
+#'   * `owner`: Basic details about the owner of this content item. Each entry
+#'     is a list with the following fields:
+#'     * `guid`: The user's GUID, or unique identifier, in UUID RFC4122 format.
+#'     * `username`: The user's username.
+#'     * `first_name`: The user's first name.
+#'     * `last_name`: The user's last name.
+#'   * `public_content_status`: Validation status of public interactive content.
+#'     When validation is required by licensing, this will be one of "ok",
+#'     "warning", or "restricted". If licensing does not require validation, it
+#'     will be "unrestricted"; if licensing does not allow public interactive
+#'     content, it will be "unlicensed". If the app has not been made public,
+#'     but public content is permitted, it will be "none".
 #'   * `tags`: Tags associated with this content item. Each entry is a list
 #'     with the following fields:
 #'     * `id`: The identifier for the tag.
@@ -195,12 +306,6 @@ get_users <- function(
 #'       created.
 #'     * `updated_time`: The timestamp (RFC3339) indicating when the tag was
 #'       last updated.
-#'   * `owner`: Basic details about the owner of this content item. Each entry
-#'     is a list with the following fields:
-#'     * `guid`: The user's GUID, or unique identifier, in UUID RFC4122 format.
-#'     * `username`: The user's username.
-#'     * `first_name`: The user's first name.
-#'     * `last_name`: The user's last name.
 #'
 #' @details
 #' Please see https://docs.posit.co/connect/api/#get-/v1/content for more
