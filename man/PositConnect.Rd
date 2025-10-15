@@ -883,13 +883,13 @@ Create a remote user.
 \subsection{Method \code{users_lock()}}{
 Lock a user.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Connect$users_lock(user_guid)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Connect$users_lock(user)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{user_guid}}{User GUID or a \code{connect_user} object.}
+\item{\code{user}}{User GUID or a \code{connect_user} object.}
 }
 \if{html}{\out{</div>}}
 }
@@ -900,13 +900,13 @@ Lock a user.
 \subsection{Method \code{users_unlock()}}{
 Unlock a user.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Connect$users_unlock(user_guid)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Connect$users_unlock(user)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{user_guid}}{User GUID or a \code{connect_user} object.}
+\item{\code{user}}{User GUID or a \code{connect_user} object.}
 }
 \if{html}{\out{</div>}}
 }
@@ -917,13 +917,13 @@ Unlock a user.
 \subsection{Method \code{users_update()}}{
 Update a user.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Connect$users_update(user_guid, ...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Connect$users_update(user, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{user_guid}}{User GUID or a \code{connect_user} object.}
+\item{\code{user}}{User GUID or a \code{connect_user} object.}
 
 \item{\code{...}}{User fields.}
 }
@@ -974,7 +974,7 @@ Get group members.
 \subsection{Method \code{group_member_add()}}{
 Add a group member.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Connect$group_member_add(group_guid, user_guid)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Connect$group_member_add(group_guid, user)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -982,7 +982,7 @@ Add a group member.
 \describe{
 \item{\code{group_guid}}{The group GUID.}
 
-\item{\code{user_guid}}{The user GUID or a \code{connect_user} object.}
+\item{\code{user}}{The user GUID or a \code{connect_user} object.}
 }
 \if{html}{\out{</div>}}
 }
@@ -993,7 +993,7 @@ Add a group member.
 \subsection{Method \code{group_member_remove()}}{
 Remove a group member.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Connect$group_member_remove(group_guid, user_guid)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Connect$group_member_remove(group_guid, user)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -1001,7 +1001,7 @@ Remove a group member.
 \describe{
 \item{\code{group_guid}}{The group GUID.}
 
-\item{\code{user_guid}}{The user GUID or a \code{connect_user} object.}
+\item{\code{user}}{The user GUID or a \code{connect_user} object.}
 }
 \if{html}{\out{</div>}}
 }
