@@ -46,6 +46,13 @@ with_mock_api({
   test_that("we can retrieve the users list", {
     con <- Connect$new(server = "https://connect.example", api_key = "fake")
     users <- get_users(con)
+    expect_s3_class(users, "data.frame")
+    expect_equal(nrow(users), 3)
+  })
+
+  test_that("we can retrieve the users list as list", {
+    con <- Connect$new(server = "https://connect.example", api_key = "fake")
+    users <- get_users_list(con)
     expect_s3_class(users, "connect_users")
     expect_equal(length(users), 3)
   })
