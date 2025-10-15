@@ -48,7 +48,7 @@ promote <- function(from, to, to_key, from_key, name) {
   to_app <- content_ensure(connect = to_client, name = name)
   to_app <- content_item(connect = to_client, guid = to_app$guid)
 
-  task <- deploy(to_client, bundle = bundle, guid = to_app$get_content()$guid)
+  task <- deploy(to_client, bundle = bundle, guid = to_app$content$guid)
 
   poll_task(task)
 

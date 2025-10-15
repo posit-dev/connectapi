@@ -192,7 +192,7 @@ get_content_tags <- function(content) {
   ctags <- content$tags()
   # TODO: find a way to build a tag tree from a list of tags
 
-  tagtree <- get_tags(content$get_connect())
+  tagtree <- get_tags(content$connect)
   res <- filter_tag_tree_id(
     tagtree,
     purrr::map_chr(ctags, ~ as.character(.x$id))
@@ -213,7 +213,7 @@ set_content_tag_tree <- function(content, ...) {
     )
   }
 
-  tags <- get_tags(content$get_connect())
+  tags <- get_tags(content$connect)
 
   # check that tags exist
   tmp <- purrr::pluck(tags, !!!params)

@@ -20,7 +20,7 @@ Variant <- R6::R6Class(
     #' @description Get and store the (remote) variant data.
     get_variant_remote = function() {
       path <- unversioned_url("variants", self$get_variant()$id)
-      self$variant <- self$get_connect()$GET(path)
+      self$variant <- self$connect$GET(path)
       self$variant
     },
     #' @description Initialize this variant.
@@ -45,7 +45,7 @@ Variant <- R6::R6Class(
     ) {
       warn_experimental("send_mail")
       url <- unversioned_url("variants", self$get_variant()$id, "sender")
-      self$get_connect()$POST(
+      self$connect$POST(
         path = url,
         query = list(
           email = arg_match(to),
@@ -61,7 +61,7 @@ Variant <- R6::R6Class(
     get_schedule_remote = function() {
       warn_experimental("get_schedule_remote")
       url <- unversioned_url("variants", self$get_variant()$id, "schedules")
-      res <- self$get_connect()$GET(url)
+      res <- self$connect$GET(url)
 
       if (length(res) == 1) {
         res <- res[[1]]
@@ -69,7 +69,7 @@ Variant <- R6::R6Class(
 
       if (length(res) > 0) {
         # add the content guid and variant key
-        content_guid <- self$get_content()$guid
+        content_guid <- self$content$guid
         variant_key <- self$key
         res <- purrr::list_modify(
           res,
@@ -84,7 +84,7 @@ Variant <- R6::R6Class(
     get_subscribers = function() {
       warn_experimental("subscribers")
       path <- unversioned_url("variants", self$get_variant()$id, "subscribers")
-      self$get_connect()$GET(path)
+      self$connect$GET(path)
     },
     #' @description Remove a named subscriber.
     #' @param guid User GUID.
@@ -96,23 +96,23 @@ Variant <- R6::R6Class(
         "subscribers",
         guid
       )
-      self$get_connect()$DELETE(path)
+      self$connect$DELETE(path)
     },
     #' @description Add named subscribers.
     #' @param guids User GUIDs.
     add_subscribers = function(guids) {
       warn_experimental("subscribers")
       path <- unversioned_url("variants", self$get_variant()$id, "subscribers")
-      self$get_connect()$POST(path = path, body = guids)
+      self$connect$POST(path = path, body = guids)
     },
     #' @description Render this variant.
     render = function() {
       warn_experimental("render")
       path <- unversioned_url("variants", self$get_variant()$id, "render")
-      res <- self$get_connect()$POST(path)
+      res <- self$connect$POST(path)
 
       # add the content guid and variant key
-      content_guid <- self$get_content()$guid
+      content_guid <- self$content$guid
       variant_key <- self$key
 
       purrr::list_modify(
@@ -125,9 +125,9 @@ Variant <- R6::R6Class(
     renderings = function() {
       warn_experimental("renderings")
       url <- unversioned_url("variants", self$get_variant()$id, "renderings")
-      res <- self$get_connect()$GET(path = url)
+      res <- self$connect$GET(path = url)
       # add the content guid and variant key
-      content_guid <- self$get_content()$guid
+      content_guid <- self$content$guid
       variant_key <- self$key
 
       purrr::map(
@@ -145,7 +145,7 @@ Variant <- R6::R6Class(
       params <- rlang::list2(...)
       # TODO: allow updating a variant
       url <- unversioned_url("variants", self$get_variant()$id)
-      res <- self$get_connect()$POST(url, body = params)
+      res <- self$connect$POST(url, body = params)
       return(self)
     },
     #' @description Jobs for this variant.
@@ -284,8 +284,8 @@ get_variant <- function(content, key) {
   scoped_experimental_silence()
   validate_R6_class(content, "Content")
   Variant$new(
-    connect = content$get_connect(),
-    content = content$get_content(),
+    connect = content$connect,
+    content = content$content,
     key = key
   )
 }
@@ -329,7 +329,7 @@ variant_render <- function(variant) {
   rendered <- variant$render()
 
   VariantTask$new(
-    connect = variant$get_connect(),
+    connect = variant$connect,
     content = variant$get_content(),
     key = variant$key,
     task = rendered

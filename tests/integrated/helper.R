@@ -31,8 +31,8 @@ deploy_example <- function(connect, name, ...) {
     ...
   )
 
-  guid <- tsk$get_content()$guid
-  content <- content_item(tsk$get_connect(), guid)
+  guid <- tsk$content$guid
+  content <- content_item(tsk$connect, guid)
 
   # TODO: a smarter, noninteractive wait...
   suppressMessages(poll_task(tsk))

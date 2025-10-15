@@ -15,7 +15,7 @@ test_that("content_item works", {
   cont1_tmp <- test_conn_1 %>% content_item(guid = cont1_guid)
 
   expect_true(validate_R6_class(cont1_tmp, "Content"))
-  expect_equal(cont1_tmp$get_content()$guid, cont1_guid)
+  expect_equal(cont1_tmp$content$guid, cont1_guid)
 })
 
 test_that("content_title works in a simple example", {
@@ -43,8 +43,8 @@ test_that("content_title handles NULL titles gracefully", {
     )
   )
   c2 <- deploy(connect = test_conn_1, bundle = bnd, name = c2_name, title = NA)
-  expect_null(c2$get_content()$title)
-  null_title <- content_title(test_conn_1, c2$get_content()$guid, "Test Title")
+  expect_null(c2$content$title)
+  null_title <- content_title(test_conn_1, c2$content$guid, "Test Title")
   expect_identical(null_title, "Test Title")
 })
 
@@ -110,16 +110,16 @@ test_that("content_update_access_type works", {
 
   # returns as expected
   tsk <- content_update_access_type(tsk, "all")
-  expect_equal(tsk$get_content()$access_type, "all")
+  expect_equal(tsk$content$access_type, "all")
 
   # modifies the R6 object in place
   content_update_access_type(tsk, "logged_in")
-  expect_equal(tsk$get_content()$access_type, "logged_in")
+  expect_equal(tsk$content$access_type, "logged_in")
 
   # works twice
   content_update_access_type(tsk, "acl")
   content_update_access_type(tsk, "acl")
-  expect_equal(tsk$get_content()$access_type, "acl")
+  expect_equal(tsk$content$access_type, "acl")
 
   expect_error(content_update_access_type(tsk), "one of")
 })
@@ -133,13 +133,13 @@ test_that("content_update works", {
   tsk <- deploy(connect = test_conn_1, bundle = bund)
 
   content_update(tsk, title = "test content_update")
-  expect_equal(tsk$get_content()$title, "test content_update")
+  expect_equal(tsk$content$title, "test content_update")
 
   # should not change or error with empty input
-  expect_equal(content_update(tsk)$get_content()$title, "test content_update")
+  expect_equal(content_update(tsk)$content$title, "test content_update")
 
   expect_equal(
-    content_update(tsk, title = "test content_update2")$get_content()$title,
+    content_update(tsk, title = "test content_update2")$content$title,
     "test content_update2"
   )
 })
