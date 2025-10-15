@@ -100,8 +100,6 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
 <ul><li><p><a href="#method-Content-new"><code>Content$new()</code></a></p></li>
-<li><p><a href="#method-Content-get_connect"><code>Content$get_connect()</code></a></p></li>
-<li><p><a href="#method-Content-get_content"><code>Content$get_content()</code></a></p></li>
 <li><p><a href="#method-Content-get_content_remote"><code>Content$get_content_remote()</code></a></p></li>
 <li><p><a href="#method-Content-get_bundles"><code>Content$get_bundles()</code></a></p></li>
 <li><p><a href="#method-Content-bundle_download"><code>Content$bundle_download()</code></a></p></li>
@@ -151,26 +149,10 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-Content-get_connect"></a><div class="section">
-<h3 id="method-get-connect-">Method <code>get_connect()</code><a class="anchor" aria-label="anchor" href="#method-get-connect-"></a></h3>
-<p>Returns the <code>Connect</code> instance.</p><div class="section">
-<h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">get_connect</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-
-</div><p></p><hr><a id="method-Content-get_content"></a><div class="section">
-<h3 id="method-get-content-">Method <code><a href="get_content.html">get_content()</a></code><a class="anchor" aria-label="anchor" href="#method-get-content-"></a></h3>
-<p>Returns the underlying content data.</p><div class="section">
-<h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">get_content</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-
 </div><p></p><hr><a id="method-Content-get_content_remote"></a><div class="section">
 <h3 id="method-get-content-remote-">Method <code>get_content_remote()</code><a class="anchor" aria-label="anchor" href="#method-get-content-remote-"></a></h3>
 <p>Obtain the content data from the Connect server.</p><div class="section">
-<h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
+<h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">get_content_remote</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -178,7 +160,7 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Content-get_bundles"></a><div class="section">
 <h3 id="method-get-bundles-">Method <code><a href="get_bundles.html">get_bundles()</a></code><a class="anchor" aria-label="anchor" href="#method-get-bundles-"></a></h3>
 <p>Return the set of content bundles.</p><div class="section">
-<h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
+<h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">get_bundles</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -186,7 +168,7 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Content-bundle_download"></a><div class="section">
 <h3 id="method-bundle-download-">Method <code>bundle_download()</code><a class="anchor" aria-label="anchor" href="#method-bundle-download-"></a></h3>
 <p>Download the source archive for a content bundle.</p><div class="section">
-<h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
+<h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">bundle_download</span><span class="op">(</span></span>
 <span>  <span class="va">bundle_id</span>,</span>
 <span>  filename <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"bundle"</span>, fileext <span class="op">=</span> <span class="st">".tar.gz"</span><span class="op">)</span>,</span>
@@ -214,7 +196,7 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Content-bundle_delete"></a><div class="section">
 <h3 id="method-bundle-delete-">Method <code>bundle_delete()</code><a class="anchor" aria-label="anchor" href="#method-bundle-delete-"></a></h3>
 <p>Delete a content bundle.</p><div class="section">
-<h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
+<h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">bundle_delete</span><span class="op">(</span><span class="va">bundle_id</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -230,7 +212,7 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Content-internal_content"></a><div class="section">
 <h3 id="method-internal-content-">Method <code>internal_content()</code><a class="anchor" aria-label="anchor" href="#method-internal-content-"></a></h3>
 <p>Get this (remote) content item.</p><div class="section">
-<h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
+<h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">internal_content</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -238,7 +220,7 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Content-update"></a><div class="section">
 <h3 id="method-update-">Method <code><a href="https://rdrr.io/r/stats/update.html" class="external-link">update()</a></code><a class="anchor" aria-label="anchor" href="#method-update-"></a></h3>
 <p>Update this content item.</p><div class="section">
-<h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
+<h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">update</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -254,7 +236,7 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Content-danger_delete"></a><div class="section">
 <h3 id="method-danger-delete-">Method <code>danger_delete()</code><a class="anchor" aria-label="anchor" href="#method-danger-delete-"></a></h3>
 <p>Delete this content item.</p><div class="section">
-<h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
+<h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">danger_delete</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -262,7 +244,7 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Content-get_url"></a><div class="section">
 <h3 id="method-get-url-">Method <code>get_url()</code><a class="anchor" aria-label="anchor" href="#method-get-url-"></a></h3>
 <p>Return the URL for this content.</p><div class="section">
-<h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
+<h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">get_url</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -270,7 +252,7 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Content-get_dashboard_url"></a><div class="section">
 <h3 id="method-get-dashboard-url-">Method <code>get_dashboard_url()</code><a class="anchor" aria-label="anchor" href="#method-get-dashboard-url-"></a></h3>
 <p>Return the URL for this content in the Posit Connect dashboard.</p><div class="section">
-<h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
+<h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">get_dashboard_url</span><span class="op">(</span>pane <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -286,7 +268,7 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Content-jobs"></a><div class="section">
 <h3 id="method-jobs-">Method <code>jobs()</code><a class="anchor" aria-label="anchor" href="#method-jobs-"></a></h3>
 <p>Return the jobs for this content</p><div class="section">
-<h4 id="usage-12">Usage<a class="anchor" aria-label="anchor" href="#usage-12"></a></h4>
+<h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">jobs</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -294,7 +276,7 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Content-job"></a><div class="section">
 <h3 id="method-job-">Method <code>job()</code><a class="anchor" aria-label="anchor" href="#method-job-"></a></h3>
 <p>Return a single job for this content.</p><div class="section">
-<h4 id="usage-13">Usage<a class="anchor" aria-label="anchor" href="#usage-13"></a></h4>
+<h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">job</span><span class="op">(</span><span class="va">key</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -310,7 +292,7 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Content-register_job_kill_order"></a><div class="section">
 <h3 id="method-register-job-kill-order-">Method <code>register_job_kill_order()</code><a class="anchor" aria-label="anchor" href="#method-register-job-kill-order-"></a></h3>
 <p>Terminate a single job for this content item.</p><div class="section">
-<h4 id="usage-14">Usage<a class="anchor" aria-label="anchor" href="#usage-14"></a></h4>
+<h4 id="usage-12">Usage<a class="anchor" aria-label="anchor" href="#usage-12"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">register_job_kill_order</span><span class="op">(</span><span class="va">key</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -326,7 +308,7 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Content-variants"></a><div class="section">
 <h3 id="method-variants-">Method <code>variants()</code><a class="anchor" aria-label="anchor" href="#method-variants-"></a></h3>
 <p>Return the variants for this content.</p><div class="section">
-<h4 id="usage-15">Usage<a class="anchor" aria-label="anchor" href="#usage-15"></a></h4>
+<h4 id="usage-13">Usage<a class="anchor" aria-label="anchor" href="#usage-13"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">variants</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -334,7 +316,7 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Content-tag_set"></a><div class="section">
 <h3 id="method-tag-set-">Method <code>tag_set()</code><a class="anchor" aria-label="anchor" href="#method-tag-set-"></a></h3>
 <p>Set a tag for this content.</p><div class="section">
-<h4 id="usage-16">Usage<a class="anchor" aria-label="anchor" href="#usage-16"></a></h4>
+<h4 id="usage-14">Usage<a class="anchor" aria-label="anchor" href="#usage-14"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">tag_set</span><span class="op">(</span><span class="va">tag_id</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -350,7 +332,7 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Content-tag_delete"></a><div class="section">
 <h3 id="method-tag-delete-">Method <code>tag_delete()</code><a class="anchor" aria-label="anchor" href="#method-tag-delete-"></a></h3>
 <p>Remove a tag for this content.</p><div class="section">
-<h4 id="usage-17">Usage<a class="anchor" aria-label="anchor" href="#usage-17"></a></h4>
+<h4 id="usage-15">Usage<a class="anchor" aria-label="anchor" href="#usage-15"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">tag_delete</span><span class="op">(</span><span class="va">tag_id</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -366,7 +348,7 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Content-tags"></a><div class="section">
 <h3 id="method-tags-">Method <code>tags()</code><a class="anchor" aria-label="anchor" href="#method-tags-"></a></h3>
 <p>The tags for this content.</p><div class="section">
-<h4 id="usage-18">Usage<a class="anchor" aria-label="anchor" href="#usage-18"></a></h4>
+<h4 id="usage-16">Usage<a class="anchor" aria-label="anchor" href="#usage-16"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">tags</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -374,7 +356,7 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Content-permissions_add"></a><div class="section">
 <h3 id="method-permissions-add-">Method <code>permissions_add()</code><a class="anchor" aria-label="anchor" href="#method-permissions-add-"></a></h3>
 <p>Add a principal to the ACL for this content.</p><div class="section">
-<h4 id="usage-19">Usage<a class="anchor" aria-label="anchor" href="#usage-19"></a></h4>
+<h4 id="usage-17">Usage<a class="anchor" aria-label="anchor" href="#usage-17"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">permissions_add</span><span class="op">(</span><span class="va">principal_guid</span>, <span class="va">principal_type</span>, <span class="va">role</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -398,7 +380,7 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Content-permissions_update"></a><div class="section">
 <h3 id="method-permissions-update-">Method <code>permissions_update()</code><a class="anchor" aria-label="anchor" href="#method-permissions-update-"></a></h3>
 <p>Alter a principal in the ACL for this content.</p><div class="section">
-<h4 id="usage-20">Usage<a class="anchor" aria-label="anchor" href="#usage-20"></a></h4>
+<h4 id="usage-18">Usage<a class="anchor" aria-label="anchor" href="#usage-18"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">permissions_update</span><span class="op">(</span><span class="va">id</span>, <span class="va">principal_guid</span>, <span class="va">principal_type</span>, <span class="va">role</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -426,7 +408,7 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Content-permissions_delete"></a><div class="section">
 <h3 id="method-permissions-delete-">Method <code>permissions_delete()</code><a class="anchor" aria-label="anchor" href="#method-permissions-delete-"></a></h3>
 <p>Remove an entry from the ACL for this content.</p><div class="section">
-<h4 id="usage-21">Usage<a class="anchor" aria-label="anchor" href="#usage-21"></a></h4>
+<h4 id="usage-19">Usage<a class="anchor" aria-label="anchor" href="#usage-19"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">permissions_delete</span><span class="op">(</span><span class="va">id</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -442,7 +424,7 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Content-permissions"></a><div class="section">
 <h3 id="method-permissions-">Method <code><a href="permissions.html">permissions()</a></code><a class="anchor" aria-label="anchor" href="#method-permissions-"></a></h3>
 <p>Obtain some or all of the ACL for this content.</p><div class="section">
-<h4 id="usage-22">Usage<a class="anchor" aria-label="anchor" href="#usage-22"></a></h4>
+<h4 id="usage-20">Usage<a class="anchor" aria-label="anchor" href="#usage-20"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">permissions</span><span class="op">(</span>id <span class="op">=</span> <span class="cn">NULL</span>, add_owner <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -462,7 +444,7 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Content-environment"></a><div class="section">
 <h3 id="method-environment-">Method <code><a href="https://rdrr.io/r/base/environment.html" class="external-link">environment()</a></code><a class="anchor" aria-label="anchor" href="#method-environment-"></a></h3>
 <p>Return the environment variables set for this content.</p><div class="section">
-<h4 id="usage-23">Usage<a class="anchor" aria-label="anchor" href="#usage-23"></a></h4>
+<h4 id="usage-21">Usage<a class="anchor" aria-label="anchor" href="#usage-21"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">environment</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -470,7 +452,7 @@ Content"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Content-environment_set"></a><div class="section">
 <h3 id="method-environment-set-">Method <code>environment_set()</code><a class="anchor" aria-label="anchor" href="#method-environment-set-"></a></h3>
 <p>Adjust the environment variables set for this content.</p><div class="section">
-<h4 id="usage-24">Usage<a class="anchor" aria-label="anchor" href="#usage-24"></a></h4>
+<h4 id="usage-22">Usage<a class="anchor" aria-label="anchor" href="#usage-22"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">environment_set</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -487,7 +469,7 @@ to unset variables.</p></dd>
 </div><p></p><hr><a id="method-Content-environment_all"></a><div class="section">
 <h3 id="method-environment-all-">Method <code>environment_all()</code><a class="anchor" aria-label="anchor" href="#method-environment-all-"></a></h3>
 <p>Overwrite the environment variables set for this content.</p><div class="section">
-<h4 id="usage-25">Usage<a class="anchor" aria-label="anchor" href="#usage-25"></a></h4>
+<h4 id="usage-23">Usage<a class="anchor" aria-label="anchor" href="#usage-23"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">environment_all</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -503,7 +485,7 @@ to unset variables.</p></dd>
 </div><p></p><hr><a id="method-Content-deploy"></a><div class="section">
 <h3 id="method-deploy-">Method <code><a href="deploy.html">deploy()</a></code><a class="anchor" aria-label="anchor" href="#method-deploy-"></a></h3>
 <p>Deploy this content</p><div class="section">
-<h4 id="usage-26">Usage<a class="anchor" aria-label="anchor" href="#usage-26"></a></h4>
+<h4 id="usage-24">Usage<a class="anchor" aria-label="anchor" href="#usage-24"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">deploy</span><span class="op">(</span>bundle_id <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -519,7 +501,7 @@ to unset variables.</p></dd>
 </div><p></p><hr><a id="method-Content-repo_enable"></a><div class="section">
 <h3 id="method-repo-enable-">Method <code>repo_enable()</code><a class="anchor" aria-label="anchor" href="#method-repo-enable-"></a></h3>
 <p>Adjust Git polling.</p><div class="section">
-<h4 id="usage-27">Usage<a class="anchor" aria-label="anchor" href="#usage-27"></a></h4>
+<h4 id="usage-25">Usage<a class="anchor" aria-label="anchor" href="#usage-25"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">repo_enable</span><span class="op">(</span>enabled <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -535,7 +517,7 @@ to unset variables.</p></dd>
 </div><p></p><hr><a id="method-Content-repo_set"></a><div class="section">
 <h3 id="method-repo-set-">Method <code>repo_set()</code><a class="anchor" aria-label="anchor" href="#method-repo-set-"></a></h3>
 <p>Adjust Git repository</p><div class="section">
-<h4 id="usage-28">Usage<a class="anchor" aria-label="anchor" href="#usage-28"></a></h4>
+<h4 id="usage-26">Usage<a class="anchor" aria-label="anchor" href="#usage-26"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">repo_set</span><span class="op">(</span><span class="va">repository</span>, <span class="va">branch</span>, <span class="va">subdirectory</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -559,7 +541,7 @@ to unset variables.</p></dd>
 </div><p></p><hr><a id="method-Content-packages"></a><div class="section">
 <h3 id="method-packages-">Method <code>packages()</code><a class="anchor" aria-label="anchor" href="#method-packages-"></a></h3>
 <p>Get package dependencies</p><div class="section">
-<h4 id="usage-29">Usage<a class="anchor" aria-label="anchor" href="#usage-29"></a></h4>
+<h4 id="usage-27">Usage<a class="anchor" aria-label="anchor" href="#usage-27"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">packages</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -567,7 +549,7 @@ to unset variables.</p></dd>
 </div><p></p><hr><a id="method-Content-print"></a><div class="section">
 <h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
 <p>Print this object.</p><div class="section">
-<h4 id="usage-30">Usage<a class="anchor" aria-label="anchor" href="#usage-30"></a></h4>
+<h4 id="usage-28">Usage<a class="anchor" aria-label="anchor" href="#usage-28"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -583,7 +565,7 @@ to unset variables.</p></dd>
 </div><p></p><hr><a id="method-Content-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
-<h4 id="usage-31">Usage<a class="anchor" aria-label="anchor" href="#usage-31"></a></h4>
+<h4 id="usage-29">Usage<a class="anchor" aria-label="anchor" href="#usage-29"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Content</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
