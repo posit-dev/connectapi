@@ -50,8 +50,8 @@ VariantSchedule <- R6::R6Class(
       if (self$is_empty()) {
         params <- purrr::list_modify(
           params,
-          app_id = self$get_variant()$app_id,
-          variant_id = self$get_variant()$id
+          app_id = self$variant$app_id,
+          variant_id = self$variant$id
         )
         path <- unversioned_url("schedules")
       } else {

@@ -14,12 +14,9 @@ Variant <- R6::R6Class(
     #' @field variant The variant.
     variant = NULL,
     #' @description Get the underlying variant data.
-    get_variant = function() {
-      self$variant
-    },
     #' @description Get and store the (remote) variant data.
     get_variant_remote = function() {
-      path <- unversioned_url("variants", self$get_variant()$id)
+      path <- unversioned_url("variants", self$variant$id)
       self$variant <- self$connect$GET(path)
       self$variant
     },
@@ -44,12 +41,12 @@ Variant <- R6::R6Class(
       to = c("me", "collaborators", "collaborators_viewers")
     ) {
       warn_experimental("send_mail")
-      url <- unversioned_url("variants", self$get_variant()$id, "sender")
+      url <- unversioned_url("variants", self$variant$id, "sender")
       self$connect$POST(
         path = url,
         query = list(
           email = arg_match(to),
-          rendering_id = self$get_variant()$rendering_id
+          rendering_id = self$variant$rendering_id
         )
       )
     },
@@ -60,7 +57,7 @@ Variant <- R6::R6Class(
     #' @description Get the (remote) schedule data.
     get_schedule_remote = function() {
       warn_experimental("get_schedule_remote")
-      url <- unversioned_url("variants", self$get_variant()$id, "schedules")
+      url <- unversioned_url("variants", self$variant$id, "schedules")
       res <- self$connect$GET(url)
 
       if (length(res) == 1) {
@@ -83,7 +80,7 @@ Variant <- R6::R6Class(
     #' @description Get the subscribers.
     get_subscribers = function() {
       warn_experimental("subscribers")
-      path <- unversioned_url("variants", self$get_variant()$id, "subscribers")
+      path <- unversioned_url("variants", self$variant$id, "subscribers")
       self$connect$GET(path)
     },
     #' @description Remove a named subscriber.
@@ -92,7 +89,7 @@ Variant <- R6::R6Class(
       warn_experimental("subscribers")
       path <- unversioned_url(
         "variants",
-        self$get_variant()$id,
+        self$variant$id,
         "subscribers",
         guid
       )
@@ -102,13 +99,13 @@ Variant <- R6::R6Class(
     #' @param guids User GUIDs.
     add_subscribers = function(guids) {
       warn_experimental("subscribers")
-      path <- unversioned_url("variants", self$get_variant()$id, "subscribers")
+      path <- unversioned_url("variants", self$variant$id, "subscribers")
       self$connect$POST(path = path, body = guids)
     },
     #' @description Render this variant.
     render = function() {
       warn_experimental("render")
-      path <- unversioned_url("variants", self$get_variant()$id, "render")
+      path <- unversioned_url("variants", self$variant$id, "render")
       res <- self$connect$POST(path)
 
       # add the content guid and variant key
@@ -124,7 +121,7 @@ Variant <- R6::R6Class(
     #' @description List the renderings of this variant.
     renderings = function() {
       warn_experimental("renderings")
-      url <- unversioned_url("variants", self$get_variant()$id, "renderings")
+      url <- unversioned_url("variants", self$variant$id, "renderings")
       res <- self$connect$GET(path = url)
       # add the content guid and variant key
       content_guid <- self$content$guid
@@ -144,7 +141,7 @@ Variant <- R6::R6Class(
     update_variant = function(...) {
       params <- rlang::list2(...)
       # TODO: allow updating a variant
-      url <- unversioned_url("variants", self$get_variant()$id)
+      url <- unversioned_url("variants", self$variant$id)
       res <- self$connect$POST(url, body = params)
       return(self)
     },
@@ -180,7 +177,7 @@ Variant <- R6::R6Class(
     #' @param pane The pane in the dashboard to link to.
     get_dashboard_url = function(pane = "access") {
       base_content <- super$get_dashboard_url("")
-      glue::glue("{base_content}{pane}/{self$get_variant()$id}")
+      glue::glue("{base_content}{pane}/{self$variant$id}")
     },
     # nolint start: commented_code_linter
     # TODO: dashboard cannot navigate directly to renderings today
