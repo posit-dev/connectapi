@@ -39,7 +39,6 @@ Other R6 classes:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-Task-new}{\code{Task$new()}}
-\item \href{#method-Task-get_connect}{\code{Task$get_connect()}}
 \item \href{#method-Task-get_task}{\code{Task$get_task()}}
 \item \href{#method-Task-add_data}{\code{Task$add_data()}}
 \item \href{#method-Task-get_data}{\code{Task$get_data()}}
@@ -65,16 +64,6 @@ Initialize this task.
 }
 \if{html}{\out{</div>}}
 }
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Task-get_connect"></a>}}
-\if{latex}{\out{\hypertarget{method-Task-get_connect}{}}}
-\subsection{Method \code{get_connect()}}{
-Return the associated Connect instance.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Task$get_connect()}\if{html}{\out{</div>}}
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Task-get_task"></a>}}

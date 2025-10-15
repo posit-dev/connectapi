@@ -48,8 +48,6 @@ Other R6 classes:
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-Content-new}{\code{Content$new()}}
-\item \href{#method-Content-get_connect}{\code{Content$get_connect()}}
-\item \href{#method-Content-get_content}{\code{Content$get_content()}}
 \item \href{#method-Content-get_content_remote}{\code{Content$get_content_remote()}}
 \item \href{#method-Content-get_bundles}{\code{Content$get_bundles()}}
 \item \href{#method-Content-bundle_download}{\code{Content$bundle_download()}}
@@ -99,26 +97,6 @@ Initialize this content.
 }
 \if{html}{\out{</div>}}
 }
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Content-get_connect"></a>}}
-\if{latex}{\out{\hypertarget{method-Content-get_connect}{}}}
-\subsection{Method \code{get_connect()}}{
-Returns the \code{Connect} instance.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Content$get_connect()}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Content-get_content"></a>}}
-\if{latex}{\out{\hypertarget{method-Content-get_content}{}}}
-\subsection{Method \code{get_content()}}{
-Returns the underlying content data.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Content$get_content()}\if{html}{\out{</div>}}
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Content-get_content_remote"></a>}}
