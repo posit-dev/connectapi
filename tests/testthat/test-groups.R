@@ -34,6 +34,30 @@ without_internet({
       "https://connect.example/__api__/v1/groups/remote?limit=500"
     )
   })
+
+  test_that("group_member_add() accepts connect_user object", {
+    client <- Connect$new(server = "https://connect.example", api_key = "fake")
+    group_guid <- "a6fb5cea-0123-4567-89ab-cdef01234567"
+    user_guid <- "20a79ce3-6e87-4522-9faf-be24228800a4"
+    user <- structure(list(guid = user_guid), class = "connect_user")
+
+    expect_POST(
+      client$group_member_add(group_guid, user),
+      "https://connect.example/__api__/v1/groups/a6fb5cea-0123-4567-89ab-cdef01234567/members"
+    )
+  })
+
+  test_that("group_member_remove() accepts connect_user object", {
+    client <- Connect$new(server = "https://connect.example", api_key = "fake")
+    group_guid <- "a6fb5cea-0123-4567-89ab-cdef01234567"
+    user_guid <- "20a79ce3-6e87-4522-9faf-be24228800a4"
+    user <- structure(list(guid = user_guid), class = "connect_user")
+
+    expect_DELETE(
+      client$group_member_remove(group_guid, user),
+      "https://connect.example/__api__/v1/groups/a6fb5cea-0123-4567-89ab-cdef01234567/members/20a79ce3-6e87-4522-9faf-be24228800a4" # nolint
+    )
+  })
 })
 
 with_mock_dir("2024.08.0", {

@@ -39,7 +39,6 @@ Other R6 classes:
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-Variant-get_variant}{\code{Variant$get_variant()}}
 \item \href{#method-Variant-get_variant_remote}{\code{Variant$get_variant_remote()}}
 \item \href{#method-Variant-new}{\code{Variant$new()}}
 \item \href{#method-Variant-send_mail}{\code{Variant$send_mail()}}
@@ -90,19 +89,12 @@ Other R6 classes:
 </details>
 }}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Variant-get_variant"></a>}}
-\if{latex}{\out{\hypertarget{method-Variant-get_variant}{}}}
-\subsection{Method \code{get_variant()}}{
-Get the underlying variant data.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Variant$get_variant()}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Variant-get_variant_remote"></a>}}
 \if{latex}{\out{\hypertarget{method-Variant-get_variant_remote}{}}}
 \subsection{Method \code{get_variant_remote()}}{
+Get the underlying variant data.
+
+
 Get and store the (remote) variant data.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Variant$get_variant_remote()}\if{html}{\out{</div>}}
