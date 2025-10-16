@@ -536,6 +536,58 @@ with_mock_dir("2025.09.0", {
       )
     )
   })
+
+  test_that("search_content() can be converted to a data frame correctly", {
+    content_df <- search_content(client, q = "sea bream") |>
+      as_tibble()
+    expect_named(
+      content_df,
+      c(
+        "guid",
+        "name",
+        "title",
+        "description",
+        "access_type",
+        "connection_timeout",
+        "read_timeout",
+        "init_timeout",
+        "idle_timeout",
+        "max_processes",
+        "min_processes",
+        "max_conns_per_process",
+        "load_factor",
+        "created_time",
+        "last_deployed_time",
+        "bundle_id",
+        "app_mode",
+        "content_category",
+        "parameterized",
+        "cluster_name",
+        "image_name",
+        "r_version",
+        "py_version",
+        "quarto_version",
+        "run_as",
+        "run_as_current_user",
+        "owner_guid",
+        "content_url",
+        "dashboard_url",
+        "app_role",
+        "vanity_url",
+        "id",
+        "owner",
+        "tags"
+      )
+    )
+    expect_equal(
+      content_df$title,
+      c("sea bream report", "sea bream dashboard")
+    )
+    expect_equal(
+      content_df$guid,
+      c("c9f68287", "53032a0e")
+    )
+  })
 })
 
 test_that("content search errors on Connect < 2024.04.0", {
