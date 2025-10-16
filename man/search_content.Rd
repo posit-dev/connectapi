@@ -33,130 +33,7 @@ for pagination, but all subsequent pages will still be fetched. This is
 usually not what you want.}
 }
 \value{
-A list containing sub-fields:
-\itemize{
-\item \code{total}: The total number of results.
-\item \code{results}: A list of lists representing content items on Connect.
-}
-
-Each piece of content contains the following fields:
-\itemize{
-\item \code{guid}: The unique identifier of this content item.
-\item \code{name}: A simple, URL-friendly identifier. Allows alpha-numeric
-characters, hyphens ("-"), and underscores ("_").
-\item \code{title}: The title of this content.
-\item \code{description}: A rich description of this content
-\item \code{access_type}: Access type describes how this content manages its
-viewers. It may have a value of \code{all}, \code{logged_in} or \code{acl}.
-The value \code{all} is the most permissive; any visitor to Posit
-Connect will be able to view this content. The value \code{logged_in}
-indicates that all Posit Connect accounts may view the content. The
-\code{acl} value lets specifically enumerated users and groups view the
-content. Users configured as collaborators may always view content.
-\item \code{connection_timeout}: Maximum number of seconds allowed without data
-sent or received across a client connection. A value of 0 means
-connections will never time-out (not recommended). When null, the
-default \code{Scheduler.ConnectionTimeout} is used. Applies only to content
-types that are executed on demand.
-\item \code{read_timeout}: Maximum number of seconds allowed without data received
-from a client connection. A value of 0 means a lack of client (browser)
-interaction never causes the connection to close. When null, the default
-\code{Scheduler.ReadTimeout} is used. Applies only to content types that are
-executed on demand.
-\item \code{init_timeout}: The maximum number of seconds allowed for an interactive
-application to start. Posit Connect must be able to connect
-to a newly launched Shiny application, for example, before this threshold
-has elapsed. When null, the default \code{Scheduler.InitTimeout} is
-used. Applies only to content types that are executed on demand.
-\item \code{idle_timeout}: The maximum number of seconds a worker process
-for an interactive application to remain alive after it goes idle (no
-active connections). When null, the default \code{Scheduler.IdleTimeout}
-is used. Applies only to content types that are executed on demand.
-\item \code{max_processes}: Specifies the total number of concurrent processes
-allowed for a single interactive application. When null, the
-default \code{Scheduler.MaxProcesses} setting is used. Applies only to
-content types that are executed on demand.
-\item \code{min_processes}: Specifies the minimum number of concurrent
-processes allowed for a single interactive application. When null, the
-default \code{Scheduler.MinProcesses} is used. Applies only to content types
-that are executed on demand.
-\item \code{max_conns_per_process}: Specifies the maximum number of
-client connections allowed to an individual process. Incoming connections
-which will exceed this limit are routed to a new process or rejected.
-When null, the default \code{Scheduler.MaxConnsPerProcess} is used. Applies
-only to content types that are executed on demand.
-\item \code{load_factor}: Controls how aggressively new processes are spawned.
-When null, the default \code{Scheduler.LoadFactor} is used. Applies only to
-content types that are executed on demand.
-\item \code{created_time}: The timestamp (RFC3339) indicating when this
-content was created.
-\item \code{last_deployed_time}: The timestamp (RFC3339) indicating when
-this content last had a successful bundle deployment performed.
-\item \code{bundle_id}: The identifier for the active deployment bundle.
-Automatically assigned upon the successful deployment of that bundle.
-\item \code{app_mode}: The runtime model for this content. Has a value
-of \code{unknown} before data is deployed to this item. Automatically assigned
-upon the first successful bundle deployment. Allowed: \code{api},
-\code{jupyter-static}, \code{python-api}, \code{python-bokeh}, \code{python-dash},
-\code{python-streamlit}, \code{rmd-shiny}, \code{rmd-static}, \code{shiny}, \code{static},
-\code{tensorflow-saved-model}, \code{unknown}.
-\item \code{content_category}: Describes the specialization of the content
-runtime model. Automatically assigned upon the first successful bundle
-deployment.
-\item \code{parameterized}: True when R Markdown rendered content
-allows parameter configuration. Automatically assigned upon the first
-successful bundle deployment. Applies only to content with an app_mode
-of rmd-static.
-\item \code{r_version}: The version of the R interpreter associated
-with this content. The value null represents that an R interpreter is
-not used by this content or that the R package environment has not been
-successfully restored. Automatically assigned upon the successful
-deployment of a bundle.
-\item \code{py_version}: The version of the Python interpreter
-associated with this content. The value null represents that a Python
-interpreter is not used by this content or that the Python package
-environment has not been successfully restored. Automatically assigned
-upon the successful deployment of a bundle.
-\item \code{run_as}: The UNIX user that executes this content.
-When null, the default Applications.RunAs is used. Applies
-only to executable content types - not static.
-\item \code{run_as_current_user}: Indicates if this content is allowed
-to execute as the logged-in user when using PAM authentication.
-Applies only to executable content types - not static.
-\item \code{owner_guid}: The unique identifier for the owner
-\item \code{content_url}: The URL associated with this content. Computed
-from the GUID for this content.
-\item \code{dashboard_url}: The URL within the Connect dashboard where
-this content can be configured. Computed from the GUID for this content.
-\item \code{role}: The relationship of the accessing user to this
-content. A value of owner is returned for the content owner. editor
-indicates a collaborator. The viewer value is given to users who are
-permitted to view the content. A none role is returned for
-administrators who cannot view the content but are permitted to view
-its configuration. Computed at the time of the request.
-\item \code{vanity_url}: The vanity URL associated with this content item.
-\item \code{id}: The internal numeric identifier of this content item.
-\item \code{tags}: Tags associated with this content item. Each entry is a list
-with the following fields:
-\itemize{
-\item \code{id}: The identifier for the tag.
-\item \code{name}: The name of the tag.
-\item \code{parent_id}: The identifier for the parent tag. Null if the tag is a
-top-level tag.
-\item \code{created_time}: The timestamp (RFC3339) indicating when the tag was
-created.
-\item \code{updated_time}: The timestamp (RFC3339) indicating when the tag was
-last updated.
-}
-\item \code{owner}: Basic details about the owner of this content item. Each entry
-is a list with the following fields:
-\itemize{
-\item \code{guid}: The user's GUID, or unique identifier, in UUID RFC4122 format.
-\item \code{username}: The user's username.
-\item \code{first_name}: The user's first name.
-\item \code{last_name}: The user's last name.
-}
-}
+A list of \link{Content} objects.
 }
 \description{
 Search for content on the Connect server
@@ -170,7 +47,13 @@ information.
 library(connectapi)
 client <- connect()
 
-search_content(client, q = "")
+my_content <- search_content(client, q = "owner:@me")
+
+shiny_content <- purrr::keep(my_content, function(x) {
+  x$content$app_mode == "rmd-shiny"
+})
+
+purrr::map(shiny_content, lock_content)
 }
 
 }
