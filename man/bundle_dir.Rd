@@ -21,7 +21,7 @@ Bundle A bundle object
 Creates a bundle from a target directory.
 }
 \examples{
-\dontshow{if (identical(Sys.getenv("IN_PKGDOWN"), "true")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (identical(Sys.getenv("IN_PKGDOWN"), "true")) withAutoprint(\{ # examplesIf}
 
 bundle_dir(system.file("tests/testthat/examples/shiny/", package = "connectapi"))
 \dontshow{\}) # examplesIf}
