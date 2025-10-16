@@ -60,7 +60,7 @@ bnd <- bundle_dir(".")
 
 deploy(client, bnd)
 }
-\dontshow{if (identical(Sys.getenv("IN_PKGDOWN"), "true")) withAutoprint(\{ # examplesIf}
+\dontshow{if (identical(Sys.getenv("IN_PKGDOWN"), "true")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 client <- connect(prefix = "TEST_1")
 bnd <- bundle_path(system.file("tests/testthat/examples/static.tar.gz", package = "connectapi"))
