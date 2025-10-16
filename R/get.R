@@ -281,8 +281,7 @@ get_users <- function(
 #'     indicates a collaborator. The viewer value is given to users who are
 #'     permitted to view the content. A none role is returned for
 #'     administrators who cannot view the content but are permitted to view
-#'     its configuration. Computed at the time of the request. Note: This field
-#'     may also appear as `role` in some contexts.
+#'     its configuration. Computed at the time of the request.
 #'   * `id`: The internal numeric identifier of this content item.
 #'   * `owner`: Basic details about the owner of this content item. Each entry
 #'     is a list with the following fields:
