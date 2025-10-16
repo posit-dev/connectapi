@@ -493,10 +493,15 @@ with_mock_dir("2025.09.0", {
 
   test_that("content search fetches multiple pages correctly", {
     res <- search_content(client, q = "blobfish")
-    expect_equal(length(res), 3)
+    expect_equal(length(res), 4)
     expect_equal(
       purrr::map_chr(res, list("content", "title")),
-      c("blobfish dashboard", "blobfish api", "blobfish report")
+      c(
+        "blobfish dashboard",
+        "blobfish api",
+        "blobfish report",
+        "blobfish report (v2)"
+      )
     )
   })
 

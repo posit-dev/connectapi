@@ -1,6 +1,6 @@
-// Used in test-content.R
+// Used in test-content.R and test-page.R
 {
-    "total": 3,
+    "total": 4,
     "current_page": 1,
     "results": [
         {

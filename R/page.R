@@ -93,7 +93,7 @@ page_offset <- function(client, req, limit = Inf) {
     new_expr <- NULL
     new_req <- NULL
   }
-  return(agg_response)
+  agg_response[seq_len(min(limit, length(agg_response)))]
 }
 
 optional_progress_bar <- function(...) {
@@ -102,8 +102,7 @@ optional_progress_bar <- function(...) {
   } else {
     # Return a mock object that behaves enough like a progress bar object
     list(
-      tick = function() {
-      }
+      tick = function() {}
     )
   }
 }
