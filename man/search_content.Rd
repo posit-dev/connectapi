@@ -33,7 +33,7 @@ for pagination, but all subsequent pages will still be fetched. This is
 usually not what you want.}
 }
 \value{
-A list of \link{Content} objects.
+A list of \link{Content} objects, of class "connect_content_list"
 }
 \description{
 Search for content on the Connect server
