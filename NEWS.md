@@ -15,6 +15,11 @@
 - New `lock_content()` and `unlock_content()` functions for locking and unlocking
   content items. (#453)
 
+## Enhancements and fixes
+
+- `get_content()` documentation and type parsing updated to include all
+  fields returned by the API. (#461)
+
 # connectapi 0.8.0
 
 ## Breaking changes
