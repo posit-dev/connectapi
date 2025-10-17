@@ -93,7 +93,8 @@ page_offset <- function(client, req, limit = Inf) {
     new_expr <- NULL
     new_req <- NULL
   }
-  agg_response[seq_len(min(limit, length(agg_response)))]
+  # Make sure we never return more than `limit` records
+  head(agg_response, limit)
 }
 
 optional_progress_bar <- function(...) {
