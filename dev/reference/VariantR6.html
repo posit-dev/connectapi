@@ -87,8 +87,7 @@ Variant"><meta property="og:image" content="https://posit-dev.github.io/connecta
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
-<ul><li><p><a href="#method-Variant-get_variant"><code>Variant$get_variant()</code></a></p></li>
-<li><p><a href="#method-Variant-get_variant_remote"><code>Variant$get_variant_remote()</code></a></p></li>
+<ul><li><p><a href="#method-Variant-get_variant_remote"><code>Variant$get_variant_remote()</code></a></p></li>
 <li><p><a href="#method-Variant-new"><code>Variant$new()</code></a></p></li>
 <li><p><a href="#method-Variant-send_mail"><code>Variant$send_mail()</code></a></p></li>
 <li><p><a href="#method-Variant-get_schedule"><code>Variant$get_schedule()</code></a></p></li>
@@ -129,18 +128,12 @@ Variant"><meta property="og:image" content="https://posit-dev.github.io/connecta
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Content" data-id="tags"><a href="Content.html#method-tags"><code>connectapi::Content$tags()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Content" data-id="update"><a href="Content.html#method-update"><code>connectapi::Content$update()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Content" data-id="variants"><a href="Content.html#method-variants"><code>connectapi::Content$variants()</code></a></span></li>
-</ul></details></p><hr><a id="method-Variant-get_variant"></a><div class="section">
-<h3 id="method-get-variant-">Method <code><a href="variant.html">get_variant()</a></code><a class="anchor" aria-label="anchor" href="#method-get-variant-"></a></h3>
-<p>Get the underlying variant data.</p><div class="section">
-<h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Variant</span><span class="op">$</span><span class="fu">get_variant</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-
-</div><p></p><hr><a id="method-Variant-get_variant_remote"></a><div class="section">
+</ul></details></p><hr><a id="method-Variant-get_variant_remote"></a><div class="section">
 <h3 id="method-get-variant-remote-">Method <code>get_variant_remote()</code><a class="anchor" aria-label="anchor" href="#method-get-variant-remote-"></a></h3>
+<p>Get the underlying variant data.</p>
+
 <p>Get and store the (remote) variant data.</p><div class="section">
-<h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
+<h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Variant</span><span class="op">$</span><span class="fu">get_variant_remote</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -148,7 +141,7 @@ Variant"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Variant-new"></a><div class="section">
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Initialize this variant.</p><div class="section">
-<h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
+<h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/VariantR6.html">Variant</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">connect</span>, <span class="va">content</span>, <span class="va">key</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -172,7 +165,7 @@ Variant"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Variant-send_mail"></a><div class="section">
 <h3 id="method-send-mail-">Method <code>send_mail()</code><a class="anchor" aria-label="anchor" href="#method-send-mail-"></a></h3>
 <p>Mail previously rendered content.</p><div class="section">
-<h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
+<h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Variant</span><span class="op">$</span><span class="fu">send_mail</span><span class="op">(</span>to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"me"</span>, <span class="st">"collaborators"</span>, <span class="st">"collaborators_viewers"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -188,7 +181,7 @@ Variant"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Variant-get_schedule"></a><div class="section">
 <h3 id="method-get-schedule-">Method <code>get_schedule()</code><a class="anchor" aria-label="anchor" href="#method-get-schedule-"></a></h3>
 <p>Get the (remote) schedule data.</p><div class="section">
-<h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
+<h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Variant</span><span class="op">$</span><span class="fu">get_schedule</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -196,7 +189,7 @@ Variant"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Variant-get_schedule_remote"></a><div class="section">
 <h3 id="method-get-schedule-remote-">Method <code>get_schedule_remote()</code><a class="anchor" aria-label="anchor" href="#method-get-schedule-remote-"></a></h3>
 <p>Get the (remote) schedule data.</p><div class="section">
-<h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
+<h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Variant</span><span class="op">$</span><span class="fu">get_schedule_remote</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -204,7 +197,7 @@ Variant"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Variant-get_subscribers"></a><div class="section">
 <h3 id="method-get-subscribers-">Method <code>get_subscribers()</code><a class="anchor" aria-label="anchor" href="#method-get-subscribers-"></a></h3>
 <p>Get the subscribers.</p><div class="section">
-<h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
+<h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Variant</span><span class="op">$</span><span class="fu">get_subscribers</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -212,7 +205,7 @@ Variant"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Variant-remove_subscriber"></a><div class="section">
 <h3 id="method-remove-subscriber-">Method <code>remove_subscriber()</code><a class="anchor" aria-label="anchor" href="#method-remove-subscriber-"></a></h3>
 <p>Remove a named subscriber.</p><div class="section">
-<h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
+<h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Variant</span><span class="op">$</span><span class="fu">remove_subscriber</span><span class="op">(</span><span class="va">guid</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -228,7 +221,7 @@ Variant"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Variant-add_subscribers"></a><div class="section">
 <h3 id="method-add-subscribers-">Method <code>add_subscribers()</code><a class="anchor" aria-label="anchor" href="#method-add-subscribers-"></a></h3>
 <p>Add named subscribers.</p><div class="section">
-<h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
+<h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Variant</span><span class="op">$</span><span class="fu">add_subscribers</span><span class="op">(</span><span class="va">guids</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -244,7 +237,7 @@ Variant"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Variant-render"></a><div class="section">
 <h3 id="method-render-">Method <code>render()</code><a class="anchor" aria-label="anchor" href="#method-render-"></a></h3>
 <p>Render this variant.</p><div class="section">
-<h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
+<h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Variant</span><span class="op">$</span><span class="fu">render</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -252,7 +245,7 @@ Variant"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Variant-renderings"></a><div class="section">
 <h3 id="method-renderings-">Method <code>renderings()</code><a class="anchor" aria-label="anchor" href="#method-renderings-"></a></h3>
 <p>List the renderings of this variant.</p><div class="section">
-<h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
+<h4 id="usage-9">Usage<a class="anchor" aria-label="anchor" href="#usage-9"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Variant</span><span class="op">$</span><span class="fu">renderings</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -260,7 +253,7 @@ Variant"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Variant-update_variant"></a><div class="section">
 <h3 id="method-update-variant-">Method <code>update_variant()</code><a class="anchor" aria-label="anchor" href="#method-update-variant-"></a></h3>
 <p>Update this variant.</p><div class="section">
-<h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
+<h4 id="usage-10">Usage<a class="anchor" aria-label="anchor" href="#usage-10"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Variant</span><span class="op">$</span><span class="fu">update_variant</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -276,7 +269,7 @@ Variant"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Variant-jobs"></a><div class="section">
 <h3 id="method-jobs-">Method <code>jobs()</code><a class="anchor" aria-label="anchor" href="#method-jobs-"></a></h3>
 <p>Jobs for this variant.</p><div class="section">
-<h4 id="usage-12">Usage<a class="anchor" aria-label="anchor" href="#usage-12"></a></h4>
+<h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Variant</span><span class="op">$</span><span class="fu">jobs</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -284,7 +277,7 @@ Variant"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Variant-job"></a><div class="section">
 <h3 id="method-job-">Method <code>job()</code><a class="anchor" aria-label="anchor" href="#method-job-"></a></h3>
 <p>Return single job for this variant.</p><div class="section">
-<h4 id="usage-13">Usage<a class="anchor" aria-label="anchor" href="#usage-13"></a></h4>
+<h4 id="usage-12">Usage<a class="anchor" aria-label="anchor" href="#usage-12"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Variant</span><span class="op">$</span><span class="fu">job</span><span class="op">(</span><span class="va">key</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -300,7 +293,7 @@ Variant"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Variant-get_url"></a><div class="section">
 <h3 id="method-get-url-">Method <code>get_url()</code><a class="anchor" aria-label="anchor" href="#method-get-url-"></a></h3>
 <p>Return the URL for this variant.</p><div class="section">
-<h4 id="usage-14">Usage<a class="anchor" aria-label="anchor" href="#usage-14"></a></h4>
+<h4 id="usage-13">Usage<a class="anchor" aria-label="anchor" href="#usage-13"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Variant</span><span class="op">$</span><span class="fu">get_url</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -308,7 +301,7 @@ Variant"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Variant-get_url_rev"></a><div class="section">
 <h3 id="method-get-url-rev-">Method <code>get_url_rev()</code><a class="anchor" aria-label="anchor" href="#method-get-url-rev-"></a></h3>
 <p>Return the URL associated with one rendering for this variant.</p><div class="section">
-<h4 id="usage-15">Usage<a class="anchor" aria-label="anchor" href="#usage-15"></a></h4>
+<h4 id="usage-14">Usage<a class="anchor" aria-label="anchor" href="#usage-14"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Variant</span><span class="op">$</span><span class="fu">get_url_rev</span><span class="op">(</span><span class="va">rev</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -324,7 +317,7 @@ Variant"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Variant-get_dashboard_url"></a><div class="section">
 <h3 id="method-get-dashboard-url-">Method <code>get_dashboard_url()</code><a class="anchor" aria-label="anchor" href="#method-get-dashboard-url-"></a></h3>
 <p>Return the URL for this variant in the Posit Connect dashboard.</p><div class="section">
-<h4 id="usage-16">Usage<a class="anchor" aria-label="anchor" href="#usage-16"></a></h4>
+<h4 id="usage-15">Usage<a class="anchor" aria-label="anchor" href="#usage-15"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Variant</span><span class="op">$</span><span class="fu">get_dashboard_url</span><span class="op">(</span>pane <span class="op">=</span> <span class="st">"access"</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -340,7 +333,7 @@ Variant"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Variant-print"></a><div class="section">
 <h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
 <p>Print this object.</p><div class="section">
-<h4 id="usage-17">Usage<a class="anchor" aria-label="anchor" href="#usage-17"></a></h4>
+<h4 id="usage-16">Usage<a class="anchor" aria-label="anchor" href="#usage-16"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Variant</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
@@ -356,7 +349,7 @@ Variant"><meta property="og:image" content="https://posit-dev.github.io/connecta
 </div><p></p><hr><a id="method-Variant-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
-<h4 id="usage-18">Usage<a class="anchor" aria-label="anchor" href="#usage-18"></a></h4>
+<h4 id="usage-17">Usage<a class="anchor" aria-label="anchor" href="#usage-17"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Variant</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
