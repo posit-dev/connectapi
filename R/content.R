@@ -63,11 +63,6 @@ Content <- R6::R6Class(
       url <- v1_url("content", self$content$guid, "bundles", bundle_id)
       self$connect$DELETE(url)
     },
-    #' @description Get this (remote) content item.
-    internal_content = function() {
-      url <- unversioned_url("applications", self$content$guid)
-      self$connect$GET(url)
-    },
     #' @description Update this content item.
     #' @param ... Content fields.
     update = function(...) {
@@ -161,18 +156,13 @@ Content <- R6::R6Class(
     #' @param key The job key.
     job = function(key) {
       warn_experimental("job")
-      url <- unversioned_url(
-        "applications",
-        self$content$guid,
-        "job",
-        key
-      )
+      guid <- self$content$guid
+      url <- unversioned_url("applications", guid, "job", key)
       res <- self$connect$GET(url)
 
-      content_guid <- self$content$guid
       purrr::map(
         list(res),
-        ~ purrr::list_modify(.x, app_guid = content_guid)
+        ~ purrr::list_modify(.x, app_guid = guid)
       )[[1]]
     },
     #' @description Terminate a single job for this content item.
@@ -189,11 +179,8 @@ Content <- R6::R6Class(
     #' @description Return the variants for this content.
     variants = function() {
       warn_experimental("variants")
-      url <- unversioned_url(
-        "applications",
-        self$content$guid,
-        "variants"
-      )
+      guid <- self$content$guid
+      url <- unversioned_url("applications", guid, "variants")
       self$connect$GET(url)
     },
     #' @description Set a tag for this content.
@@ -330,29 +317,60 @@ Content <- R6::R6Class(
         body = body
       )
     },
+    #' @description Get Git repository details
+    #' @return NULL if no repo is set, otherwise a list with fields:
+    #' - repository
+    #' - branch
+    #' - directory
+    #' - polling
+    #' - last_error
+    #' - last_known_commit
+    repository = function() {
+      con <- self$connect
+      error_if_less_than(con$version, "2022.10.0")
+      guid <- self$content$guid
+      resp <- con$GET(
+        v1_url("content", guid, "repository"),
+        parser = NULL
+      )
+      if (httr::status_code(resp) == 404) {
+        # 404 means there is no repository set
+        return(NULL)
+      }
+      con$raise_error(resp)
+      httr::content(resp, as = "parsed")
+    },
     #' @description Adjust Git polling.
-    #' @param enabled Polling enabled.
-    repo_enable = function(enabled = TRUE) {
-      warn_experimental("repo_enable")
-      self$connect$PUT(
-        unversioned_url("applications", self$content$guid, "repo"),
-        body = list(
-          enabled = enabled
-        )
+    #' @param polling Polling enabled.
+    repo_enable = function(polling = TRUE) {
+      con <- self$connect
+      error_if_less_than(con$version, "2022.10.0")
+      guid <- self$content$guid
+      con$PATCH(
+        v1_url("content", guid, "repository"),
+        body = list(polling = polling)
       )
     },
     #' @description Adjust Git repository
     #' @param repository Git repository URL
     #' @param branch Git repository branch
-    #' @param subdirectory Git repository directory
-    repo_set = function(repository, branch, subdirectory) {
-      warn_experimental("repo_set")
-      self$connect$POST(
-        unversioned_url("applications", self$content$guid, "repo"),
+    #' @param directory Git repository directory
+    #' @param polling Whether to check for updates
+    repo_set = function(
+      repository,
+      branch = "main",
+      directory = ".",
+      polling = FALSE
+    ) {
+      guid <- self$content$guid
+      error_if_less_than(self$connect$version, "2022.10.0")
+      self$connect$PUT(
+        v1_url("content", guid, "repository"),
         body = list(
           repository = repository,
           branch = branch,
-          subdirectory = subdirectory
+          directory = directory,
+          polling = polling
         )
       )
     },

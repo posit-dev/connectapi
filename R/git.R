@@ -117,7 +117,6 @@ deploy_repo <- function(
   ...
 ) {
   validate_R6_class(client, "Connect")
-  warn_experimental("deploy_repo")
 
   content_metadata <- content_ensure(
     connect = client,
@@ -131,7 +130,7 @@ deploy_repo <- function(
   deployed_content$repo_set(
     repository = repository,
     branch = branch,
-    subdirectory = subdirectory
+    directory = subdirectory
   )
 
   task <- deployed_content$deploy()
@@ -143,48 +142,36 @@ deploy_repo <- function(
 #' @export
 deploy_repo_enable <- function(content, enabled = TRUE) {
   validate_R6_class(content, "Content")
-  warn_experimental("deploy_repo_enable")
 
-  invisible(content$repo_enable(enabled))
-  invisible(content$get_content_remote())
-  return(content)
+  content$repo_enable(enabled)
+  content$get_content_remote()
+  content
 }
 
 #' @rdname deploy_repo
 #' @export
 deploy_repo_update <- function(content) {
   validate_R6_class(content, "Content")
-  warn_experimental("deploy_repo_update")
-  scoped_experimental_silence()
 
   con <- content$connect
-  internal_meta <- content$internal_content()
-  repo_data <- tryCatch(
-    {
-      internal_meta$git
-    },
-    error = function(e) {
-      message(e)
-      return(NULL)
-    }
-  )
+  repo_data <- content$repository()
   if (is.null(repo_data)) {
     stop(glue::glue(
-      "Content item '{internal_meta$guid}' is not git-backed content"
+      "Content item '{content$content$guid}' is not git-backed content"
     ))
   }
-  branch_status <- repo_check_branches_ref(con, repo_data$repository_url)
+  branch_status <- repo_check_branches_ref(con, repo_data$repository)
 
   if (!repo_data$branch %in% names(branch_status)) {
     stop(glue::glue(
-      "Branch '{repo_data$branch}' was no longer found on repository '{repo_data$repository_url}'"
+      "Branch '{repo_data$branch}' was no longer found on repository '{repo_data$repository}'"
     ))
   }
   if (
     identical(repo_data$last_known_commit, branch_status[[repo_data$branch]])
   ) {
     message(glue::glue(
-      "No changes were found in the Git repository: {repo_data$repository_url}@{repo_data$branch}"
+      "No changes were found in the Git repository: {repo_data$repository}@{repo_data$branch}"
     ))
     return(content)
   }

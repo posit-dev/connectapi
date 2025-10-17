@@ -1,3 +1,5 @@
+skip_if_connect_older_than(test_conn_1, "2022.10.0")
+
 cont1_name <- uuid::UUIDgenerate()
 cont1_title <- "Test Content 1"
 cont1_guid <- NULL
@@ -106,13 +108,17 @@ test_that("deploy_repo_enable works", {
   expect_true(validate_R6_class(cont1, "Content"))
   expect_true(validate_R6_class(cont1, "ContentTask"))
 
+  polling_enabled <- function(content) {
+    git <- content$repository()
+    isTRUE(git$polling)
+  }
   # TODO: flaky... how to be safer?
   Sys.sleep(5) # sleep for deployment...?
-  expect_true(cont1$internal_content()$git$enabled)
+  expect_true(polling_enabled(cont1))
   res <- deploy_repo_enable(cont1, FALSE)
-  expect_false(cont1$internal_content()$git$enabled)
+  expect_false(polling_enabled(cont1))
   res <- deploy_repo_enable(cont1, TRUE)
-  expect_true(cont1$internal_content()$git$enabled)
+  expect_true(polling_enabled(cont1))
 })
 
 test_that("deploy_repo_update works", {

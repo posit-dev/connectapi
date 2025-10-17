@@ -52,7 +52,6 @@ Other R6 classes:
 \item \href{#method-Content-get_bundles}{\code{Content$get_bundles()}}
 \item \href{#method-Content-bundle_download}{\code{Content$bundle_download()}}
 \item \href{#method-Content-bundle_delete}{\code{Content$bundle_delete()}}
-\item \href{#method-Content-internal_content}{\code{Content$internal_content()}}
 \item \href{#method-Content-update}{\code{Content$update()}}
 \item \href{#method-Content-danger_delete}{\code{Content$danger_delete()}}
 \item \href{#method-Content-get_url}{\code{Content$get_url()}}
@@ -72,6 +71,7 @@ Other R6 classes:
 \item \href{#method-Content-environment_set}{\code{Content$environment_set()}}
 \item \href{#method-Content-environment_all}{\code{Content$environment_all()}}
 \item \href{#method-Content-deploy}{\code{Content$deploy()}}
+\item \href{#method-Content-repository}{\code{Content$repository()}}
 \item \href{#method-Content-repo_enable}{\code{Content$repo_enable()}}
 \item \href{#method-Content-repo_set}{\code{Content$repo_set()}}
 \item \href{#method-Content-packages}{\code{Content$packages()}}
@@ -159,16 +159,6 @@ Delete a content bundle.
 }
 \if{html}{\out{</div>}}
 }
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Content-internal_content"></a>}}
-\if{latex}{\out{\hypertarget{method-Content-internal_content}{}}}
-\subsection{Method \code{internal_content()}}{
-Get this (remote) content item.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Content$internal_content()}\if{html}{\out{</div>}}
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Content-update"></a>}}
@@ -465,18 +455,39 @@ Deploy this content
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Content-repository"></a>}}
+\if{latex}{\out{\hypertarget{method-Content-repository}{}}}
+\subsection{Method \code{repository()}}{
+Get Git repository details
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Content$repository()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+NULL if no repo is set, otherwise a list with fields:
+\itemize{
+\item repository
+\item branch
+\item directory
+\item polling
+\item last_error
+\item last_known_commit
+}
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Content-repo_enable"></a>}}
 \if{latex}{\out{\hypertarget{method-Content-repo_enable}{}}}
 \subsection{Method \code{repo_enable()}}{
 Adjust Git polling.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Content$repo_enable(enabled = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Content$repo_enable(polling = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{enabled}}{Polling enabled.}
+\item{\code{polling}}{Polling enabled.}
 }
 \if{html}{\out{</div>}}
 }
@@ -487,7 +498,7 @@ Adjust Git polling.
 \subsection{Method \code{repo_set()}}{
 Adjust Git repository
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Content$repo_set(repository, branch, subdirectory)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Content$repo_set(repository, branch = "main", directory = ".", polling = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -497,7 +508,9 @@ Adjust Git repository
 
 \item{\code{branch}}{Git repository branch}
 
-\item{\code{subdirectory}}{Git repository directory}
+\item{\code{directory}}{Git repository directory}
+
+\item{\code{polling}}{Whether to check for updates}
 }
 \if{html}{\out{</div>}}
 }
