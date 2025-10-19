@@ -8,7 +8,6 @@ cont1_content <- NULL
 
 test_that("get_users works", {
   users <- get_users(test_conn_1)
-
   expect_s3_class(users, c("tbl_df", "tbl", "data.frame"))
   expect_equal(
     purrr::map_chr(vctrs::vec_ptype(users), typeof),

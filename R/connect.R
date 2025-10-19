@@ -495,9 +495,10 @@ Connect <- R6::R6Class(
     # users -----------------------------------------------
 
     #' @description Get user details.
-    #' @param guid The user GUID.
+    #' @param guid The user GUID or a `connect_user` object.
     user = function(guid) {
-      self$GET(v1_url("users", guid))
+      guid <- get_user_guid(guid)
+      prepend_class(self$GET(v1_url("users", guid)), "connect_user")
     },
 
     #' @description Get users.
@@ -527,7 +528,11 @@ Connect <- R6::R6Class(
         user_role = user_role,
         account_status = account_status
       )
-      self$GET(path, query = query)
+      res <- self$GET(path, query = query)
+      if (!is.null(res$results)) {
+        res$results <- lapply(res$results, prepend_class, "connect_user")
+      }
+      res
     },
 
     #' @description Get remote users.
@@ -585,8 +590,9 @@ Connect <- R6::R6Class(
     },
 
     #' @description Lock a user.
-    #' @param user_guid User GUID.
-    users_lock = function(user_guid) {
+    #' @param user User GUID or a `connect_user` object.
+    users_lock = function(user) {
+      user_guid <- get_user_guid(user)
       path <- v1_url("users", user_guid, "lock")
       message(path)
       self$POST(
@@ -596,8 +602,9 @@ Connect <- R6::R6Class(
     },
 
     #' @description Unlock a user.
-    #' @param user_guid User GUID.
-    users_unlock = function(user_guid) {
+    #' @param user User GUID or a `connect_user` object.
+    users_unlock = function(user) {
+      user_guid <- get_user_guid(user)
       path <- v1_url("users", user_guid, "lock")
       self$POST(
         path = path,
@@ -606,9 +613,10 @@ Connect <- R6::R6Class(
     },
 
     #' @description Update a user.
-    #' @param user_guid User GUID.
+    #' @param user User GUID or a `connect_user` object.
     #' @param ... User fields.
-    users_update = function(user_guid, ...) {
+    users_update = function(user, ...) {
+      user_guid <- get_user_guid(user)
       path <- v1_url("users", user_guid)
       self$PUT(
         path = path,
@@ -641,16 +649,18 @@ Connect <- R6::R6Class(
 
     #' @description Add a group member.
     #' @param group_guid The group GUID.
-    #' @param user_guid The user GUID.
-    group_member_add = function(group_guid, user_guid) {
+    #' @param user The user GUID or a `connect_user` object.
+    group_member_add = function(group_guid, user) {
+      user_guid <- get_user_guid(user)
       path <- v1_url("groups", group_guid, "members")
       self$POST(path, body = list(user_guid = user_guid))
     },
 
     #' @description Remove a group member.
     #' @param group_guid The group GUID.
-    #' @param user_guid The user GUID.
-    group_member_remove = function(group_guid, user_guid) {
+    #' @param user The user GUID or a `connect_user` object.
+    group_member_remove = function(group_guid, user) {
+      user_guid <- get_user_guid(user)
       path <- v1_url("groups", group_guid, "members", user_guid)
       self$DELETE(path)
     },

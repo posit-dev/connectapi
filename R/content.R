@@ -206,10 +206,14 @@ Content <- R6::R6Class(
       self$connect$GET(url)
     },
     #' @description Add a principal to the ACL for this content.
-    #' @param principal_guid GUID for the target user or group.
+    #' @param principal_guid GUID for the target user or group. When
+    #'   `principal_type = "user"`, can also be a `connect_user` object.
     #' @param principal_type Acting on user or group.
     #' @param role The kind of content access.
     permissions_add = function(principal_guid, principal_type, role) {
+      if (principal_type == "user") {
+        principal_guid <- get_user_guid(principal_guid)
+      }
       url <- v1_url("content", self$content$guid, "permissions")
       self$connect$POST(
         url,
@@ -222,10 +226,14 @@ Content <- R6::R6Class(
     },
     #' @description Alter a principal in the ACL for this content.
     #' @param id The target identifier.
-    #' @param principal_guid GUID for the target user or group.
+    #' @param principal_guid GUID for the target user or group. When
+    #'   `principal_type = "user"`, can also be a `connect_user` object.
     #' @param principal_type Acting on user or group.
     #' @param role The kind of content access.
     permissions_update = function(id, principal_guid, principal_type, role) {
+      if (principal_type == "user") {
+        principal_guid <- get_user_guid(principal_guid)
+      }
       url <- v1_url("content", self$content$guid, "permissions", id)
       self$connect$PUT(
         url,
@@ -972,7 +980,6 @@ set_run_as <- function(content, run_as, run_as_current_user = FALSE) {
   return(content)
 }
 
-
 #' Delete Content
 #'
 #' Delete a content item. WARNING: This action deletes all history, configuration,
@@ -1025,8 +1032,8 @@ content_delete <- function(content, force = FALSE) {
 #' @param content An R6 content item
 #' @param ... Settings up update that are passed along to Posit Connect
 #' @param access_type One of "all", "logged_in", or "acl"
-#' @param owner_guid The GUID of a user who is a publisher, so that they can
-#'   become the new owner of the content
+#' @param owner The GUID of a user who is a publisher, so that they can
+#'   become the new owner of the content. Can also be a `connect_user` object.
 #'
 #' @return An R6 content item
 #'
@@ -1058,7 +1065,8 @@ content_update_access_type <- function(
 
 #' @rdname content_update
 #' @export
-content_update_owner <- function(content, owner_guid) {
+content_update_owner <- function(content, owner) {
+  owner_guid <- get_user_guid(owner)
   content_update(content = content, owner_guid = owner_guid)
 }
 
@@ -1120,7 +1128,6 @@ unlock_content <- function(content) {
 
   return(content)
 }
-
 
 #' Verify Content Name
 #'
@@ -1196,7 +1203,6 @@ delete_bundle <- function(content, bundle_id) {
   return(content)
 }
 
-
 #' Content permissions
 #'
 #' Get or set content permissions for a content item
@@ -1217,8 +1223,12 @@ delete_bundle <- function(content, bundle_id) {
 #' This makes it easier to find / isolate this record.
 #'
 #' @param content An R6 content object
-#' @param guid The guid associated with either a user (for `content_add_user`) or group (for `content_add_group`)
-#' @param role The role to assign to a user. Either "viewer" or "owner." Defaults to "viewer"
+#' @param user The guid associated with either a user (for `content_add_user`)
+#'   or group (for `content_add_group`). Can also be a list of `connect_user`
+#'   objects.
+#' @param guid The guid associated with a group.
+#' @param role The role to assign to a user. Either "viewer" or "owner."
+#'   Defaults to "viewer"
 #' @param add_owner Optional. Whether to include the owner in returned
 #'   permission sets. Default is TRUE. The owner will have an NA_character_
 #'   permission "id"
@@ -1227,10 +1237,11 @@ delete_bundle <- function(content, bundle_id) {
 #' @rdname permissions
 #' @family content functions
 #' @export
-content_add_user <- function(content, guid, role = c("viewer", "owner")) {
+content_add_user <- function(content, user, role = c("viewer", "owner")) {
   validate_R6_class(content, "Content")
   role <- .define_role(role)
 
+  guid <- purrr::map_chr(user, get_user_guid)
   purrr::map(guid, ~ .content_add_permission_impl(content, "user", .x, role))
 
   return(content)
@@ -1296,8 +1307,9 @@ content_add_group <- function(content, guid, role = c("viewer", "owner")) {
 
 #' @rdname permissions
 #' @export
-content_delete_user <- function(content, guid) {
+content_delete_user <- function(content, user) {
   validate_R6_class(content, "Content")
+  guid <- purrr::map_chr(user, get_user_guid)
   purrr::map(
     guid,
     ~ .content_delete_permission_impl(
@@ -1349,8 +1361,9 @@ content_delete_group <- function(content, guid) {
 
 #' @rdname permissions
 #' @export
-get_user_permission <- function(content, guid, add_owner = TRUE) {
+get_user_permission <- function(content, user, add_owner = TRUE) {
   validate_R6_class(content, "Content")
+  guid <- get_user_guid(user)
   res <- .get_permission(content, "user", guid, add_owner = add_owner)
   if (length(res) > 0) {
     return(res[[1]])
@@ -1378,7 +1391,6 @@ get_group_permission <- function(content, guid) {
     return(NULL)
   }
 }
-
 
 #' @rdname permissions
 #' @export

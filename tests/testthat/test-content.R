@@ -144,6 +144,32 @@ with_mock_api({
       "https://connect.example/__api__/v1/content/f2f37341-e21d-3d80-c698-a935ad614066/permissions"
     )
   })
+
+  test_that("Content$permissions_add() accepts connect_user object for users", {
+    con <- Connect$new(server = "https://connect.example", api_key = "fake")
+    item <- content_item(con, "f2f37341-e21d-3d80-c698-a935ad614066")
+    user_guid <- "a01792e3-2e67-402e-99af-be04a48da074"
+    user <- structure(list(guid = user_guid), class = "connect_user")
+
+    expect_POST(
+      item$permissions_add(user, "user", "viewer"),
+      "https://connect.example/__api__/v1/content/f2f37341-e21d-3d80-c698-a935ad614066/permissions",
+      '{"principal_guid":"a01792e3-2e67-402e-99af-be04a48da074","principal_type":"user","role":"viewer"}'
+    )
+  })
+
+  test_that("Content$permissions_update() accepts connect_user object for users", {
+    con <- Connect$new(server = "https://connect.example", api_key = "fake")
+    item <- content_item(con, "f2f37341-e21d-3d80-c698-a935ad614066")
+    user_guid <- "a01792e3-2e67-402e-99af-be04a48da074"
+    user <- structure(list(guid = user_guid), class = "connect_user")
+
+    expect_PUT(
+      item$permissions_update(94, user, "user", "editor"),
+      "https://connect.example/__api__/v1/content/f2f37341-e21d-3d80-c698-a935ad614066/permissions/94",
+      '{"principal_guid":"a01792e3-2e67-402e-99af-be04a48da074","principal_type":"user","role":"editor"}'
+    )
+  })
 })
 
 without_internet({
@@ -463,6 +489,55 @@ test_that("get_content_packages() gets packages", {
         )
       ),
       "the server version is not exposed by this Posit Connect instance"
+    )
+  })
+})
+
+with_mock_api({
+  test_that("content_add_user() accepts connect_user object", {
+    con <- Connect$new(server = "https://connect.example", api_key = "fake")
+    item <- content_item(con, "f2f37341-e21d-3d80-c698-a935ad614066")
+    user_guid <- "a01792e3-2e67-402e-99af-be04a48da074"
+    user <- structure(list(guid = user_guid), class = "connect_user")
+
+    expect_POST(
+      suppressMessages(content_add_user(item, user)),
+      "https://connect.example/__api__/v1/content/f2f37341-e21d-3d80-c698-a935ad614066/permissions"
+    )
+
+    # Test with list of connect_user objects
+    user2 <- structure(list(guid = "b02892e3-2e67-402e-99af-be04a48da075"), class = "connect_user")
+    expect_POST(
+      suppressMessages(content_add_user(item, list(user, user2))),
+      "https://connect.example/__api__/v1/content/f2f37341-e21d-3d80-c698-a935ad614066/permissions"
+    )
+  })
+
+  test_that("get_user_permission() accepts connect_user object", {
+    con <- Connect$new(server = "https://connect.example", api_key = "fake")
+    item <- content_item(con, "f2f37341-e21d-3d80-c698-a935ad614066")
+    user_guid <- "a01792e3-2e67-402e-99af-be04a48da074"
+    user <- structure(list(guid = user_guid), class = "connect_user")
+
+    # Test with GUID string - should work
+    perm1 <- suppressMessages(get_user_permission(item, user_guid))
+
+    # Test with connect_user object - should also work and return same result
+    perm2 <- suppressMessages(get_user_permission(item, user))
+
+    # Both should return the same permission (or NULL if not found)
+    expect_equal(perm1, perm2)
+  })
+
+  test_that("content_update_owner() accepts connect_user object", {
+    con <- Connect$new(server = "https://connect.example", api_key = "fake")
+    item <- content_item(con, "f2f37341-e21d-3d80-c698-a935ad614066")
+    user_guid <- "a01792e3-2e67-402e-99af-be04a48da074"
+    user <- structure(list(guid = user_guid), class = "connect_user")
+
+    expect_PATCH(
+      suppressMessages(content_update_owner(item, user)),
+      "https://connect.example/__api__/v1/content/f2f37341-e21d-3d80-c698-a935ad614066"
     )
   })
 })

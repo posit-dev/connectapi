@@ -10,7 +10,7 @@ content_update(content, ...)
 
 content_update_access_type(content, access_type = c("all", "logged_in", "acl"))
 
-content_update_owner(content, owner_guid)
+content_update_owner(content, owner)
 }
 \arguments{
 \item{content}{An R6 content item}
@@ -19,8 +19,8 @@ content_update_owner(content, owner_guid)
 
 \item{access_type}{One of "all", "logged_in", or "acl"}
 
-\item{owner_guid}{The GUID of a user who is a publisher, so that they can
-become the new owner of the content}
+\item{owner}{The GUID of a user who is a publisher, so that they can
+become the new owner of the content. Can also be a \code{connect_user} object.}
 }
 \value{
 An R6 content item
