@@ -50,16 +50,4 @@ jobs:
         with:
           connect-version: ${{ matrix.version }}
           connect-license: ${{ secrets.CONNECT_LICENSE_FILE }}
-          command: 'export CONNECTAPI_INTEGRATED=true && export TEST_1_SERVER=${CONNECT_SERVER} && export TEST_1_API_KEY=${CONNECT_API_KEY} && Rscript tests/test-integrated.R'
-
-      - name: Show testthat output
-        if: always()
-        run: find check -name 'testthat.Rout*' -exec cat '{}' \; || true
-        shell: bash
-
-      - name: Upload check results
-        if: failure()
-        uses: actions/upload-artifact@main
-        with:
-          name: ${{ runner.os }}-${{ matrix.version }}-results
-          path: check
+          command: 'Rscript -e "Sys.setenv(CONNECT_INTEGRATED=\"true\", TEST_1_SERVER=Sys.getenv(\"CONNECT_SERVER\"), TEST_1_API_KEY=Sys.getenv(\"CONNECT_API_KEY\")); source(\"tests/test-integrated.R\")"'
