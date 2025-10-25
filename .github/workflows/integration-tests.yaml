@@ -53,7 +53,7 @@ jobs:
         with:
           connect-version: ${{ matrix.version }}
           connect-license: ${{ secrets.CONNECT_LICENSE_FILE }}
-          command: 'export CONNECTAPI_INTEGRATED=true && export TEST_1_SERVER=${CONNECT_SERVER} && export TEST_1_API_KEY=${CONNECT_API_KEY} && Rscript -e "rcmdcheck::rcmdcheck(args = \"--no-manual\")"'
+          command: 'export CONNECTAPI_INTEGRATED=true && export TEST_1_SERVER=${CONNECT_SERVER} && export TEST_1_API_KEY=${CONNECT_API_KEY} && Rscript -e "rcmdcheck::rcmdcheck(args = \"--no-manual\", check_dir = \"check\")"'
 
       - name: Show testthat output
         if: always()
