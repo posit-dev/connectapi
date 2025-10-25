@@ -50,4 +50,4 @@ jobs:
         with:
           connect-version: ${{ matrix.version }}
           connect-license: ${{ secrets.CONNECT_LICENSE_FILE }}
-          command: 'Rscript -e "Sys.setenv(CONNECT_INTEGRATED=\"true\", TEST_1_SERVER=Sys.getenv(\"CONNECT_SERVER\"), TEST_1_API_KEY=Sys.getenv(\"CONNECT_API_KEY\")); source(\"tests/test-integrated.R\")"'
+          command: 'Rscript -e "Sys.setenv(CONNECTAPI_INTEGRATED=\"true\", TEST_1_SERVER=Sys.getenv(\"CONNECT_SERVER\"), TEST_1_API_KEY=Sys.getenv(\"CONNECT_API_KEY\")); source(\"tests/test-integrated.R\")"'
