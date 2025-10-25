@@ -15,21 +15,17 @@ jobs:
       fail-fast: false
       matrix:
         version:
+          - "2025.09.0" # jammy
           - "2025.03.0" # jammy
           - "2024.09.0" # jammy
           - "2024.03.0" # jammy
           - "2023.09.0" # jammy
           - "2023.03.0" # bionic
-          - "2022.09.0" # bionic
-          - "2022.03.2"
-          - "2021.09.0"
-          - "1.8.8.2"
+          - "2022.10.0" # bionic
+    name: Connect ${{ matrix.version }}
 
     env:
-      CONNECT_VERSION: ${{ matrix.version }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      CONNECT_LICENSE_FILE: ${{ secrets.CONNECT_LICENSE_FILE }}
-      CONNECTAPI_INTEGRATED: true
 
     steps:
       - uses: actions/checkout@v4
@@ -42,7 +38,7 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck, local::.
+          extra-packages: local::.
           needs: check
 
       - name: Session info
@@ -52,15 +48,12 @@ jobs:
           sessioninfo::session_info(pkgs, include_base = TRUE)
         shell: Rscript {0}
 
-      - name: Set up license file
-        run: echo "$CONNECT_LICENSE_FILE" > /tmp/connect.lic
-
-      - name: Setup test environment
-        run: |
-          connectapi:::build_test_env(connect_license_path = "/tmp/connect.lic")
-        shell: Rscript {0}
-
-      - uses: r-lib/actions/check-r-package@v2
+      - name: Run integration tests
+        uses: nealrichardson/with-connect@dev
+        with:
+          connect-version: ${{ matrix.version }}
+          connect-license: ${{ secrets.CONNECT_LICENSE_FILE }}
+          command: 'export CONNECTAPI_INTEGRATED=true && R CMD check --no-manual .'
 
       - name: Show testthat output
         if: always()
