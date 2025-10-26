@@ -15,6 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         version:
+          - "latest"
           - "2025.09.0" # jammy
           - "2025.03.0" # jammy
           - "2024.09.0" # jammy
@@ -47,6 +48,8 @@ jobs:
 
       - name: Run integration tests
         uses: nealrichardson/with-connect@dev
+        env:
+          CONNECTAPI_INTEGRATED: "true"
         with:
           connect-version: ${{ matrix.version }}
           connect-license: ${{ secrets.CONNECT_LICENSE_FILE }}
@@ -54,7 +57,6 @@ jobs:
           command: |
             Rscript -e '
               Sys.setenv(
-                CONNECTAPI_INTEGRATED="true",
                 TEST_1_SERVER=Sys.getenv("CONNECT_SERVER"),
                 TEST_1_API_KEY=Sys.getenv("CONNECT_API_KEY")
               )
