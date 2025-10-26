@@ -33,12 +33,11 @@ jobs:
         with:
           # Runs on the default version in the with-connect action
           connect-license: ${{ secrets.CONNECT_LICENSE_FILE }}
-          env:
-            CONNECTAPI_INTEGRATED: true
           # TODO: rewrite tests to use CONNECT_* env vars directly
           command: |
             Rscript -e '
               Sys.setenv(
+                CONNECTAPI_INTEGRATED="true",
                 TEST_1_SERVER=Sys.getenv("CONNECT_SERVER"),
                 TEST_1_API_KEY=Sys.getenv("CONNECT_API_KEY")
               )
