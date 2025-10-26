@@ -16,10 +16,9 @@ This has some additional requirements.
 - You need a valid Connect license file (`.lic` file). Place it in the root of the repository as `connect-license.lic`.
 - You need Docker.
 - If you're running on an ARM (non-Intel) Mac, `export DOCKER_DEFAULT_PLATFORM=linux/amd64`
-- Run `connectapi:::build_test_env(connect_license_path = "connect-license.lic")` to set up the Connect processes in docker
-- By default, this will run against a contemporary version of Connect. To test against an older version, set the environment variable `CONNECT_VERSION` to something else and then run `build_test_env()`.
-- Set `CONNECTAPI_INTEGRATED=true` in the environment to enable running the integration tests (they're skipped by default).
-- Run them with `source("tests/test-integrated.R")`
+- Get the [with-connect](https://github.com/nealrichardson/with-connect/blob/dev/README.md) tool
+- Run them with `with-connect -e CONNECTAPI_INTEGRATED=true -- Rscript -e source("tests/test-integrated.R")`
+- Specify a different Connect version with the `--version` command-line argument to `with-connect`, e.g. `--version 2024.06.0`
 
 ## Fixing typos
 

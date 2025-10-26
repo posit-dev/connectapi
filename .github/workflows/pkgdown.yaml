@@ -18,8 +18,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      CONNECT_VERSION: 2024.03.0
-      CONNECT_LICENSE_FILE: ${{ secrets.CONNECT_LICENSE_FILE }}
 
     steps:
       - uses: actions/checkout@v4
@@ -35,16 +33,19 @@ jobs:
           extra-packages: any::pkgdown, local::.
           needs: website
 
-      - name: Set up license file
-        run: echo "$CONNECT_LICENSE_FILE" > /tmp/connect.lic
-
-      - name: Start Connect
-        run: |
-          Rscript -e 'connectapi:::build_test_env(connect_license_path = "/tmp/connect.lic")'
-
       - name: Build site
-        run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
-        shell: Rscript {0}
+        uses: nealrichardson/with-connect@dev
+        with:
+          # Runs on the default version in the with-connect action
+          connect-license: ${{ secrets.CONNECT_LICENSE_FILE }}
+          # TODO: rewrite tests to use CONNECT_* env vars directly
+          command: |
+            Rscript -e '
+              Sys.setenv(
+                TEST_1_SERVER=Sys.getenv("CONNECT_SERVER"),
+                TEST_1_API_KEY=Sys.getenv("CONNECT_API_KEY")
+              )
+              pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)'
 
       - name: Deploy to GitHub pages 🚀
         if: github.event_name != 'pull_request'
