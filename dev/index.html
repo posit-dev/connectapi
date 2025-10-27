@@ -78,7 +78,7 @@
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"connectapi"</span><span class="op">)</span></span></code></pre></div>
 <p>To install the development version:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">'posit-dev/connectapi'</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'posit-dev/connectapi'</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="client">Client<a class="anchor" aria-label="anchor" href="#client"></a>
@@ -189,7 +189,7 @@
 <p><strong>Access Denied Errors?</strong></p>
 <p>This is likely due to either (1) <code>Connect$server</code> or <code>Connect$api_key</code> being defined improperly or (2) you do not have access to the Posit Connect cluster to do the operation in question</p>
 <p><strong>Warning about version numbers</strong></p>
-<p>We test the package against a range of versions of Connect, as old as 1.8.8.2 (May 2021). If your Connect server is older than that, the package may still work, but <code>connectapi</code> will warn you.</p>
+<p>We test the package against a range of versions of Connect, as old as <code>2022.10.0</code>. If your Connect server is older than that, the package may still work.</p>
 <p>We strive to:</p>
 <ul>
 <li>track the latest version of the Posit Connect API</li>
