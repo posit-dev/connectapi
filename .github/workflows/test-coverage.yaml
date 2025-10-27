@@ -34,7 +34,7 @@ jobs:
           CONNECTAPI_INTEGRATED: "true"
         with:
           # Runs on the default version in the with-connect action
-          connect-license: ${{ secrets.CONNECT_LICENSE_FILE }}
+          license: ${{ secrets.CONNECT_LICENSE_FILE }}
           # TODO: rewrite tests to use CONNECT_* env vars directly
           command: |
             Rscript -e '

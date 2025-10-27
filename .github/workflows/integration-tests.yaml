@@ -51,8 +51,8 @@ jobs:
         env:
           CONNECTAPI_INTEGRATED: "true"
         with:
-          connect-version: ${{ matrix.version }}
-          connect-license: ${{ secrets.CONNECT_LICENSE_FILE }}
+          version: ${{ matrix.version }}
+          license: ${{ secrets.CONNECT_LICENSE_FILE }}
           # TODO: rewrite tests to use CONNECT_* env vars directly
           command: |
             Rscript -e '
