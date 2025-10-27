@@ -1,4 +1,4 @@
-skip_if_connect_older_than(test_conn_1, "2022.10.0")
+skip_if_connect_older_than(test_conn_1, "2022.12.0")
 
 cont1_name <- uuid::UUIDgenerate()
 cont1_title <- "Test Content 1"

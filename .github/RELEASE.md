@@ -26,31 +26,19 @@ but with integration tests too
 
 ### Integration Tests
 
-Integration tests are designed to run the `connectapi` package against the
-_actual_ latest version of Connect
+Integration tests are designed to run the `connectapi` package against a running instance of Connect
 
-- the "test environment" stands up two Connect instances as docker images using
-the un-exported `build_test_env()` function
-- this [uses `docker compose`](../inst/ci/) to build an environment
-- we also use some ["hacky" utilities](../R/utils-ci.R) to build an initial user and API key for executing
 - tests are written in the `tests/integration` directory
   - Each file should be able to be executed independently
   - There are occasional dependencies _across tests_ within a file (executed linearly)
     - (I know, this is terrible... we made choices for reasons)
   - We fudge the clean line of unit tests in order to ensure that complex
   functionalities work as expected without too much time or work
-- bootstrapping the "integration test" execution happens in [the
-`test-integrated.R` script](../tests/test-integrated.R), and keys mostly on the
-`CONNECTAPI_INTEGRATED=true` environment variable
 
-To run integration tests interactively / locally run the following:
+To run integration tests interactively / locally, install the [with-connect](https://github.com/nealrichardson/with-connect/blob/dev/README.md) tool, then run:
+
 ```
-connectapi:::build_test_env()
-readRenviron(".Renviron")
-
-# or set this in .Renviron yourself
-Sys.setenv("CONNECTAPI_INTEGRATED"="true")
-
-# or run R CMD CHECK with that env var set, etc.
-source("tests/test-integrated.R")
+with-connect -e CONNECTAPI_INTEGRATED=true -- Rscript -e source("tests/test-integrated.R")
 ```
+
+This requires a valid license file.

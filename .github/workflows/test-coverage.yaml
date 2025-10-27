@@ -13,9 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      CONNECT_VERSION: 2024.03.0
-      CONNECT_LICENSE_FILE: ${{ secrets.CONNECT_LICENSE_FILE }}
-      CONNECTAPI_INTEGRATED: true
 
     steps:
       - uses: actions/checkout@v4
@@ -26,32 +23,33 @@ jobs:
         with:
           use-public-rspm: true
 
-
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::covr, local::.
           needs: coverage
 
-      - name: Set up license file
-        run: echo "$CONNECT_LICENSE_FILE" > /tmp/connect.lic
-
-      - name: Setup test environment
-        run: |
-          connectapi:::build_test_env(connect_license_path = "/tmp/connect.lic")
-        shell: Rscript {0}
-
-      - name: Test coverage
+      - name: Run coverage
+        uses: nealrichardson/with-connect@dev
         env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: |
-          token <- Sys.getenv("CODECOV_TOKEN", "")
-          covr::codecov(
-            quiet = FALSE,
-            clean = FALSE,
-            install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package"),
-            token = if (token != "") token
-          )
-        shell: Rscript {0}
+          CONNECTAPI_INTEGRATED: "true"
+        with:
+          # Runs on the default version in the with-connect action
+          license: ${{ secrets.CONNECT_LICENSE_FILE }}
+          # TODO: rewrite tests to use CONNECT_* env vars directly
+          command: |
+            Rscript -e '
+              Sys.setenv(
+                TEST_1_SERVER=Sys.getenv("CONNECT_SERVER"),
+                TEST_1_API_KEY=Sys.getenv("CONNECT_API_KEY")
+              )
+              token <- "${{ secrets.CODECOV_TOKEN }}"
+              covr::codecov(
+                quiet = FALSE,
+                clean = FALSE,
+                install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package"),
+                token = if (token != "") token
+              )'
+
 
       - name: Show testthat output
         if: always()
