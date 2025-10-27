@@ -327,7 +327,7 @@ Content <- R6::R6Class(
     #' - last_known_commit
     repository = function() {
       con <- self$connect
-      error_if_less_than(con$version, "2022.10.0")
+      error_if_less_than(con$version, "2022.12.0")
       guid <- self$content$guid
       resp <- con$GET(
         v1_url("content", guid, "repository"),
@@ -344,7 +344,7 @@ Content <- R6::R6Class(
     #' @param polling Polling enabled.
     repo_enable = function(polling = TRUE) {
       con <- self$connect
-      error_if_less_than(con$version, "2022.10.0")
+      error_if_less_than(con$version, "2022.12.0")
       guid <- self$content$guid
       con$PATCH(
         v1_url("content", guid, "repository"),
@@ -363,7 +363,7 @@ Content <- R6::R6Class(
       polling = FALSE
     ) {
       guid <- self$content$guid
-      error_if_less_than(self$connect$version, "2022.10.0")
+      error_if_less_than(self$connect$version, "2022.12.0")
       self$connect$PUT(
         v1_url("content", guid, "repository"),
         body = list(
