@@ -25,9 +25,11 @@
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/VariantR6.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/VariantSchedule.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/VariantTask.html</loc></url>
+<url><loc>https://posit-dev.github.io/connectapi/dev/reference/as.data.frame.connect_content_list.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/as.data.frame.connect_integration_list.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/as.data.frame.connect_list_hits.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/as_integration.html</loc></url>
+<url><loc>https://posit-dev.github.io/connectapi/dev/reference/as_tibble.connect_content_list.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/as_tibble.connect_integration_list.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/as_tibble.connect_list_hits.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/audit_access_open.html</loc></url>
