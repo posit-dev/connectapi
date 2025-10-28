@@ -1005,7 +1005,9 @@ connect <- function(
   ...,
   .check_is_fatal = TRUE
 ) {
-  if (is.null(api_key) || is.na(api_key) || nchar(api_key) == 0) {
+  if (
+    missing(token) && is.null(api_key) || is.na(api_key) || nchar(api_key) == 0
+  ) {
     msg <- "Invalid (empty) API key. Please provide a valid API key"
     if (.check_is_fatal) {
       stop(glue::glue("ERROR: {msg}"))
