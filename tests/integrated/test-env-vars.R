@@ -1,9 +1,9 @@
 # Temporarily skip these on newer Connect versions because the manifest for this
 # content specifies an old version of R not found in newer images.
-skip_if(safe_server_version(test_conn_1) > "2024.03.0")
+skip_if(safe_server_version(client) > "2024.03.0")
 
 # ensure that RSPM is being used so these do not take eternity
-rmd_content <- deploy_example(test_conn_1, "rmarkdown")
+rmd_content <- deploy_example(client, "rmarkdown")
 
 test_that("get_environment works with no environment variables", {
   env <- get_environment(rmd_content)

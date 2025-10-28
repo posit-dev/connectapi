@@ -7,7 +7,7 @@ cont1_content <- NULL
 # get --------------------------------------------
 
 test_that("get_users works", {
-  users <- get_users(test_conn_1)
+  users <- get_users(client)
 
   expect_s3_class(users, c("tbl_df", "tbl", "data.frame"))
   expect_equal(
@@ -17,15 +17,15 @@ test_that("get_users works", {
 
   # Other tests create users, so specifying the exact number here is conditional
   # on the contents of other tests and the order that tests run in.
-  admins <- get_users(test_conn_1, user_role = "administrator")
+  admins <- get_users(client, user_role = "administrator")
   expect_true(nrow(admins) > 0)
 
-  licensed <- get_users(test_conn_1, account_status = "licensed")
+  licensed <- get_users(client, account_status = "licensed")
   expect_true(nrow(licensed) > 0)
 })
 
 test_that("get_groups works", {
-  groups_list <- get_groups(test_conn_1)
+  groups_list <- get_groups(client)
   expect_s3_class(groups_list, c("tbl_df", "tbl", "data.frame"))
 
   expect_ptype_equal(groups_list, connectapi_ptypes$groups)
@@ -33,7 +33,7 @@ test_that("get_groups works", {
 
 test_that("get_content works", {
   scoped_experimental_silence()
-  content_list <- get_content(test_conn_1)
+  content_list <- get_content(client)
   expect_s3_class(content_list, c("tbl_df", "tbl", "data.frame"))
 
   # various attributes have been added over the years, so exact match
@@ -42,14 +42,14 @@ test_that("get_content works", {
 })
 
 test_that("get_usage_shiny works", {
-  shiny_usage <- get_usage_shiny(test_conn_1)
+  shiny_usage <- get_usage_shiny(client)
   expect_s3_class(shiny_usage, c("tbl_df", "tbl", "data.frame"))
 
   expect_ptype_equal(shiny_usage, connectapi_ptypes$usage_shiny)
 })
 
 test_that("get_usage_static works", {
-  content_visits <- get_usage_static(test_conn_1)
+  content_visits <- get_usage_static(client)
   expect_s3_class(content_visits, c("tbl_df", "tbl", "data.frame"))
 
   # path was added to usage_static in 2024
@@ -61,17 +61,17 @@ test_that("get_usage_static works", {
 })
 
 test_that("get_audit_logs works", {
-  audit_list <- get_audit_logs(test_conn_1)
+  audit_list <- get_audit_logs(client)
   expect_s3_class(audit_list, c("tbl_df", "tbl", "data.frame"))
 
   # This is different on older versions, not sure it's worth worrying about how
-  skip_if_connect_older_than(test_conn_1, "2022.09.0")
+  skip_if_connect_older_than(client, "2022.09.0")
   expect_ptype_equal(audit_list, connectapi_ptypes$audit_logs)
 })
 
 test_that("get_procs works", {
   scoped_experimental_silence()
-  proc_data <- get_procs(test_conn_1)
+  proc_data <- get_procs(client)
 
   # TODO: This is not a great test, since no processes are running
   # we could always start a content restoration...
@@ -86,7 +86,7 @@ test_that("content_list_with_permissions works", {
 
   rlang::with_options(
     progress_enabled = FALSE,
-    cl <- content_list_with_permissions(test_conn_1)
+    cl <- content_list_with_permissions(client)
   )
 
   expect_true("permission" %in% names(cl))
@@ -103,12 +103,12 @@ test_that("content_list_with_permissions predicate works", {
     )
   )
   uniq_id <- uuid::UUIDgenerate()
-  deployed <- deploy(test_conn_1, bnd, uniq_id)
+  deployed <- deploy(client, bnd, uniq_id)
 
   rlang::with_options(
     progress_enabled = FALSE,
     cl <- content_list_with_permissions(
-      test_conn_1,
+      client,
       .p = ~ .x$guid == deployed$content$guid
     )
   )
@@ -128,14 +128,14 @@ test_that("content_list_guid_has_access works", {
     )
   )
   uniq_id <- uuid::UUIDgenerate()
-  deployed <- deploy(test_conn_1, bnd, uniq_id)
+  deployed <- deploy(client, bnd, uniq_id)
 
   rlang::with_options(
     progress_enabled = FALSE,
-    cl <- content_list_with_permissions(test_conn_1)
+    cl <- content_list_with_permissions(client)
   )
 
-  my_guid <- test_conn_1$me()$guid
+  my_guid <- client$me()$guid
   filt <- content_list_guid_has_access(cl, my_guid)
   expect_true("permission" %in% names(filt))
   expect_true(nrow(filt) <= nrow(cl))

@@ -963,7 +963,6 @@ Connect <- R6::R6Class(
 #'   `Connect` object using the `api_key`. By providing a different
 #'   key here you can test a visitor client with differently-scoped
 #'   permissions.
-#' @param prefix The prefix used to determine environment variables
 #' @param audience Optional. The GUID of a Connect API integration associated with this piece of content.
 #' @param ... Additional arguments. Not used at present
 #' @param .check_is_fatal Whether to fail if "check" requests fail. Useful in
@@ -991,16 +990,14 @@ Connect <- R6::R6Class(
 #' @examplesIf identical(Sys.getenv("IN_PKGDOWN"), "true")
 #'
 #' # default is to read CONNECT_SERVER and CONNECT_API_KEY environment variables
-#' # this example will read TEST_1_SERVER and TEST_1_API_KEY
-#' connect(prefix = "TEST_1")
+#' connect()
 #'
 #' @export
 connect <- function(
-  server = Sys.getenv(paste0(prefix, "_SERVER"), NA_character_),
-  api_key = Sys.getenv(paste0(prefix, "_API_KEY"), NA_character_),
+  server = Sys.getenv("CONNECT_SERVER"),
+  api_key = Sys.getenv("CONNECT_API_KEY"),
   token,
   token_local_testing_key = api_key,
-  prefix = "CONNECT",
   audience = NULL,
   ...,
   .check_is_fatal = TRUE

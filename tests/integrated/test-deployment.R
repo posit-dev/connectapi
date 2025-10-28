@@ -4,12 +4,12 @@ cont1_guid <- NULL
 cont1_bundle <- NULL
 
 test_that("can create content", {
-  cont1 <- test_conn_1$content_create(name = cont1_name, title = cont1_title)
+  cont1 <- client$content_create(name = cont1_name, title = cont1_title)
   expect_equal(cont1$name, cont1_name)
   expect_equal(cont1$title, cont1_title)
 
   # Use include = NULL because we aren't passing the include in content_create()
-  get_cont1 <- test_conn_1$content(guid = cont1$guid, include = NULL)
+  get_cont1 <- client$content(guid = cont1$guid, include = NULL)
   expect_identical(get_cont1, cont1)
   cont1_guid <<- cont1$guid
 })
@@ -20,14 +20,14 @@ test_that("can upload and deploy content", {
   )
   expect_true(fs::file_exists(cont1_bundle$path))
 
-  res <- test_conn_1$content_upload(
+  res <- client$content_upload(
     bundle_path = cont1_bundle$path,
     guid = cont1_guid
   )
   expect_false(is.null(res))
   expect_silent(as.integer(res[["bundle_id"]]))
 
-  task <- test_conn_1$content_deploy(
+  task <- client$content_deploy(
     guid = cont1_guid,
     bundle_id = res[["bundle_id"]]
   )
@@ -35,27 +35,24 @@ test_that("can upload and deploy content", {
 })
 
 test_that("can promote content to another server", {
-  tryCatch(
-    test_conn_2 <- connect(prefix = "TEST_2"),
-    error = function(e) {
-      skip("Second test server not available")
-    }
-  )
+  # In practice, you would have this be a different server, but we should be
+  # able to test using the same server.
+  client2 <- connect()
 
   # TODO : Intermittent failures here... with a 404 response on GET
   # during the download_bundle... connect.R:154
   res <- promote(
-    from = Sys.getenv("TEST_1_SERVER"),
-    from_key = Sys.getenv("TEST_1_API_KEY"),
-    to = Sys.getenv("TEST_2_SERVER"),
-    to_key = Sys.getenv("TEST_2_API_KEY"),
+    from = Sys.getenv("CONNECT_SERVER"),
+    from_key = Sys.getenv("CONNECT_API_KEY"),
+    to = Sys.getenv("CONNECT_SERVER"),
+    to_key = Sys.getenv("CONNECT_API_KEY"),
     name = cont1_name
   )
 
   expect_type(res, "character")
 
   cont1_2 <- content_ensure(
-    connect = test_conn_2,
+    connect = client2,
     name = cont1_name
   )
 
@@ -63,22 +60,22 @@ test_that("can promote content to another server", {
 })
 
 test_that("content_ensure works with guid", {
-  c1 <- content_ensure(test_conn_1, guid = cont1_guid)
+  c1 <- content_ensure(client, guid = cont1_guid)
   expect_identical(c1[["guid"]], cont1_guid)
 
   fake_guid <- paste0(cont1_guid, "-does-not-exist")
   expect_warning({
-    c2 <- content_ensure(test_conn_1, guid = fake_guid)
+    c2 <- content_ensure(client, guid = fake_guid)
   })
   expect_false(identical(c2[["guid"]], cont1_guid))
 })
 
 test_that("content_ensure works with name", {
-  expect_message(c_new <- content_ensure(test_conn_1))
+  expect_message(c_new <- content_ensure(client))
   expect_type(c_new[["guid"]], "character")
 
   expect_message(
-    c_same <- content_ensure(test_conn_1, name = c_new[["name"]])
+    c_same <- content_ensure(client, name = c_new[["name"]])
   )
 
   expect_identical(c_new[["name"]], c_same[["name"]])
@@ -89,7 +86,7 @@ test_that("content_ensure works with name", {
   c_desc <- "Some Description"
   expect_message(
     c_diff <- content_ensure(
-      test_conn_1,
+      client,
       name = c_newname,
       title = c_title,
       description = c_desc
@@ -109,30 +106,30 @@ test_that("content_ensure fails when not permitted", {
 
   # duplicates to ensure it does not create
   expect_error(
-    content_ensure(test_conn_1, guid = permit_guid, .permitted = c("existing")),
+    content_ensure(client, guid = permit_guid, .permitted = c("existing")),
     "not found on"
   )
   expect_error(
-    content_ensure(test_conn_1, guid = permit_guid, .permitted = c("existing")),
+    content_ensure(client, guid = permit_guid, .permitted = c("existing")),
     "not found on"
   )
 
   # duplicates to ensure it does not create
   expect_error(
-    content_ensure(test_conn_1, name = permit_name, .permitted = c("existing")),
+    content_ensure(client, name = permit_name, .permitted = c("existing")),
     "not found on"
   )
   expect_error(
-    content_ensure(test_conn_1, name = permit_name, .permitted = c("existing")),
+    content_ensure(client, name = permit_name, .permitted = c("existing")),
     "not found on"
   )
 
   # actually create
-  invisible(content_ensure(test_conn_1, name = permit_name))
+  invisible(content_ensure(client, name = permit_name))
 
   # error because we expect new
   expect_error(
-    content_ensure(test_conn_1, name = permit_name, .permitted = c("new")),
+    content_ensure(client, name = permit_name, .permitted = c("new")),
     "already exists"
   )
 })

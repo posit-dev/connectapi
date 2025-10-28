@@ -4,7 +4,7 @@ library(connectapi)
 if (nzchar(Sys.getenv("CONNECTAPI_INTEGRATED"))) {
   # Make sure one server is up
   tryCatch(
-    httr::content(httr::GET(paste0(Sys.getenv("TEST_1_SERVER"), "/__ping__"))),
+    httr::content(httr::GET(paste0(Sys.getenv("CONNECT_SERVER"), "/__ping__"))),
     error = function(e) {
       stop("Server 1 is not healthy")
     }

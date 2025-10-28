@@ -53,11 +53,5 @@ jobs:
         with:
           version: ${{ matrix.version }}
           license: ${{ secrets.CONNECT_LICENSE_FILE }}
-          # TODO: rewrite tests to use CONNECT_* env vars directly
           command: |
-            Rscript -e '
-              Sys.setenv(
-                TEST_1_SERVER=Sys.getenv("CONNECT_SERVER"),
-                TEST_1_API_KEY=Sys.getenv("CONNECT_API_KEY")
-              )
-              source("tests/test-integrated.R")'
+            Rscript -e 'source("tests/test-integrated.R")'
