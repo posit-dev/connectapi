@@ -72,7 +72,7 @@ fallback_key <- Sys.getenv("VIEWER_ROLE_API_KEY")
 client <- connect(token = token, token_local_testing_key = fallback_key)
 }
 
-\dontshow{if (identical(Sys.getenv("IN_PKGDOWN"), "true")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (identical(Sys.getenv("IN_PKGDOWN"), "true")) withAutoprint(\{ # examplesIf}
 
 # default is to read CONNECT_SERVER and CONNECT_API_KEY environment variables
 connect()
