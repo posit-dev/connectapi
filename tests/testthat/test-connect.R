@@ -52,6 +52,7 @@ test_that("connect() just warns on empty API key if .check_is_fatal=FALSE", {
   without_internet({
     expect_message(
       client <- connect(
+        server = "http://posit.co",
         api_key = "",
         .check_is_fatal = FALSE
       ),
