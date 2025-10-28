@@ -1522,7 +1522,7 @@ get_content_packages <- function(content) {
 #'   usually not what you want.
 #'
 #' @return
-#' A list of [Content] objects.
+#' A list of [Content] objects, of class "connect_content_list"
 #'
 #' @details
 #' Please see https://docs.posit.co/connect/api/#get-/v1/search/content for more
@@ -1566,9 +1566,12 @@ search_content <- function(
     limit = limit
   )
 
-  purrr::map(res, function(x) {
+  content_list <- purrr::map(res, function(x) {
     Content$new(client, x)
   })
+
+  class(content_list) <- c("connect_content_list", class(content_list))
+  content_list
 }
 
 .search_content <- function(
@@ -1590,4 +1593,46 @@ search_content <- function(
   )
 
   client$GET(path, query = query)
+}
+
+#' Convert content list to a data frame
+#'
+#' @description
+#' Converts a list returned by [search_content()] into a data frame.
+#'
+#' @param x A `connect_content_list` object (from [search_content()]).
+#' @param row.names Passed to [base::as.data.frame()].
+#' @param optional Passed to [base::as.data.frame()].
+#' @param ... Passed to [base::as.data.frame()].
+#'
+#' @return A `data.frame` with one row per content item.
+#' @export
+as.data.frame.connect_content_list <- function(
+  x,
+  row.names = NULL, # nolint
+  optional = FALSE,
+  ...
+) {
+  content_tbl <- as_tibble(x)
+  as.data.frame(
+    content_tbl,
+    row.names = row.names,
+    optional = optional,
+    ...
+  )
+}
+
+#' Convert integration list to a tibble
+#'
+#' @description
+#' Converts a list returned by [search_content()] to a tibble.
+#'
+#' @param x A `connect_content_list` object.
+#' @param ... Unused.
+#'
+#' @return A tibble with one row per content item.
+#' @export
+as_tibble.connect_content_list <- function(x, ...) {
+  content_data <- purrr::map(x, "content")
+  parse_connectapi_typed(content_data, connectapi_ptypes$content)
 }
