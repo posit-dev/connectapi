@@ -1,12 +1,17 @@
-// Used in test-content.R
+// Used in test-content.R and test-page.R
 {
-    "total": 3,
+    "total": 4,
     "current_page": 2,
     "results": [
         {
             "guid": "abc12345",
             "name": "blobfish-report",
             "title": "blobfish report"
+        },
+        {
+            "guid": "abc12346",
+            "name": "blobfish-report-final",
+            "title": "blobfish report (v2)"
         }
     ]
 }
