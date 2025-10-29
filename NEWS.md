@@ -1,4 +1,4 @@
-# connectapi (development version)
+# connectapi 0.9.0
 
 - New `set_integrations()` function to set the OAuth integration
   associations for a content item. (#414)
