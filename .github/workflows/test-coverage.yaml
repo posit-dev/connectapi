@@ -29,7 +29,7 @@ jobs:
           needs: coverage
 
       - name: Run coverage
-        uses: nealrichardson/with-connect
+        uses: posit-dev/with-connect@main
         env:
           CONNECTAPI_INTEGRATED: "true"
         with:
