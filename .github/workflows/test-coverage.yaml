@@ -35,7 +35,6 @@ jobs:
         with:
           # Runs on the default version in the with-connect action
           license: ${{ secrets.CONNECT_LICENSE_FILE }}
-          # TODO: rewrite tests to use CONNECT_* env vars directly
           command: |
             Rscript -e '
               covr::codecov(
