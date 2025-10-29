@@ -47,7 +47,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Run integration tests
-        uses: nealrichardson/with-connect
+        uses: posit-dev/with-connect@uv-tool
         env:
           CONNECTAPI_INTEGRATED: "true"
         with:

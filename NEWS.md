@@ -16,6 +16,7 @@
 - New `lock_content()` and `unlock_content()` functions for locking and unlocking
   content items. (#453)
 - Updated git-backed deployment functions to use v1 APIs (#459)
+- Removed `prefix` argument to `connect()` function, which was a convenience utility for testing. (#477)
 
 # connectapi 0.8.0
 
