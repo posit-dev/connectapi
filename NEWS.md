@@ -9,7 +9,6 @@
 - New functions allow you to manage the OAuth integrations on your Connect
   server: `create_integration()`, `update_integration()` and
   `delete_integration()`. (#434)
-- Support content search API with the `search_content()` function. (#272)
 - New `search_content()` function which lets you search and filter content items
   on the Connect server. (#272, #447)
 - New `lock_content()` and `unlock_content()` functions for locking and unlocking
