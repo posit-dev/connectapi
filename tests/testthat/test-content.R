@@ -505,43 +505,6 @@ with_mock_dir("2025.09.0", {
     )
   })
 
-  test_that("content search uses default page_size of 500 and page_number of 1", {
-    without_internet(
-      expect_GET(
-        search_content(client, q = "bream"),
-        "https://connect.example/__api__/v1/search/content?q=bream&page_number=1&page_size=500&include=owner%2Cvanity_url" #nolint
-      )
-    )
-  })
-
-  test_that("content search passes arbitrary parameters through ... to query string", {
-    without_internet(
-      expect_GET(
-        search_content(
-          client,
-          q = "bream",
-          future_param = "value"
-        ),
-        "https://connect.example/__api__/v1/search/content?q=bream&page_number=1&page_size=500&include=owner%2Cvanity_url&future_param=value" #nolint
-      )
-    )
-  })
-
-  test_that("the inner .search_content() func calls the endpoint correctly", {
-    without_internet(
-      expect_GET(
-        .search_content(
-          client,
-          q = "bream",
-          page_number = 2,
-          page_size = 20,
-          include = "owner"
-        ),
-        "https://connect.example/__api__/v1/search/content?q=bream&page_number=2&page_size=20&include=owner"
-      )
-    )
-  })
-
   test_that("search_content() can be converted to a data frame correctly", {
     content_df <- search_content(client, q = "sea bream") |>
       as_tibble()
@@ -593,6 +556,43 @@ with_mock_dir("2025.09.0", {
       c("c9f68287", "53032a0e")
     )
   })
+})
+
+test_that("content search uses default page_size of 500 and page_number of 1", {
+  without_internet(
+    expect_GET(
+      search_content(client, q = "bream"),
+      "https://connect.example/__api__/v1/search/content?q=bream&page_number=1&page_size=500&include=owner%2Cvanity_url" #nolint
+    )
+  )
+})
+
+test_that("content search passes arbitrary parameters through ... to query string", {
+  without_internet(
+    expect_GET(
+      search_content(
+        client,
+        q = "bream",
+        future_param = "value"
+      ),
+      "https://connect.example/__api__/v1/search/content?q=bream&page_number=1&page_size=500&include=owner%2Cvanity_url&future_param=value" #nolint
+    )
+  )
+})
+
+test_that("the inner .search_content() func calls the endpoint correctly", {
+  without_internet(
+    expect_GET(
+      .search_content(
+        client,
+        q = "bream",
+        page_number = 2,
+        page_size = 20,
+        include = "owner"
+      ),
+      "https://connect.example/__api__/v1/search/content?q=bream&page_number=2&page_size=20&include=owner"
+    )
+  )
 })
 
 test_that("content search errors on Connect < 2024.04.0", {
