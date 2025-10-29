@@ -29,7 +29,7 @@ jobs:
           needs: coverage
 
       - name: Run coverage
-        uses: nealrichardson/with-connect@dev
+        uses: nealrichardson/with-connect
         env:
           CONNECTAPI_INTEGRATED: "true"
         with:
