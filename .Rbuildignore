@@ -4,6 +4,7 @@
 ^\.github$
 ^\.envrc$
 ^\.vscode$
+^\.claude$
 ^.*\.lic$
 ^renv$
 ^renv\.lock$
@@ -23,3 +24,5 @@
 ^.lintr$
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
+^CLAUDE.local.md$
+^CLAUDE.md$
