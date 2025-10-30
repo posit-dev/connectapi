@@ -162,8 +162,8 @@ Connect cluster to do the operation in question
 **Warning about version numbers**
 
 We test the package against a range of versions of Connect, as old as
-`2022.10.0`. If your Connect server is older than that, the
-package may still work.
+`2022.10.0`. If your Connect server is older than that, the package may
+still work.
 
 We strive to:
 

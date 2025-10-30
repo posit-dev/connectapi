@@ -34,7 +34,7 @@ jobs:
           needs: website
 
       - name: Build site
-        uses: nealrichardson/with-connect@dev
+        uses: nealrichardson/with-connect
         with:
           # Runs on the default version in the with-connect action
           license: ${{ secrets.CONNECT_LICENSE_FILE }}
