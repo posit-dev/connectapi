@@ -13,8 +13,8 @@
 #' value (boolean OR). When `NULL` (the default), results are not filtered.
 
 #'
-#' @return
-#' A tibble with the following columns:
+#' @return For `get_users_list`, a list of objects of type `"connect_user"` which
+#'   contain the following information:
 #'
 #'   * `email`: The user's email
 #'   * `username`: The user's username
@@ -33,6 +33,10 @@
 #'   * `locked`: Whether or not the user is locked
 #'   * `guid`: The user's GUID, or unique identifier, in UUID RFC4122 format
 #'
+#' For `get_users`, a data frame with the same fields as `get_users_list`.
+#'
+#' For `get_user`, a single `"connect_user"` object.
+#'
 #' @details
 #' Please see https://docs.posit.co/connect/api/#get-/v1/users for more information.
 #'
@@ -41,7 +45,7 @@
 #' library(connectapi)
 #' client <- connect()
 #'
-#' # Get all users
+#' # Get all users as a data frame
 #' get_users(client)
 #'
 #' # Get all licensed users
@@ -49,10 +53,33 @@
 #'
 #' # Get all users who are administrators or publishers
 #' get_users(client, user_role = c("administrator", "publisher"))
+#'
+#' # Get users as a list
+#' users_list <- get_users_list(client)
 #' }
 #'
 #' @export
-get_users <- function(
+get_users <- function(src,
+                      page_size = 500,
+                      prefix = NULL,
+                      limit = Inf,
+                      user_role = NULL,
+                      account_status = NULL) {
+  as.data.frame(
+    get_users_list(
+      src,
+      page_size,
+      prefix,
+      limit,
+      user_role,
+      account_status
+    )
+  )
+}
+
+#' @rdname get_users
+#' @export
+get_users_list <- function(
   src,
   page_size = 500,
   prefix = NULL,
@@ -72,10 +99,23 @@ get_users <- function(
     ),
     limit = limit
   )
+  return(prepend_class(res, "connect_users"))
+}
 
-  out <- parse_connectapi_typed(res, connectapi_ptypes$users)
+#' @param guid user GUID
+#' @rdname get_users
+get_user <- function(src, guid) {
+  src$user(guid)
+}
 
-  return(out)
+#' @export
+as.data.frame.connect_users <- function(x, ...) {
+  parse_connectapi_typed(x, connectapi_ptypes$users)
+}
+
+#' @export
+as_tibble.connect_users <- function(x, ...) {
+  parse_connectapi_typed(x, connectapi_ptypes$users)
 }
 
 #' Get information about content on the Posit Connect server

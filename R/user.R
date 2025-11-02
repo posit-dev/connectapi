@@ -32,3 +32,28 @@ user_guid_from_username <- function(client, username) {
     return(res[[1]]$guid)
   }
 }
+
+#' Extract User GUID
+#'
+#' Helper function to extract a user GUID from either a character string or a
+#' `connect_user` object.
+#'
+#' @param user Either a character string containing a user GUID or a
+#'   `connect_user` object (as returned by `Connect$user()` or `Connect$users()`)
+#'
+#' @return A character string containing the user GUID
+#'
+#' @keywords internal
+get_user_guid <- function(user) {
+  if (is.character(user)) {
+    return(user)
+  } else if (inherits(user, "connect_user")) {
+    if (!is.null(user$guid)) {
+      return(user$guid)
+    } else {
+      stop("connect_user object does not contain a guid field")
+    }
+  } else {
+    stop("user must be either a character string (GUID) or a connect_user object")
+  }
+}

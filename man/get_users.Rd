@@ -2,6 +2,8 @@
 % Please edit documentation in R/get.R
 \name{get_users}
 \alias{get_users}
+\alias{get_users_list}
+\alias{get_user}
 \title{Get user information from the Posit Connect server}
 \usage{
 get_users(
@@ -12,6 +14,17 @@ get_users(
   user_role = NULL,
   account_status = NULL
 )
+
+get_users_list(
+  src,
+  page_size = 500,
+  prefix = NULL,
+  limit = Inf,
+  user_role = NULL,
+  account_status = NULL
+)
+
+get_user(src, guid)
 }
 \arguments{
 \item{src}{The source object}
@@ -30,9 +43,12 @@ The filter is case insensitive.}
 \item{account_status}{Optionally filter by account status ("locked",
 "licensed", "inactive"). Pass a vector of multiple statuses to match any
 value (boolean OR). When \code{NULL} (the default), results are not filtered.}
+
+\item{guid}{user GUID}
 }
 \value{
-A tibble with the following columns:
+For \code{get_users_list}, a list of objects of type \code{"connect_user"} which
+contain the following information:
 \itemize{
 \item \code{email}: The user's email
 \item \code{username}: The user's username
@@ -51,6 +67,10 @@ through an email. This feature is unique to password authentication.
 \item \code{locked}: Whether or not the user is locked
 \item \code{guid}: The user's GUID, or unique identifier, in UUID RFC4122 format
 }
+
+For \code{get_users}, a data frame with the same fields as \code{get_users_list}.
+
+For \code{get_user}, a single \code{"connect_user"} object.
 }
 \description{
 Get user information from the Posit Connect server
@@ -63,7 +83,7 @@ Please see https://docs.posit.co/connect/api/#get-/v1/users for more information
 library(connectapi)
 client <- connect()
 
-# Get all users
+# Get all users as a data frame
 get_users(client)
 
 # Get all licensed users
@@ -71,6 +91,9 @@ get_users(client, account_status = "licensed")
 
 # Get all users who are administrators or publishers
 get_users(client, user_role = c("administrator", "publisher"))
+
+# Get users as a list
+users_list <- get_users_list(client)
 }
 
 }
