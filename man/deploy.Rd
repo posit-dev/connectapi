@@ -62,7 +62,7 @@ deploy(client, bnd)
 }
 \dontshow{if (identical(Sys.getenv("IN_PKGDOWN"), "true")) withAutoprint(\{ # examplesIf}
 
-client <- connect(prefix = "TEST_1")
+client <- connect()
 bnd <- bundle_path(system.file("tests/testthat/examples/static.tar.gz", package = "connectapi"))
 deploy(client, bnd)
 \dontshow{\}) # examplesIf}

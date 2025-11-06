@@ -1,8 +1,8 @@
 # Temporarily skip these on newer Connect versions because the manifest for this
 # content specifies an old version of R not found in newer images.
-skip_if(safe_server_version(test_conn_1) > "2024.03.0")
+skip_if(safe_server_version(client) > "2024.03.0")
 
-rmd_content <- deploy_example(test_conn_1, "rmarkdown")
+rmd_content <- deploy_example(client, "rmarkdown")
 
 ## Test Schedule -------------------------------------------------------
 
@@ -127,7 +127,7 @@ test_that("schedule display works", {
   skip("need a way to make this less time sensitive (with next run)")
   scoped_experimental_silence()
 
-  tzs <- get_timezones(test_conn_1)
+  tzs <- get_timezones(client)
 
   set_schedule_remove(d_var_sch)
   tmp <- set_schedule_day(
@@ -146,7 +146,7 @@ test_that("get_schedules works", {
   tmp <- set_schedule_day(d_var_sch, n = 5)
   expect_true(validate_R6_class(tmp, "Variant"))
 
-  res <- test_conn_1$schedules()
+  res <- client$schedules()
   expect_gte(length(res), 1)
 
   set_schedule_remove(d_var_sch)

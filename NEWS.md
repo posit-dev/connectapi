@@ -1,5 +1,7 @@
 # connectapi (development version)
 
+- Removed `prefix` argument to `connect()` function, which was a convenience utility for testing. (#477)
+
 # connectapi 0.9.0
 
 - New `set_integrations()` function to set the OAuth integration

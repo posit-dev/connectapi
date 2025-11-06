@@ -5,30 +5,30 @@ viewer_guid <- NULL
 
 # deploy content
 cont1_title <- "Test Content 1"
-cont1_content <- deploy_example(test_conn_1, "static", title = cont1_title)
+cont1_content <- deploy_example(client, "static", title = cont1_title)
 cont1_guid <- cont1_content$content$guid
 
 
 # Metadata Tests ----------------------------------------------------
 
 test_that("content_item works", {
-  cont1_tmp <- test_conn_1 %>% content_item(guid = cont1_guid)
+  cont1_tmp <- client %>% content_item(guid = cont1_guid)
 
   expect_true(validate_R6_class(cont1_tmp, "Content"))
   expect_equal(cont1_tmp$content$guid, cont1_guid)
 })
 
 test_that("content_title works in a simple example", {
-  test_title <- content_title(test_conn_1, cont1_guid)
+  test_title <- content_title(client, cont1_guid)
   expect_identical(test_title, cont1_title)
 })
 
 test_that("content_title handles missing content gracefully", {
-  null_title <- content_title(test_conn_1, "not_a_real_guid")
+  null_title <- content_title(client, "not_a_real_guid")
   expect_identical(null_title, "Unknown Content")
 
   null_title_custom <- content_title(
-    test_conn_1,
+    client,
     "not_a_real_guid",
     "other-default"
   )
@@ -42,9 +42,9 @@ test_that("content_title handles NULL titles gracefully", {
       "tests/testthat/examples/static/test.png"
     )
   )
-  c2 <- deploy(connect = test_conn_1, bundle = bnd, name = c2_name, title = NA)
+  c2 <- deploy(connect = client, bundle = bnd, name = c2_name, title = NA)
   expect_null(c2$content$title)
-  null_title <- content_title(test_conn_1, c2$content$guid, "Test Title")
+  null_title <- content_title(client, c2$content$guid, "Test Title")
   expect_identical(null_title, "Test Title")
 })
 
@@ -54,16 +54,16 @@ test_that("content_update_owner works", {
       "tests/testthat/examples/static/test.png"
     )
   )
-  myc <- deploy(test_conn_1, bnd)
+  myc <- deploy(client, bnd)
 
-  new_user <- test_conn_1$users_create(
+  new_user <- client$users_create(
     username = glue::glue("test_admin_{create_random_name()}"),
     email = "example@example.com",
     user_role = "administrator",
     user_must_set_password = TRUE
   )
 
-  expect_equal(myc$get_content_remote()$owner_guid, test_conn_1$me()$guid)
+  expect_equal(myc$get_content_remote()$owner_guid, client$me()$guid)
 
   res <- content_update_owner(myc, new_user$guid)
 
@@ -73,18 +73,18 @@ test_that("content_update_owner works", {
   )
 
   # permissions do not remain
-  expect_null(get_user_permission(myc, test_conn_1$me()$guid))
+  expect_null(get_user_permission(myc, client$me()$guid))
 
   # switch back (as an admin)
-  res2 <- content_update_owner(myc, test_conn_1$me()$guid)
+  res2 <- content_update_owner(myc, client$me()$guid)
 
-  expect_equal(myc$get_content_remote()$owner_guid, test_conn_1$me()$guid)
+  expect_equal(myc$get_content_remote()$owner_guid, client$me()$guid)
 
   # permissions do not remain
   expect_null(get_user_permission(myc, new_user$guid))
 
   # viewer cannot be made an owner
-  viewer_user <- test_conn_1$users_create(
+  viewer_user <- client$users_create(
     username = glue::glue("test_viewer_{create_random_name()}"),
     email = "viewer@example.com",
     user_role = "viewer",
@@ -106,7 +106,7 @@ test_that("content_update_access_type works", {
   )
   bund <- bundle_path(path = tar_path)
 
-  tsk <- deploy(connect = test_conn_1, bundle = bund)
+  tsk <- deploy(connect = client, bundle = bund)
 
   # returns as expected
   tsk <- content_update_access_type(tsk, "all")
@@ -130,7 +130,7 @@ test_that("content_update works", {
   )
   bund <- bundle_path(path = tar_path)
 
-  tsk <- deploy(connect = test_conn_1, bundle = bund)
+  tsk <- deploy(connect = client, bundle = bund)
 
   content_update(tsk, title = "test content_update")
   expect_equal(tsk$content$title, "test content_update")
@@ -150,7 +150,7 @@ test_that("content_delete works", {
   )
   bund <- bundle_path(path = tar_path)
 
-  tsk <- deploy(connect = test_conn_1, bundle = bund)
+  tsk <- deploy(connect = client, bundle = bund)
 
   expect_message(res <- content_delete(tsk, force = TRUE), "Deleting content")
   expect_true(validate_R6_class(res, "Content"))
@@ -172,9 +172,9 @@ test_that("get_bundles and delete_bundle work", {
     )
   )
 
-  bc1 <- deploy(test_conn_1, bnd, bnd_name)
-  bc1 <- deploy(test_conn_1, bnd, bnd_name)
-  bc1 <- deploy(test_conn_1, bnd, bnd_name)
+  bc1 <- deploy(client, bnd, bnd_name)
+  bc1 <- deploy(client, bnd, bnd_name)
+  bc1 <- deploy(client, bnd, bnd_name)
 
   bnd_dat <- get_bundles(bc1)
   expect_equal(nrow(bnd_dat), 3)
@@ -196,8 +196,8 @@ test_that("returns owner permission", {
     "tests/testthat/examples/static.tar.gz"
   )
   bund <- bundle_path(path = tar_path)
-  tsk <- deploy(connect = test_conn_1, bundle = bund)
-  my_guid <- test_conn_1$GET("me")$guid
+  tsk <- deploy(connect = client, bundle = bund)
+  my_guid <- client$GET("me")$guid
 
   prm <- get_content_permissions(tsk)
   expect_length(prm[["id"]], 1)
@@ -218,7 +218,7 @@ test_that("returns owner permission", {
 
 test_that("add a collaborator works", {
   # create a user
-  collab <- test_conn_1$users_create(
+  collab <- client$users_create(
     username = glue::glue("test_collab{create_random_name()}"),
     email = "collab@example.com",
     user_must_set_password = TRUE,
@@ -256,7 +256,7 @@ test_that("add collaborator twice works", {
 
 test_that("add a viewer works", {
   # create a user
-  view_user <- test_conn_1$users_create(
+  view_user <- client$users_create(
     username = glue::glue("test_viewer{create_random_name()}"),
     email = "viewer@example.com",
     user_must_set_password = TRUE,
@@ -341,13 +341,13 @@ test_that("remove a collaborator twice works", {
 # Lock / Unlock -----------------------------------------
 
 test_that("lock and unlock content works", {
-  skip_if_connect_older_than(test_conn_1, "2024.08.0")
+  skip_if_connect_older_than(client, "2024.08.0")
 
   tar_path <- rprojroot::find_package_root_file(
     "tests/testthat/examples/static.tar.gz"
   )
   bund <- bundle_path(path = tar_path)
-  tsk <- deploy(connect = test_conn_1, bundle = bund)
+  tsk <- deploy(connect = client, bundle = bund)
 
   # Lock with message
   lock_content(tsk, locked_message = "Maintenance in progress")

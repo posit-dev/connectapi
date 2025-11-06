@@ -402,7 +402,7 @@ download_bundle <- function(
 #' }
 #' @examplesIf identical(Sys.getenv("IN_PKGDOWN"), "true")
 #'
-#' client <- connect(prefix = "TEST_1")
+#' client <- connect()
 #' bnd <- bundle_path(system.file("tests/testthat/examples/static.tar.gz", package = "connectapi"))
 #' deploy(client, bnd)
 #'
@@ -413,8 +413,7 @@ deploy <- function(
   title = name,
   guid = NULL,
   ...,
-  .pre_deploy = {
-  }
+  .pre_deploy = {}
 ) {
   validate_R6_class(bundle, "Bundle")
   validate_R6_class(connect, "Connect")

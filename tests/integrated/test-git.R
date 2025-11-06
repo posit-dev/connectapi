@@ -1,4 +1,4 @@
-skip_if_connect_older_than(test_conn_1, "2022.12.0")
+skip_if_connect_older_than(client, "2022.12.0")
 
 cont1_name <- uuid::UUIDgenerate()
 cont1_title <- "Test Content 1"
@@ -8,7 +8,7 @@ cont1_bundle <- NULL
 test_that("git deployment works", {
   scoped_experimental_silence()
   cont0 <- deploy_repo(
-    test_conn_1,
+    client,
     "https://github.com/posit-dev/connectapi",
     "main",
     "tests/testthat/examples/static"
@@ -18,7 +18,7 @@ test_that("git deployment works", {
 
   new_name <- uuid::UUIDgenerate()
   cont1 <- deploy_repo(
-    test_conn_1,
+    client,
     "https://github.com/posit-dev/connectapi",
     "main",
     "tests/testthat/examples/static",
@@ -36,7 +36,7 @@ test_that("git deployment works", {
 test_that("repo_check_account works", {
   scoped_experimental_silence()
   expect_message(
-    acc <- repo_check_account(test_conn_1, "https://github.com"),
+    acc <- repo_check_account(client, "https://github.com"),
     "anonymous"
   )
 
@@ -46,12 +46,12 @@ test_that("repo_check_account works", {
 test_that("repo_check_branches works", {
   scoped_experimental_silence()
   expect_message(
-    expect_error(repo_check_branches(test_conn_1, "https://github.com")),
+    expect_error(repo_check_branches(client, "https://github.com")),
     "not found"
   )
 
   br <- repo_check_branches(
-    test_conn_1,
+    client,
     "https://github.com/posit-dev/connectapi"
   )
   expect_true("main" %in% br)
@@ -60,12 +60,12 @@ test_that("repo_check_branches works", {
 test_that("repo_check_branches_ref works", {
   scoped_experimental_silence()
   expect_message(
-    expect_error(repo_check_branches_ref(test_conn_1, "https://github.com")),
+    expect_error(repo_check_branches_ref(client, "https://github.com")),
     "not found"
   )
 
   br <- repo_check_branches_ref(
-    test_conn_1,
+    client,
     "https://github.com/posit-dev/connectapi"
   )
   expect_type(br, "character")
@@ -78,7 +78,7 @@ test_that("repo_check_manifest_dirs works", {
   scoped_experimental_silence()
   expect_message(
     expect_error(repo_check_manifest_dirs(
-      test_conn_1,
+      client,
       "https://github.com",
       "main"
     )),
@@ -86,7 +86,7 @@ test_that("repo_check_manifest_dirs works", {
   )
 
   drs <- repo_check_manifest_dirs(
-    test_conn_1,
+    client,
     "https://github.com/posit-dev/connectapi",
     "main"
   )
@@ -98,7 +98,7 @@ test_that("deploy_repo_enable works", {
 
   new_name <- uuid::UUIDgenerate()
   cont1 <- deploy_repo(
-    test_conn_1,
+    client,
     "https://github.com/posit-dev/connectapi",
     "main",
     "tests/testthat/examples/static",
@@ -128,7 +128,7 @@ test_that("deploy_repo_update works", {
 
   new_name <- uuid::UUIDgenerate()
   cont1 <- deploy_repo(
-    test_conn_1,
+    client,
     "https://github.com/posit-dev/connectapi",
     "main",
     "tests/testthat/examples/static",
@@ -143,7 +143,7 @@ test_that("deploy_repo_update works", {
 
   wrong_branch <- uuid::UUIDgenerate()
   cont2 <- deploy_repo(
-    test_conn_1,
+    client,
     "https://github.com/posit-dev/connectapi",
     "master-not-a-real-branch",
     "tests/testthat/examples/static",
@@ -161,7 +161,7 @@ test_that("deploy_repo_update works", {
       "tests/testthat/examples/static/test.png"
     )
   )
-  cont3 <- deploy(test_conn_1, bnd, not_git_name)
+  cont3 <- deploy(client, bnd, not_git_name)
 
   expect_error(deploy_repo_update(cont3), "not git-backed content")
 })

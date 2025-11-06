@@ -9,7 +9,7 @@ cont1_content <- NULL
 bnd_static <- bundle_dir(rprojroot::find_package_root_file(
   "tests/testthat/examples/static"
 ))
-tmp_content <- deploy(test_conn_1, bnd_static)
+tmp_content <- deploy(client, bnd_static)
 
 test_that("error on bad 'src' object", {
   expect_error(
@@ -20,12 +20,12 @@ test_that("error on bad 'src' object", {
 
 test_that("error on bad 'from' value", {
   expect_error(
-    tbl_connect(test_conn_1, "bad_from")
+    tbl_connect(client, "bad_from")
   )
 })
 
 test_that("users works", {
-  users <- tbl_connect(test_conn_1, "users")
+  users <- tbl_connect(client, "users")
   expect_s3_class(users, c("tbl_connect", "tbl_lazy", "tbl"))
 
   users_local <- users %>% dplyr::collect()
@@ -42,7 +42,7 @@ test_that("users works", {
 })
 
 test_that("usage_static works", {
-  content_visits <- tbl_connect(test_conn_1, "usage_static")
+  content_visits <- tbl_connect(client, "usage_static")
   expect_s3_class(content_visits, c("tbl_connect", "tbl_lazy", "tbl"))
 
   content_visits_local <- content_visits %>% dplyr::collect()
@@ -61,7 +61,7 @@ test_that("usage_static works", {
 })
 
 test_that("usage_shiny works", {
-  shiny_usage <- tbl_connect(test_conn_1, "usage_shiny")
+  shiny_usage <- tbl_connect(client, "usage_shiny")
   expect_s3_class(shiny_usage, c("tbl_connect", "tbl_lazy", "tbl"))
 
   shiny_usage_local <- shiny_usage %>% dplyr::collect()
@@ -76,7 +76,7 @@ test_that("usage_shiny works", {
 
 test_that("content works", {
   scoped_experimental_silence()
-  content_list <- tbl_connect(test_conn_1, "content")
+  content_list <- tbl_connect(client, "content")
   expect_s3_class(content_list, c("tbl_connect", "tbl_lazy", "tbl"))
 
   content_list_local <- content_list %>% dplyr::collect()
@@ -97,7 +97,7 @@ test_that("content works", {
 
 test_that("groups works", {
   scoped_experimental_silence()
-  groups_list <- tbl_connect(test_conn_1, "groups")
+  groups_list <- tbl_connect(client, "groups")
   expect_s3_class(groups_list, c("tbl_connect", "tbl_lazy", "tbl"))
 
   groups_list_local <- groups_list %>% dplyr::collect()
@@ -112,7 +112,7 @@ test_that("groups works", {
 
 test_that("audit_logs works", {
   scoped_experimental_silence()
-  audit_list <- tbl_connect(test_conn_1, "audit_logs")
+  audit_list <- tbl_connect(client, "audit_logs")
   expect_s3_class(audit_list, c("tbl_connect", "tbl_lazy", "tbl"))
 
   audit_list_local <- audit_list %>% dplyr::collect()
@@ -123,6 +123,6 @@ test_that("audit_logs works", {
   expect_gt(length(colnames(audit_list)), 1)
 
   # This is different on older versions, not sure it's worth worrying about how
-  skip_if_connect_older_than(test_conn_1, "2022.09.0")
+  skip_if_connect_older_than(client, "2022.09.0")
   expect_ptype_equal(audit_list_local, connectapi_ptypes$audit_logs)
 })

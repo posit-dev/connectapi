@@ -34,18 +34,12 @@ jobs:
           needs: website
 
       - name: Build site
-        uses: nealrichardson/with-connect
+        uses: posit-dev/with-connect@main
         with:
           # Runs on the default version in the with-connect action
           license: ${{ secrets.CONNECT_LICENSE_FILE }}
-          # TODO: rewrite tests to use CONNECT_* env vars directly
           command: |
-            Rscript -e '
-              Sys.setenv(
-                TEST_1_SERVER=Sys.getenv("CONNECT_SERVER"),
-                TEST_1_API_KEY=Sys.getenv("CONNECT_API_KEY")
-              )
-              pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)'
+            Rscript -e 'pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)'
 
       - name: Deploy to GitHub pages 🚀
         if: github.event_name != 'pull_request'

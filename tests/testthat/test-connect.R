@@ -29,6 +29,72 @@ test_that("error if protocol not defined", {
   )
 })
 
+test_that("connect() errors if API key is empty", {
+  expect_error(
+    connect(api_key = ""),
+    "provide a valid API key"
+  )
+
+  expect_error(
+    connect(api_key = NA_character_),
+    "provide a valid API key"
+  )
+
+  expect_error(
+    connect(api_key = NULL),
+    "provide a valid API key"
+  )
+})
+
+test_that("connect() just warns on empty API key if .check_is_fatal=FALSE", {
+  # Use without_internet() because for some reason it doesn't return early
+  # if there is no API key.
+  without_internet({
+    expect_message(
+      client <- connect(
+        server = "http://posit.co",
+        api_key = "",
+        .check_is_fatal = FALSE
+      ),
+      "provide a valid API key"
+    )
+    expect_true(
+      validate_R6_class(client, "Connect")
+    )
+  })
+})
+
+test_that("connect() fails for bad server", {
+  without_internet({
+    expect_error(
+      connect(server = "does-not-exist.rstudio.com", api_key = "bogus"),
+      "Please provide a protocol"
+    )
+    # This is how without_internet() errors making the ping request
+    expect_error(
+      connect(server = "http://does-not-exist.rstudio.com", api_key = "bogus"),
+      "GET http://does-not-exist.rstudio.com/__ping__"
+    )
+  })
+})
+
+test_that(".check_is_fatal toggle handles server validation", {
+  without_internet({
+    # See above. But the error is caught and returned as a message in this case.
+    expect_message(
+      client <- connect(
+        server = "http://fake-value.example.com",
+        api_key = "fake-value",
+        .check_is_fatal = FALSE
+      ),
+      "GET http://fake-value.example.com/__ping__"
+    )
+    expect_true(
+      validate_R6_class(client, "Connect")
+    )
+  })
+})
+
 test_that("version is validated", {
   skip("not implemented yet")
 })
@@ -95,8 +161,8 @@ test_that("Handling deprecation warnings", {
   expect_warning(check_debug(resp), NA)
 
   withr::with_options(
-    list(rlib_warning_verbosity = "default"), {
-
+    list(rlib_warning_verbosity = "default"),
+    {
       # Yes warning here
       resp <- fake_response(
         "https://connect.example/__api__/",

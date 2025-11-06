@@ -5,11 +5,10 @@
 \title{Create a connection to Posit Connect}
 \usage{
 connect(
-  server = Sys.getenv(paste0(prefix, "_SERVER"), NA_character_),
-  api_key = Sys.getenv(paste0(prefix, "_API_KEY"), NA_character_),
+  server = Sys.getenv("CONNECT_SERVER"),
+  api_key = Sys.getenv("CONNECT_API_KEY"),
   token,
   token_local_testing_key = api_key,
-  prefix = "CONNECT",
   audience = NULL,
   ...,
   .check_is_fatal = TRUE
@@ -31,8 +30,6 @@ Connect and a \code{token} is provided. By default, the function returns a
 \code{Connect} object using the \code{api_key}. By providing a different
 key here you can test a visitor client with differently-scoped
 permissions.}
-
-\item{prefix}{The prefix used to determine environment variables}
 
 \item{audience}{Optional. The GUID of a Connect API integration associated with this piece of content.}
 
@@ -78,7 +75,6 @@ client <- connect(token = token, token_local_testing_key = fallback_key)
 \dontshow{if (identical(Sys.getenv("IN_PKGDOWN"), "true")) withAutoprint(\{ # examplesIf}
 
 # default is to read CONNECT_SERVER and CONNECT_API_KEY environment variables
-# this example will read TEST_1_SERVER and TEST_1_API_KEY
-connect(prefix = "TEST_1")
+connect()
 \dontshow{\}) # examplesIf}
 }

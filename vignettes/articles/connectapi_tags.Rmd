@@ -8,7 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(connectapi)
-client <- connect(prefix = "TEST_1")
+client <- connect()
 options("connectapi_disable_experimental_warnings" = TRUE)
 ```
 

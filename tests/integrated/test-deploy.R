@@ -15,12 +15,12 @@ test_that("bundle_static deploys", {
     )
   )
   uniq_id <- uuid::UUIDgenerate()
-  deployed <- deploy(test_conn_1, bnd, uniq_id)
+  deployed <- deploy(client, bnd, uniq_id)
 
   expect_true(validate_R6_class(bnd, "Bundle"))
   expect_true(validate_R6_class(deployed, "Content"))
 
-  deployed2 <- deploy(test_conn_1, bnd, uniq_id)
+  deployed2 <- deploy(client, bnd, uniq_id)
   expect_true(validate_R6_class(deployed2, "Content"))
 })
 
@@ -35,7 +35,7 @@ test_that("bundle_dir deploys", {
 
   # with a name / title
   tsk <- deploy(
-    connect = test_conn_1,
+    connect = client,
     bundle = bund,
     name = cont1_name,
     title = cont1_title
@@ -53,7 +53,7 @@ test_that("bundle_dir deploys", {
   expect_gt(nchar(tsk$get_task()$task_id), 0)
 
   # with a guid
-  tsk2 <- deploy(connect = test_conn_1, bundle = bund, guid = cont1_guid)
+  tsk2 <- deploy(connect = client, bundle = bund, guid = cont1_guid)
   expect_true(validate_R6_class(tsk2, "Content"))
   expect_equal(tsk2$content$name, cont1_name)
   expect_equal(tsk2$content$title, cont1_title)
@@ -69,7 +69,7 @@ test_that("bundle_path deploys", {
   expect_equal(tar_path, as.character(bund$path))
 
   # deploy to a new endpoint
-  tsk <- deploy(connect = test_conn_1, bundle = bund)
+  tsk <- deploy(connect = client, bundle = bund)
 
   # TODO: how should we test that deployment happened?
   expect_true(validate_R6_class(tsk, "Content"))
@@ -81,7 +81,7 @@ test_that("download_bundle works", {
   )
   bund <- bundle_path(path = tar_path)
 
-  tsk <- deploy(connect = test_conn_1, bundle = bund)
+  tsk <- deploy(connect = client, bundle = bund)
   poll_task(tsk)
   downloaded <- download_bundle(tsk)
 
@@ -101,12 +101,12 @@ test_that("delete_bundle() and get_bundles() work", {
   )
   bund <- bundle_path(path = tar_path)
 
-  tsk <- deploy(connect = test_conn_1, bundle = bund)
+  tsk <- deploy(connect = client, bundle = bund)
   poll_task(tsk)
   first_bnd <- tsk$get_content_remote()$bundle_id
   my_guid <- tsk$content$guid
 
-  tsk <- deploy(connect = test_conn_1, bundle = bund, guid = my_guid)
+  tsk <- deploy(connect = client, bundle = bund, guid = my_guid)
   poll_task(tsk)
   second_bnd <- tsk$get_content_remote()$bundle_id
 
@@ -142,12 +142,12 @@ test_that("strange name re-casing does not break things", {
     )
   )
   testname <- "test_Test_45"
-  deploy1 <- deploy(test_conn_1, bnd, testname)
-  deploy2 <- deploy(test_conn_1, bnd, testname)
+  deploy1 <- deploy(client, bnd, testname)
+  deploy2 <- deploy(client, bnd, testname)
 
   testname2 <- "test_Test"
-  deploy(test_conn_1, bnd, testname2)
-  deploy(test_conn_1, bnd, testname2)
+  deploy(client, bnd, testname2)
+  deploy(client, bnd, testname2)
 })
 
 test_that(".pre_deploy hook works", {
@@ -157,7 +157,7 @@ test_that(".pre_deploy hook works", {
       "tests/testthat/examples/static/test.png"
     )
   )
-  deployed <- deploy(test_conn_1, bnd, uuid::UUIDgenerate(), .pre_deploy = {
+  deployed <- deploy(client, bnd, uuid::UUIDgenerate(), .pre_deploy = {
     content %>% set_vanity_url(glue::glue("pre_deploy_{bundle_id}"))
   })
 
@@ -174,7 +174,7 @@ test_that("deploy_current works", {
   )
   bund <- bundle_path(path = tar_path)
 
-  tsk <- deploy(connect = test_conn_1, bundle = bund)
+  tsk <- deploy(connect = client, bundle = bund)
   poll_task(tsk)
 
   created <- tsk$get_content_remote()$created_time
@@ -330,7 +330,7 @@ test_that("set_vanity_url works", {
       "tests/testthat/examples/static/test.png"
     )
   )
-  cont1 <- deploy(test_conn_1, bnd, name = new_name)
+  cont1 <- deploy(client, bnd, name = new_name)
   res <- set_vanity_url(cont1, new_name)
 
   expect_true(validate_R6_class(res, "Vanity"))
@@ -348,11 +348,11 @@ test_that("set_vanity_url force works", {
       "tests/testthat/examples/static/test.png"
     )
   )
-  cont <- deploy(test_conn_1, bnd, name = new_name)
+  cont <- deploy(client, bnd, name = new_name)
   res <- set_vanity_url(cont, new_name)
 
   another_name <- uuid::UUIDgenerate()
-  cont2 <- deploy(test_conn_1, bnd, name = another_name)
+  cont2 <- deploy(client, bnd, name = another_name)
 
   expect_error(suppressMessages(
     set_vanity_url(cont2, new_name, force = FALSE),
@@ -371,8 +371,8 @@ test_that("set_vanity_url force works", {
 
 test_that("get_vanity_url works", {
   tmp_content_name <- uuid::UUIDgenerate()
-  tmp_content_prep <- content_ensure(test_conn_1, name = tmp_content_name)
-  tmp_content <- Content$new(connect = test_conn_1, content = tmp_content_prep)
+  tmp_content_prep <- content_ensure(client, name = tmp_content_name)
+  tmp_content <- Content$new(connect = client, content = tmp_content_prep)
 
   # without a vanity
   curr_vanity <- suppressMessages(get_vanity_url(tmp_content))
@@ -387,8 +387,8 @@ test_that("get_vanity_url works", {
 
 test_that("delete_vanity_url works", {
   tmp_content_name <- uuid::UUIDgenerate()
-  tmp_content_prep <- content_ensure(test_conn_1, name = tmp_content_name)
-  tmp_content <- Content$new(connect = test_conn_1, content = tmp_content_prep)
+  tmp_content_prep <- content_ensure(client, name = tmp_content_name)
+  tmp_content <- Content$new(connect = client, content = tmp_content_prep)
 
   # create a vanity
   res <- set_vanity_url(tmp_content, tmp_content_name)
@@ -407,16 +407,16 @@ test_that("delete_vanity_url works", {
 
 test_that("swap_vanity_urls works", {
   tmp_content_a_name <- uuid::UUIDgenerate()
-  tmp_content_a_prep <- content_ensure(test_conn_1, name = tmp_content_a_name)
+  tmp_content_a_prep <- content_ensure(client, name = tmp_content_a_name)
   tmp_content_a <- Content$new(
-    connect = test_conn_1,
+    connect = client,
     content = tmp_content_a_prep
   )
 
   tmp_content_b_name <- uuid::UUIDgenerate()
-  tmp_content_b_prep <- content_ensure(test_conn_1, name = tmp_content_b_name)
+  tmp_content_b_prep <- content_ensure(client, name = tmp_content_b_name)
   tmp_content_b <- Content$new(
-    connect = test_conn_1,
+    connect = client,
     content = tmp_content_b_prep
   )
 
@@ -461,14 +461,14 @@ test_that("poll_task works and returns its input", {
 })
 
 test_that("download_bundle works", {
-  bnd <- download_bundle(content_item(test_conn_1, cont1_guid))
+  bnd <- download_bundle(content_item(client, cont1_guid))
 
   expect_true(validate_R6_class(bnd, "Bundle"))
 })
 
 test_that("download_bundle throws an error for undeployed content", {
-  cont_prep <- content_ensure(test_conn_1)
-  cont <- content_item(test_conn_1, cont_prep$guid)
+  cont_prep <- content_ensure(client)
+  cont <- content_item(client, cont_prep$guid)
 
   expect_error(
     download_bundle(cont),
@@ -477,7 +477,7 @@ test_that("download_bundle throws an error for undeployed content", {
 })
 
 test_that("dashboard_url resolves properly", {
-  cont <- content_item(test_conn_1, cont1_guid)
+  cont <- content_item(client, cont1_guid)
 
   dash_url <- dashboard_url(cont)
 
@@ -490,14 +490,13 @@ test_that("deployment timestamps respect timezone", {
       "tests/testthat/examples/static/test.png"
     )
   )
-  myc <- deploy(test_conn_1, bnd)
+  myc <- deploy(client, bnd)
   myc_guid <- myc$content$guid
 
   # will fail without the png package
-  invisible(tryCatch(test_conn_1$GET(url = myc$get_url()), error = function(e) {
-  }))
+  invisible(tryCatch(client$GET(url = myc$get_url()), error = function(e) {}))
 
-  all_usage <- get_usage_static(test_conn_1, content_guid = myc_guid)
+  all_usage <- get_usage_static(client, content_guid = myc_guid)
   for (i in 1:5) {
     if (nrow(all_usage) == 0) {
       # We may need to wait a beat for the metrics to show up.
@@ -505,7 +504,7 @@ test_that("deployment timestamps respect timezone", {
       # This did not show up testing against Connect versions <= 2022.09.0,
       # but 2023.03.0 and newer seemed to hit this
       Sys.sleep(1)
-      all_usage <- get_usage_static(test_conn_1, content_guid = myc_guid)
+      all_usage <- get_usage_static(client, content_guid = myc_guid)
     }
   }
   expect_equal(nrow(all_usage), 1)
