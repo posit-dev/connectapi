@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - "jammy" # As long as we're building on ubuntu 22.04, this will track the latest release
+          - "release"   # special value that always points to the latest Connect release
           - "2025.09.0" # jammy
           - "2025.03.0" # jammy
           - "2024.09.0" # jammy
