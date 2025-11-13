@@ -13,6 +13,9 @@ coverage](https://codecov.io/gh/posit-dev/connectapi/branch/main/graph/badge.svg
 status](https://github.com/posit-dev/connectapi/workflows/R-CMD-check/badge.svg)](https://github.com/posit-dev/connectapi/actions)
 <!-- badges: end -->
 
+
+
+
 # connectapi <img src='man/figures/logo.svg' align="right" height="139" />
 
 This package provides an R client for the [Posit Connect Server
