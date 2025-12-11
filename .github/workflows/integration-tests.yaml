@@ -48,7 +48,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Run integration tests
-        uses: posit-dev/with-connect@preview
+        uses: posit-dev/with-connect@main
         env:
           CONNECTAPI_INTEGRATED: "true"
         with:
