@@ -1,0 +1,49 @@
+# Development and Release Notes
+
+The release process goes to CRAN. Details on how the release is prepared
+need to be formalized and documented.
+
+If interested in contributing, please read
+[CONTRIBUTING.md](https://posit-dev.github.io/connectapi/dev/CONTRIBUTING.md)
+
+## Build Pipeline
+
+We use GitHub Actions for the build process. Files can be seen in the
+[./workflows](https://posit-dev.github.io/connectapi/dev/workflows)
+directory.
+
+We modify the examples from the
+[r-lib/actions](https://github.com/r-lib/actions) repository for our
+purposes as follows:
+
+- Generally copy the examples as-is, but leave names in the `workflows`
+  folder consistent for history
+- `R-CMD-check` is the analogue of `check-full`, without `devel` R. It
+  approximates CRAN submission
+- `test-coverage.yaml` and `pkgdown.yaml` both have lines added to set
+  appropriate environment variables for “integration tests” and run
+  Connect in order to evaluate the package (and product) more thoroughly
+- Similarly with `integration-tests.yaml`, which is analogous to
+  `R-CMD-check` but with integration tests too
+
+### Integration Tests
+
+Integration tests are designed to run the `connectapi` package against a
+running instance of Connect
+
+- tests are written in the `tests/integration` directory
+  - Each file should be able to be executed independently
+  - There are occasional dependencies *across tests* within a file
+    (executed linearly)
+    - (I know, this is terrible… we made choices for reasons)
+  - We fudge the clean line of unit tests in order to ensure that
+    complex functionalities work as expected without too much time or
+    work
+
+To run integration tests interactively / locally, install the
+[with-connect](https://github.com/nealrichardson/with-connect/blob/dev/README.md)
+tool, then run:
+
+    with-connect -e CONNECTAPI_INTEGRATED=true -- Rscript -e source("tests/test-integrated.R")
+
+This requires a valid license file.
