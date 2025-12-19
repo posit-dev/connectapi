@@ -3,6 +3,7 @@ test_that("simplify_version works", {
   expect_identical(simplify_version("1.8.2.1-4"), "1.8.2")
   expect_identical(simplify_version("10.70.204.1-4"), "10.70.204")
   expect_identical(simplify_version("10.0.0.0-4"), "10.0.0")
+  expect_identical(simplify_version("2026.01.0-dev+15-z596093a50w"), "2026.01.0")
 })
 
 test_that("compare_connect_version works", {
