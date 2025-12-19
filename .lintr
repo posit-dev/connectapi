@@ -4,7 +4,8 @@ linters: linters_with_defaults(
   cyclocomp_linter = NULL, # Issues with R6 classes.
   object_length_linter(32L),
   indentation_linter = indentation_linter(hanging_indent_style = "tidy"),
-  return_linter = NULL
+  return_linter = NULL,
+  pipe_consistency_linter = pipe_consistency_linter("auto")
   )
 exclusions: list(
   "tests/testthat/2024.07.0/",
