@@ -5,7 +5,7 @@
 #' @section Usage:
 #' \preformatted{
 #' client <- Connect$new(server = 'connect.example.com',
-#'   apiKey = 'mysecretkey')
+#'   api_key = 'mysecretkey')
 #' client$get_apps()
 #' client$get_tags()
 #' }
