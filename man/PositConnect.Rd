@@ -14,7 +14,8 @@ Class representing a Connect API client
 \preformatted{
 client <- Connect$new(server = 'connect.example.com',
   api_key = 'mysecretkey')
-client$get_apps()
+
+get_content(client)
 client$get_tags()
 }
 }
