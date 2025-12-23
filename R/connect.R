@@ -6,7 +6,7 @@
 #' \preformatted{
 #' client <- Connect$new(server = 'connect.example.com',
 #'   api_key = 'mysecretkey')
-#' 
+#'
 #' get_content(client)
 #' client$get_tags()
 #' }
