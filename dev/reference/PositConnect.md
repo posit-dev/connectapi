@@ -7,8 +7,9 @@ Class representing a Connect API client
 ## Usage
 
     client <- Connect$new(server = 'connect.example.com',
-      apiKey = 'mysecretkey')
-    client$get_apps()
+      api_key = 'mysecretkey')
+
+    get_content(client)
     client$get_tags()
 
 ## Details
