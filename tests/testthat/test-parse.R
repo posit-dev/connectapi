@@ -305,34 +305,3 @@ test_that("converts length one list", {
   hm <- ensure_column(tibble::tibble(one = "hi"), NA_list_, "one")
   expect_type(hm$one, "list")
 })
-
-# specific errors - PR 192
-test_that("works for bad inputs", {
-  job <- list(
-    ppid = 12345,
-    pid = 67890,
-    key = "abckey",
-    app_id = 1234,
-    variant_id = 0,
-    bundle_id = 1234,
-    tag = "run_app",
-    finalized = TRUE,
-    hostname = "host",
-    origin = format(Sys.time(), format = "%Y-%m-%dT%H:%M:%SZ"),
-    stdout = "one-entry",
-    stderr = c("one-entry", "two-entry"),
-    logged_error = NULL,
-    exit_code = 0,
-    start_time = as.numeric(format(Sys.time(), format = "%s")),
-    end_time = NULL,
-    app_guid = uuid::UUIDgenerate()
-  )
-  res <- connectapi:::parse_connectapi_typed(
-    list(job),
-    connectapi:::connectapi_ptypes$job
-  )
-  expect_type(res$stdout, "list")
-  expect_type(res$origin, "character")
-  expect_s3_class(res$start_time, "POSIXct")
-  expect_s3_class(res$end_time, "POSIXct")
-})

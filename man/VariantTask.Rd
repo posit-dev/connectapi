@@ -81,7 +81,6 @@ Other R6 classes:
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Variant" data-id="get_url"><a href='../../connectapi/html/Variant.html#method-Variant-get_url'><code>connectapi::Variant$get_url()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Variant" data-id="get_url_rev"><a href='../../connectapi/html/Variant.html#method-Variant-get_url_rev'><code>connectapi::Variant$get_url_rev()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Variant" data-id="get_variant_remote"><a href='../../connectapi/html/Variant.html#method-Variant-get_variant_remote'><code>connectapi::Variant$get_variant_remote()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="connectapi" data-topic="Variant" data-id="job"><a href='../../connectapi/html/Variant.html#method-Variant-job'><code>connectapi::Variant$job()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Variant" data-id="jobs"><a href='../../connectapi/html/Variant.html#method-Variant-jobs'><code>connectapi::Variant$jobs()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Variant" data-id="remove_subscriber"><a href='../../connectapi/html/Variant.html#method-Variant-remove_subscriber'><code>connectapi::Variant$remove_subscriber()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Variant" data-id="render"><a href='../../connectapi/html/Variant.html#method-Variant-render'><code>connectapi::Variant$render()</code></a></span></li>

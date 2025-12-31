@@ -149,15 +149,6 @@ Variant <- R6::R6Class(
         ~ purrr::list_modify(.x, variant_key = self$key)
       )
     },
-    #' @description Return single job for this variant.
-    #' @param key The job key.
-    job = function(key) {
-      pre_job <- super$job(key = key)
-      purrr::map(
-        list(pre_job),
-        ~ purrr::list_modify(.x, variant_key = self$key)
-      )[[1]]
-    },
     #' @description Return the URL for this variant.
     get_url = function() {
       base_content <- super$get_url()
