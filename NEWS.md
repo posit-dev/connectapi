@@ -5,7 +5,7 @@
 ## Breaking changes
 
 - Removed `get_job()`, which was deprecated in 0.6.0. Use `get_jobs()`,
-  `get_job_list()`, or `get_log()` instead.
+  `get_job_list()`, or `get_log()` instead. (#491)
 
 # connectapi 0.9.0
 
