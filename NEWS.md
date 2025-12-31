@@ -2,6 +2,11 @@
 
 - Removed `prefix` argument to `connect()` function, which was a convenience utility for testing. (#477)
 
+## Breaking changes
+
+- Removed `get_job()`, which was deprecated in 0.6.0. Use `get_jobs()`,
+  `get_job_list()`, or `get_log()` instead.
+
 # connectapi 0.9.0
 
 - New `set_integrations()` function to set the OAuth integration

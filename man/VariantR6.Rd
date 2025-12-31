@@ -51,7 +51,6 @@ Other R6 classes:
 \item \href{#method-Variant-renderings}{\code{Variant$renderings()}}
 \item \href{#method-Variant-update_variant}{\code{Variant$update_variant()}}
 \item \href{#method-Variant-jobs}{\code{Variant$jobs()}}
-\item \href{#method-Variant-job}{\code{Variant$job()}}
 \item \href{#method-Variant-get_url}{\code{Variant$get_url()}}
 \item \href{#method-Variant-get_url_rev}{\code{Variant$get_url_rev()}}
 \item \href{#method-Variant-get_dashboard_url}{\code{Variant$get_dashboard_url()}}
@@ -249,23 +248,6 @@ Jobs for this variant.
 \if{html}{\out{<div class="r">}}\preformatted{Variant$jobs()}\if{html}{\out{</div>}}
 }
 
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Variant-job"></a>}}
-\if{latex}{\out{\hypertarget{method-Variant-job}{}}}
-\subsection{Method \code{job()}}{
-Return single job for this variant.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Variant$job(key)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{key}}{The job key.}
-}
-\if{html}{\out{</div>}}
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Variant-get_url"></a>}}
