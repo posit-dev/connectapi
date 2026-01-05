@@ -4,8 +4,9 @@
 
 ## Breaking changes
 
-- Removed `get_job()`, which was deprecated in 0.6.0. Use `get_jobs()`,
-  `get_job_list()`, or `get_log()` instead. (#491)
+- Removed `get_job()`, which was deprecated in 0.6.0. Instead, use `get_jobs()`
+  to get a data frame of jobs, use `get_job_list()` to get a list of job
+  objects, and use `get_log()` to get the log for a job (#491).
 
 # connectapi 0.9.0
 
