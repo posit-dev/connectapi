@@ -91,7 +91,6 @@ Inherited methods
 - [`connectapi::Variant$get_url()`](https://posit-dev.github.io/connectapi/dev/reference/Variant.html#method-get_url)
 - [`connectapi::Variant$get_url_rev()`](https://posit-dev.github.io/connectapi/dev/reference/Variant.html#method-get_url_rev)
 - [`connectapi::Variant$get_variant_remote()`](https://posit-dev.github.io/connectapi/dev/reference/Variant.html#method-get_variant_remote)
-- [`connectapi::Variant$job()`](https://posit-dev.github.io/connectapi/dev/reference/Variant.html#method-job)
 - [`connectapi::Variant$jobs()`](https://posit-dev.github.io/connectapi/dev/reference/Variant.html#method-jobs)
 - [`connectapi::Variant$remove_subscriber()`](https://posit-dev.github.io/connectapi/dev/reference/Variant.html#method-remove_subscriber)
 - [`connectapi::Variant$render()`](https://posit-dev.github.io/connectapi/dev/reference/Variant.html#method-render)

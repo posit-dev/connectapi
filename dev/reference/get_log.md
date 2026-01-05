@@ -41,7 +41,6 @@ returned by
 ## See also
 
 Other job functions:
-[`get_job()`](https://posit-dev.github.io/connectapi/dev/reference/get_job.md),
 [`get_jobs()`](https://posit-dev.github.io/connectapi/dev/reference/get_jobs.md),
 [`terminate_jobs()`](https://posit-dev.github.io/connectapi/dev/reference/terminate_jobs.md)
 
@@ -59,7 +58,6 @@ Other content functions:
 [`get_bundles()`](https://posit-dev.github.io/connectapi/dev/reference/get_bundles.md),
 [`get_environment()`](https://posit-dev.github.io/connectapi/dev/reference/environment.md),
 [`get_image()`](https://posit-dev.github.io/connectapi/dev/reference/get_image.md),
-[`get_job()`](https://posit-dev.github.io/connectapi/dev/reference/get_job.md),
 [`get_jobs()`](https://posit-dev.github.io/connectapi/dev/reference/get_jobs.md),
 [`get_thumbnail()`](https://posit-dev.github.io/connectapi/dev/reference/get_thumbnail.md),
 [`get_vanity_url()`](https://posit-dev.github.io/connectapi/dev/reference/get_vanity_url.md),

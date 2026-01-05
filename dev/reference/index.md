@@ -47,57 +47,41 @@ Functions to work with content
 
 - [`as.data.frame(`*`<connect_content_list>`*`)`](https://posit-dev.github.io/connectapi/dev/reference/as.data.frame.connect_content_list.md)
   : Convert content list to a data frame
-
 - [`as_tibble(`*`<connect_content_list>`*`)`](https://posit-dev.github.io/connectapi/dev/reference/as_tibble.connect_content_list.md)
   : Convert integration list to a tibble
-
 - [`content_delete()`](https://posit-dev.github.io/connectapi/dev/reference/content_delete.md)
   : Delete Content
-
 - [`content_item()`](https://posit-dev.github.io/connectapi/dev/reference/content_item.md)
   : Get Content Item
-
 - [`content_list_by_tag()`](https://posit-dev.github.io/connectapi/dev/reference/content_list.md)
   **\[experimental\]** : Content List
-
 - [`content_list_with_permissions()`](https://posit-dev.github.io/connectapi/dev/reference/content_list_with_permissions.md)
   [`content_list_guid_has_access()`](https://posit-dev.github.io/connectapi/dev/reference/content_list_with_permissions.md)
   **\[experimental\]** : Get Content List with Permissions
-
 - [`content_render()`](https://posit-dev.github.io/connectapi/dev/reference/content_render.md)
   : Render a content item.
-
 - [`content_restart()`](https://posit-dev.github.io/connectapi/dev/reference/content_restart.md)
   : Restart a content item.
-
 - [`content_title()`](https://posit-dev.github.io/connectapi/dev/reference/content_title.md)
   : Get Content Title
-
 - [`content_update()`](https://posit-dev.github.io/connectapi/dev/reference/content_update.md)
   [`content_update_access_type()`](https://posit-dev.github.io/connectapi/dev/reference/content_update.md)
   [`content_update_owner()`](https://posit-dev.github.io/connectapi/dev/reference/content_update.md)
   : Update Content
-
 - [`get_aws_content_credentials()`](https://posit-dev.github.io/connectapi/dev/reference/get_aws_content_credentials.md)
   : Obtain AWS credentials for your content.
-
 - [`get_content()`](https://posit-dev.github.io/connectapi/dev/reference/get_content.md)
   : Get information about content on the Posit Connect server
-
 - [`get_content_packages()`](https://posit-dev.github.io/connectapi/dev/reference/get_content_packages.md)
   : Package dependencies for a content item
-
 - [`get_group_content()`](https://posit-dev.github.io/connectapi/dev/reference/get_group_content.md)
   : Get content access permissions for a group or groups
-
 - [`get_oauth_content_credentials()`](https://posit-dev.github.io/connectapi/dev/reference/get_oauth_content_credentials.md)
   : Perform an OAuth credential exchange to obtain a content-specific
   OAuth access token.
-
 - [`lock_content()`](https://posit-dev.github.io/connectapi/dev/reference/lock_content.md)
   [`unlock_content()`](https://posit-dev.github.io/connectapi/dev/reference/lock_content.md)
   : Lock or Unlock Content
-
 - [`content_add_user()`](https://posit-dev.github.io/connectapi/dev/reference/permissions.md)
   [`content_add_group()`](https://posit-dev.github.io/connectapi/dev/reference/permissions.md)
   [`content_delete_user()`](https://posit-dev.github.io/connectapi/dev/reference/permissions.md)
@@ -107,10 +91,8 @@ Functions to work with content
   [`get_group_permission()`](https://posit-dev.github.io/connectapi/dev/reference/permissions.md)
   [`get_content_permissions()`](https://posit-dev.github.io/connectapi/dev/reference/permissions.md)
   : Content permissions
-
 - [`search_content()`](https://posit-dev.github.io/connectapi/dev/reference/search_content.md)
   : Search for content on the Connect server
-
 - [`get_tags()`](https://posit-dev.github.io/connectapi/dev/reference/tags.md)
   [`get_tag_data()`](https://posit-dev.github.io/connectapi/dev/reference/tags.md)
   [`create_tag()`](https://posit-dev.github.io/connectapi/dev/reference/tags.md)
@@ -122,66 +104,48 @@ Functions to work with content
   [`filter_tag_tree_id()`](https://posit-dev.github.io/connectapi/dev/reference/tags.md)
   [`filter_tag_tree_chr()`](https://posit-dev.github.io/connectapi/dev/reference/tags.md)
   : Get all Tags on the server
-
 - [`verify_content_name()`](https://posit-dev.github.io/connectapi/dev/reference/verify_content_name.md)
   : Verify Content Name
-
 - [`get_variant_schedule()`](https://posit-dev.github.io/connectapi/dev/reference/get_variant_schedule.md)
   **\[experimental\]** : Get a Variant Schedule
-
 - [`get_variants()`](https://posit-dev.github.io/connectapi/dev/reference/variant.md)
   [`get_variant()`](https://posit-dev.github.io/connectapi/dev/reference/variant.md)
   [`get_variant_default()`](https://posit-dev.github.io/connectapi/dev/reference/variant.md)
   **\[experimental\]** : Get Variant
-
 - [`get_variant_renderings()`](https://posit-dev.github.io/connectapi/dev/reference/variant_render.md)
   [`variant_render()`](https://posit-dev.github.io/connectapi/dev/reference/variant_render.md)
   **\[experimental\]** : Render a Variant
-
 - [`delete_thumbnail()`](https://posit-dev.github.io/connectapi/dev/reference/delete_thumbnail.md)
   : Delete content item thumbnail
-
 - [`get_thumbnail()`](https://posit-dev.github.io/connectapi/dev/reference/get_thumbnail.md)
   : Get content item thumbnail
-
 - [`has_thumbnail()`](https://posit-dev.github.io/connectapi/dev/reference/has_thumbnail.md)
   : Check content item thumbnail
-
 - [`set_thumbnail()`](https://posit-dev.github.io/connectapi/dev/reference/set_thumbnail.md)
   : Set content item thumbnail
-
 - [`get_image()`](https://posit-dev.github.io/connectapi/dev/reference/get_image.md)
   [`delete_image()`](https://posit-dev.github.io/connectapi/dev/reference/get_image.md)
   [`has_image()`](https://posit-dev.github.io/connectapi/dev/reference/get_image.md)
   **\[deprecated\]** : Get the Content Image
-
 - [`set_image_path()`](https://posit-dev.github.io/connectapi/dev/reference/set_image.md)
   [`set_image_url()`](https://posit-dev.github.io/connectapi/dev/reference/set_image.md)
   [`set_image_webshot()`](https://posit-dev.github.io/connectapi/dev/reference/set_image.md)
   **\[deprecated\]** : Set the Content Image
-
 - [`delete_vanity_url()`](https://posit-dev.github.io/connectapi/dev/reference/delete_vanity_url.md)
   : Delete the Vanity URL
-
 - [`get_vanity_url()`](https://posit-dev.github.io/connectapi/dev/reference/get_vanity_url.md)
   : Get the Vanity URL
-
 - [`get_vanity_urls()`](https://posit-dev.github.io/connectapi/dev/reference/get_vanity_urls.md)
   : Get all vanity URLs
-
 - [`set_vanity_url()`](https://posit-dev.github.io/connectapi/dev/reference/set_vanity_url.md)
   : Set the Vanity URL
-
 - [`swap_vanity_url()`](https://posit-dev.github.io/connectapi/dev/reference/swap_vanity_url.md)
   : Swap Vanity URLs
-
 - [`swap_vanity_urls()`](https://posit-dev.github.io/connectapi/dev/reference/swap_vanity_urls.md)
   : Swap Vanity URLs
-
 - [`vanity_is_available()`](https://posit-dev.github.io/connectapi/dev/reference/vanity_is_available.md)
   **\[experimental\]** : Check to see if a vanity URL is currently in
   use
-
 - [`set_schedule()`](https://posit-dev.github.io/connectapi/dev/reference/set_schedule.md)
   [`set_schedule_minute()`](https://posit-dev.github.io/connectapi/dev/reference/set_schedule.md)
   [`set_schedule_hour()`](https://posit-dev.github.io/connectapi/dev/reference/set_schedule.md)
@@ -196,20 +160,11 @@ Functions to work with content
   [`set_schedule_remove()`](https://posit-dev.github.io/connectapi/dev/reference/set_schedule.md)
   [`schedule_describe()`](https://posit-dev.github.io/connectapi/dev/reference/set_schedule.md)
   **\[experimental\]** : Set a Schedule
-
-- [`get_job()`](https://posit-dev.github.io/connectapi/dev/reference/get_job.md)
-  :
-
-  Retrieve details about a server process associated with a
-  `content_item`, such as a FastAPI app or a Quarto render.
-
 - [`get_jobs()`](https://posit-dev.github.io/connectapi/dev/reference/get_jobs.md)
   [`get_job_list()`](https://posit-dev.github.io/connectapi/dev/reference/get_jobs.md)
   : Get Jobs
-
 - [`terminate_jobs()`](https://posit-dev.github.io/connectapi/dev/reference/terminate_jobs.md)
   : Terminate Jobs
-
 - [`set_run_as()`](https://posit-dev.github.io/connectapi/dev/reference/set_run_as.md)
   : Set RunAs User
 
@@ -302,109 +257,72 @@ Helpers to “get” data out of Connect
   [`set_environment_remove()`](https://posit-dev.github.io/connectapi/dev/reference/environment.md)
   [`set_environment_all()`](https://posit-dev.github.io/connectapi/dev/reference/environment.md)
   : Manage Environment Variables
-
 - [`get_associations()`](https://posit-dev.github.io/connectapi/dev/reference/get_associations.md)
   : Get OAuth associations for a piece of content
-
 - [`get_audit_logs()`](https://posit-dev.github.io/connectapi/dev/reference/get_audit_logs.md)
   : Get Audit Logs from Posit Connect Server
-
 - [`get_aws_content_credentials()`](https://posit-dev.github.io/connectapi/dev/reference/get_aws_content_credentials.md)
   : Obtain AWS credentials for your content.
-
 - [`get_aws_credentials()`](https://posit-dev.github.io/connectapi/dev/reference/get_aws_credentials.md)
   : Obtain a visitor's AWS credentials
-
 - [`get_bundles()`](https://posit-dev.github.io/connectapi/dev/reference/get_bundles.md)
   [`delete_bundle()`](https://posit-dev.github.io/connectapi/dev/reference/get_bundles.md)
   : Get Bundles
-
 - [`get_content()`](https://posit-dev.github.io/connectapi/dev/reference/get_content.md)
   : Get information about content on the Posit Connect server
-
 - [`get_content_packages()`](https://posit-dev.github.io/connectapi/dev/reference/get_content_packages.md)
   : Package dependencies for a content item
-
 - [`get_group_content()`](https://posit-dev.github.io/connectapi/dev/reference/get_group_content.md)
   : Get content access permissions for a group or groups
-
 - [`get_group_members()`](https://posit-dev.github.io/connectapi/dev/reference/get_group_members.md)
   : Get users within a specific group
-
 - [`get_groups()`](https://posit-dev.github.io/connectapi/dev/reference/get_groups.md)
   : Get group information from the Posit Connect server
-
 - [`get_image()`](https://posit-dev.github.io/connectapi/dev/reference/get_image.md)
   [`delete_image()`](https://posit-dev.github.io/connectapi/dev/reference/get_image.md)
   [`has_image()`](https://posit-dev.github.io/connectapi/dev/reference/get_image.md)
   **\[deprecated\]** : Get the Content Image
-
 - [`get_integration()`](https://posit-dev.github.io/connectapi/dev/reference/get_integration.md)
   : Get the details of an OAuth integration
-
 - [`get_integrations()`](https://posit-dev.github.io/connectapi/dev/reference/get_integrations.md)
   : Get OAuth integrations
-
-- [`get_job()`](https://posit-dev.github.io/connectapi/dev/reference/get_job.md)
-  :
-
-  Retrieve details about a server process associated with a
-  `content_item`, such as a FastAPI app or a Quarto render.
-
 - [`get_jobs()`](https://posit-dev.github.io/connectapi/dev/reference/get_jobs.md)
   [`get_job_list()`](https://posit-dev.github.io/connectapi/dev/reference/get_jobs.md)
   : Get Jobs
-
 - [`get_log()`](https://posit-dev.github.io/connectapi/dev/reference/get_log.md)
   : Get Job Log
-
 - [`get_oauth_content_credentials()`](https://posit-dev.github.io/connectapi/dev/reference/get_oauth_content_credentials.md)
   : Perform an OAuth credential exchange to obtain a content-specific
   OAuth access token.
-
 - [`get_oauth_credentials()`](https://posit-dev.github.io/connectapi/dev/reference/get_oauth_credentials.md)
   : Perform an OAuth credential exchange to obtain a visitor's OAuth
   access token.
-
 - [`get_packages()`](https://posit-dev.github.io/connectapi/dev/reference/get_packages.md)
   : All package dependencies on the server
-
 - [`get_procs()`](https://posit-dev.github.io/connectapi/dev/reference/get_procs.md)
   **\[experimental\]** : Get Real-Time Process Data
-
 - [`get_runtime_caches()`](https://posit-dev.github.io/connectapi/dev/reference/get_runtime_caches.md)
   : Get runtime caches
-
 - [`get_runtimes()`](https://posit-dev.github.io/connectapi/dev/reference/get_runtimes.md)
   : Get available runtimes on server
-
 - [`get_thumbnail()`](https://posit-dev.github.io/connectapi/dev/reference/get_thumbnail.md)
   : Get content item thumbnail
-
 - [`get_timezones()`](https://posit-dev.github.io/connectapi/dev/reference/get_timezones.md)
   : Get TimeZones
-
 - [`get_usage()`](https://posit-dev.github.io/connectapi/dev/reference/get_usage.md)
   : Get usage information for deployed content
-
 - [`get_usage_shiny()`](https://posit-dev.github.io/connectapi/dev/reference/get_usage_shiny.md)
   : Get usage information for deployed shiny applications
-
 - [`get_usage_static()`](https://posit-dev.github.io/connectapi/dev/reference/get_usage_static.md)
   : Get usage information from deployed static content
-
 - [`get_users()`](https://posit-dev.github.io/connectapi/dev/reference/get_users.md)
   : Get user information from the Posit Connect server
-
 - [`get_vanity_url()`](https://posit-dev.github.io/connectapi/dev/reference/get_vanity_url.md)
   : Get the Vanity URL
-
 - [`get_vanity_urls()`](https://posit-dev.github.io/connectapi/dev/reference/get_vanity_urls.md)
   : Get all vanity URLs
-
 - [`get_variant_schedule()`](https://posit-dev.github.io/connectapi/dev/reference/get_variant_schedule.md)
   **\[experimental\]** : Get a Variant Schedule
-
 - [`content_add_user()`](https://posit-dev.github.io/connectapi/dev/reference/permissions.md)
   [`content_add_group()`](https://posit-dev.github.io/connectapi/dev/reference/permissions.md)
   [`content_delete_user()`](https://posit-dev.github.io/connectapi/dev/reference/permissions.md)
@@ -414,7 +332,6 @@ Helpers to “get” data out of Connect
   [`get_group_permission()`](https://posit-dev.github.io/connectapi/dev/reference/permissions.md)
   [`get_content_permissions()`](https://posit-dev.github.io/connectapi/dev/reference/permissions.md)
   : Content permissions
-
 - [`get_tags()`](https://posit-dev.github.io/connectapi/dev/reference/tags.md)
   [`get_tag_data()`](https://posit-dev.github.io/connectapi/dev/reference/tags.md)
   [`create_tag()`](https://posit-dev.github.io/connectapi/dev/reference/tags.md)
@@ -426,25 +343,19 @@ Helpers to “get” data out of Connect
   [`filter_tag_tree_id()`](https://posit-dev.github.io/connectapi/dev/reference/tags.md)
   [`filter_tag_tree_chr()`](https://posit-dev.github.io/connectapi/dev/reference/tags.md)
   : Get all Tags on the server
-
 - [`get_variants()`](https://posit-dev.github.io/connectapi/dev/reference/variant.md)
   [`get_variant()`](https://posit-dev.github.io/connectapi/dev/reference/variant.md)
   [`get_variant_default()`](https://posit-dev.github.io/connectapi/dev/reference/variant.md)
   **\[experimental\]** : Get Variant
-
 - [`get_variant_renderings()`](https://posit-dev.github.io/connectapi/dev/reference/variant_render.md)
   [`variant_render()`](https://posit-dev.github.io/connectapi/dev/reference/variant_render.md)
   **\[experimental\]** : Render a Variant
-
 - [`as.data.frame(`*`<connect_list_hits>`*`)`](https://posit-dev.github.io/connectapi/dev/reference/as.data.frame.connect_list_hits.md)
   : Convert usage data to a data frame
-
 - [`as_tibble(`*`<connect_list_hits>`*`)`](https://posit-dev.github.io/connectapi/dev/reference/as_tibble.connect_list_hits.md)
   : Convert usage data to a tibble
-
 - [`as.data.frame(`*`<connect_integration_list>`*`)`](https://posit-dev.github.io/connectapi/dev/reference/as.data.frame.connect_integration_list.md)
   : Convert integrations list to a data frame
-
 - [`as_tibble(`*`<connect_integration_list>`*`)`](https://posit-dev.github.io/connectapi/dev/reference/as_tibble.connect_integration_list.md)
   : Convert integration list to a tibble
 

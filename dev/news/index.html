@@ -42,7 +42,11 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="connectapi-development-version">connectapi (development version)<a class="anchor" aria-label="anchor" href="#connectapi-development-version"></a></h2>
 <ul><li>Removed <code>prefix</code> argument to <code><a href="../reference/connect.html">connect()</a></code> function, which was a convenience utility for testing. (<a href="https://github.com/posit-dev/connectapi/issues/477" class="external-link">#477</a>)</li>
+</ul><div class="section level3">
+<h3 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
+<ul><li>Removed <code>get_job()</code>, which was deprecated in 0.6.0. Instead, use <code><a href="../reference/get_jobs.html">get_jobs()</a></code> to get a data frame of jobs, use <code><a href="../reference/get_jobs.html">get_job_list()</a></code> to get a list of job objects, and use <code><a href="../reference/get_log.html">get_log()</a></code> to get the log for a job (<a href="https://github.com/posit-dev/connectapi/issues/491" class="external-link">#491</a>).</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.9.0" id="connectapi-090">connectapi 0.9.0<a class="anchor" aria-label="anchor" href="#connectapi-090"></a></h2><p class="text-muted">CRAN release: 2025-10-30</p>
 <ul><li>New <code><a href="../reference/set_integrations.html">set_integrations()</a></code> function to set the OAuth integration associations for a content item. (<a href="https://github.com/posit-dev/connectapi/issues/414" class="external-link">#414</a>)</li>
@@ -108,7 +112,7 @@
 <div class="section level3">
 <h3 id="newly-deprecated-0-6-0">Newly deprecated<a class="anchor" aria-label="anchor" href="#newly-deprecated-0-6-0"></a></h3>
 <ul><li>
-<code><a href="../reference/get_job.html">get_job()</a></code> (singular) is now deprecated, its functionality taken care of by other functions, including <code><a href="../reference/get_log.html">get_log()</a></code>.</li>
+<code>get_job()</code> (singular) is now deprecated, its functionality taken care of by other functions, including <code><a href="../reference/get_log.html">get_log()</a></code>.</li>
 <li>
 <code>swap_vanity_url(old, new)</code> has been deprecated and renamed to <code>swap_vanity_urls(content_a, content_b)</code>.</li>
 </ul></div>

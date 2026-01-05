@@ -65,7 +65,6 @@ Inherited methods
 - [`connectapi::Content$get_content_remote()`](https://posit-dev.github.io/connectapi/dev/reference/Content.html#method-get_content_remote)
 - [`connectapi::Content$get_dashboard_url()`](https://posit-dev.github.io/connectapi/dev/reference/Content.html#method-get_dashboard_url)
 - [`connectapi::Content$get_url()`](https://posit-dev.github.io/connectapi/dev/reference/Content.html#method-get_url)
-- [`connectapi::Content$job()`](https://posit-dev.github.io/connectapi/dev/reference/Content.html#method-job)
 - [`connectapi::Content$jobs()`](https://posit-dev.github.io/connectapi/dev/reference/Content.html#method-jobs)
 - [`connectapi::Content$packages()`](https://posit-dev.github.io/connectapi/dev/reference/Content.html#method-packages)
 - [`connectapi::Content$permissions()`](https://posit-dev.github.io/connectapi/dev/reference/Content.html#method-permissions)

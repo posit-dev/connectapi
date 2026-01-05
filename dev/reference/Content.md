@@ -70,8 +70,6 @@ Other R6 classes:
 
 - [`Content$jobs()`](#method-Content-jobs)
 
-- [`Content$job()`](#method-Content-job)
-
 - [`Content$register_job_kill_order()`](#method-Content-register_job_kill_order)
 
 - [`Content$variants()`](#method-Content-variants)
@@ -255,22 +253,6 @@ Return the jobs for this content
 #### Usage
 
     Content$jobs()
-
-------------------------------------------------------------------------
-
-### Method `job()`
-
-Return a single job for this content.
-
-#### Usage
-
-    Content$job(key)
-
-#### Arguments
-
-- `key`:
-
-  The job key.
 
 ------------------------------------------------------------------------
 

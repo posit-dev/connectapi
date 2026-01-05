@@ -7,6 +7,17 @@
   function, which was a convenience utility for testing.
   ([\#477](https://github.com/posit-dev/connectapi/issues/477))
 
+### Breaking changes
+
+- Removed `get_job()`, which was deprecated in 0.6.0. Instead, use
+  [`get_jobs()`](https://posit-dev.github.io/connectapi/dev/reference/get_jobs.md)
+  to get a data frame of jobs, use
+  [`get_job_list()`](https://posit-dev.github.io/connectapi/dev/reference/get_jobs.md)
+  to get a list of job objects, and use
+  [`get_log()`](https://posit-dev.github.io/connectapi/dev/reference/get_log.md)
+  to get the log for a job
+  ([\#491](https://github.com/posit-dev/connectapi/issues/491)).
+
 ## connectapi 0.9.0
 
 CRAN release: 2025-10-30
@@ -163,9 +174,8 @@ CRAN release: 2025-02-11
 
 ### Newly deprecated
 
-- [`get_job()`](https://posit-dev.github.io/connectapi/dev/reference/get_job.md)
-  (singular) is now deprecated, its functionality taken care of by other
-  functions, including
+- `get_job()` (singular) is now deprecated, its functionality taken care
+  of by other functions, including
   [`get_log()`](https://posit-dev.github.io/connectapi/dev/reference/get_log.md).
 - `swap_vanity_url(old, new)` has been deprecated and renamed to
   `swap_vanity_urls(content_a, content_b)`.

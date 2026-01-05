@@ -46,7 +46,6 @@ request returns an error.
 ## See also
 
 Other job functions:
-[`get_job()`](https://posit-dev.github.io/connectapi/dev/reference/get_job.md),
 [`get_jobs()`](https://posit-dev.github.io/connectapi/dev/reference/get_jobs.md),
 [`get_log()`](https://posit-dev.github.io/connectapi/dev/reference/get_log.md)
 
@@ -64,7 +63,6 @@ Other content functions:
 [`get_bundles()`](https://posit-dev.github.io/connectapi/dev/reference/get_bundles.md),
 [`get_environment()`](https://posit-dev.github.io/connectapi/dev/reference/environment.md),
 [`get_image()`](https://posit-dev.github.io/connectapi/dev/reference/get_image.md),
-[`get_job()`](https://posit-dev.github.io/connectapi/dev/reference/get_job.md),
 [`get_jobs()`](https://posit-dev.github.io/connectapi/dev/reference/get_jobs.md),
 [`get_log()`](https://posit-dev.github.io/connectapi/dev/reference/get_log.md),
 [`get_thumbnail()`](https://posit-dev.github.io/connectapi/dev/reference/get_thumbnail.md),

@@ -64,8 +64,6 @@ Other R6 classes:
 
 - [`Variant$jobs()`](#method-Variant-jobs)
 
-- [`Variant$job()`](#method-Variant-job)
-
 - [`Variant$get_url()`](#method-Variant-get_url)
 
 - [`Variant$get_url_rev()`](#method-Variant-get_url_rev)
@@ -261,22 +259,6 @@ Jobs for this variant.
 #### Usage
 
     Variant$jobs()
-
-------------------------------------------------------------------------
-
-### Method `job()`
-
-Return single job for this variant.
-
-#### Usage
-
-    Variant$job(key)
-
-#### Arguments
-
-- `key`:
-
-  The job key.
 
 ------------------------------------------------------------------------
 
