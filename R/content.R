@@ -152,19 +152,6 @@ Content <- R6::R6Class(
         )
       }
     },
-    #' @description Return a single job for this content.
-    #' @param key The job key.
-    job = function(key) {
-      warn_experimental("job")
-      guid <- self$content$guid
-      url <- unversioned_url("applications", guid, "job", key)
-      res <- self$connect$GET(url)
-
-      purrr::map(
-        list(res),
-        ~ purrr::list_modify(.x, app_guid = guid)
-      )[[1]]
-    },
     #' @description Terminate a single job for this content item.
     #' @param key The job key.
     register_job_kill_order = function(key) {
@@ -802,31 +789,6 @@ get_jobs <- function(content) {
 
   jobs <- content$jobs()
   parse_connectapi_typed(jobs, connectapi_ptypes$jobs, strict = TRUE)
-}
-
-# TODO: Need to test `logged_error` on a real error
-#'
-#' Retrieve details about a server process
-#' associated with a `content_item`, such as a FastAPI app or a Quarto render.
-#'
-#' @param content A Content object, as returned by `content_item()`
-#' @param key The key for a job
-#'
-#' @family job functions
-#' @family content functions
-#' @export
-get_job <- function(content, key) {
-  lifecycle::deprecate_warn("0.6", "get_job()", "get_log()")
-  scoped_experimental_silence()
-  validate_R6_class(content, "Content")
-
-  job <- content$job(key = key)
-  # protect against becoming a list...
-  job$stdout <- strsplit(job$stdout, "\n")[[1]]
-  job$stderr <- strsplit(job$stderr, "\n")[[1]]
-  # a bit of an abuse
-  # since stdout / stderr / logged_error are here now...
-  parse_connectapi_typed(list(job), connectapi_ptypes$job)
 }
 
 #' Terminate Jobs

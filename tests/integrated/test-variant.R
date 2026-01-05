@@ -59,9 +59,4 @@ test_that("get_jobs works", {
 
   all_jobs <- get_jobs(vr)
   expect_gt(nrow(all_jobs), 1)
-
-  sel_key <- all_jobs$key[[1]]
-  one_job <- get_job(vr, sel_key)
-  expect_equal(nrow(one_job), 1)
-  expect_equal(one_job$key[[1]], sel_key)
 })
