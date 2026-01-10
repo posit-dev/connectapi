@@ -31,10 +31,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Toph Allen \email{toph@posit.co}
+\strong{Maintainer}: Kara Woo \email{kara.woo@posit.co}
 
 Authors:
 \itemize{
+  \item Toph Allen \email{toph@posit.co}
   \item Neal Richardson
   \item Sean Lopp
   \item Cole Arendt
