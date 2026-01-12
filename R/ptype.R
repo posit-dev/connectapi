@@ -20,7 +20,8 @@ connectapi_ptypes <- list(
   groups = tibble::tibble(
     "guid" = NA_character_,
     "name" = NA_character_,
-    "owner_guid" = NA_character_
+    "owner_guid" = NA_character_,
+    "gid" = NA_character_
   ),
   usage_shiny = tibble::tibble(
     "content_guid" = NA_character_,
