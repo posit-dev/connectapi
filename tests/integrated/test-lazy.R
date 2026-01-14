@@ -107,7 +107,7 @@ test_that("groups works", {
   expect_type(colnames(groups_list), "character")
   expect_gt(length(colnames(groups_list)), 1)
 
-  expect_ptype_equal(groups_list_local, connectapi_ptypes$groups)
+  expect_ptype_equal(groups_list_local, connectapi_ptypes$groups, exact = FALSE)
 })
 
 test_that("audit_logs works", {

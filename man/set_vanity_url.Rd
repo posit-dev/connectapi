@@ -56,7 +56,6 @@ Other content functions:
 \code{\link{set_integrations}()},
 \code{\link{set_run_as}()},
 \code{\link{set_thumbnail}()},
-\code{\link{swap_vanity_url}()},
 \code{\link{swap_vanity_urls}()},
 \code{\link{terminate_jobs}()},
 \code{\link{verify_content_name}()}
