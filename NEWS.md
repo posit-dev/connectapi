@@ -1,5 +1,7 @@
 # connectapi (development version)
 
+# connectapi 0.10.0
+
 - Removed `prefix` argument to `connect()` function, which was a convenience utility for testing. (#477)
 
 ## Breaking changes

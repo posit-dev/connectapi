@@ -1,11 +1,15 @@
 Type: Package
 Package: connectapi
 Title: Utilities for Interacting with the 'Posit Connect' Server API
-Version: 0.9.0.9000
+Version: 0.10.0
 Authors@R: c(
+    person(given = "Kara",
+           family = "Woo",
+           role = c("aut", "cre"),
+           email = "kara.woo@posit.co"),
     person(given = "Toph",
            family = "Allen",
-           role = c("aut", "cre"),
+           role = c("aut"),
            email = "toph@posit.co"),
     person(given = "Neal",
            family = "Richardson",
