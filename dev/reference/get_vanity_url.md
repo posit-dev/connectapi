@@ -47,7 +47,6 @@ Other content functions:
 [`set_run_as()`](https://posit-dev.github.io/connectapi/dev/reference/set_run_as.md),
 [`set_thumbnail()`](https://posit-dev.github.io/connectapi/dev/reference/set_thumbnail.md),
 [`set_vanity_url()`](https://posit-dev.github.io/connectapi/dev/reference/set_vanity_url.md),
-[`swap_vanity_url()`](https://posit-dev.github.io/connectapi/dev/reference/swap_vanity_url.md),
 [`swap_vanity_urls()`](https://posit-dev.github.io/connectapi/dev/reference/swap_vanity_urls.md),
 [`terminate_jobs()`](https://posit-dev.github.io/connectapi/dev/reference/terminate_jobs.md),
 [`verify_content_name()`](https://posit-dev.github.io/connectapi/dev/reference/verify_content_name.md)

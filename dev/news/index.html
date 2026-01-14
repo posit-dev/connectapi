@@ -45,6 +45,7 @@
 </ul><div class="section level3">
 <h3 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
 <ul><li>Removed <code>get_job()</code>, which was deprecated in 0.6.0. Instead, use <code><a href="../reference/get_jobs.html">get_jobs()</a></code> to get a data frame of jobs, use <code><a href="../reference/get_jobs.html">get_job_list()</a></code> to get a list of job objects, and use <code><a href="../reference/get_log.html">get_log()</a></code> to get the log for a job (<a href="https://github.com/posit-dev/connectapi/issues/491" class="external-link">#491</a>).</li>
+<li>Removed <code>swap_vanity_url()</code>, which was deprecated in 0.6.0. Use <code><a href="../reference/swap_vanity_urls.html">swap_vanity_urls()</a></code> instead (<a href="https://github.com/posit-dev/connectapi/issues/493" class="external-link">#493</a>).</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -240,7 +241,7 @@
 <h4 id="breaking-0-1-1-1">BREAKING<a class="anchor" aria-label="anchor" href="#breaking-0-1-1-1"></a></h4>
 <ul><li>BREAKING: the following functions now require RStudio Connect 1.8.6 or later (because they are no longer experimental, as of that release). (<a href="https://github.com/posit-dev/connectapi/issues/128" class="external-link">#128</a>)
 <ul><li>
-<code><a href="../reference/set_vanity_url.html">set_vanity_url()</a></code>, <code><a href="../reference/get_vanity_url.html">get_vanity_url()</a></code>, <code><a href="../reference/swap_vanity_url.html">swap_vanity_url()</a></code>
+<code><a href="../reference/set_vanity_url.html">set_vanity_url()</a></code>, <code><a href="../reference/get_vanity_url.html">get_vanity_url()</a></code>, <code>swap_vanity_url()</code>
 </li>
 <li>
 <code><a href="../reference/tags.html">get_tags()</a></code>, <code><a href="../reference/tags.html">get_tag_data()</a></code>, <code><a href="../reference/tags.html">get_content_tags()</a></code>, <code><a href="../reference/tags.html">create_tag()</a></code>, <code><a href="../reference/tags.html">create_tag_tree()</a></code>, <code><a href="../reference/tags.html">delete_tag()</a></code>, <code><a href="../reference/tags.html">get_content_tags()</a></code>, <code><a href="../reference/tags.html">set_content_tags()</a></code>, <code><a href="../reference/tags.html">set_content_tag_tree()</a></code>, <code><a href="../reference/tags.html">filter_tag_tree_id()</a></code>, <code><a href="../reference/tags.html">filter_tag_tree_chr()</a></code>, <code><a href="../reference/environment.html">set_environment_new()</a></code>, <code><a href="../reference/environment.html">get_environment()</a></code>, <code><a href="../reference/environment.html">set_environment_remove()</a></code>, <code><a href="../reference/download_bundle.html">download_bundle()</a></code>

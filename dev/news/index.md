@@ -17,6 +17,9 @@
   [`get_log()`](https://posit-dev.github.io/connectapi/dev/reference/get_log.md)
   to get the log for a job
   ([\#491](https://github.com/posit-dev/connectapi/issues/491)).
+- Removed `swap_vanity_url()`, which was deprecated in 0.6.0. Use
+  [`swap_vanity_urls()`](https://posit-dev.github.io/connectapi/dev/reference/swap_vanity_urls.md)
+  instead ([\#493](https://github.com/posit-dev/connectapi/issues/493)).
 
 ## connectapi 0.9.0
 
@@ -435,7 +438,7 @@ CRAN release: 2022-07-21
   ([\#128](https://github.com/posit-dev/connectapi/issues/128))
   - [`set_vanity_url()`](https://posit-dev.github.io/connectapi/dev/reference/set_vanity_url.md),
     [`get_vanity_url()`](https://posit-dev.github.io/connectapi/dev/reference/get_vanity_url.md),
-    [`swap_vanity_url()`](https://posit-dev.github.io/connectapi/dev/reference/swap_vanity_url.md)
+    `swap_vanity_url()`
   - [`get_tags()`](https://posit-dev.github.io/connectapi/dev/reference/tags.md),
     [`get_tag_data()`](https://posit-dev.github.io/connectapi/dev/reference/tags.md),
     [`get_content_tags()`](https://posit-dev.github.io/connectapi/dev/reference/tags.md),

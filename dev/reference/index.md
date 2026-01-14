@@ -139,8 +139,6 @@ Functions to work with content
   : Get all vanity URLs
 - [`set_vanity_url()`](https://posit-dev.github.io/connectapi/dev/reference/set_vanity_url.md)
   : Set the Vanity URL
-- [`swap_vanity_url()`](https://posit-dev.github.io/connectapi/dev/reference/swap_vanity_url.md)
-  : Swap Vanity URLs
 - [`swap_vanity_urls()`](https://posit-dev.github.io/connectapi/dev/reference/swap_vanity_urls.md)
   : Swap Vanity URLs
 - [`vanity_is_available()`](https://posit-dev.github.io/connectapi/dev/reference/vanity_is_available.md)
