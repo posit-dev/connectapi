@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">connectapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.10.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,11 +36,34 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/posit-dev/connectapi/blob/v0.8.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/posit-dev/connectapi/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.8.0" id="connectapi-080">connectapi 0.8.0<a class="anchor" aria-label="anchor" href="#connectapi-080"></a></h2>
+<h2 class="pkg-version" data-toc-text="development version" id="connectapi-development-version">connectapi (development version)<a class="anchor" aria-label="anchor" href="#connectapi-development-version"></a></h2>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.10.0" id="connectapi-0100">connectapi 0.10.0<a class="anchor" aria-label="anchor" href="#connectapi-0100"></a></h2>
+<ul><li>Removed <code>prefix</code> argument to <code><a href="../reference/connect.html">connect()</a></code> function, which was a convenience utility for testing. (<a href="https://github.com/posit-dev/connectapi/issues/477" class="external-link">#477</a>)</li>
+</ul><div class="section level3">
+<h3 id="breaking-changes-0-10-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-10-0"></a></h3>
+<ul><li>Removed <code>get_job()</code>, which was deprecated in 0.6.0. Instead, use <code><a href="../reference/get_jobs.html">get_jobs()</a></code> to get a data frame of jobs, use <code><a href="../reference/get_jobs.html">get_job_list()</a></code> to get a list of job objects, and use <code><a href="../reference/get_log.html">get_log()</a></code> to get the log for a job (<a href="https://github.com/posit-dev/connectapi/issues/491" class="external-link">#491</a>).</li>
+<li>Removed <code>swap_vanity_url()</code>, which was deprecated in 0.6.0. Use <code><a href="../reference/swap_vanity_urls.html">swap_vanity_urls()</a></code> instead (<a href="https://github.com/posit-dev/connectapi/issues/493" class="external-link">#493</a>).</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.9.0" id="connectapi-090">connectapi 0.9.0<a class="anchor" aria-label="anchor" href="#connectapi-090"></a></h2><p class="text-muted">CRAN release: 2025-10-30</p>
+<ul><li>New <code><a href="../reference/set_integrations.html">set_integrations()</a></code> function to set the OAuth integration associations for a content item. (<a href="https://github.com/posit-dev/connectapi/issues/414" class="external-link">#414</a>)</li>
+<li>New <code><a href="../reference/get_integration.html">get_integration()</a></code> function to retrieve details of a specific OAuth integration from a Connect server. (<a href="https://github.com/posit-dev/connectapi/issues/431" class="external-link">#431</a>)</li>
+<li>
+<code><a href="../reference/get_integrations.html">get_integrations()</a></code> can now be passed a <code>Content</code> class object to retrieve a list of integrations associated with that piece of content. (<a href="https://github.com/posit-dev/connectapi/issues/432" class="external-link">#432</a>)</li>
+<li>New functions allow you to manage the OAuth integrations on your Connect server: <code><a href="../reference/create_integration.html">create_integration()</a></code>, <code><a href="../reference/update_integration.html">update_integration()</a></code> and <code><a href="../reference/delete_integration.html">delete_integration()</a></code>. (<a href="https://github.com/posit-dev/connectapi/issues/434" class="external-link">#434</a>)</li>
+<li>New <code><a href="../reference/search_content.html">search_content()</a></code> function which lets you search and filter content items on the Connect server. (<a href="https://github.com/posit-dev/connectapi/issues/272" class="external-link">#272</a>, <a href="https://github.com/posit-dev/connectapi/issues/447" class="external-link">#447</a>)</li>
+<li>New <code><a href="../reference/lock_content.html">lock_content()</a></code> and <code><a href="../reference/lock_content.html">unlock_content()</a></code> functions for locking and unlocking content items. (<a href="https://github.com/posit-dev/connectapi/issues/453" class="external-link">#453</a>)</li>
+<li>Updated git-backed deployment functions to use v1 APIs (<a href="https://github.com/posit-dev/connectapi/issues/459" class="external-link">#459</a>)</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.8.0" id="connectapi-080">connectapi 0.8.0<a class="anchor" aria-label="anchor" href="#connectapi-080"></a></h2><p class="text-muted">CRAN release: 2025-07-30</p>
 <div class="section level3">
 <h3 id="breaking-changes-0-8-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-8-0"></a></h3>
 <ul><li>
@@ -93,7 +116,7 @@
 <div class="section level3">
 <h3 id="newly-deprecated-0-6-0">Newly deprecated<a class="anchor" aria-label="anchor" href="#newly-deprecated-0-6-0"></a></h3>
 <ul><li>
-<code><a href="../reference/get_job.html">get_job()</a></code> (singular) is now deprecated, its functionality taken care of by other functions, including <code><a href="../reference/get_log.html">get_log()</a></code>.</li>
+<code>get_job()</code> (singular) is now deprecated, its functionality taken care of by other functions, including <code><a href="../reference/get_log.html">get_log()</a></code>.</li>
 <li>
 <code>swap_vanity_url(old, new)</code> has been deprecated and renamed to <code>swap_vanity_urls(content_a, content_b)</code>.</li>
 </ul></div>
@@ -221,7 +244,7 @@
 <h4 id="breaking-0-1-1-1">BREAKING<a class="anchor" aria-label="anchor" href="#breaking-0-1-1-1"></a></h4>
 <ul><li>BREAKING: the following functions now require RStudio Connect 1.8.6 or later (because they are no longer experimental, as of that release). (<a href="https://github.com/posit-dev/connectapi/issues/128" class="external-link">#128</a>)
 <ul><li>
-<code><a href="../reference/set_vanity_url.html">set_vanity_url()</a></code>, <code><a href="../reference/get_vanity_url.html">get_vanity_url()</a></code>, <code><a href="../reference/swap_vanity_url.html">swap_vanity_url()</a></code>
+<code><a href="../reference/set_vanity_url.html">set_vanity_url()</a></code>, <code><a href="../reference/get_vanity_url.html">get_vanity_url()</a></code>, <code>swap_vanity_url()</code>
 </li>
 <li>
 <code><a href="../reference/tags.html">get_tags()</a></code>, <code><a href="../reference/tags.html">get_tag_data()</a></code>, <code><a href="../reference/tags.html">get_content_tags()</a></code>, <code><a href="../reference/tags.html">create_tag()</a></code>, <code><a href="../reference/tags.html">create_tag_tree()</a></code>, <code><a href="../reference/tags.html">delete_tag()</a></code>, <code><a href="../reference/tags.html">get_content_tags()</a></code>, <code><a href="../reference/tags.html">set_content_tags()</a></code>, <code><a href="../reference/tags.html">set_content_tag_tree()</a></code>, <code><a href="../reference/tags.html">filter_tag_tree_id()</a></code>, <code><a href="../reference/tags.html">filter_tag_tree_chr()</a></code>, <code><a href="../reference/environment.html">set_environment_new()</a></code>, <code><a href="../reference/environment.html">get_environment()</a></code>, <code><a href="../reference/environment.html">set_environment_remove()</a></code>, <code><a href="../reference/download_bundle.html">download_bundle()</a></code>
@@ -300,11 +323,11 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Toph Allen, Neal Richardson, Sean Lopp, Cole Arendt, Posit, PBC.</p>
+  <p>Developed by Kara Woo, Toph Allen, Neal Richardson, Sean Lopp, Cole Arendt, Posit, PBC.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

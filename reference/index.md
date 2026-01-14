@@ -1,0 +1,409 @@
+# Package index
+
+## Package
+
+Package documentation
+
+- [`connectapi-package`](https://posit-dev.github.io/connectapi/reference/connectapi-package.md)
+  : connectapi: Utilities for Interacting with the 'Posit Connect'
+  Server API
+
+## Audit
+
+Functions to audit vanity URLs, R versions, etc.
+
+- [`audit_access_open()`](https://posit-dev.github.io/connectapi/reference/audit_access_open.md)
+  **\[experimental\]** : Audit Access Controls
+- [`audit_r_versions()`](https://posit-dev.github.io/connectapi/reference/audit_r_versions.md)
+  **\[experimental\]** : Audit R Versions
+- [`audit_runas()`](https://posit-dev.github.io/connectapi/reference/audit_runas.md)
+  **\[experimental\]** : Audit Run As Settings
+- [`get_audit_logs()`](https://posit-dev.github.io/connectapi/reference/get_audit_logs.md)
+  : Get Audit Logs from Posit Connect Server
+
+## Deployment
+
+Functions to work with deployments
+
+- [`bundle_dir()`](https://posit-dev.github.io/connectapi/reference/bundle_dir.md)
+  : Define a bundle from a Directory
+- [`bundle_path()`](https://posit-dev.github.io/connectapi/reference/bundle_path.md)
+  : Define a bundle from a path (a path directly to a tar.gz file)
+- [`bundle_static()`](https://posit-dev.github.io/connectapi/reference/bundle_static.md)
+  : Define a bundle from a static file (or files)
+- [`Bundle`](https://posit-dev.github.io/connectapi/reference/Bundle.md)
+  : Bundle
+- [`download_bundle()`](https://posit-dev.github.io/connectapi/reference/download_bundle.md)
+  : Download a Bundle from Deployed Connect Content
+- [`deploy()`](https://posit-dev.github.io/connectapi/reference/deploy.md)
+  [`deploy_current()`](https://posit-dev.github.io/connectapi/reference/deploy.md)
+  : Deploy a bundle
+- [`poll_task()`](https://posit-dev.github.io/connectapi/reference/poll_task.md)
+  : Poll Task
+
+## Content
+
+Functions to work with content
+
+- [`as.data.frame(`*`<connect_content_list>`*`)`](https://posit-dev.github.io/connectapi/reference/as.data.frame.connect_content_list.md)
+  : Convert content list to a data frame
+- [`as_tibble(`*`<connect_content_list>`*`)`](https://posit-dev.github.io/connectapi/reference/as_tibble.connect_content_list.md)
+  : Convert integration list to a tibble
+- [`content_delete()`](https://posit-dev.github.io/connectapi/reference/content_delete.md)
+  : Delete Content
+- [`content_item()`](https://posit-dev.github.io/connectapi/reference/content_item.md)
+  : Get Content Item
+- [`content_list_by_tag()`](https://posit-dev.github.io/connectapi/reference/content_list.md)
+  **\[experimental\]** : Content List
+- [`content_list_with_permissions()`](https://posit-dev.github.io/connectapi/reference/content_list_with_permissions.md)
+  [`content_list_guid_has_access()`](https://posit-dev.github.io/connectapi/reference/content_list_with_permissions.md)
+  **\[experimental\]** : Get Content List with Permissions
+- [`content_render()`](https://posit-dev.github.io/connectapi/reference/content_render.md)
+  : Render a content item.
+- [`content_restart()`](https://posit-dev.github.io/connectapi/reference/content_restart.md)
+  : Restart a content item.
+- [`content_title()`](https://posit-dev.github.io/connectapi/reference/content_title.md)
+  : Get Content Title
+- [`content_update()`](https://posit-dev.github.io/connectapi/reference/content_update.md)
+  [`content_update_access_type()`](https://posit-dev.github.io/connectapi/reference/content_update.md)
+  [`content_update_owner()`](https://posit-dev.github.io/connectapi/reference/content_update.md)
+  : Update Content
+- [`get_aws_content_credentials()`](https://posit-dev.github.io/connectapi/reference/get_aws_content_credentials.md)
+  : Obtain AWS credentials for your content.
+- [`get_content()`](https://posit-dev.github.io/connectapi/reference/get_content.md)
+  : Get information about content on the Posit Connect server
+- [`get_content_packages()`](https://posit-dev.github.io/connectapi/reference/get_content_packages.md)
+  : Package dependencies for a content item
+- [`get_group_content()`](https://posit-dev.github.io/connectapi/reference/get_group_content.md)
+  : Get content access permissions for a group or groups
+- [`get_oauth_content_credentials()`](https://posit-dev.github.io/connectapi/reference/get_oauth_content_credentials.md)
+  : Perform an OAuth credential exchange to obtain a content-specific
+  OAuth access token.
+- [`lock_content()`](https://posit-dev.github.io/connectapi/reference/lock_content.md)
+  [`unlock_content()`](https://posit-dev.github.io/connectapi/reference/lock_content.md)
+  : Lock or Unlock Content
+- [`content_add_user()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  [`content_add_group()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  [`content_delete_user()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  [`content_delete_group()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  [`get_user_permission()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  [`get_my_permission()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  [`get_group_permission()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  [`get_content_permissions()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  : Content permissions
+- [`search_content()`](https://posit-dev.github.io/connectapi/reference/search_content.md)
+  : Search for content on the Connect server
+- [`get_tags()`](https://posit-dev.github.io/connectapi/reference/tags.md)
+  [`get_tag_data()`](https://posit-dev.github.io/connectapi/reference/tags.md)
+  [`create_tag()`](https://posit-dev.github.io/connectapi/reference/tags.md)
+  [`create_tag_tree()`](https://posit-dev.github.io/connectapi/reference/tags.md)
+  [`delete_tag()`](https://posit-dev.github.io/connectapi/reference/tags.md)
+  [`get_content_tags()`](https://posit-dev.github.io/connectapi/reference/tags.md)
+  [`set_content_tag_tree()`](https://posit-dev.github.io/connectapi/reference/tags.md)
+  [`set_content_tags()`](https://posit-dev.github.io/connectapi/reference/tags.md)
+  [`filter_tag_tree_id()`](https://posit-dev.github.io/connectapi/reference/tags.md)
+  [`filter_tag_tree_chr()`](https://posit-dev.github.io/connectapi/reference/tags.md)
+  : Get all Tags on the server
+- [`verify_content_name()`](https://posit-dev.github.io/connectapi/reference/verify_content_name.md)
+  : Verify Content Name
+- [`get_variant_schedule()`](https://posit-dev.github.io/connectapi/reference/get_variant_schedule.md)
+  **\[experimental\]** : Get a Variant Schedule
+- [`get_variants()`](https://posit-dev.github.io/connectapi/reference/variant.md)
+  [`get_variant()`](https://posit-dev.github.io/connectapi/reference/variant.md)
+  [`get_variant_default()`](https://posit-dev.github.io/connectapi/reference/variant.md)
+  **\[experimental\]** : Get Variant
+- [`get_variant_renderings()`](https://posit-dev.github.io/connectapi/reference/variant_render.md)
+  [`variant_render()`](https://posit-dev.github.io/connectapi/reference/variant_render.md)
+  **\[experimental\]** : Render a Variant
+- [`delete_thumbnail()`](https://posit-dev.github.io/connectapi/reference/delete_thumbnail.md)
+  : Delete content item thumbnail
+- [`get_thumbnail()`](https://posit-dev.github.io/connectapi/reference/get_thumbnail.md)
+  : Get content item thumbnail
+- [`has_thumbnail()`](https://posit-dev.github.io/connectapi/reference/has_thumbnail.md)
+  : Check content item thumbnail
+- [`set_thumbnail()`](https://posit-dev.github.io/connectapi/reference/set_thumbnail.md)
+  : Set content item thumbnail
+- [`get_image()`](https://posit-dev.github.io/connectapi/reference/get_image.md)
+  [`delete_image()`](https://posit-dev.github.io/connectapi/reference/get_image.md)
+  [`has_image()`](https://posit-dev.github.io/connectapi/reference/get_image.md)
+  **\[deprecated\]** : Get the Content Image
+- [`set_image_path()`](https://posit-dev.github.io/connectapi/reference/set_image.md)
+  [`set_image_url()`](https://posit-dev.github.io/connectapi/reference/set_image.md)
+  [`set_image_webshot()`](https://posit-dev.github.io/connectapi/reference/set_image.md)
+  **\[deprecated\]** : Set the Content Image
+- [`delete_vanity_url()`](https://posit-dev.github.io/connectapi/reference/delete_vanity_url.md)
+  : Delete the Vanity URL
+- [`get_vanity_url()`](https://posit-dev.github.io/connectapi/reference/get_vanity_url.md)
+  : Get the Vanity URL
+- [`get_vanity_urls()`](https://posit-dev.github.io/connectapi/reference/get_vanity_urls.md)
+  : Get all vanity URLs
+- [`set_vanity_url()`](https://posit-dev.github.io/connectapi/reference/set_vanity_url.md)
+  : Set the Vanity URL
+- [`swap_vanity_urls()`](https://posit-dev.github.io/connectapi/reference/swap_vanity_urls.md)
+  : Swap Vanity URLs
+- [`vanity_is_available()`](https://posit-dev.github.io/connectapi/reference/vanity_is_available.md)
+  **\[experimental\]** : Check to see if a vanity URL is currently in
+  use
+- [`set_schedule()`](https://posit-dev.github.io/connectapi/reference/set_schedule.md)
+  [`set_schedule_minute()`](https://posit-dev.github.io/connectapi/reference/set_schedule.md)
+  [`set_schedule_hour()`](https://posit-dev.github.io/connectapi/reference/set_schedule.md)
+  [`set_schedule_day()`](https://posit-dev.github.io/connectapi/reference/set_schedule.md)
+  [`set_schedule_weekday()`](https://posit-dev.github.io/connectapi/reference/set_schedule.md)
+  [`set_schedule_week()`](https://posit-dev.github.io/connectapi/reference/set_schedule.md)
+  [`set_schedule_dayofweek()`](https://posit-dev.github.io/connectapi/reference/set_schedule.md)
+  [`set_schedule_semimonth()`](https://posit-dev.github.io/connectapi/reference/set_schedule.md)
+  [`set_schedule_dayofmonth()`](https://posit-dev.github.io/connectapi/reference/set_schedule.md)
+  [`set_schedule_dayweekofmonth()`](https://posit-dev.github.io/connectapi/reference/set_schedule.md)
+  [`set_schedule_year()`](https://posit-dev.github.io/connectapi/reference/set_schedule.md)
+  [`set_schedule_remove()`](https://posit-dev.github.io/connectapi/reference/set_schedule.md)
+  [`schedule_describe()`](https://posit-dev.github.io/connectapi/reference/set_schedule.md)
+  **\[experimental\]** : Set a Schedule
+- [`get_jobs()`](https://posit-dev.github.io/connectapi/reference/get_jobs.md)
+  [`get_job_list()`](https://posit-dev.github.io/connectapi/reference/get_jobs.md)
+  : Get Jobs
+- [`terminate_jobs()`](https://posit-dev.github.io/connectapi/reference/terminate_jobs.md)
+  : Terminate Jobs
+- [`set_run_as()`](https://posit-dev.github.io/connectapi/reference/set_run_as.md)
+  : Set RunAs User
+
+## Users and groups
+
+Users and groups
+
+- [`get_users()`](https://posit-dev.github.io/connectapi/reference/get_users.md)
+  : Get user information from the Posit Connect server
+- [`content_add_user()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  [`content_add_group()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  [`content_delete_user()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  [`content_delete_group()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  [`get_user_permission()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  [`get_my_permission()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  [`get_group_permission()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  [`get_content_permissions()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  : Content permissions
+- [`user_guid_from_username()`](https://posit-dev.github.io/connectapi/reference/user.md)
+  : User
+- [`users_create_remote()`](https://posit-dev.github.io/connectapi/reference/users_create_remote.md)
+  : Create a Remote User
+- [`get_group_content()`](https://posit-dev.github.io/connectapi/reference/get_group_content.md)
+  : Get content access permissions for a group or groups
+- [`get_group_members()`](https://posit-dev.github.io/connectapi/reference/get_group_members.md)
+  : Get users within a specific group
+- [`get_groups()`](https://posit-dev.github.io/connectapi/reference/get_groups.md)
+  : Get group information from the Posit Connect server
+- [`groups_create_remote()`](https://posit-dev.github.io/connectapi/reference/groups_create_remote.md)
+  : Create a Remote Group
+
+## shiny
+
+Shiny functions
+
+- [`get_usage_shiny()`](https://posit-dev.github.io/connectapi/reference/get_usage_shiny.md)
+  : Get usage information for deployed shiny applications
+
+## git
+
+Git repository functions
+
+- [`deploy_repo()`](https://posit-dev.github.io/connectapi/reference/deploy_repo.md)
+  [`deploy_repo_enable()`](https://posit-dev.github.io/connectapi/reference/deploy_repo.md)
+  [`deploy_repo_update()`](https://posit-dev.github.io/connectapi/reference/deploy_repo.md)
+  **\[experimental\]** : Deploy a Git Repository
+- [`repo_check_account()`](https://posit-dev.github.io/connectapi/reference/git.md)
+  [`repo_check_branches()`](https://posit-dev.github.io/connectapi/reference/git.md)
+  [`repo_check_branches_ref()`](https://posit-dev.github.io/connectapi/reference/git.md)
+  [`repo_check_manifest_dirs()`](https://posit-dev.github.io/connectapi/reference/git.md)
+  **\[experimental\]** : Git Repository Helpers
+
+## OAuth Integrations
+
+Functions to work with OAuth integrations
+
+- [`as.data.frame(`*`<connect_integration_list>`*`)`](https://posit-dev.github.io/connectapi/reference/as.data.frame.connect_integration_list.md)
+  : Convert integrations list to a data frame
+- [`as_integration()`](https://posit-dev.github.io/connectapi/reference/as_integration.md)
+  : Convert objects to integration class
+- [`as_tibble(`*`<connect_integration_list>`*`)`](https://posit-dev.github.io/connectapi/reference/as_tibble.connect_integration_list.md)
+  : Convert integration list to a tibble
+- [`create_integration()`](https://posit-dev.github.io/connectapi/reference/create_integration.md)
+  : Create an OAuth integration
+- [`delete_integration()`](https://posit-dev.github.io/connectapi/reference/delete_integration.md)
+  : Delete an OAuth integration
+- [`get_integration()`](https://posit-dev.github.io/connectapi/reference/get_integration.md)
+  : Get the details of an OAuth integration
+- [`get_integrations()`](https://posit-dev.github.io/connectapi/reference/get_integrations.md)
+  : Get OAuth integrations
+- [`set_integrations()`](https://posit-dev.github.io/connectapi/reference/set_integrations.md)
+  : Set all OAuth integrations for a content item
+- [`update_integration()`](https://posit-dev.github.io/connectapi/reference/update_integration.md)
+  : Update an OAuth integration
+- [`get_associations()`](https://posit-dev.github.io/connectapi/reference/get_associations.md)
+  : Get OAuth associations for a piece of content
+- [`get_oauth_credentials()`](https://posit-dev.github.io/connectapi/reference/get_oauth_credentials.md)
+  : Perform an OAuth credential exchange to obtain a visitor's OAuth
+  access token.
+- [`get_oauth_content_credentials()`](https://posit-dev.github.io/connectapi/reference/get_oauth_content_credentials.md)
+  : Perform an OAuth credential exchange to obtain a content-specific
+  OAuth access token.
+
+## Reporting
+
+Helpers to “get” data out of Connect
+
+- [`get_environment()`](https://posit-dev.github.io/connectapi/reference/environment.md)
+  [`set_environment_new()`](https://posit-dev.github.io/connectapi/reference/environment.md)
+  [`set_environment_remove()`](https://posit-dev.github.io/connectapi/reference/environment.md)
+  [`set_environment_all()`](https://posit-dev.github.io/connectapi/reference/environment.md)
+  : Manage Environment Variables
+- [`get_associations()`](https://posit-dev.github.io/connectapi/reference/get_associations.md)
+  : Get OAuth associations for a piece of content
+- [`get_audit_logs()`](https://posit-dev.github.io/connectapi/reference/get_audit_logs.md)
+  : Get Audit Logs from Posit Connect Server
+- [`get_aws_content_credentials()`](https://posit-dev.github.io/connectapi/reference/get_aws_content_credentials.md)
+  : Obtain AWS credentials for your content.
+- [`get_aws_credentials()`](https://posit-dev.github.io/connectapi/reference/get_aws_credentials.md)
+  : Obtain a visitor's AWS credentials
+- [`get_bundles()`](https://posit-dev.github.io/connectapi/reference/get_bundles.md)
+  [`delete_bundle()`](https://posit-dev.github.io/connectapi/reference/get_bundles.md)
+  : Get Bundles
+- [`get_content()`](https://posit-dev.github.io/connectapi/reference/get_content.md)
+  : Get information about content on the Posit Connect server
+- [`get_content_packages()`](https://posit-dev.github.io/connectapi/reference/get_content_packages.md)
+  : Package dependencies for a content item
+- [`get_group_content()`](https://posit-dev.github.io/connectapi/reference/get_group_content.md)
+  : Get content access permissions for a group or groups
+- [`get_group_members()`](https://posit-dev.github.io/connectapi/reference/get_group_members.md)
+  : Get users within a specific group
+- [`get_groups()`](https://posit-dev.github.io/connectapi/reference/get_groups.md)
+  : Get group information from the Posit Connect server
+- [`get_image()`](https://posit-dev.github.io/connectapi/reference/get_image.md)
+  [`delete_image()`](https://posit-dev.github.io/connectapi/reference/get_image.md)
+  [`has_image()`](https://posit-dev.github.io/connectapi/reference/get_image.md)
+  **\[deprecated\]** : Get the Content Image
+- [`get_integration()`](https://posit-dev.github.io/connectapi/reference/get_integration.md)
+  : Get the details of an OAuth integration
+- [`get_integrations()`](https://posit-dev.github.io/connectapi/reference/get_integrations.md)
+  : Get OAuth integrations
+- [`get_jobs()`](https://posit-dev.github.io/connectapi/reference/get_jobs.md)
+  [`get_job_list()`](https://posit-dev.github.io/connectapi/reference/get_jobs.md)
+  : Get Jobs
+- [`get_log()`](https://posit-dev.github.io/connectapi/reference/get_log.md)
+  : Get Job Log
+- [`get_oauth_content_credentials()`](https://posit-dev.github.io/connectapi/reference/get_oauth_content_credentials.md)
+  : Perform an OAuth credential exchange to obtain a content-specific
+  OAuth access token.
+- [`get_oauth_credentials()`](https://posit-dev.github.io/connectapi/reference/get_oauth_credentials.md)
+  : Perform an OAuth credential exchange to obtain a visitor's OAuth
+  access token.
+- [`get_packages()`](https://posit-dev.github.io/connectapi/reference/get_packages.md)
+  : All package dependencies on the server
+- [`get_procs()`](https://posit-dev.github.io/connectapi/reference/get_procs.md)
+  **\[experimental\]** : Get Real-Time Process Data
+- [`get_runtime_caches()`](https://posit-dev.github.io/connectapi/reference/get_runtime_caches.md)
+  : Get runtime caches
+- [`get_runtimes()`](https://posit-dev.github.io/connectapi/reference/get_runtimes.md)
+  : Get available runtimes on server
+- [`get_thumbnail()`](https://posit-dev.github.io/connectapi/reference/get_thumbnail.md)
+  : Get content item thumbnail
+- [`get_timezones()`](https://posit-dev.github.io/connectapi/reference/get_timezones.md)
+  : Get TimeZones
+- [`get_usage()`](https://posit-dev.github.io/connectapi/reference/get_usage.md)
+  : Get usage information for deployed content
+- [`get_usage_shiny()`](https://posit-dev.github.io/connectapi/reference/get_usage_shiny.md)
+  : Get usage information for deployed shiny applications
+- [`get_usage_static()`](https://posit-dev.github.io/connectapi/reference/get_usage_static.md)
+  : Get usage information from deployed static content
+- [`get_users()`](https://posit-dev.github.io/connectapi/reference/get_users.md)
+  : Get user information from the Posit Connect server
+- [`get_vanity_url()`](https://posit-dev.github.io/connectapi/reference/get_vanity_url.md)
+  : Get the Vanity URL
+- [`get_vanity_urls()`](https://posit-dev.github.io/connectapi/reference/get_vanity_urls.md)
+  : Get all vanity URLs
+- [`get_variant_schedule()`](https://posit-dev.github.io/connectapi/reference/get_variant_schedule.md)
+  **\[experimental\]** : Get a Variant Schedule
+- [`content_add_user()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  [`content_add_group()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  [`content_delete_user()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  [`content_delete_group()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  [`get_user_permission()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  [`get_my_permission()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  [`get_group_permission()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  [`get_content_permissions()`](https://posit-dev.github.io/connectapi/reference/permissions.md)
+  : Content permissions
+- [`get_tags()`](https://posit-dev.github.io/connectapi/reference/tags.md)
+  [`get_tag_data()`](https://posit-dev.github.io/connectapi/reference/tags.md)
+  [`create_tag()`](https://posit-dev.github.io/connectapi/reference/tags.md)
+  [`create_tag_tree()`](https://posit-dev.github.io/connectapi/reference/tags.md)
+  [`delete_tag()`](https://posit-dev.github.io/connectapi/reference/tags.md)
+  [`get_content_tags()`](https://posit-dev.github.io/connectapi/reference/tags.md)
+  [`set_content_tag_tree()`](https://posit-dev.github.io/connectapi/reference/tags.md)
+  [`set_content_tags()`](https://posit-dev.github.io/connectapi/reference/tags.md)
+  [`filter_tag_tree_id()`](https://posit-dev.github.io/connectapi/reference/tags.md)
+  [`filter_tag_tree_chr()`](https://posit-dev.github.io/connectapi/reference/tags.md)
+  : Get all Tags on the server
+- [`get_variants()`](https://posit-dev.github.io/connectapi/reference/variant.md)
+  [`get_variant()`](https://posit-dev.github.io/connectapi/reference/variant.md)
+  [`get_variant_default()`](https://posit-dev.github.io/connectapi/reference/variant.md)
+  **\[experimental\]** : Get Variant
+- [`get_variant_renderings()`](https://posit-dev.github.io/connectapi/reference/variant_render.md)
+  [`variant_render()`](https://posit-dev.github.io/connectapi/reference/variant_render.md)
+  **\[experimental\]** : Render a Variant
+- [`as.data.frame(`*`<connect_list_hits>`*`)`](https://posit-dev.github.io/connectapi/reference/as.data.frame.connect_list_hits.md)
+  : Convert usage data to a data frame
+- [`as_tibble(`*`<connect_list_hits>`*`)`](https://posit-dev.github.io/connectapi/reference/as_tibble.connect_list_hits.md)
+  : Convert usage data to a tibble
+- [`as.data.frame(`*`<connect_integration_list>`*`)`](https://posit-dev.github.io/connectapi/reference/as.data.frame.connect_integration_list.md)
+  : Convert integrations list to a data frame
+- [`as_tibble(`*`<connect_integration_list>`*`)`](https://posit-dev.github.io/connectapi/reference/as_tibble.connect_integration_list.md)
+  : Convert integration list to a tibble
+
+## Other
+
+Other functions
+
+- [`promote()`](https://posit-dev.github.io/connectapi/reference/promote.md)
+  : Promote content from one Connect server to another
+- [`connect()`](https://posit-dev.github.io/connectapi/reference/connect.md)
+  : Create a connection to Posit Connect
+- [`tbl_connect()`](https://posit-dev.github.io/connectapi/reference/tbl_connect.md)
+  **\[experimental\]** : Connect Tibble
+- [`page_cursor()`](https://posit-dev.github.io/connectapi/reference/paging.md)
+  [`page_offset()`](https://posit-dev.github.io/connectapi/reference/paging.md)
+  : Paging
+- [`browse_solo()`](https://posit-dev.github.io/connectapi/reference/browse.md)
+  [`browse_dashboard()`](https://posit-dev.github.io/connectapi/reference/browse.md)
+  [`browse_api_docs()`](https://posit-dev.github.io/connectapi/reference/browse.md)
+  [`browse_connect()`](https://posit-dev.github.io/connectapi/reference/browse.md)
+  : Browse
+- [`create_random_name()`](https://posit-dev.github.io/connectapi/reference/create_random_name.md)
+  : Create Random Name
+- [`dashboard_url()`](https://posit-dev.github.io/connectapi/reference/dashboard_url.md)
+  : Build a Dashboard URL from a Content Item
+- [`delete_runtime_cache()`](https://posit-dev.github.io/connectapi/reference/delete_runtime_cache.md)
+  : Delete a runtime cache
+
+## R6 classes
+
+Classes representing connect, users, etc.
+
+- [`PositConnect`](https://posit-dev.github.io/connectapi/reference/PositConnect.md)
+  [`Connect`](https://posit-dev.github.io/connectapi/reference/PositConnect.md)
+  : Class representing a Connect API client
+- [`Bundle`](https://posit-dev.github.io/connectapi/reference/Bundle.md)
+  : Bundle
+- [`Task`](https://posit-dev.github.io/connectapi/reference/Task.md) :
+  Task
+- [`ContentTask`](https://posit-dev.github.io/connectapi/reference/ContentTask.md)
+  : ContentTask
+- [`Variant`](https://posit-dev.github.io/connectapi/reference/VariantR6.md)
+  : Variant
+- [`VariantTask`](https://posit-dev.github.io/connectapi/reference/VariantTask.md)
+  : VariantTask
+- [`VariantSchedule`](https://posit-dev.github.io/connectapi/reference/VariantSchedule.md)
+  : VariantSchedule
+- [`Vanity`](https://posit-dev.github.io/connectapi/reference/Vanity.md)
+  : Vanity
+- [`Content`](https://posit-dev.github.io/connectapi/reference/Content.md)
+  : Content
+- [`Environment`](https://posit-dev.github.io/connectapi/reference/EnvironmentR6.md)
+  : Environment

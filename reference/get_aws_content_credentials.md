@@ -1,0 +1,77 @@
+# Obtain AWS credentials for your content.
+
+Obtain AWS credentials for your content.
+
+## Usage
+
+``` r
+get_aws_content_credentials(
+  connect,
+  content_session_token = NULL,
+  audience = NULL
+)
+```
+
+## Arguments
+
+- connect:
+
+  A Connect R6 object.
+
+- content_session_token:
+
+  Optional. The content session token. This token can only be obtained
+  when the content is running on a Connect server. The token identifies
+  the service account integration previously configured by the publisher
+  on the Connect server. Defaults to the value from the environment
+  variable: `CONNECT_CONTENT_SESSION_TOKEN`
+
+- audience:
+
+  Optional. The GUID of an OAuth integration associated with this piece
+  of content.
+
+## Value
+
+The AWS credentials as a list with fields named `access_key_id`,
+`secret_access_key`, `session_token`, and `expiration`.
+
+## Details
+
+Please see
+https://docs.posit.co/connect/user/oauth-integrations/#obtaining-service-account-aws-credentials
+for more information. See the example below of using this function with
+`paws` to access S3. Any library that allows you to pass AWS credentials
+will be able to utilize the credentials returned from this function
+call.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+library(connectapi)
+library(paws)
+
+client <- connect()
+# Pulls the content session token from the environment
+# when deployed into Connect.
+aws_credentials <- get_aws_content_credentials(client)
+
+# Create S3 client with AWS credentials from Connect
+svc <- paws::s3(
+  credentials = list(
+    creds = list(
+      access_key_id = aws_credentials$access_key_id,
+      secret_access_key = aws_credentials$secret_access_key,
+      session_token = aws_credentials$session_token
+    )
+  )
+)
+
+# Get object from S3
+obj <- svc$get_object(
+  Bucket = "my-bucket",
+  Key = "my-data.csv"
+)
+} # }
+```

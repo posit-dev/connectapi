@@ -1,0 +1,111 @@
+# Get usage information for deployed shiny applications
+
+Get usage information for deployed shiny applications
+
+## Usage
+
+``` r
+get_usage_shiny(
+  src,
+  content_guid = NULL,
+  min_data_version = NULL,
+  from = NULL,
+  to = NULL,
+  limit = 500,
+  previous = NULL,
+  nxt = NULL,
+  asc_order = TRUE
+)
+```
+
+## Arguments
+
+- src:
+
+  the source object
+
+- content_guid:
+
+  Filter results by content GUID
+
+- min_data_version:
+
+  Filter by data version. Records with a data version lower than the
+  given value will be excluded from the set of results.
+
+- from:
+
+  The timestamp that starts the time window of interest. Any usage
+  information that ends prior to this timestamp will not be returned.
+  Individual records may contain a starting time that is before this if
+  they end after it or have not finished. Must be of class Date or POSIX
+
+- to:
+
+  The timestamp that ends the time window of interest. Any usage
+  information that starts after this timestamp will not be returned.
+  Individual records may contain an ending time that is after this (or
+  no ending time) if they start before it. Must be of class Date or
+  POSIX
+
+- limit:
+
+  The number of records to return.
+
+- previous:
+
+  Retrieve the previous page of Shiny application usage logs relative to
+  the provided value. This value corresponds to an internal reference
+  within the server and should be sourced from the appropriate attribute
+  within the paging object of a previous response.
+
+- nxt:
+
+  Retrieve the next page of Shiny application usage logs relative to the
+  provided value. This value corresponds to an internal reference within
+  the server and should be sourced from the appropriate attribute within
+  the paging object of a previous response.
+
+- asc_order:
+
+  Defaults to TRUE; Determines if the response records should be listed
+  in ascending or descending order within the response. Ordering is by
+  the started timestamp field.
+
+## Value
+
+A tibble with the following columns:
+
+- `content_guid`: The GUID, in RFC4122 format, of the Shiny application
+  this information pertains to.
+
+- `user_guid`: The GUID, in RFC4122 format, of the user that visited the
+  application.
+
+- `started`: The timestamp, in RFC3339 format, when the user opened the
+  application.
+
+- `ended`: The timestamp, in RFC3339 format, when the user left the
+  application.
+
+- `data_version`: The data version the record was recorded with. The
+  Shiny Application Events section of the Posit Connect Admin Guide
+  explains how to interpret data_version values.
+
+## Details
+
+Please see
+https://docs.posit.co/connect/api/#get-/v1/instrumentation/shiny/usage
+for more information.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+library(connectapi)
+client <- connect()
+
+from <- Sys.Date() - lubridate::days(5)
+get_usage_shiny(client, limit = 20, from = from)
+} # }
+```

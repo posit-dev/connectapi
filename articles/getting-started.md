@@ -1,0 +1,95 @@
+# Getting Started with connectapi
+
+## Connecting
+
+The first thing that you need to accomplish when using the `connectapi`
+is getting connected to your Posit Connect server. This requires the URL
+to your server and an API key. Directions on how to get an API key are
+[here](https://docs.posit.co/connect/user/api-keys/#api-keys).
+
+Once you have your API key, you can create a Connect object in your
+code, like so:
+
+``` r
+library(connectapi)
+client <- connect(
+  server = "http://example.com:3939",
+  api_key = "aihgaahegiahgg"
+)
+```
+
+The alternative is to define a `.Renviron` file, which specifies
+environment variables:
+
+    CONNECT_SERVER=http://example.com:3939
+    CONNECT_API_KEY=aihgaahegiahgg
+
+Then, those can be used in your code:
+
+``` r
+library(connectapi)
+
+# this happens by default if you restart your R session
+readRenviron(".Renviron")
+
+client <- connect()
+```
+
+## Content Management
+
+The `connectapi` package has tools to help programmatically deploy and
+manage content. To get started, you need to use the `rsconnect` package,
+specifically the
+[`rsconnect::writeManifest()`](https://rstudio.github.io/rsconnect/reference/writeManifest.html)
+function, to build a `manifest.json` file for a directory of content
+that you want to deploy.
+
+Once the `manifest.json` file is present, you can reference the
+directory and deploy it directly:
+
+``` r
+bnd <- bundle_dir("./my/directory")
+
+# name must be unique on the server
+# if you do not specify it, a random value will be provided
+content_1 <- client %>%
+  deploy(bnd, name = "my-content", title = "Amazing Report!!")
+```
+
+The content object (`content_1`) includes information about the
+deployment that you just requested. This can be explored with:
+
+``` r
+content_1 %>% poll_task()
+```
+
+Alternatively, you can immediately begin altering the settings of the
+content object while you wait for deployment to complete:
+
+``` r
+content_1 %>%
+  set_thumbnail("https://gph.is/29vyb0s") %>%
+  set_vanity_url("/my_clever_content")
+
+# ensure the vanity URL is set as expected
+content_1 %>%
+  get_vanity_url()
+```
+
+If you have content that already exists and you want to update it, you
+can do so using the content GUID (which you can find within Posit
+Connect in the Info pane).
+
+``` r
+content_2 <- client %>%
+  deploy(bnd, guid = "d78ba9f8-bb57-422e-b164-9ecd8e4c4fd6") %>%
+  poll_task()
+```
+
+You can also use the Posit Connect content GUID to retrieve information
+about existing content (if you want to examine or change settings)
+
+``` r
+content_3 <- client %>%
+  content_item(guid = "96532fbc-725e-441b-9cc6-a5622535241b")
+```

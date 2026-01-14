@@ -9,7 +9,7 @@ ContentTask"><meta property="og:image" content="https://posit-dev.github.io/conn
 
     <a class="navbar-brand me-2" href="../index.html">connectapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.10.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,7 @@ ContentTask"><meta property="og:image" content="https://posit-dev.github.io/conn
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>ContentTask</h1>
-      <small class="dont-index">Source: <a href="https://github.com/posit-dev/connectapi/blob/v0.8.0/R/deploy.R" class="external-link"><code>R/deploy.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/posit-dev/connectapi/blob/main/R/deploy.R" class="external-link"><code>R/deploy.R</code></a></small>
       <div class="d-none name"><code>ContentTask.Rd</code></div>
     </div>
 
@@ -101,13 +101,9 @@ ContentTask"><meta property="og:image" content="https://posit-dev.github.io/conn
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Content" data-id="environment_all"><a href="Content.html#method-environment_all"><code>connectapi::Content$environment_all()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Content" data-id="environment_set"><a href="Content.html#method-environment_set"><code>connectapi::Content$environment_set()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Content" data-id="get_bundles"><a href="Content.html#method-get_bundles"><code>connectapi::Content$get_bundles()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="connectapi" data-topic="Content" data-id="get_connect"><a href="Content.html#method-get_connect"><code>connectapi::Content$get_connect()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="connectapi" data-topic="Content" data-id="get_content"><a href="Content.html#method-get_content"><code>connectapi::Content$get_content()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Content" data-id="get_content_remote"><a href="Content.html#method-get_content_remote"><code>connectapi::Content$get_content_remote()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Content" data-id="get_dashboard_url"><a href="Content.html#method-get_dashboard_url"><code>connectapi::Content$get_dashboard_url()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Content" data-id="get_url"><a href="Content.html#method-get_url"><code>connectapi::Content$get_url()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="connectapi" data-topic="Content" data-id="internal_content"><a href="Content.html#method-internal_content"><code>connectapi::Content$internal_content()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="connectapi" data-topic="Content" data-id="job"><a href="Content.html#method-job"><code>connectapi::Content$job()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Content" data-id="jobs"><a href="Content.html#method-jobs"><code>connectapi::Content$jobs()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Content" data-id="packages"><a href="Content.html#method-packages"><code>connectapi::Content$packages()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Content" data-id="permissions"><a href="Content.html#method-permissions"><code>connectapi::Content$permissions()</code></a></span></li>
@@ -117,6 +113,7 @@ ContentTask"><meta property="og:image" content="https://posit-dev.github.io/conn
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Content" data-id="register_job_kill_order"><a href="Content.html#method-register_job_kill_order"><code>connectapi::Content$register_job_kill_order()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Content" data-id="repo_enable"><a href="Content.html#method-repo_enable"><code>connectapi::Content$repo_enable()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Content" data-id="repo_set"><a href="Content.html#method-repo_set"><code>connectapi::Content$repo_set()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="connectapi" data-topic="Content" data-id="repository"><a href="Content.html#method-repository"><code>connectapi::Content$repository()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Content" data-id="tag_delete"><a href="Content.html#method-tag_delete"><code>connectapi::Content$tag_delete()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Content" data-id="tag_set"><a href="Content.html#method-tag_set"><code>connectapi::Content$tag_set()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="connectapi" data-topic="Content" data-id="tags"><a href="Content.html#method-tags"><code>connectapi::Content$tags()</code></a></span></li>
@@ -219,11 +216,11 @@ ContentTask"><meta property="og:image" content="https://posit-dev.github.io/conn
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Toph Allen, Neal Richardson, Sean Lopp, Cole Arendt, Posit, PBC.</p>
+  <p>Developed by Kara Woo, Toph Allen, Neal Richardson, Sean Lopp, Cole Arendt, Posit, PBC.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

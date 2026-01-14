@@ -13,7 +13,7 @@ desired content."><meta property="og:image" content="https://posit-dev.github.io
 
     <a class="navbar-brand me-2" href="../index.html">connectapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.10.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,7 @@ desired content."><meta property="og:image" content="https://posit-dev.github.io
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Deploy a bundle</h1>
-      <small class="dont-index">Source: <a href="https://github.com/posit-dev/connectapi/blob/v0.8.0/R/deploy.R" class="external-link"><code>R/deploy.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/posit-dev/connectapi/blob/main/R/deploy.R" class="external-link"><code>R/deploy.R</code></a></small>
       <div class="d-none name"><code>deploy.Rd</code></div>
     </div>
 
@@ -120,11 +120,11 @@ for an existing content item.</p>
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p>connectapi::content_update</p>
 <p>Other deployment functions:
-<code><a href="bundle_dir.html">bundle_dir</a>()</code>,
-<code><a href="bundle_path.html">bundle_path</a>()</code>,
-<code><a href="bundle_static.html">bundle_static</a>()</code>,
-<code><a href="download_bundle.html">download_bundle</a>()</code>,
-<code><a href="poll_task.html">poll_task</a>()</code></p></div>
+<code><a href="bundle_dir.html">bundle_dir()</a></code>,
+<code><a href="bundle_path.html">bundle_path()</a></code>,
+<code><a href="bundle_static.html">bundle_static()</a></code>,
+<code><a href="download_bundle.html">download_bundle()</a></code>,
+<code><a href="poll_task.html">poll_task()</a></code></p></div>
     </div>
 
     <div class="section level2">
@@ -138,8 +138,8 @@ for an existing content item.</p>
 <span class="r-in"><span><span class="fu">deploy</span><span class="op">(</span><span class="va">client</span>, <span class="va">bnd</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">client</span> <span class="op">&lt;-</span> <span class="fu"><a href="connect.html">connect</a></span><span class="op">(</span>prefix <span class="op">=</span> <span class="st">"TEST_1"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Defining Connect with server: http://localhost:32768</span>
+<span class="r-in"><span><span class="va">client</span> <span class="op">&lt;-</span> <span class="fu"><a href="connect.html">connect</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Defining Connect with server: http://localhost:3939</span>
 <span class="r-in"><span><span class="va">bnd</span> <span class="op">&lt;-</span> <span class="fu"><a href="bundle_path.html">bundle_path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"tests/testthat/examples/static.tar.gz"</span>, package <span class="op">=</span> <span class="st">"connectapi"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Bundling path </span>
 <span class="r-in"><span><span class="fu">deploy</span><span class="op">(</span><span class="va">client</span>, <span class="va">bnd</span><span class="op">)</span></span></span>
@@ -156,11 +156,11 @@ for an existing content item.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Toph Allen, Neal Richardson, Sean Lopp, Cole Arendt, Posit, PBC.</p>
+  <p>Developed by Kara Woo, Toph Allen, Neal Richardson, Sean Lopp, Cole Arendt, Posit, PBC.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

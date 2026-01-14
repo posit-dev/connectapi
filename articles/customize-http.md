@@ -1,0 +1,122 @@
+# Customize HTTP Requests
+
+Sometimes when using `connectapi`, customizing HTTP requests is
+desirable. For instance, some common use cases are:
+
+- using a custom certificate bundle
+- turn off certificate trust verification (**ONLY FOR TESTING**)
+- setting custom headers
+- using Kerberos (SPNEGO)
+
+This is possible with `connectapi` thanks to the underlying library in
+use, [`httr`](https://httr.r-lib.org/).
+
+## Getting Started
+
+When you initialize a `connectapi` API client, you implicitly create a
+`httr` HTTP client. The `httr` package allows you to configure your HTTP
+requests globally using
+[`httr::set_config()`](https://httr.r-lib.org/reference/set_config.html)
+or in a scoped variant
+[`httr::with_config`](https://httr.r-lib.org/reference/with_config.html).
+We will walk through a few examples below.
+
+### Custom CA Bundle
+
+``` r
+library(httr)
+library(connectapi)
+
+client <- connect()
+
+# notice that TLS verification fails
+get_users(client)
+
+# use a custom Certificate Authority to verify SSL/TLS requests
+httr::set_config(httr::config(cainfo = "/path/to/my.pem"))
+
+# now it should succeed!
+get_users(client)
+```
+
+### Turn Off Certificate Trust Verification - ONLY FOR TESTING
+
+Sometimes when first setting up a server, it is common to use
+self-signed certificates. This is generally bad for reliable
+communication and security (as there is no reason for any computer to
+trust this server as a “self-declared” trustworthy actor).
+
+However, it can be useful while the organization’s Certificate Authority
+(CA) is in the process of issuing a valid certificate, or while a
+certificate is procured from a public CA.
+
+``` r
+# disabling certificate trust (can allow man-in-the-middle attacks, etc.)
+httr::set_config(httr::config(ssl_verifypeer = 0, ssl_verifyhost = 0))
+
+# should work
+client <- connect()
+get_users(client)
+```
+
+You can also do this in a more scoped fashion:
+
+``` r
+httr::with_config(
+  httr::config(ssl_verifypeer = 0, ssl_verifyhost = 0),
+  {
+    client <- connect()
+    get_users(client)
+  }
+)
+```
+
+### Custom Headers, Cookies, Proxy, etc.
+
+`httr` has some helpers for common tasks like
+[`httr::add_headers()`](https://httr.r-lib.org/reference/add_headers.html),
+[`httr::set_cookies()`](https://httr.r-lib.org/reference/set_cookies.html),
+[`httr::use_proxy()`](https://httr.r-lib.org/reference/use_proxy.html),
+etc. Using them is a bit tricky, but can be done by way of the
+`client$httr_config()` function.
+
+Pass any usual `httr` arguments to `client$httr_config()`, and those
+arguments will then be saved and passed to any subsequent `GET`, `PUT`,
+`POST`, `PATCH`, `HEAD`, `DELETE` requests you send with that client.
+
+``` r
+# for instance, to set custom headers (i.e. to get through a proxy)
+client$httr_config(httr::add_headers(MY_MAGIC_HEADER = "value"))
+
+# or to clear sticky cookies if you want to switch nodes in an HA cluster
+client <- connect()
+client$server_settings()$hostname
+client$httr_config(handle = httr::handle(""))
+
+# now you have a chance to get a new host
+client$server_settings()$hostname
+
+# use an outbound proxy
+client$httr_config(httr::use_proxy("http://myproxy.example.com"))
+```
+
+> NOTE: these values are completely overwritten each time you call
+> `client$httr_config()`, so ensure that you pass all desired values at
+> the same time
+
+### Using Kerberos
+
+Suffice it to say that effectively using Kerberos for HTTP is a bit of
+an advanced topic. However, it *is* possible with `httr`.
+
+It is worth noting that today, this interferes with API key
+authentication, which we are hoping to improve in a future release of
+Posit Connect.
+
+``` r
+# disables authentication header that is included by default
+client$using_auth <- FALSE
+
+# use Kerberos authentication mechanism (requires local credential cache)
+client$httr_config(httr::authenticate(":", "", type = "gssnegotiate"))
+```

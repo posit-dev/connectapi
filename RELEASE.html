@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">connectapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.10.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +36,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="logo.svg" class="logo" alt=""><h1>Development and Release Notes</h1>
-      <small class="dont-index">Source: <a href="https://github.com/posit-dev/connectapi/blob/v0.8.0/.github/RELEASE.md" class="external-link"><code>.github/RELEASE.md</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/posit-dev/connectapi/blob/main/.github/RELEASE.md" class="external-link"><code>.github/RELEASE.md</code></a></small>
     </div>
 
 <div id="development-and-release-notes" class="section level1">
@@ -55,27 +55,17 @@
 <li>Similarly with <code>integration-tests.yaml</code>, which is analogous to <code>R-CMD-check</code> but with integration tests too</li>
 </ul><div class="section level3">
 <h3 id="integration-tests">Integration Tests<a class="anchor" aria-label="anchor" href="#integration-tests"></a></h3>
-<p>Integration tests are designed to run the <code>connectapi</code> package against the <em>actual</em> latest version of Connect</p>
-<ul><li>the “test environment” stands up two Connect instances as docker images using the un-exported <code>build_test_env()</code> function</li>
-<li>this <a href="../inst/ci/">uses <code>docker compose</code></a> to build an environment</li>
-<li>we also use some <a href="../R/utils-ci.R">“hacky” utilities</a> to build an initial user and API key for executing</li>
-<li>tests are written in the <code>tests/integration</code> directory
+<p>Integration tests are designed to run the <code>connectapi</code> package against a running instance of Connect</p>
+<ul><li>tests are written in the <code>tests/integration</code> directory
 <ul><li>Each file should be able to be executed independently</li>
 <li>There are occasional dependencies <em>across tests</em> within a file (executed linearly)
 <ul><li>(I know, this is terrible… we made choices for reasons)</li>
 </ul></li>
 <li>We fudge the clean line of unit tests in order to ensure that complex functionalities work as expected without too much time or work</li>
 </ul></li>
-<li>bootstrapping the “integration test” execution happens in <a href="../tests/test-integrated.R">the <code>test-integrated.R</code> script</a>, and keys mostly on the <code>CONNECTAPI_INTEGRATED=true</code> environment variable</li>
-</ul><p>To run integration tests interactively / locally run the following:</p>
-<pre><code><span><span class="fu">connectapi</span><span class="fu">:::</span><span class="fu">build_test_env</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/readRenviron.html" class="external-link">readRenviron</a></span><span class="op">(</span><span class="st">".Renviron"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># or set this in .Renviron yourself</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span><span class="st">"CONNECTAPI_INTEGRATED"</span><span class="op">=</span><span class="st">"true"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># or run R CMD CHECK with that env var set, etc.</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/source.html" class="external-link">source</a></span><span class="op">(</span><span class="st">"tests/test-integrated.R"</span><span class="op">)</span></span></code></pre>
+</ul><p>To run integration tests interactively / locally, install the <a href="https://github.com/nealrichardson/with-connect/blob/dev/README.md" class="external-link">with-connect</a> tool, then run:</p>
+<pre><code>with-connect -e CONNECTAPI_INTEGRATED=true -- Rscript -e source("tests/test-integrated.R")</code></pre>
+<p>This requires a valid license file.</p>
 </div>
 </div>
 </div>
@@ -85,11 +75,11 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Toph Allen, Neal Richardson, Sean Lopp, Cole Arendt, Posit, PBC.</p>
+  <p>Developed by Kara Woo, Toph Allen, Neal Richardson, Sean Lopp, Cole Arendt, Posit, PBC.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

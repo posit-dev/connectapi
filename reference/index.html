@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">connectapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.8.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.10.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,8 +43,7 @@
 
       <div class="section-desc"><p>Package documentation</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -60,8 +59,7 @@
 
       <div class="section-desc"><p>Functions to audit vanity URLs, R versions, etc.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -72,19 +70,22 @@
           <span class="badge lifecycle lifecycle-experimental">experimental</span>
         </dt>
         <dd>Audit Access Controls</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="audit_r_versions.html">audit_r_versions()</a></code>
           <span class="badge lifecycle lifecycle-experimental">experimental</span>
         </dt>
         <dd>Audit R Versions</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="audit_runas.html">audit_runas()</a></code>
           <span class="badge lifecycle lifecycle-experimental">experimental</span>
         </dt>
         <dd>Audit Run As Settings</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_audit_logs.html">get_audit_logs()</a></code>
 
@@ -95,8 +96,7 @@
 
       <div class="section-desc"><p>Functions to work with deployments</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -107,37 +107,43 @@
 
         </dt>
         <dd>Define a bundle from a Directory</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="bundle_path.html">bundle_path()</a></code>
 
         </dt>
         <dd>Define a bundle from a path (a path directly to a tar.gz file)</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="bundle_static.html">bundle_static()</a></code>
 
         </dt>
         <dd>Define a bundle from a static file (or files)</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="Bundle.html">Bundle</a></code>
 
         </dt>
         <dd>Bundle</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="download_bundle.html">download_bundle()</a></code>
 
         </dt>
         <dd>Download a Bundle from Deployed Connect Content</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="deploy.html">deploy()</a></code> <code><a href="deploy.html">deploy_current()</a></code>
 
         </dt>
         <dd>Deploy a bundle</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="poll_task.html">poll_task()</a></code>
 
@@ -148,229 +154,278 @@
 
       <div class="section-desc"><p>Functions to work with content</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
 
       <dl><dt>
 
+          <code><a href="as.data.frame.connect_content_list.html">as.data.frame(<i>&lt;connect_content_list&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Convert content list to a data frame</dd>
+
+        <dt>
+
+          <code><a href="as_tibble.connect_content_list.html">as_tibble(<i>&lt;connect_content_list&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Convert integration list to a tibble</dd>
+
+        <dt>
+
           <code><a href="content_delete.html">content_delete()</a></code>
 
         </dt>
         <dd>Delete Content</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="content_item.html">content_item()</a></code>
 
         </dt>
         <dd>Get Content Item</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="content_list.html">content_list_by_tag()</a></code>
           <span class="badge lifecycle lifecycle-experimental">experimental</span>
         </dt>
         <dd>Content List</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="content_list_with_permissions.html">content_list_with_permissions()</a></code> <code><a href="content_list_with_permissions.html">content_list_guid_has_access()</a></code>
           <span class="badge lifecycle lifecycle-experimental">experimental</span>
         </dt>
         <dd>Get Content List with Permissions</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="content_render.html">content_render()</a></code>
 
         </dt>
         <dd>Render a content item.</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="content_restart.html">content_restart()</a></code>
 
         </dt>
         <dd>Restart a content item.</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="content_title.html">content_title()</a></code>
 
         </dt>
         <dd>Get Content Title</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="content_update.html">content_update()</a></code> <code><a href="content_update.html">content_update_access_type()</a></code> <code><a href="content_update.html">content_update_owner()</a></code>
 
         </dt>
         <dd>Update Content</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_aws_content_credentials.html">get_aws_content_credentials()</a></code>
 
         </dt>
         <dd>Obtain AWS credentials for your content.</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_content.html">get_content()</a></code>
 
         </dt>
         <dd>Get information about content on the Posit Connect server</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_content_packages.html">get_content_packages()</a></code>
 
         </dt>
         <dd>Package dependencies for a content item</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_group_content.html">get_group_content()</a></code>
 
         </dt>
         <dd>Get content access permissions for a group or groups</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_oauth_content_credentials.html">get_oauth_content_credentials()</a></code>
 
         </dt>
         <dd>Perform an OAuth credential exchange to obtain a content-specific OAuth access token.</dd>
-      </dl><dl><dt>
+
+        <dt>
+
+          <code><a href="lock_content.html">lock_content()</a></code> <code><a href="lock_content.html">unlock_content()</a></code>
+
+        </dt>
+        <dd>Lock or Unlock Content</dd>
+
+        <dt>
 
           <code><a href="permissions.html">content_add_user()</a></code> <code><a href="permissions.html">content_add_group()</a></code> <code><a href="permissions.html">content_delete_user()</a></code> <code><a href="permissions.html">content_delete_group()</a></code> <code><a href="permissions.html">get_user_permission()</a></code> <code><a href="permissions.html">get_my_permission()</a></code> <code><a href="permissions.html">get_group_permission()</a></code> <code><a href="permissions.html">get_content_permissions()</a></code>
 
         </dt>
         <dd>Content permissions</dd>
-      </dl><dl><dt>
+
+        <dt>
+
+          <code><a href="search_content.html">search_content()</a></code>
+
+        </dt>
+        <dd>Search for content on the Connect server</dd>
+
+        <dt>
 
           <code><a href="tags.html">get_tags()</a></code> <code><a href="tags.html">get_tag_data()</a></code> <code><a href="tags.html">create_tag()</a></code> <code><a href="tags.html">create_tag_tree()</a></code> <code><a href="tags.html">delete_tag()</a></code> <code><a href="tags.html">get_content_tags()</a></code> <code><a href="tags.html">set_content_tag_tree()</a></code> <code><a href="tags.html">set_content_tags()</a></code> <code><a href="tags.html">filter_tag_tree_id()</a></code> <code><a href="tags.html">filter_tag_tree_chr()</a></code>
 
         </dt>
         <dd>Get all Tags on the server</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="verify_content_name.html">verify_content_name()</a></code>
 
         </dt>
         <dd>Verify Content Name</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_variant_schedule.html">get_variant_schedule()</a></code>
           <span class="badge lifecycle lifecycle-experimental">experimental</span>
         </dt>
         <dd>Get a Variant Schedule</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="variant.html">get_variants()</a></code> <code><a href="variant.html">get_variant()</a></code> <code><a href="variant.html">get_variant_default()</a></code>
           <span class="badge lifecycle lifecycle-experimental">experimental</span>
         </dt>
         <dd>Get Variant</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="variant_render.html">get_variant_renderings()</a></code> <code><a href="variant_render.html">variant_render()</a></code>
           <span class="badge lifecycle lifecycle-experimental">experimental</span>
         </dt>
         <dd>Render a Variant</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="delete_thumbnail.html">delete_thumbnail()</a></code>
 
         </dt>
         <dd>Delete content item thumbnail</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_thumbnail.html">get_thumbnail()</a></code>
 
         </dt>
         <dd>Get content item thumbnail</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="has_thumbnail.html">has_thumbnail()</a></code>
 
         </dt>
         <dd>Check content item thumbnail</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="set_thumbnail.html">set_thumbnail()</a></code>
 
         </dt>
         <dd>Set content item thumbnail</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_image.html">get_image()</a></code> <code><a href="get_image.html">delete_image()</a></code> <code><a href="get_image.html">has_image()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Get the Content Image</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="set_image.html">set_image_path()</a></code> <code><a href="set_image.html">set_image_url()</a></code> <code><a href="set_image.html">set_image_webshot()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Set the Content Image</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="delete_vanity_url.html">delete_vanity_url()</a></code>
 
         </dt>
         <dd>Delete the Vanity URL</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_vanity_url.html">get_vanity_url()</a></code>
 
         </dt>
         <dd>Get the Vanity URL</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_vanity_urls.html">get_vanity_urls()</a></code>
 
         </dt>
         <dd>Get all vanity URLs</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="set_vanity_url.html">set_vanity_url()</a></code>
 
         </dt>
         <dd>Set the Vanity URL</dd>
-      </dl><dl><dt>
 
-          <code><a href="swap_vanity_url.html">swap_vanity_url()</a></code>
-
-        </dt>
-        <dd>Swap Vanity URLs</dd>
-      </dl><dl><dt>
+        <dt>
 
           <code><a href="swap_vanity_urls.html">swap_vanity_urls()</a></code>
 
         </dt>
         <dd>Swap Vanity URLs</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="vanity_is_available.html">vanity_is_available()</a></code>
           <span class="badge lifecycle lifecycle-experimental">experimental</span>
         </dt>
         <dd>Check to see if a vanity URL is currently in use</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="set_schedule.html">set_schedule()</a></code> <code><a href="set_schedule.html">set_schedule_minute()</a></code> <code><a href="set_schedule.html">set_schedule_hour()</a></code> <code><a href="set_schedule.html">set_schedule_day()</a></code> <code><a href="set_schedule.html">set_schedule_weekday()</a></code> <code><a href="set_schedule.html">set_schedule_week()</a></code> <code><a href="set_schedule.html">set_schedule_dayofweek()</a></code> <code><a href="set_schedule.html">set_schedule_semimonth()</a></code> <code><a href="set_schedule.html">set_schedule_dayofmonth()</a></code> <code><a href="set_schedule.html">set_schedule_dayweekofmonth()</a></code> <code><a href="set_schedule.html">set_schedule_year()</a></code> <code><a href="set_schedule.html">set_schedule_remove()</a></code> <code><a href="set_schedule.html">schedule_describe()</a></code>
           <span class="badge lifecycle lifecycle-experimental">experimental</span>
         </dt>
         <dd>Set a Schedule</dd>
-      </dl><dl><dt>
 
-          <code><a href="get_job.html">get_job()</a></code>
-
-        </dt>
-        <dd>Retrieve details about a server process associated with a <code>content_item</code>, such as a FastAPI app or a Quarto render.</dd>
-      </dl><dl><dt>
+        <dt>
 
           <code><a href="get_jobs.html">get_jobs()</a></code> <code><a href="get_jobs.html">get_job_list()</a></code>
 
         </dt>
         <dd>Get Jobs</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="terminate_jobs.html">terminate_jobs()</a></code>
 
         </dt>
         <dd>Terminate Jobs</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="set_run_as.html">set_run_as()</a></code>
 
@@ -381,8 +436,7 @@
 
       <div class="section-desc"><p>Users and groups</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -393,43 +447,50 @@
 
         </dt>
         <dd>Get user information from the Posit Connect server</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="permissions.html">content_add_user()</a></code> <code><a href="permissions.html">content_add_group()</a></code> <code><a href="permissions.html">content_delete_user()</a></code> <code><a href="permissions.html">content_delete_group()</a></code> <code><a href="permissions.html">get_user_permission()</a></code> <code><a href="permissions.html">get_my_permission()</a></code> <code><a href="permissions.html">get_group_permission()</a></code> <code><a href="permissions.html">get_content_permissions()</a></code>
 
         </dt>
         <dd>Content permissions</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="user.html">user_guid_from_username()</a></code>
 
         </dt>
         <dd>User</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="users_create_remote.html">users_create_remote()</a></code>
 
         </dt>
         <dd>Create a Remote User</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_group_content.html">get_group_content()</a></code>
 
         </dt>
         <dd>Get content access permissions for a group or groups</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_group_members.html">get_group_members()</a></code>
 
         </dt>
         <dd>Get users within a specific group</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_groups.html">get_groups()</a></code>
 
         </dt>
         <dd>Get group information from the Posit Connect server</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="groups_create_remote.html">groups_create_remote()</a></code>
 
@@ -440,8 +501,7 @@
 
       <div class="section-desc"><p>Shiny functions</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -457,8 +517,7 @@
 
       <div class="section-desc"><p>Git repository functions</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -469,19 +528,112 @@
           <span class="badge lifecycle lifecycle-experimental">experimental</span>
         </dt>
         <dd>Deploy a Git Repository</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="git.html">repo_check_account()</a></code> <code><a href="git.html">repo_check_branches()</a></code> <code><a href="git.html">repo_check_branches_ref()</a></code> <code><a href="git.html">repo_check_manifest_dirs()</a></code>
           <span class="badge lifecycle lifecycle-experimental">experimental</span>
         </dt>
         <dd>Git Repository Helpers</dd>
       </dl></div><div class="section level2">
+      <h2 id="oauth-integrations">OAuth Integrations<a class="anchor" aria-label="anchor" href="#oauth-integrations"></a></h2>
+
+      <div class="section-desc"><p>Functions to work with OAuth integrations</p></div>
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="as.data.frame.connect_integration_list.html">as.data.frame(<i>&lt;connect_integration_list&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Convert integrations list to a data frame</dd>
+
+        <dt>
+
+          <code><a href="as_integration.html">as_integration()</a></code>
+
+        </dt>
+        <dd>Convert objects to integration class</dd>
+
+        <dt>
+
+          <code><a href="as_tibble.connect_integration_list.html">as_tibble(<i>&lt;connect_integration_list&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Convert integration list to a tibble</dd>
+
+        <dt>
+
+          <code><a href="create_integration.html">create_integration()</a></code>
+
+        </dt>
+        <dd>Create an OAuth integration</dd>
+
+        <dt>
+
+          <code><a href="delete_integration.html">delete_integration()</a></code>
+
+        </dt>
+        <dd>Delete an OAuth integration</dd>
+
+        <dt>
+
+          <code><a href="get_integration.html">get_integration()</a></code>
+
+        </dt>
+        <dd>Get the details of an OAuth integration</dd>
+
+        <dt>
+
+          <code><a href="get_integrations.html">get_integrations()</a></code>
+
+        </dt>
+        <dd>Get OAuth integrations</dd>
+
+        <dt>
+
+          <code><a href="set_integrations.html">set_integrations()</a></code>
+
+        </dt>
+        <dd>Set all OAuth integrations for a content item</dd>
+
+        <dt>
+
+          <code><a href="update_integration.html">update_integration()</a></code>
+
+        </dt>
+        <dd>Update an OAuth integration</dd>
+
+        <dt>
+
+          <code><a href="get_associations.html">get_associations()</a></code>
+
+        </dt>
+        <dd>Get OAuth associations for a piece of content</dd>
+
+        <dt>
+
+          <code><a href="get_oauth_credentials.html">get_oauth_credentials()</a></code>
+
+        </dt>
+        <dd>Perform an OAuth credential exchange to obtain a visitor's OAuth access token.</dd>
+
+        <dt>
+
+          <code><a href="get_oauth_content_credentials.html">get_oauth_content_credentials()</a></code>
+
+        </dt>
+        <dd>Perform an OAuth credential exchange to obtain a content-specific OAuth access token.</dd>
+      </dl></div><div class="section level2">
       <h2 id="reporting">Reporting<a class="anchor" aria-label="anchor" href="#reporting"></a></h2>
 
       <div class="section-desc"><p>Helpers to “get” data out of Connect</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -492,235 +644,278 @@
 
         </dt>
         <dd>Manage Environment Variables</dd>
-      </dl><dl><dt>
+
+        <dt>
+
+          <code><a href="get_associations.html">get_associations()</a></code>
+
+        </dt>
+        <dd>Get OAuth associations for a piece of content</dd>
+
+        <dt>
 
           <code><a href="get_audit_logs.html">get_audit_logs()</a></code>
 
         </dt>
         <dd>Get Audit Logs from Posit Connect Server</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_aws_content_credentials.html">get_aws_content_credentials()</a></code>
 
         </dt>
         <dd>Obtain AWS credentials for your content.</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_aws_credentials.html">get_aws_credentials()</a></code>
 
         </dt>
         <dd>Obtain a visitor's AWS credentials</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_bundles.html">get_bundles()</a></code> <code><a href="get_bundles.html">delete_bundle()</a></code>
 
         </dt>
         <dd>Get Bundles</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_content.html">get_content()</a></code>
 
         </dt>
         <dd>Get information about content on the Posit Connect server</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_content_packages.html">get_content_packages()</a></code>
 
         </dt>
         <dd>Package dependencies for a content item</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_group_content.html">get_group_content()</a></code>
 
         </dt>
         <dd>Get content access permissions for a group or groups</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_group_members.html">get_group_members()</a></code>
 
         </dt>
         <dd>Get users within a specific group</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_groups.html">get_groups()</a></code>
 
         </dt>
         <dd>Get group information from the Posit Connect server</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_image.html">get_image()</a></code> <code><a href="get_image.html">delete_image()</a></code> <code><a href="get_image.html">has_image()</a></code>
           <span class="badge lifecycle lifecycle-deprecated">deprecated</span>
         </dt>
         <dd>Get the Content Image</dd>
-      </dl><dl><dt>
+
+        <dt>
+
+          <code><a href="get_integration.html">get_integration()</a></code>
+
+        </dt>
+        <dd>Get the details of an OAuth integration</dd>
+
+        <dt>
 
           <code><a href="get_integrations.html">get_integrations()</a></code>
 
         </dt>
-        <dd>List all OAuth integrations on the Connect server</dd>
-      </dl><dl><dt>
+        <dd>Get OAuth integrations</dd>
 
-          <code><a href="get_job.html">get_job()</a></code>
-
-        </dt>
-        <dd>Retrieve details about a server process associated with a <code>content_item</code>, such as a FastAPI app or a Quarto render.</dd>
-      </dl><dl><dt>
+        <dt>
 
           <code><a href="get_jobs.html">get_jobs()</a></code> <code><a href="get_jobs.html">get_job_list()</a></code>
 
         </dt>
         <dd>Get Jobs</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_log.html">get_log()</a></code>
 
         </dt>
         <dd>Get Job Log</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_oauth_content_credentials.html">get_oauth_content_credentials()</a></code>
 
         </dt>
         <dd>Perform an OAuth credential exchange to obtain a content-specific OAuth access token.</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_oauth_credentials.html">get_oauth_credentials()</a></code>
 
         </dt>
         <dd>Perform an OAuth credential exchange to obtain a visitor's OAuth access token.</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_packages.html">get_packages()</a></code>
 
         </dt>
         <dd>All package dependencies on the server</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_procs.html">get_procs()</a></code>
           <span class="badge lifecycle lifecycle-experimental">experimental</span>
         </dt>
         <dd>Get Real-Time Process Data</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_runtime_caches.html">get_runtime_caches()</a></code>
 
         </dt>
         <dd>Get runtime caches</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_runtimes.html">get_runtimes()</a></code>
 
         </dt>
         <dd>Get available runtimes on server</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_thumbnail.html">get_thumbnail()</a></code>
 
         </dt>
         <dd>Get content item thumbnail</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_timezones.html">get_timezones()</a></code>
 
         </dt>
         <dd>Get TimeZones</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_usage.html">get_usage()</a></code>
 
         </dt>
         <dd>Get usage information for deployed content</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_usage_shiny.html">get_usage_shiny()</a></code>
 
         </dt>
         <dd>Get usage information for deployed shiny applications</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_usage_static.html">get_usage_static()</a></code>
 
         </dt>
         <dd>Get usage information from deployed static content</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_users.html">get_users()</a></code>
 
         </dt>
         <dd>Get user information from the Posit Connect server</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_vanity_url.html">get_vanity_url()</a></code>
 
         </dt>
         <dd>Get the Vanity URL</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_vanity_urls.html">get_vanity_urls()</a></code>
 
         </dt>
         <dd>Get all vanity URLs</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_variant_schedule.html">get_variant_schedule()</a></code>
           <span class="badge lifecycle lifecycle-experimental">experimental</span>
         </dt>
         <dd>Get a Variant Schedule</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="permissions.html">content_add_user()</a></code> <code><a href="permissions.html">content_add_group()</a></code> <code><a href="permissions.html">content_delete_user()</a></code> <code><a href="permissions.html">content_delete_group()</a></code> <code><a href="permissions.html">get_user_permission()</a></code> <code><a href="permissions.html">get_my_permission()</a></code> <code><a href="permissions.html">get_group_permission()</a></code> <code><a href="permissions.html">get_content_permissions()</a></code>
 
         </dt>
         <dd>Content permissions</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="tags.html">get_tags()</a></code> <code><a href="tags.html">get_tag_data()</a></code> <code><a href="tags.html">create_tag()</a></code> <code><a href="tags.html">create_tag_tree()</a></code> <code><a href="tags.html">delete_tag()</a></code> <code><a href="tags.html">get_content_tags()</a></code> <code><a href="tags.html">set_content_tag_tree()</a></code> <code><a href="tags.html">set_content_tags()</a></code> <code><a href="tags.html">filter_tag_tree_id()</a></code> <code><a href="tags.html">filter_tag_tree_chr()</a></code>
 
         </dt>
         <dd>Get all Tags on the server</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="variant.html">get_variants()</a></code> <code><a href="variant.html">get_variant()</a></code> <code><a href="variant.html">get_variant_default()</a></code>
           <span class="badge lifecycle lifecycle-experimental">experimental</span>
         </dt>
         <dd>Get Variant</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="variant_render.html">get_variant_renderings()</a></code> <code><a href="variant_render.html">variant_render()</a></code>
           <span class="badge lifecycle lifecycle-experimental">experimental</span>
         </dt>
         <dd>Render a Variant</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="as.data.frame.connect_list_hits.html">as.data.frame(<i>&lt;connect_list_hits&gt;</i>)</a></code>
 
         </dt>
         <dd>Convert usage data to a data frame</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="as_tibble.connect_list_hits.html">as_tibble(<i>&lt;connect_list_hits&gt;</i>)</a></code>
 
         </dt>
         <dd>Convert usage data to a tibble</dd>
-      </dl><dl><dt>
 
-          <code><a href="as.data.frame.connect_list_integrations.html">as.data.frame(<i>&lt;connect_list_integrations&gt;</i>)</a></code>
+        <dt>
 
-        </dt>
-        <dd>Convert integrations data to a data frame</dd>
-      </dl><dl><dt>
-
-          <code><a href="as_tibble.connect_list_integrations.html">as_tibble(<i>&lt;connect_list_integrations&gt;</i>)</a></code>
+          <code><a href="as.data.frame.connect_integration_list.html">as.data.frame(<i>&lt;connect_integration_list&gt;</i>)</a></code>
 
         </dt>
-        <dd>Convert integrations data to a tibble</dd>
+        <dd>Convert integrations list to a data frame</dd>
+
+        <dt>
+
+          <code><a href="as_tibble.connect_integration_list.html">as_tibble(<i>&lt;connect_integration_list&gt;</i>)</a></code>
+
+        </dt>
+        <dd>Convert integration list to a tibble</dd>
       </dl></div><div class="section level2">
       <h2 id="other">Other<a class="anchor" aria-label="anchor" href="#other"></a></h2>
 
       <div class="section-desc"><p>Other functions</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -731,43 +926,50 @@
 
         </dt>
         <dd>Promote content from one Connect server to another</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="connect.html">connect()</a></code>
 
         </dt>
         <dd>Create a connection to Posit Connect</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="tbl_connect.html">tbl_connect()</a></code>
           <span class="badge lifecycle lifecycle-experimental">experimental</span>
         </dt>
         <dd>Connect Tibble</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="paging.html">page_cursor()</a></code> <code><a href="paging.html">page_offset()</a></code>
 
         </dt>
         <dd>Paging</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="browse.html">browse_solo()</a></code> <code><a href="browse.html">browse_dashboard()</a></code> <code><a href="browse.html">browse_api_docs()</a></code> <code><a href="browse.html">browse_connect()</a></code>
 
         </dt>
         <dd>Browse</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="create_random_name.html">create_random_name()</a></code>
 
         </dt>
         <dd>Create Random Name</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="dashboard_url.html">dashboard_url()</a></code>
 
         </dt>
         <dd>Build a Dashboard URL from a Content Item</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="delete_runtime_cache.html">delete_runtime_cache()</a></code>
 
@@ -778,8 +980,7 @@
 
       <div class="section-desc"><p>Classes representing connect, users, etc.</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
@@ -790,55 +991,64 @@
 
         </dt>
         <dd>Class representing a Connect API client</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="Bundle.html">Bundle</a></code>
 
         </dt>
         <dd>Bundle</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="Task.html">Task</a></code>
 
         </dt>
         <dd>Task</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="ContentTask.html">ContentTask</a></code>
 
         </dt>
         <dd>ContentTask</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="VariantR6.html">Variant</a></code>
 
         </dt>
         <dd>Variant</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="VariantTask.html">VariantTask</a></code>
 
         </dt>
         <dd>VariantTask</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="VariantSchedule.html">VariantSchedule</a></code>
 
         </dt>
         <dd>VariantSchedule</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="Vanity.html">Vanity</a></code>
 
         </dt>
         <dd>Vanity</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="Content.html">Content</a></code>
 
         </dt>
         <dd>Content</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="EnvironmentR6.html">Environment</a></code>
 
@@ -850,11 +1060,11 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Toph Allen, Neal Richardson, Sean Lopp, Cole Arendt, Posit, PBC.</p>
+  <p>Developed by Kara Woo, Toph Allen, Neal Richardson, Sean Lopp, Cole Arendt, Posit, PBC.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>
