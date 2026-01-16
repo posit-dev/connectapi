@@ -17,7 +17,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/posit-dev/connectapi/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/posit-dev/connectapi/blob/v0.10.0/DESCRIPTION)
 
 Woo K, Allen T, Richardson N, Lopp S, Arendt C (2026). *connectapi:
 Utilities for Interacting with the 'Posit Connect' Server API*. R

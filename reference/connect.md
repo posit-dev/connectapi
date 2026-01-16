@@ -95,6 +95,6 @@ connect()
 #> Defining Connect with server: http://localhost:3939
 #> Posit Connect API Client: 
 #>   Posit Connect Server: http://localhost:3939
-#>   Posit Connect API Key: ***********xKR8
+#>   Posit Connect API Key: ***********5M8y
 #> 
 ```
