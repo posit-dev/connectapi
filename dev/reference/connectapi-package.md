@@ -32,9 +32,11 @@ Useful links:
 
 ## Author
 
-**Maintainer**: Toph Allen <toph@posit.co>
+**Maintainer**: Kara Woo <kara.woo@posit.co>
 
 Authors:
+
+- Toph Allen <toph@posit.co>
 
 - Neal Richardson
 

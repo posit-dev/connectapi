@@ -2,6 +2,10 @@
 
 ## connectapi (development version)
 
+## connectapi 0.10.0
+
+CRAN release: 2026-01-16
+
 - Removed `prefix` argument to
   [`connect()`](https://posit-dev.github.io/connectapi/dev/reference/connect.md)
   function, which was a convenience utility for testing.
