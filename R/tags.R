@@ -472,7 +472,7 @@ tag_tree <- function(.x) {
 }
 
 parse_tags_tbl <- function(x) {
-  parsed_tags <- purrr::map_dfr(
+  parsed_tags <- purrr::list_rbind(purrr::map(
     x,
     ~ {
       out <- tibble::tibble(
@@ -490,7 +490,7 @@ parse_tags_tbl <- function(x) {
 
       return(out)
     }
-  )
+  ))
 
   return(parsed_tags)
 }
