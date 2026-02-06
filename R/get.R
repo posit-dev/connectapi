@@ -1056,11 +1056,7 @@ get_aws_credentials <- function(connect, user_session_token, audience = NULL) {
 #' }
 #'
 #' @export
-get_aws_content_credentials <- function(
-  connect,
-  content_session_token = NULL,
-  audience = NULL
-) {
+get_aws_content_credentials <- function(connect, content_session_token = NULL, audience = NULL) {
   error_if_less_than(connect$version, "2025.03.0")
 
   if (!is.null(audience)) {
