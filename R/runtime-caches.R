@@ -21,7 +21,7 @@
 get_runtime_caches <- function(client) {
   validate_R6_class(client, "Connect")
   res <- client$GET(v1_url("system/caches/runtime"))
-  purrr::map_dfr(res$caches, ~.x)
+  purrr::list_rbind(purrr::map(res$caches, ~ tibble::as_tibble(.x)))
 }
 
 #' Delete a runtime cache

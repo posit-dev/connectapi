@@ -1131,11 +1131,16 @@ get_runtimes <- function(client, runtimes = NULL) {
     }
   }
 
-  purrr::map_dfr(runtimes, function(runtime) {
-    res <- client$GET(paste0("v1/server_settings/", runtime))
-    res_df <- purrr::map_dfr(res$installations, ~ tibble::as_tibble(.))
-    tibble::add_column(res_df, runtime = runtime, .before = 1)
-  })
+  purrr::list_rbind(purrr::map(
+    runtimes,
+    function(runtime) {
+      res <- client$GET(paste0("v1/server_settings/", runtime))
+      res_df <- purrr::list_rbind(
+        purrr::map(res$installations, ~ tibble::as_tibble(.))
+      )
+      tibble::add_column(res_df, runtime = runtime, .before = 1)
+    }
+  ))
 }
 
 #' All package dependencies on the server

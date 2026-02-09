@@ -82,10 +82,10 @@ parse_connectapi_typed <- function(data, ptype, strict = FALSE) {
 }
 
 parse_connectapi <- function(data) {
-  tibble::as_tibble(purrr::map_df(
+  purrr::list_rbind(purrr::map(
     data,
     function(x) {
-      purrr::map(
+      tibble::as_tibble(purrr::map(
         .x = x,
         .f = function(y) {
           if (is.list(y)) {
@@ -100,7 +100,7 @@ parse_connectapi <- function(data) {
           }
           return(prep)
         }
-      )
+      ))
     }
   ))
 }

@@ -149,9 +149,11 @@ get_group_members <- function(src, guid) {
 get_group_content <- function(src, guids) {
   validate_R6_class(src, "Connect")
 
-  purrr::map_dfr(
-    guids,
-    ~ get_one_groups_content(src = src, guid = .x)
+  purrr::list_rbind(
+    purrr::map(
+      guids,
+      ~ get_one_groups_content(src = src, guid = .x)
+    )
   )
 }
 
@@ -172,11 +174,16 @@ get_one_groups_content <- function(src, guid) {
   }
   parsed <- parse_connectapi_typed(res, connectapi_ptypes$group_content)
 
-  permissions_df <- purrr::map_dfr(
-    parsed$permissions,
-    ~ purrr::keep(
-      .x,
-      ~ .x[["principal_guid"]] == guid
+  permissions_df <- purrr::list_rbind(
+    purrr::map(
+      parsed$permissions,
+      ~ tibble::as_tibble(unlist(
+        purrr::keep(
+          .x,
+          ~ .x[["principal_guid"]] == guid
+        ),
+        recursive = FALSE
+      ))
     )
   )
 
