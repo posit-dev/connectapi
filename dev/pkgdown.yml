@@ -7,7 +7,7 @@ articles:
   customize-http: customize-http.html
   getting-started: getting-started.html
   articles/lifecycle-statuses: lifecycle-statuses.html
-last_built: 2026-01-16T17:27Z
+last_built: 2026-02-09T20:13Z
 urls:
   reference: https://posit-dev.github.io/connectapi/reference
   article: https://posit-dev.github.io/connectapi/articles
