@@ -82,29 +82,32 @@ parse_connectapi_typed <- function(data, ptype, strict = FALSE) {
 }
 
 parse_connectapi <- function(data) {
-  purrr::list_rbind(purrr::map(
-    data,
-    function(x) {
-      tibble::as_tibble(purrr::map(
-        .x = x,
-        .f = function(y) {
-          if (is.list(y)) {
-            # empty list object gets null
-            prep <- purrr::pluck(y, .default = NULL)
-          } else {
-            # otherwise NA
-            prep <- purrr::pluck(y, .default = NA)
-          }
-          if (length(prep) > 1) {
-            prep <- list(prep)
-          }
-          return(prep)
+  tibble::as_tibble(
+    purrr::list_rbind(
+      purrr::map(
+        data,
+        function(x) {
+          tibble::as_tibble(purrr::map(
+            .x = x,
+            .f = function(y) {
+              if (is.list(y)) {
+                # empty list object gets null
+                prep <- purrr::pluck(y, .default = NULL)
+              } else {
+                # otherwise NA
+                prep <- purrr::pluck(y, .default = NA)
+              }
+              if (length(prep) > 1) {
+                prep <- list(prep)
+              }
+              return(prep)
+            }
+          ))
         }
-      ))
-    }
-  ))
+      )
+    )
+  )
 }
-
 
 coerce_fsbytes <- function(x, to, ...) {
   if (is.numeric(x)) {
