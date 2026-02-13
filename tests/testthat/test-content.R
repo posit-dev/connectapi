@@ -662,3 +662,99 @@ test_that("lock_content() and unlock_content() error on Connect < 2024.08.0", {
     "ERROR: This feature requires Posit Connect version 2024.08.0 but you are using 2024.07.0."
   )
 })
+
+test_that("content_restart retries if delete fails", {
+  mock_connect <- MockConnect$new("2025.09.0")
+  mock_connect$mock_response(
+    "GET",
+    "v1/content/test-guid",
+    content = list(
+      guid = "test-guid",
+      name = "test-content",
+      title = "Test Content",
+      app_mode = "shiny",
+      content_url = "https://connect.example/content/test-guid/",
+      dashboard_url = "https://connect.example/connect/#/apps/test-guid"
+    )
+  )
+
+  # First PATCH to set the env var (succeeds)
+  mock_connect$mock_response(
+    "PATCH",
+    "v1/content/test-guid/environment",
+    content = list(),
+    status_code = 200L
+  )
+
+  # Second PATCH to delete the env var (fails with 500)
+  mock_connect$mock_response(
+    "PATCH",
+    "v1/content/test-guid/environment",
+    content = list(error = "Internal server error"),
+    status_code = 500L
+  )
+
+  # Third PATCH to delete the env var (retry succeeds)
+  mock_connect$mock_response(
+    "PATCH",
+    "v1/content/test-guid/environment",
+    content = list(),
+    status_code = 200L
+  )
+
+  # Get the content item
+  item <- content_item(mock_connect, "test-guid")
+
+  expect_no_error(content_restart(item))
+  expect_equal(
+    mock_connect$call_log,
+    c(
+      "GET https://connect.example/__api__/v1/content/test-guid",
+      "PATCH https://connect.example/__api__/v1/content/test-guid/environment",
+      "PATCH https://connect.example/__api__/v1/content/test-guid/environment",
+      "PATCH https://connect.example/__api__/v1/content/test-guid/environment"
+    )
+  )
+})
+
+test_that("content_restart doesn't retry if error isn't a 500", {
+  mock_connect <- MockConnect$new("2025.09.0")
+  mock_connect$mock_response(
+    "GET",
+    "v1/content/test-guid",
+    content = list(
+      guid = "test-guid",
+      name = "test-content",
+      title = "Test Content",
+      app_mode = "shiny",
+      content_url = "https://connect.example/content/test-guid/",
+      dashboard_url = "https://connect.example/connect/#/apps/test-guid"
+    )
+  )
+
+  mock_connect$mock_response(
+    "PATCH",
+    "v1/content/test-guid/environment",
+    content = list(),
+    status_code = 200L
+  )
+
+  mock_connect$mock_response(
+    "PATCH",
+    "v1/content/test-guid/environment",
+    content = list(error = "Bad request"),
+    status_code = 400L
+  )
+
+  item <- content_item(mock_connect, "test-guid")
+  expect_warning(content_restart(item))
+  # only 2 PATCHes
+  expect_equal(
+    mock_connect$call_log,
+    c(
+      "GET https://connect.example/__api__/v1/content/test-guid",
+      "PATCH https://connect.example/__api__/v1/content/test-guid/environment",
+      "PATCH https://connect.example/__api__/v1/content/test-guid/environment"
+    )
+  )
+})

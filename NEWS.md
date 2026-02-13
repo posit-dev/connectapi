@@ -1,5 +1,8 @@
 # connectapi (development version)
 
+- Added a single retry to `content_restart()` to more robustly clean up
+  temporary environment variables. (#498)
+
 # connectapi 0.10.0
 
 - Removed `prefix` argument to `connect()` function, which was a convenience utility for testing. (#477)

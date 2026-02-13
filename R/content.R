@@ -1434,7 +1434,38 @@ content_restart <- function(content) {
   # https://rlang.r-lib.org/reference/glue-operators.html#using-glue-syntax-in-packages
   env_var_name <- glue::glue("_CONNECT_RESTART_{unix_epoch_in_seconds}")
   content$environment_set("{env_var_name}" := unix_epoch_in_seconds)
-  content$environment_set("{env_var_name}" := NA)
+  tryCatch(
+    {
+      content$environment_set("{env_var_name}" := NA)
+    },
+    error = function(e) {
+      # we sometimes see the rapid set/unset lead to failures, which leave the
+      # env var in place. If we get a 500 error, wait a second and try one more
+      # time
+      if (grepl("500", conditionMessage(e))) {
+        Sys.sleep(1)
+        tryCatch(
+          content$environment_set("{env_var_name}" := NA),
+          error = function(e) {
+            warning(
+              glue::glue(
+                "Restarted content by setting environment variable {env_var_name}, but was unable to clean it up. See ?set_environment_remove for how to manually remove this variable."
+              ),
+              call. = FALSE
+            )
+          }
+        )
+      } else {
+        warning(
+          glue::glue(
+            "Restarted content by setting environment variable {env_var_name}, but was unable to clean it up. See ?set_environment_remove for how to manually remove this variable."
+          ),
+          call. = FALSE
+        )
+      }
+    }
+  )
+
   # nolint end
   invisible(NULL)
 }
