@@ -1444,9 +1444,24 @@ content_restart <- function(content) {
       # time
       if (grepl("500", conditionMessage(e))) {
         Sys.sleep(1)
-        content$environment_set("{env_var_name}" := NA)
+        tryCatch(
+          content$environment_set("{env_var_name}" := NA),
+          error = function(e) {
+            warning(
+              glue::glue(
+                "Restarted content by setting environment variable {env_var_name}, but was unable to clean it up. See ?set_environment_remove for how to manually remove this variable."
+              ),
+              call. = FALSE
+            )
+          }
+        )
       } else {
-        stop(e)
+        warning(
+          glue::glue(
+            "Restarted content by setting environment variable {env_var_name}, but was unable to clean it up. See ?set_environment_remove for how to manually remove this variable."
+          ),
+          call. = FALSE
+        )
       }
     }
   )

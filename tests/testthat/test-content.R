@@ -747,7 +747,7 @@ test_that("content_restart doesn't retry if error isn't a 500", {
   )
 
   item <- content_item(mock_connect, "test-guid")
-  expect_error(content_restart(item))
+  expect_warning(content_restart(item))
   # only 2 PATCHes
   expect_equal(
     mock_connect$call_log,
