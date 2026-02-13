@@ -2,6 +2,11 @@
 
 ## connectapi (development version)
 
+- Added a single retry to
+  [`content_restart()`](https://posit-dev.github.io/connectapi/dev/reference/content_restart.md)
+  to more robustly clean up temporary environment variables.
+  ([\#498](https://github.com/posit-dev/connectapi/issues/498))
+
 ## connectapi 0.10.0
 
 CRAN release: 2026-01-16
