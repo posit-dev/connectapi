@@ -21,21 +21,29 @@ to the code.
 There are two test suites in the package.
 One contains unit tests and tests that use API mocks, so you can run them without access to a running Connect server.
 
-Run these with:
+Run these in R with:
 
 ```r
 devtools::test()
 ```
 
-A second suite runs integration tests against a live Connect server running locally in Docker.
-This has some additional requirements.
+Or with the provided justfile:
 
-- You need a valid Connect license file (`.lic` file). Place it in the root of the repository as `connect-license.lic`.
-- You need Docker.
-- If you're running on an ARM (non-Intel) Mac, `export DOCKER_DEFAULT_PLATFORM=linux/amd64`
-- Get the [with-connect](https://github.com/posit-dev/with-connect/blob/main/README.md) tool
-- Run them with `CONNECTAPI_INTEGRATED=true R_ENVIRON_USER='' with-connect --license 'connect-license.lic' -- Rscript -e 'source("tests/test-integrated.R")'`
-- Specify a different Connect version with the `--version` command-line argument to `with-connect`, e.g. `--version 2024.06.0`
+```
+just unit-tests
+```
+
+A second suite runs integration tests against a live Connect server running
+locally in Docker. This has some additional requirements. To run these, you need
+a valid Connect license file (`.lic` file). Place it in the root of the
+repository as `connect-license.lic`. You also need Docker installed, and to
+install the [`with-connect` tool](https://github.com/posit-dev/with-connect).
+
+```
+uv tool install git+https://github.com/posit-dev/with-connect.git
+just integration-tests           # uses "release" by default
+just integration-tests 2024.06.0 # use a specific version
+```
 
 ## Fixing typos
 
