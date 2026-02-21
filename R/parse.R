@@ -82,31 +82,18 @@ parse_connectapi_typed <- function(data, ptype, strict = FALSE) {
 }
 
 parse_connectapi <- function(data) {
-  tibble::as_tibble(
-    purrr::list_rbind(
-      purrr::map(
-        data,
-        function(x) {
-          tibble::as_tibble(purrr::map(
-            .x = x,
-            .f = function(y) {
-              if (is.list(y)) {
-                # empty list object gets null
-                prep <- purrr::pluck(y, .default = NULL)
-              } else {
-                # otherwise NA
-                prep <- purrr::pluck(y, .default = NA)
-              }
-              if (length(prep) > 1) {
-                prep <- list(prep)
-              }
-              return(prep)
-            }
-          ))
-        }
-      )
-    )
-  )
+  if (length(data) == 0) return(tibble::tibble())
+
+  all_names <- unique(unlist(lapply(data, names)))
+  cols <- stats::setNames(lapply(all_names, function(nm) {
+    values <- lapply(data, function(row) row[[nm]] %||% NA)
+    if (any(vapply(values, function(v) is.list(v) || length(v) > 1, logical(1)))) {
+      lapply(values, function(v) if (is.list(v)) v else list(v))
+    } else {
+      unlist(values)
+    }
+  }), all_names)
+  tibble::as_tibble(cols)
 }
 
 coerce_fsbytes <- function(x, to, ...) {
