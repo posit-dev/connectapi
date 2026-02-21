@@ -2,6 +2,12 @@
 
 - Added a single retry to `content_restart()` to more robustly clean up
   temporary environment variables. (#498)
+  
+## Breaking changes
+
+- Removed `get_image`, `delete_image`, `has_image`, `set_image_path`,
+  `set_image_url`, `set_image_websthot`, and `Connect$server_settings_r`, all of
+  which were deprecated since version 0.3.1.
 
 # connectapi 0.10.0
 
