@@ -2,6 +2,10 @@
 
 ## connectapi (development version)
 
+- The `activate` argument to `set_schedule_*()` functions is deprecated
+  and no longer has any effect, due to changes in the Connect API. It
+  will be removed in a future release.
+  ([\#500](https://github.com/posit-dev/connectapi/issues/500))
 - Added a single retry to
   [`content_restart()`](https://posit-dev.github.io/connectapi/dev/reference/content_restart.md)
   to more robustly clean up temporary environment variables.
