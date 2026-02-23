@@ -12,19 +12,16 @@ page_offset(client, req, limit = Inf)
 \arguments{
 \item{client}{A Connect client object}
 
-\item{req}{The request that needs to be paged}
+\item{req}{For page_cursor, the output from an initial response to an API
+endpoint that uses cursor-based pagination. For page_offset, a request that
+needs to be paged.}
 
 \item{limit}{A row limit}
 }
 \value{
 The aggregated results from all requests
-
-The aggregated results from all requests
 }
 \description{
-Helper functions that make paging easier in
-the Posit Connect Server API.
-
 Helper functions that make paging easier in
 the Posit Connect Server API.
 }
