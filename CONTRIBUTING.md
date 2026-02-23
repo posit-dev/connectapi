@@ -4,21 +4,46 @@ This outlines how to propose a change to connectapi.
 For more detailed info about contributing to this, and other tidyverse packages, please see the
 [**development contributing guide**](https://rstd.io/tidy-contrib).
 
-## Testing
+## Local development and testing
+
+We recommend using the devtools package when developing connectapi.
+
+```r
+install.packages("devtools")
+```
+
+`devtools::load_all()` will load the current state of the package, simulating a
+user running `library("connectapi")`. Use this when locally trying out changes
+to the code.
+
+### Running tests
 
 There are two test suites in the package.
 One contains unit tests and tests that use API mocks, so you can run them without access to a running Connect server.
-Run these as you would any other R test suite with `devtools::test()`.
 
-A second suite runs integration tests against a live Connect server running locally in Docker.
-This has some additional requirements.
+Run these in R with:
 
-- You need a valid Connect license file (`.lic` file). Place it in the root of the repository as `connect-license.lic`.
-- You need Docker.
-- If you're running on an ARM (non-Intel) Mac, `export DOCKER_DEFAULT_PLATFORM=linux/amd64`
-- Get the [with-connect](https://github.com/nealrichardson/with-connect/blob/dev/README.md) tool
-- Run them with `with-connect -e CONNECTAPI_INTEGRATED=true -- Rscript -e source("tests/test-integrated.R")`
-- Specify a different Connect version with the `--version` command-line argument to `with-connect`, e.g. `--version 2024.06.0`
+```r
+devtools::test()
+```
+
+Or with the provided justfile:
+
+```
+just unit-tests
+```
+
+A second suite runs integration tests against a live Connect server running
+locally in Docker. This has some additional requirements. To run these, you need
+a valid Connect license file (`.lic` file). Place it in the root of the
+repository as `connect-license.lic`. You also need Docker installed, and to
+install the [`with-connect` tool](https://github.com/posit-dev/with-connect).
+
+```
+uv tool install git+https://github.com/posit-dev/with-connect.git
+just integration-tests           # uses "release" by default
+just integration-tests 2024.06.0 # use a specific version
+```
 
 ## Fixing typos
 
