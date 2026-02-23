@@ -194,7 +194,9 @@ get_variant_schedule <- function(variant) {
 #'
 #' @param .schedule A schedule object. As returned by `get_variant_schedule()`
 #' @param email Whether to send emails on this schedule
-#' @param activate Whether to publish the output of this schedule
+#' @param activate `r lifecycle::badge('deprecated')` This parameter no longer
+#'   has any effect due to changes in the Connect API and will be removed in a
+#'   future release.
 #' @param schedule A JSON blob (as a string) describing the schedule. See "More Details"
 #' @param start_time The start time of the schedule
 #' @param n The "number of" iterations
@@ -218,6 +220,11 @@ set_schedule <- function(
   scoped_experimental_silence()
   validate_R6_class(.schedule, "VariantSchedule")
   params <- rlang::list2(...)
+
+  if ("activate" %in% names(params)) {
+    lifecycle::deprecate_warn("0.11.0", "set_schedule(activate)")
+    params$activate <- NULL
+  }
 
   # TODO: check whether this schedule actually exists...
   # TODO: fix capitalization if "day" or "days" or "first" or "n" is provided
@@ -279,12 +286,14 @@ set_schedule_minute <- function(
   email = FALSE,
   timezone = Sys.timezone()
 ) {
+  if (!missing(activate)) {
+    lifecycle::deprecate_warn("0.11.0", "set_schedule_minute(activate)")
+  }
   set_schedule(
     .schedule,
     type = "minute",
     schedule = list(N = n),
     start_time = start_time,
-    activate = activate,
     email = email,
     timezone = timezone
   )
@@ -300,12 +309,14 @@ set_schedule_hour <- function(
   email = FALSE,
   timezone = Sys.timezone()
 ) {
+  if (!missing(activate)) {
+    lifecycle::deprecate_warn("0.11.0", "set_schedule_hour(activate)")
+  }
   set_schedule(
     .schedule,
     type = "hour",
     schedule = list(N = n),
     start_time = start_time,
-    activate = activate,
     email = email,
     timezone = timezone
   )
@@ -321,12 +332,14 @@ set_schedule_day <- function(
   email = FALSE,
   timezone = Sys.timezone()
 ) {
+  if (!missing(activate)) {
+    lifecycle::deprecate_warn("0.11.0", "set_schedule_day(activate)")
+  }
   set_schedule(
     .schedule,
     type = "day",
     schedule = list(N = n),
     start_time = start_time,
-    activate = activate,
     email = email,
     timezone = timezone
   )
@@ -341,12 +354,14 @@ set_schedule_weekday <- function(
   email = FALSE,
   timezone = Sys.timezone()
 ) {
+  if (!missing(activate)) {
+    lifecycle::deprecate_warn("0.11.0", "set_schedule_weekday(activate)")
+  }
   set_schedule(
     .schedule,
     type = "weekday",
     schedule = "{}",
     start_time = start_time,
-    activate = activate,
     email = email,
     timezone = timezone
   )
@@ -362,12 +377,14 @@ set_schedule_week <- function(
   email = FALSE,
   timezone = Sys.timezone()
 ) {
+  if (!missing(activate)) {
+    lifecycle::deprecate_warn("0.11.0", "set_schedule_week(activate)")
+  }
   set_schedule(
     .schedule,
     type = "week",
     schedule = list(N = n),
     start_time = start_time,
-    activate = activate,
     email = email,
     timezone = timezone
   )
@@ -383,12 +400,14 @@ set_schedule_dayofweek <- function(
   email = FALSE,
   timezone = Sys.timezone()
 ) {
+  if (!missing(activate)) {
+    lifecycle::deprecate_warn("0.11.0", "set_schedule_dayofweek(activate)")
+  }
   set_schedule(
     .schedule,
     type = "dayofweek",
     schedule = list(Days = days),
     start_time = start_time,
-    activate = activate,
     email = email,
     timezone = timezone
   )
@@ -404,12 +423,14 @@ set_schedule_semimonth <- function(
   email = FALSE,
   timezone = Sys.timezone()
 ) {
+  if (!missing(activate)) {
+    lifecycle::deprecate_warn("0.11.0", "set_schedule_semimonth(activate)")
+  }
   set_schedule(
     .schedule,
     type = "semimonth",
     schedule = list(First = first),
     start_time = start_time,
-    activate = activate,
     email = email,
     timezone = timezone
   )
@@ -426,12 +447,14 @@ set_schedule_dayofmonth <- function(
   email = FALSE,
   timezone = Sys.timezone()
 ) {
+  if (!missing(activate)) {
+    lifecycle::deprecate_warn("0.11.0", "set_schedule_dayofmonth(activate)")
+  }
   set_schedule(
     .schedule,
     type = "dayofmonth",
     schedule = list(N = n, Day = day),
     start_time = start_time,
-    activate = activate,
     email = email,
     timezone = timezone
   )
@@ -449,12 +472,14 @@ set_schedule_dayweekofmonth <- function(
   email = FALSE,
   timezone = Sys.timezone()
 ) {
+  if (!missing(activate)) {
+    lifecycle::deprecate_warn("0.11.0", "set_schedule_dayweekofmonth(activate)")
+  }
   set_schedule(
     .schedule,
     type = "dayweekofmonth",
     schedule = list(N = n, Day = day, Week = week),
     start_time = start_time,
-    activate = activate,
     email = email,
     timezone = timezone
   )
@@ -470,12 +495,14 @@ set_schedule_year <- function(
   email = FALSE,
   timezone = Sys.timezone()
 ) {
+  if (!missing(activate)) {
+    lifecycle::deprecate_warn("0.11.0", "set_schedule_year(activate)")
+  }
   set_schedule(
     .schedule,
     type = "year",
     schedule = list(N = n),
     start_time = start_time,
-    activate = activate,
     email = email,
     timezone = timezone
   )
