@@ -7,6 +7,13 @@
   to more robustly clean up temporary environment variables.
   ([\#498](https://github.com/posit-dev/connectapi/issues/498))
 
+### Breaking changes
+
+- Removed `get_image`, `delete_image`, `has_image`, `set_image_path`,
+  `set_image_url`, `set_image_websthot`, and
+  `Connect$server_settings_r`, all of which were deprecated since
+  version 0.3.1.
+
 ## connectapi 0.10.0
 
 CRAN release: 2026-01-16
@@ -275,19 +282,13 @@ CRAN release: 2024-11-08
 
 #### Newly deprecated
 
-- [`set_image_path()`](https://posit-dev.github.io/connectapi/dev/reference/set_image.md),
-  [`set_image_url()`](https://posit-dev.github.io/connectapi/dev/reference/set_image.md),
-  and
-  [`set_image_webshot()`](https://posit-dev.github.io/connectapi/dev/reference/set_image.md)
-  have been deprecated and will be removed in a future update. They have
-  been replaced by
+- `set_image_path()`, `set_image_url()`, and `set_image_webshot()` have
+  been deprecated and will be removed in a future update. They have been
+  replaced by
   [`set_thumbnail()`](https://posit-dev.github.io/connectapi/dev/reference/set_thumbnail.md),
   which works both with local file paths and remote URLs to images.
-  Likewise,
-  [`has_image()`](https://posit-dev.github.io/connectapi/dev/reference/get_image.md)
-  and
-  [`delete_image()`](https://posit-dev.github.io/connectapi/dev/reference/get_image.md)
-  have been deprecated in favor of
+  Likewise, `has_image()` and `delete_image()` have been deprecated in
+  favor of
   [`has_thumbnail()`](https://posit-dev.github.io/connectapi/dev/reference/has_thumbnail.md)
   and
   [`delete_thumbnail()`](https://posit-dev.github.io/connectapi/dev/reference/delete_thumbnail.md).
