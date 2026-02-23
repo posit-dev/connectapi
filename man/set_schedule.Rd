@@ -123,7 +123,9 @@ schedule_describe(.schedule)
 
 \item{start_time}{The start time of the schedule}
 
-\item{activate}{Whether to publish the output of this schedule}
+\item{activate}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} This parameter no longer
+has any effect due to changes in the Connect API and will be removed in a
+future release.}
 
 \item{email}{Whether to send emails on this schedule}
 

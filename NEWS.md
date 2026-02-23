@@ -1,5 +1,8 @@
 # connectapi (development version)
 
+- The `activate` argument to `set_schedule_*()` functions is deprecated and
+  no longer has any effect, due to changes in the Connect API. It will be
+  removed in a future release. (#500)
 - Added a single retry to `content_restart()` to more robustly clean up
   temporary environment variables. (#498)
 
