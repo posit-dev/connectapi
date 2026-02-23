@@ -325,6 +325,14 @@ Functions to work with content
   : Check content item thumbnail
 - [`set_thumbnail()`](https://posit-dev.github.io/connectapi/dev/reference/set_thumbnail.md)
   : Set content item thumbnail
+- [`get_image()`](https://posit-dev.github.io/connectapi/dev/reference/get_image.md)
+  [`delete_image()`](https://posit-dev.github.io/connectapi/dev/reference/get_image.md)
+  [`has_image()`](https://posit-dev.github.io/connectapi/dev/reference/get_image.md)
+  **\[deprecated\]** : Get the Content Image
+- [`set_image_path()`](https://posit-dev.github.io/connectapi/dev/reference/set_image.md)
+  [`set_image_url()`](https://posit-dev.github.io/connectapi/dev/reference/set_image.md)
+  [`set_image_webshot()`](https://posit-dev.github.io/connectapi/dev/reference/set_image.md)
+  **\[deprecated\]** : Set the Content Image
 - [`delete_vanity_url()`](https://posit-dev.github.io/connectapi/dev/reference/delete_vanity_url.md)
   : Delete the Vanity URL
 - [`get_vanity_url()`](https://posit-dev.github.io/connectapi/dev/reference/get_vanity_url.md)
@@ -470,6 +478,10 @@ Helpers to “get” data out of Connect
   : Get users within a specific group
 - [`get_groups()`](https://posit-dev.github.io/connectapi/dev/reference/get_groups.md)
   : Get group information from the Posit Connect server
+- [`get_image()`](https://posit-dev.github.io/connectapi/dev/reference/get_image.md)
+  [`delete_image()`](https://posit-dev.github.io/connectapi/dev/reference/get_image.md)
+  [`has_image()`](https://posit-dev.github.io/connectapi/dev/reference/get_image.md)
+  **\[deprecated\]** : Get the Content Image
 - [`get_integration()`](https://posit-dev.github.io/connectapi/dev/reference/get_integration.md)
   : Get the details of an OAuth integration
 - [`get_integrations()`](https://posit-dev.github.io/connectapi/dev/reference/get_integrations.md)

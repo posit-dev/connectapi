@@ -70,6 +70,7 @@
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_group_content.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_group_members.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_groups.html</loc></url>
+<url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_image.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_integration.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_integrations.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/get_jobs.html</loc></url>
@@ -100,6 +101,7 @@
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/poll_task.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/promote.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/search_content.html</loc></url>
+<url><loc>https://posit-dev.github.io/connectapi/dev/reference/set_image.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/set_integrations.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/set_run_as.html</loc></url>
 <url><loc>https://posit-dev.github.io/connectapi/dev/reference/set_schedule.html</loc></url>
