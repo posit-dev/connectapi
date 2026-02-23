@@ -305,3 +305,42 @@ test_that("converts length one list", {
   hm <- ensure_column(tibble::tibble(one = "hi"), NA_list_, "one")
   expect_type(hm$one, "list")
 })
+
+test_that("parse_connectapi handles mixed null/non-null character values", {
+  data <- list(
+    list(guid = "aaa", bundle_id = NULL, name = "first"),
+    list(guid = "bbb", bundle_id = "123", name = "second")
+  )
+
+  result <- parse_connectapi(data)
+  expect_s3_class(result, "tbl_df")
+  expect_equal(nrow(result), 2)
+  expect_type(result$bundle_id, "character")
+  expect_identical(result$bundle_id, c(NA_character_, "123"))
+})
+
+test_that("parse_connectapi handles mixed null/non-null datetime strings", {
+  data <- list(
+    list(guid = "aaa", active_time = NULL),
+    list(guid = "bbb", active_time = "2023-08-22T14:13:14Z")
+  )
+
+  result <- parse_connectapi(data)
+  expect_s3_class(result, "tbl_df")
+  expect_equal(nrow(result), 2)
+  expect_type(result$active_time, "character")
+  expect_identical(result$active_time, c(NA_character_, "2023-08-22T14:13:14Z"))
+})
+
+test_that("parse_connectapi handles mixed null/non-null integer timestamps", {
+  data <- list(
+    list(key = "abc", start_time = 1732573574, end_time = NULL),
+    list(key = "def", start_time = 1732553145, end_time = 1732556770)
+  )
+
+  result <- parse_connectapi(data)
+  expect_s3_class(result, "tbl_df")
+  expect_equal(nrow(result), 2)
+  expect_type(result$end_time, "double")
+  expect_identical(result$end_time, c(NA_real_, 1732556770))
+})

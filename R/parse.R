@@ -81,32 +81,27 @@ parse_connectapi_typed <- function(data, ptype, strict = FALSE) {
   ensure_columns(parse_connectapi(data), ptype, strict)
 }
 
+# Build a tibble column-by-column instead of row-by-row (via list_rbind).
+# This avoids type conflicts when the same field is NULL in some rows and
+# non-NULL in others: NULL -> NA, and unlist() coerces that NA to match the
+# type of the non-null values in the same column. ensure_columns() handles
+# any further type coercion (e.g. character -> POSIXct) after this step.
 parse_connectapi <- function(data) {
-  tibble::as_tibble(
-    purrr::list_rbind(
-      purrr::map(
-        data,
-        function(x) {
-          tibble::as_tibble(purrr::map(
-            .x = x,
-            .f = function(y) {
-              if (is.list(y)) {
-                # empty list object gets null
-                prep <- purrr::pluck(y, .default = NULL)
-              } else {
-                # otherwise NA
-                prep <- purrr::pluck(y, .default = NA)
-              }
-              if (length(prep) > 1) {
-                prep <- list(prep)
-              }
-              return(prep)
-            }
-          ))
-        }
-      )
-    )
-  )
+  if (length(data) == 0) return(tibble::tibble())
+
+  all_names <- unique(unlist(lapply(data, names)))
+  cols <- stats::setNames(lapply(all_names, function(nm) {
+    # NULL / missing fields become NA; unlist() will coerce to the right type
+    values <- lapply(data, function(row) row[[nm]] %||% NA)
+    if (any(vapply(values, function(v) is.list(v) || length(v) > 1, logical(1)))) {
+      # List column: wrap scalars so every element is a list
+      lapply(values, function(v) if (is.list(v)) v else list(v))
+    } else {
+      # Scalar column: simplify to a vector
+      unlist(values)
+    }
+  }), all_names)
+  tibble::as_tibble(cols)
 }
 
 coerce_fsbytes <- function(x, to, ...) {
