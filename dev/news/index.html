@@ -42,7 +42,11 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="connectapi-development-version">connectapi (development version)<a class="anchor" aria-label="anchor" href="#connectapi-development-version"></a></h2>
 <ul><li>Added a single retry to <code><a href="../reference/content_restart.html">content_restart()</a></code> to more robustly clean up temporary environment variables. (<a href="https://github.com/posit-dev/connectapi/issues/498" class="external-link">#498</a>)</li>
+</ul><div class="section level3">
+<h3 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
+<ul><li>Removed <code>get_image</code>, <code>delete_image</code>, <code>has_image</code>, <code>set_image_path</code>, <code>set_image_url</code>, <code>set_image_websthot</code>, and <code>Connect$server_settings_r</code>, all of which were deprecated since version 0.3.1.</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.10.0" id="connectapi-0100">connectapi 0.10.0<a class="anchor" aria-label="anchor" href="#connectapi-0100"></a></h2><p class="text-muted">CRAN release: 2026-01-16</p>
 <ul><li>Removed <code>prefix</code> argument to <code><a href="../reference/connect.html">connect()</a></code> function, which was a convenience utility for testing. (<a href="https://github.com/posit-dev/connectapi/issues/477" class="external-link">#477</a>)</li>
@@ -158,7 +162,7 @@
 <div class="section level4">
 <h4 id="newly-deprecated-0-4-0">Newly deprecated<a class="anchor" aria-label="anchor" href="#newly-deprecated-0-4-0"></a></h4>
 <ul><li>
-<code><a href="../reference/set_image.html">set_image_path()</a></code>, <code><a href="../reference/set_image.html">set_image_url()</a></code>, and <code><a href="../reference/set_image.html">set_image_webshot()</a></code> have been deprecated and will be removed in a future update. They have been replaced by <code><a href="../reference/set_thumbnail.html">set_thumbnail()</a></code>, which works both with local file paths and remote URLs to images. Likewise, <code><a href="../reference/get_image.html">has_image()</a></code> and <code><a href="../reference/get_image.html">delete_image()</a></code> have been deprecated in favor of <code><a href="../reference/has_thumbnail.html">has_thumbnail()</a></code> and <code><a href="../reference/delete_thumbnail.html">delete_thumbnail()</a></code>. (<a href="https://github.com/posit-dev/connectapi/issues/294" class="external-link">#294</a>, <a href="https://github.com/posit-dev/connectapi/issues/304" class="external-link">#304</a>)</li>
+<code>set_image_path()</code>, <code>set_image_url()</code>, and <code>set_image_webshot()</code> have been deprecated and will be removed in a future update. They have been replaced by <code><a href="../reference/set_thumbnail.html">set_thumbnail()</a></code>, which works both with local file paths and remote URLs to images. Likewise, <code>has_image()</code> and <code>delete_image()</code> have been deprecated in favor of <code><a href="../reference/has_thumbnail.html">has_thumbnail()</a></code> and <code><a href="../reference/delete_thumbnail.html">delete_thumbnail()</a></code>. (<a href="https://github.com/posit-dev/connectapi/issues/294" class="external-link">#294</a>, <a href="https://github.com/posit-dev/connectapi/issues/304" class="external-link">#304</a>)</li>
 <li>
 <code>Connect$server_settings_r()</code> has been deprecated in favor of <code>get_runtimes(client, "r")</code>. (<a href="https://github.com/posit-dev/connectapi/issues/311" class="external-link">#311</a>)</li>
 </ul></div>
