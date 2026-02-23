@@ -11,9 +11,3 @@ test_that("server_settings work", {
 
   expect_gt(length(ss), 0)
 })
-
-test_that("server_settings_r work", {
-  ssr <- client$server_settings_r()
-
-  expect_gt(length(ssr$installations), 0)
-})
