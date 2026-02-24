@@ -10,6 +10,9 @@
   [`content_restart()`](https://posit-dev.github.io/connectapi/dev/reference/content_restart.md)
   to more robustly clean up temporary environment variables.
   ([\#498](https://github.com/posit-dev/connectapi/issues/498))
+- Improved performance of
+  [`page_cursor()`](https://posit-dev.github.io/connectapi/dev/reference/paging.md).
+  ([\#501](https://github.com/posit-dev/connectapi/issues/501))
 
 ### Breaking changes
 

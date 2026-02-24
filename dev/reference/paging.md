@@ -3,9 +3,6 @@
 Helper functions that make paging easier in the Posit Connect Server
 API.
 
-Helper functions that make paging easier in the Posit Connect Server
-API.
-
 ## Usage
 
 ``` r
@@ -22,14 +19,14 @@ page_offset(client, req, limit = Inf)
 
 - req:
 
-  The request that needs to be paged
+  For page_cursor, the output from an initial response to an API
+  endpoint that uses cursor-based pagination. For page_offset, a request
+  that needs to be paged.
 
 - limit:
 
   A row limit
 
 ## Value
-
-The aggregated results from all requests
 
 The aggregated results from all requests

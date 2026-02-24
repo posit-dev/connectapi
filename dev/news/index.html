@@ -43,6 +43,7 @@
 <h2 class="pkg-version" data-toc-text="development version" id="connectapi-development-version">connectapi (development version)<a class="anchor" aria-label="anchor" href="#connectapi-development-version"></a></h2>
 <ul><li>The <code>activate</code> argument to <code>set_schedule_*()</code> functions is deprecated and no longer has any effect, due to changes in the Connect API. It will be removed in a future release. (<a href="https://github.com/posit-dev/connectapi/issues/500" class="external-link">#500</a>)</li>
 <li>Added a single retry to <code><a href="../reference/content_restart.html">content_restart()</a></code> to more robustly clean up temporary environment variables. (<a href="https://github.com/posit-dev/connectapi/issues/498" class="external-link">#498</a>)</li>
+<li>Improved performance of <code><a href="../reference/paging.html">page_cursor()</a></code>. (<a href="https://github.com/posit-dev/connectapi/issues/501" class="external-link">#501</a>)</li>
 </ul><div class="section level3">
 <h3 id="breaking-changes-development-version">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-development-version"></a></h3>
 <ul><li>Removed <code>get_image</code>, <code>delete_image</code>, <code>has_image</code>, <code>set_image_path</code>, <code>set_image_url</code>, <code>set_image_websthot</code>, and <code>Connect$server_settings_r</code>, all of which were deprecated since version 0.3.1.</li>
