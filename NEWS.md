@@ -5,6 +5,7 @@
   removed in a future release. (#500)
 - Added a single retry to `content_restart()` to more robustly clean up
   temporary environment variables. (#498)
+- Improved performance of `page_cursor()`. (#501)
   
 ## Breaking changes
 
