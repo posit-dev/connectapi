@@ -6,15 +6,15 @@
 #' @rdname paging
 #'
 #' @param client A Connect client object
-#' @param req The request that needs to be paged
+#' @param req For page_cursor, the output from an initial response to an API
+#'   endpoint that uses cursor-based pagination. For page_offset, a request that
+#'   needs to be paged.
 #' @param limit A row limit
 #'
 #' @return The aggregated results from all requests
 #'
 #' @export
 page_cursor <- function(client, req, limit = Inf) {
-  qreq <- rlang::enquo(req)
-
   prg <- optional_progress_bar(
     format = "downloading page :current (:tick_rate/sec) :elapsedfull",
     total = NA,
@@ -22,36 +22,27 @@ page_cursor <- function(client, req, limit = Inf) {
   )
 
   prg$tick()
-  response <- rlang::eval_tidy(qreq)
+  response <- req
 
-  res <- response$results
-  while (!is.null(response$paging$`next`) && length(res) < limit) {
+  # collect whole pages, then flatten once at the end
+  pages <- list(response$results)
+  n_items <- length(response$results)
+  while (!is.null(response$paging$`next`) && n_items < limit) {
     prg$tick()
 
     next_url <- response$paging$`next`
     response <- client$GET(url = next_url)
 
-    res <- c(res, response$results)
+    pages[[length(pages) + 1L]] <- response$results
+    n_items <- n_items + length(response$results)
   }
-  res <- head(res, n = limit)
-  return(res)
+
+  head(do.call(c, pages), n = limit)
 }
 # TODO: Decide if this `limit = Inf` is helpful or a hack...
 #       it is essentially a "row limit" on paging
 
-#' Paging
-#'
-#' Helper functions that make paging easier in
-#' the Posit Connect Server API.
-#'
 #' @rdname paging
-#'
-#' @param client A Connect client object
-#' @param req The request that needs to be paged
-#' @param limit A row limit
-#'
-#' @return The aggregated results from all requests
-#'
 #' @export
 page_offset <- function(client, req, limit = Inf) {
   qreq <- rlang::enquo(req)
@@ -96,6 +87,7 @@ page_offset <- function(client, req, limit = Inf) {
   # Make sure we never return more than `limit` records
   head(agg_response, limit)
 }
+
 
 optional_progress_bar <- function(...) {
   if (requireNamespace("progress", quietly = TRUE)) {
