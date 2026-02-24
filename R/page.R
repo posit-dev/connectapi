@@ -24,17 +24,18 @@ page_cursor <- function(client, req, limit = Inf) {
   prg$tick()
   response <- req
 
-  res <- response$results
-  while (!is.null(response$paging$`next`) && length(res) < limit) {
+  res <- growable_list()
+  gl_add(res, response$results)
+  while (!is.null(response$paging$`next`) && gl_length(res) < limit) {
     prg$tick()
 
     next_url <- response$paging$`next`
     response <- client$GET(url = next_url)
 
-    res <- c(res, response$results)
+    gl_add(res, response$results)
   }
-  res <- head(res, n = limit)
-  return(res)
+
+  head(gl_as_list(res), n = limit)
 }
 # TODO: Decide if this `limit = Inf` is helpful or a hack...
 #       it is essentially a "row limit" on paging
@@ -83,6 +84,41 @@ page_offset <- function(client, req, limit = Inf) {
   }
   # Make sure we never return more than `limit` records
   head(agg_response, limit)
+}
+
+# Pre-allocated list that doubles in capacity as needed, to avoid copying on
+# every request.
+growable_list <- function(initial_size = 100L) {
+  gl <- new.env(parent = emptyenv())
+  gl$buf <- vector("list", initial_size)
+  gl$n <- 0L
+  gl
+}
+
+# Add items to a pre-allocated list. If the items would exceed the size of the
+# list, increase the list size to double the existing one OR large enough to
+# accommodate all the new items (whichever is larger).
+gl_add <- function(gl, items) {
+  n_new <- length(items)
+  if (n_new == 0L) {
+    return(invisible(gl))
+  }
+  # grow list if we've run out of space
+  if (gl$n + n_new > length(gl$buf)) {
+    new_size <- max(length(gl$buf) * 2L, gl$n + n_new)
+    gl$buf[new_size] <- list(NULL)
+  }
+  gl$buf[seq.int(gl$n + 1L, gl$n + n_new)] <- items
+  gl$n <- gl$n + n_new
+  invisible(gl)
+}
+
+gl_length <- function(gl) {
+  gl$n
+}
+
+gl_as_list <- function(gl) {
+  gl$buf[seq_len(gl$n)]
 }
 
 optional_progress_bar <- function(...) {
