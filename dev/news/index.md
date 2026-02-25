@@ -2,6 +2,8 @@
 
 ## connectapi (development version)
 
+## connectapi 0.11.0
+
 - [`get_usage()`](https://posit-dev.github.io/connectapi/dev/reference/get_usage.md)
   now allows for filtering by content GUID with the `content_guid`
   argument. This is only available on Connect server versions 2026.01
