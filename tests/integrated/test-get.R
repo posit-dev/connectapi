@@ -10,10 +10,7 @@ test_that("get_users works", {
   users <- get_users(client)
 
   expect_s3_class(users, c("tbl_df", "tbl", "data.frame"))
-  expect_equal(
-    purrr::map_chr(vctrs::vec_ptype(users), typeof),
-    purrr::map_chr(vctrs::vec_ptype(connectapi_ptypes$users), typeof)
-  )
+  expect_ptype_equal(users, connectapi_ptypes$users, exact = FALSE)
 
   # Other tests create users, so specifying the exact number here is conditional
   # on the contents of other tests and the order that tests run in.

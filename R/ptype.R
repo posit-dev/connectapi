@@ -15,6 +15,7 @@ connectapi_ptypes <- list(
     "active_time" = NA_datetime_,
     "confirmed" = NA,
     "locked" = NA,
+    "external_id" = NA_character_,
     "guid" = NA_character_
   ),
   groups = tibble::tibble(
