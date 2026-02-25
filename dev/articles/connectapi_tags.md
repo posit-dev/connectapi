@@ -56,7 +56,7 @@ tree_project_1
 
     ## Posit Connect API Client: 
     ##   Posit Connect Server: http://localhost:3939
-    ##   Posit Connect API Key: ***********UVAq
+    ##   Posit Connect API Key: ***********Gd3T
 
 ``` r
 tmp_tags <- get_tags(client)
@@ -74,7 +74,7 @@ tree_project_2
 
     ## Posit Connect API Client: 
     ##   Posit Connect Server: http://localhost:3939
-    ##   Posit Connect API Key: ***********UVAq
+    ##   Posit Connect API Key: ***********Gd3T
 
 ``` r
 tree_audience_1 <- create_tag_tree(client, "DemoAudience", "Sales")
@@ -112,7 +112,7 @@ In order to show how tags work, we need some content to work with.
 bnd <- bundle_static(system.file("logo.png", package = "connectapi"))
 ```
 
-    ## Bundling directory (/tmp/RtmpJ55Q1E/bundledir293844e5ca7e)
+    ## Bundling directory (/tmp/RtmpoLqrPy/bundledir28fe35e06031)
 
 ``` r
 content_1 <- deploy(client, bnd)
@@ -154,9 +154,9 @@ set_content_tag_tree(content_1, "DemoProject", "project_1")
     ##    └── project_1
 
     ## Posit Connect Content Task: 
-    ##   Content GUID: cff87e15-5b45-48e8-94b7-e30ba6fc068d
-    ##   URL: http://localhost:3939/connect/#/apps/cff87e15-5b45-48e8-94b7-e30ba6fc068d
-    ##   Task ID: uGIE1gK5MfYPSaxf
+    ##   Content GUID: c6ef4866-cabd-46bc-b351-89fe1c43a3e5
+    ##   URL: http://localhost:3939/connect/#/apps/c6ef4866-cabd-46bc-b351-89fe1c43a3e5
+    ##   Task ID: a4g9zVCOxepMlSWl
 
 ``` r
 set_content_tags(content_1, all_tags$DemoAudience$Sales)
@@ -169,9 +169,9 @@ set_content_tags(content_1, all_tags$DemoAudience$Sales)
     ##    └── Sales
 
     ## Posit Connect Content Task: 
-    ##   Content GUID: cff87e15-5b45-48e8-94b7-e30ba6fc068d
-    ##   URL: http://localhost:3939/connect/#/apps/cff87e15-5b45-48e8-94b7-e30ba6fc068d
-    ##   Task ID: uGIE1gK5MfYPSaxf
+    ##   Content GUID: c6ef4866-cabd-46bc-b351-89fe1c43a3e5
+    ##   URL: http://localhost:3939/connect/#/apps/c6ef4866-cabd-46bc-b351-89fe1c43a3e5
+    ##   Task ID: a4g9zVCOxepMlSWl
 
 Content 2 is for `project_2` and both Audiences (`Sales` and `Finance`).
 
@@ -192,9 +192,9 @@ set_content_tags(
     ##    └── Finance
 
     ## Posit Connect Content Task: 
-    ##   Content GUID: 711c4447-5318-4373-9b60-d02d49b8bbf3
-    ##   URL: http://localhost:3939/connect/#/apps/711c4447-5318-4373-9b60-d02d49b8bbf3
-    ##   Task ID: xKwdylL22khmjvCo
+    ##   Content GUID: 57a9a36c-2594-40c7-9efd-14c77d8dc5f2
+    ##   URL: http://localhost:3939/connect/#/apps/57a9a36c-2594-40c7-9efd-14c77d8dc5f2
+    ##   Task ID: Q86L1VPItb3uNxvx
 
 ### See the tags associated with content
 
@@ -240,8 +240,8 @@ content_list_by_tag(client, all_tags$DemoAudience$Sales)
     ## # A tibble: 2 × 51
     ##   guid                 name  title description access_type locked locked_message
     ##   <chr>                <chr> <chr> <chr>       <chr>       <lgl>  <chr>         
-    ## 1 711c4447-5318-4373-… pbcy… pbcy… ""          acl         FALSE  ""            
-    ## 2 cff87e15-5b45-48e8-… mwle… mwle… ""          acl         FALSE  ""            
+    ## 1 57a9a36c-2594-40c7-… pbcy… pbcy… ""          acl         FALSE  ""            
+    ## 2 c6ef4866-cabd-46bc-… mwle… mwle… ""          acl         FALSE  ""            
     ## # ℹ 44 more variables: connection_timeout <int>, read_timeout <int>,
     ## #   init_timeout <int>, idle_timeout <int>, max_processes <int>,
     ## #   min_processes <int>, max_conns_per_process <int>, load_factor <dbl>,
@@ -257,7 +257,7 @@ content_list_by_tag(client, all_tags$DemoProject$project_1)
     ## # A tibble: 1 × 51
     ##   guid                 name  title description access_type locked locked_message
     ##   <chr>                <chr> <chr> <chr>       <chr>       <lgl>  <chr>         
-    ## 1 cff87e15-5b45-48e8-… mwle… mwle… ""          acl         FALSE  ""            
+    ## 1 c6ef4866-cabd-46bc-… mwle… mwle… ""          acl         FALSE  ""            
     ## # ℹ 44 more variables: connection_timeout <int>, read_timeout <int>,
     ## #   init_timeout <int>, idle_timeout <int>, max_processes <int>,
     ## #   min_processes <int>, max_conns_per_process <int>, load_factor <dbl>,
@@ -295,7 +295,7 @@ delete_tag(client, latest_tags$DemoProject)
 
     ## Posit Connect API Client: 
     ##   Posit Connect Server: http://localhost:3939
-    ##   Posit Connect API Key: ***********UVAq
+    ##   Posit Connect API Key: ***********Gd3T
 
 ``` r
 delete_tag(client, latest_tags$DemoAudience)
@@ -303,7 +303,7 @@ delete_tag(client, latest_tags$DemoAudience)
 
     ## Posit Connect API Client: 
     ##   Posit Connect Server: http://localhost:3939
-    ##   Posit Connect API Key: ***********UVAq
+    ##   Posit Connect API Key: ***********Gd3T
 
 ``` r
 # TODO: delete content

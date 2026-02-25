@@ -2,6 +2,10 @@
 
 ## connectapi (development version)
 
+- [`get_usage()`](https://posit-dev.github.io/connectapi/dev/reference/get_usage.md)
+  now allows for filtering by content GUID with the `content_guid`
+  argument. This is only available on Connect server versions 2026.01
+  and later.
 - The `activate` argument to `set_schedule_*()` functions is deprecated
   and no longer has any effect, due to changes in the Connect API. It
   will be removed in a future release.

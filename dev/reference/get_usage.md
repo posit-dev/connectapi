@@ -10,7 +10,7 @@ If no date-times are provided, all usage data will be returned.
 ## Usage
 
 ``` r
-get_usage(client, from = NULL, to = NULL)
+get_usage(client, content_guid = NULL, from = NULL, to = NULL)
 ```
 
 ## Arguments
@@ -18,6 +18,12 @@ get_usage(client, from = NULL, to = NULL)
 - client:
 
   A `Connect` R6 client object.
+
+- content_guid:
+
+  Optional. A single content GUID or a character vector of GUIDs to
+  filter results. When multiple GUIDs are provided they are collapsed
+  with `"|"`.
 
 - from:
 
@@ -106,6 +112,9 @@ usage <- get_usage(
   client,
   from = as.POSIXct("2025-05-02 12:40:00", tz = "UTC")
 )
+
+# Fetch usage for a specific content item
+usage <- get_usage(client, content_guid = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
 
 # Fetch all usage
 usage <- get_usage(client)
