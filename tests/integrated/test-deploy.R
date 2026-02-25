@@ -315,10 +315,11 @@ test_that("swap_vanity_urls works", {
   # works with just one vanity url (content_b)
   delete_vanity_url(tmp_content_a)
   expect_null(get_vanity_url(tmp_content_a))
+  set_vanity_url(tmp_content_b, tmp_content_b_name)
 
   swap_res3 <- swap_vanity_urls(tmp_content_a, tmp_content_b)
 
-  expect_identical(swap_res3$content_a, swap_res$content_a)
+  expect_identical(swap_res3$content_a, paste0("/", tmp_content_b_name, "/"))
   expect_null(swap_res3$content_b)
 })
 
