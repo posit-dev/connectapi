@@ -614,8 +614,11 @@ get_usage_static <- function(
 get_usage <- function(client, content_guid = NULL, from = NULL, to = NULL) {
   error_if_less_than(client$version, "2025.04.0")
 
-  if (!is.null(content_guid) && length(content_guid) > 1) {
-    content_guid <- paste0(content_guid, collapse = "|")
+  if (!is.null(content_guid)) {
+    error_if_less_than(client$version, "2026.01.0")
+    if (length(content_guid) > 1) {
+      content_guid <- paste0(content_guid, collapse = "|")
+    }
   }
 
   usage <- client$GET(
