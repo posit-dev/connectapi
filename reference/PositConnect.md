@@ -186,8 +186,6 @@ Other R6 classes:
 
 - [`Connect$vanities()`](#method-Connect-vanities)
 
-- [`Connect$server_settings_r()`](#method-Connect-server_settings_r)
-
 - [`Connect$server_settings()`](#method-Connect-server_settings)
 
 - [`Connect$clone()`](#method-Connect-clone)
@@ -1494,16 +1492,6 @@ Get all vanity URLs
 #### Usage
 
     Connect$vanities()
-
-------------------------------------------------------------------------
-
-### Method `server_settings_r()`
-
-Get R installations.
-
-#### Usage
-
-    Connect$server_settings_r()
 
 ------------------------------------------------------------------------
 

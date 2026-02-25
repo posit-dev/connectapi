@@ -1,6 +1,29 @@
 # Changelog
 
-## connectapi (development version)
+## connectapi 0.11.0
+
+- [`get_usage()`](https://posit-dev.github.io/connectapi/reference/get_usage.md)
+  now allows for filtering by content GUID with the `content_guid`
+  argument. This is only available on Connect server versions 2026.01
+  and later.
+- The `activate` argument to `set_schedule_*()` functions is deprecated
+  and no longer has any effect, due to changes in the Connect API. It
+  will be removed in a future release.
+  ([\#500](https://github.com/posit-dev/connectapi/issues/500))
+- Added a single retry to
+  [`content_restart()`](https://posit-dev.github.io/connectapi/reference/content_restart.md)
+  to more robustly clean up temporary environment variables.
+  ([\#498](https://github.com/posit-dev/connectapi/issues/498))
+- Improved performance of
+  [`page_cursor()`](https://posit-dev.github.io/connectapi/reference/paging.md).
+  ([\#501](https://github.com/posit-dev/connectapi/issues/501))
+
+### Breaking changes
+
+- Removed `get_image`, `delete_image`, `has_image`, `set_image_path`,
+  `set_image_url`, `set_image_websthot`, and
+  `Connect$server_settings_r`, all of which were deprecated since
+  version 0.3.1.
 
 ## connectapi 0.10.0
 
@@ -270,19 +293,13 @@ CRAN release: 2024-11-08
 
 #### Newly deprecated
 
-- [`set_image_path()`](https://posit-dev.github.io/connectapi/reference/set_image.md),
-  [`set_image_url()`](https://posit-dev.github.io/connectapi/reference/set_image.md),
-  and
-  [`set_image_webshot()`](https://posit-dev.github.io/connectapi/reference/set_image.md)
-  have been deprecated and will be removed in a future update. They have
-  been replaced by
+- `set_image_path()`, `set_image_url()`, and `set_image_webshot()` have
+  been deprecated and will be removed in a future update. They have been
+  replaced by
   [`set_thumbnail()`](https://posit-dev.github.io/connectapi/reference/set_thumbnail.md),
   which works both with local file paths and remote URLs to images.
-  Likewise,
-  [`has_image()`](https://posit-dev.github.io/connectapi/reference/get_image.md)
-  and
-  [`delete_image()`](https://posit-dev.github.io/connectapi/reference/get_image.md)
-  have been deprecated in favor of
+  Likewise, `has_image()` and `delete_image()` have been deprecated in
+  favor of
   [`has_thumbnail()`](https://posit-dev.github.io/connectapi/reference/has_thumbnail.md)
   and
   [`delete_thumbnail()`](https://posit-dev.github.io/connectapi/reference/delete_thumbnail.md).

@@ -127,7 +127,8 @@ schedule_describe(.schedule)
 
 - activate:
 
-  Whether to publish the output of this schedule
+  **\[deprecated\]** This parameter no longer has any effect due to
+  changes in the Connect API and will be removed in a future release.
 
 - email:
 

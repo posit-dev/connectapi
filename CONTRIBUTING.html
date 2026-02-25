@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">connectapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.10.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.11.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,26 +36,32 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="logo.svg" class="logo" alt=""><h1>Contributing to connectapi</h1>
-      <small class="dont-index">Source: <a href="https://github.com/posit-dev/connectapi/blob/v0.10.0/.github/CONTRIBUTING.md" class="external-link"><code>.github/CONTRIBUTING.md</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/posit-dev/connectapi/blob/main/CONTRIBUTING.md" class="external-link"><code>CONTRIBUTING.md</code></a></small>
     </div>
 
 <div id="contributing-to-connectapi" class="section level1">
 
 <p>This outlines how to propose a change to connectapi. For more detailed info about contributing to this, and other tidyverse packages, please see the <a href="https://rstd.io/tidy-contrib" class="external-link"><strong>development contributing guide</strong></a>.</p>
 <div class="section level2">
-<h2 id="testing">Testing<a class="anchor" aria-label="anchor" href="#testing"></a></h2>
-<p>There are two test suites in the package. One contains unit tests and tests that use API mocks, so you can run them without access to a running Connect server. Run these as you would any other R test suite with <code>devtools::test()</code>.</p>
-<p>A second suite runs integration tests against a live Connect server running locally in Docker. This has some additional requirements.</p>
-<ul><li>You need a valid Connect license file (<code>.lic</code> file). Place it in the root of the repository as <code>connect-license.lic</code>.</li>
-<li>You need Docker.</li>
-<li>If you’re running on an ARM (non-Intel) Mac, <code>export DOCKER_DEFAULT_PLATFORM=linux/amd64</code>
-</li>
-<li>Get the <a href="https://github.com/nealrichardson/with-connect/blob/dev/README.md" class="external-link">with-connect</a> tool</li>
-<li>Run them with <code>with-connect -e CONNECTAPI_INTEGRATED=true -- Rscript -e source("tests/test-integrated.R")</code>
-</li>
-<li>Specify a different Connect version with the <code>--version</code> command-line argument to <code>with-connect</code>, e.g. <code>--version 2024.06.0</code>
-</li>
-</ul></div>
+<h2 id="local-development-and-testing">Local development and testing<a class="anchor" aria-label="anchor" href="#local-development-and-testing"></a></h2>
+<p>We recommend using the devtools package when developing connectapi.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span></code></pre></div>
+<p><code><a href="https://devtools.r-lib.org/reference/load_all.html" class="external-link">devtools::load_all()</a></code> will load the current state of the package, simulating a user running <code><a href="https://posit-dev.github.io/connectapi/">library("connectapi")</a></code>. Use this when locally trying out changes to the code.</p>
+<div class="section level3">
+<h3 id="running-tests">Running tests<a class="anchor" aria-label="anchor" href="#running-tests"></a></h3>
+<p>There are two test suites in the package. One contains unit tests and tests that use API mocks, so you can run them without access to a running Connect server.</p>
+<p>Run these in R with:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">test</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Or with the provided justfile:</p>
+<pre><code>just unit-tests</code></pre>
+<p>A second suite runs integration tests against a live Connect server running locally in Docker. This has some additional requirements. To run these, you need a valid Connect license file (<code>.lic</code> file). Place it in the root of the repository as <code>connect-license.lic</code>. You also need Docker installed, and to install the <a href="https://github.com/posit-dev/with-connect" class="external-link"><code>with-connect</code> tool</a>.</p>
+<pre><code>uv tool install git+https://github.com/posit-dev/with-connect.git
+just integration-tests           # uses "release" by default
+just integration-tests 2024.06.0 # use a specific version</code></pre>
+</div>
+</div>
 <div class="section level2">
 <h2 id="fixing-typos">Fixing typos<a class="anchor" aria-label="anchor" href="#fixing-typos"></a></h2>
 <p>You can fix typos, spelling mistakes, or grammatical errors in the documentation directly using the GitHub web interface, as long as the changes are made in the <em>source</em> file. This generally means you’ll need to edit <a href="https://roxygen2.r-lib.org/articles/roxygen2.html" class="external-link">roxygen2 comments</a> in an <code>.R</code>, not a <code>.Rd</code> file. You can find the <code>.R</code> file that generates the <code>.Rd</code> by reading the comment in the first line.</p>
@@ -66,9 +72,9 @@
 <div class="section level3">
 <h3 id="pull-request-process">Pull request process<a class="anchor" aria-label="anchor" href="#pull-request-process"></a></h3>
 <ul><li><p>Fork the package and clone onto your computer. If you haven’t done this before, we recommend using <code>usethis::create_from_github("posit-dev/connectapi", fork = TRUE)</code>.</p></li>
-<li><p>Install all development dependencies with <code>devtools::install_dev_deps()</code>, and then make sure the package passes R CMD check by running <code>devtools::check()</code>. If R CMD check doesn’t pass cleanly, it’s a good idea to ask for help before continuing.</p></li>
+<li><p>Install all development dependencies with <code><a href="https://devtools.r-lib.org/reference/install_deps.html" class="external-link">devtools::install_dev_deps()</a></code>, and then make sure the package passes R CMD check by running <code><a href="https://devtools.r-lib.org/reference/check.html" class="external-link">devtools::check()</a></code>. If R CMD check doesn’t pass cleanly, it’s a good idea to ask for help before continuing.</p></li>
 <li><p>Create a Git branch for your pull request (PR). We recommend using <code>usethis::pr_init("brief-description-of-change")</code>.</p></li>
-<li><p>Make your changes, commit to git, and then create a PR by running <code>usethis::pr_push()</code>, and following the prompts in your browser. The title of your PR should briefly describe the change. The body of your PR should contain <code>Fixes #issue-number</code>.</p></li>
+<li><p>Make your changes, commit to git, and then create a PR by running <code><a href="https://usethis.r-lib.org/reference/pull-requests.html" class="external-link">usethis::pr_push()</a></code>, and following the prompts in your browser. The title of your PR should briefly describe the change. The body of your PR should contain <code>Fixes #issue-number</code>.</p></li>
 <li><p>For user-facing changes, add a bullet to the top of <code>NEWS.md</code> (i.e. just below the first header). Follow the style described in <a href="https://style.tidyverse.org/news.html" class="external-link uri">https://style.tidyverse.org/news.html</a>.</p></li>
 </ul></div>
 <div class="section level3">
