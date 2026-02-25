@@ -35,10 +35,7 @@ test_that("users works", {
   expect_type(colnames(users), "character")
   expect_gt(length(colnames(users)), 1)
 
-  expect_equal(
-    purrr::map_chr(vctrs::vec_ptype(users_local), typeof),
-    purrr::map_chr(vctrs::vec_ptype(connectapi_ptypes$users), typeof)
-  )
+  expect_ptype_equal(users_local, connectapi_ptypes$users, exact = FALSE)
 })
 
 test_that("usage_static works", {
