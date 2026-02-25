@@ -466,6 +466,17 @@ with_mock_dir("2025.04.0", {
           "from=2025-04-01T00%3A00%3A01Z&to=2025-04-02T00%3A00%3A01Z"
         )
       )
+    })
+  })
+})
+
+with_mock_dir("2026.01.0", {
+  test_that("content_guid is passed to the hits endpoint", {
+    client <- Connect$new(server = "https://connect.example", api_key = "fake")
+    # $version is loaded lazily, we need it before calling get_usage()
+    client$version
+
+    without_internet({
       expect_GET(
         get_usage(
           client,
