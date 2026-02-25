@@ -466,6 +466,30 @@ with_mock_dir("2025.04.0", {
           "from=2025-04-01T00%3A00%3A01Z&to=2025-04-02T00%3A00%3A01Z"
         )
       )
+      expect_GET(
+        get_usage(
+          client,
+          content_guid = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+        ),
+        paste0(
+          "https://connect.example/__api__/v1/instrumentation/content/hits?",
+          "content_guid=aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+        )
+      )
+      expect_GET(
+        get_usage(
+          client,
+          content_guid = c(
+            "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+            "ffffffff-1111-2222-3333-444444444444"
+          )
+        ),
+        paste0(
+          "https://connect.example/__api__/v1/instrumentation/content/hits?",
+          "content_guid=aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+          "%7Cffffffff-1111-2222-3333-444444444444"
+        )
+      )
     })
   })
 })

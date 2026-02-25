@@ -537,6 +537,9 @@ get_usage_static <- function(
 #' If no date-times are provided, all usage data will be returned.
 #'
 #' @param client A `Connect` R6 client object.
+#' @param content_guid Optional. A single content GUID or a character vector of
+#'   GUIDs to filter results. When multiple GUIDs are provided they are
+#'   collapsed with `"|"`.
 #' @param from Optional date-time (`POSIXct` or `POSIXlt`). Only
 #'   records after this time are returned. If not provided, records
 #'   are returned back to the first record available.
@@ -594,6 +597,9 @@ get_usage_static <- function(
 #'   from = as.POSIXct("2025-05-02 12:40:00", tz = "UTC")
 #' )
 #'
+#' # Fetch usage for a specific content item
+#' usage <- get_usage(client, content_guid = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
+#'
 #' # Fetch all usage
 #' usage <- get_usage(client)
 #'
@@ -605,12 +611,17 @@ get_usage_static <- function(
 #' }
 #'
 #' @export
-get_usage <- function(client, from = NULL, to = NULL) {
+get_usage <- function(client, content_guid = NULL, from = NULL, to = NULL) {
   error_if_less_than(client$version, "2025.04.0")
+
+  if (!is.null(content_guid) && length(content_guid) > 1) {
+    content_guid <- paste0(content_guid, collapse = "|")
+  }
 
   usage <- client$GET(
     v1_url("instrumentation", "content", "hits"),
     query = list(
+      content_guid = content_guid,
       from = make_timestamp(from),
       to = make_timestamp(to)
     )
