@@ -4,10 +4,14 @@
 \alias{get_usage}
 \title{Get usage information for deployed content}
 \usage{
-get_usage(client, from = NULL, to = NULL)
+get_usage(client, content_guid = NULL, from = NULL, to = NULL)
 }
 \arguments{
 \item{client}{A \code{Connect} R6 client object.}
+
+\item{content_guid}{Optional. A single content GUID or a character vector of
+GUIDs to filter results. When multiple GUIDs are provided they are
+collapsed with \code{"|"}.}
 
 \item{from}{Optional date-time (\code{POSIXct} or \code{POSIXlt}). Only
 records after this time are returned. If not provided, records
@@ -76,6 +80,9 @@ usage <- get_usage(
   client,
   from = as.POSIXct("2025-05-02 12:40:00", tz = "UTC")
 )
+
+# Fetch usage for a specific content item
+usage <- get_usage(client, content_guid = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee")
 
 # Fetch all usage
 usage <- get_usage(client)

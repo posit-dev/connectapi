@@ -469,3 +469,38 @@ with_mock_dir("2025.04.0", {
     })
   })
 })
+
+with_mock_dir("2026.01.0", {
+  test_that("content_guid is passed to the hits endpoint", {
+    client <- Connect$new(server = "https://connect.example", api_key = "fake")
+    # $version is loaded lazily, we need it before calling get_usage()
+    client$version
+
+    without_internet({
+      expect_GET(
+        get_usage(
+          client,
+          content_guid = "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+        ),
+        paste0(
+          "https://connect.example/__api__/v1/instrumentation/content/hits?",
+          "content_guid=aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+        )
+      )
+      expect_GET(
+        get_usage(
+          client,
+          content_guid = c(
+            "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+            "ffffffff-1111-2222-3333-444444444444"
+          )
+        ),
+        paste0(
+          "https://connect.example/__api__/v1/instrumentation/content/hits?",
+          "content_guid=aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+          "%7Cffffffff-1111-2222-3333-444444444444"
+        )
+      )
+    })
+  })
+})
