@@ -46,6 +46,11 @@
   content items. (#453)
 - Updated git-backed deployment functions to use v1 APIs (#459)
 
+## Enhancements and fixes
+
+- `get_content()` documentation and type parsing updated to include all
+  fields returned by the API. (#461)
+
 # connectapi 0.8.0
 
 ## Breaking changes
