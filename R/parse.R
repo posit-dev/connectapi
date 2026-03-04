@@ -67,6 +67,10 @@ ensure_column <- function(data, default, name) {
       col <- bit64::as.integer64(col)
     }
 
+    if (is.character(default) && is.integer(col)) {
+      col <- as.character(col)
+    }
+
     if (inherits(default, "list") && !inherits(col, "list")) {
       col <- list(col)
     }

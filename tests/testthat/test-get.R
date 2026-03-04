@@ -388,7 +388,8 @@ with_mock_dir("2025.04.0", {
 
     expect_length(usage, 5)
 
-    # Check first element
+    # Check first element (raw list, before conversion to data.frame).
+    # The id is numeric in the JSON, so it stays numeric in the raw list.
     expect_equal(
       usage[[1]],
       list(
@@ -408,7 +409,7 @@ with_mock_dir("2025.04.0", {
     expect_equal(
       usage_df,
       data.frame(
-        id = c(8966707L, 8966708L, 8967206L, 8967210L, 8966214L),
+        id = c("8966707", "8966708", "8967206", "8967210", "8966214"),
         user_guid = c(NA, NA, NA, NA, "fecbd383"),
         content_guid = c(
           "475618c9",
