@@ -31,7 +31,6 @@ License: MIT + file LICENSE
 URL: https://posit-dev.github.io/connectapi/, https://github.com/posit-dev/connectapi
 BugReports: https://github.com/posit-dev/connectapi/issues
 Imports:
-    bit64,
     fs,
     glue,
     httr,

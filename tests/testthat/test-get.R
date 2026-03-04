@@ -242,19 +242,15 @@ test_that("get_packages() works as expected with current return value", {
       )
     )
   )
-  expect_identical(
-    get_packages(client),
-    tibble::tibble(
-      language = c("python", "python"),
-      language_version = c("3.7.6", "3.7.7"),
-      name = c("absl-py", "absl-py"),
-      version = c("0.12.0", "0.8.1"),
-      hash = c(NA_character_, NA_character_),
-      bundle_id = c("9375", "6623"),
-      content_id = c("4906", "3652"),
-      content_guid = c("9bf33774", "1935b6cb")
-    )
-  )
+  res <- get_packages(client)
+  expect_identical(res$language, c("python", "python"))
+  expect_identical(res$language_version, c("3.7.6", "3.7.7"))
+  expect_identical(res$name, c("absl-py", "absl-py"))
+  expect_identical(res$version, c("0.12.0", "0.8.1"))
+  expect_true(all(is.na(res$hash)))
+  expect_identical(res$bundle_id, c("9375", "6623"))
+  expect_identical(res$content_id, c("4906", "3652"))
+  expect_identical(res$content_guid, c("9bf33774", "1935b6cb"))
 })
 
 test_that("Pagination is wired up correctly for packages method", {
@@ -313,19 +309,15 @@ test_that("get_packages() works as expected with `content_guid` names in API res
     )
   )
 
-  expect_identical(
-    get_packages(client),
-    tibble::tibble(
-      language = c("python", "python"),
-      language_version = c("3.7.6", "3.7.7"),
-      name = c("absl-py", "absl-py"),
-      version = c("0.12.0", "0.8.1"),
-      hash = c(NA_character_, NA_character_),
-      bundle_id = c("9375", "6623"),
-      content_id = c("4906", "3652"),
-      content_guid = c("9bf33774", "1935b6cb")
-    )
-  )
+  res <- get_packages(client)
+  expect_identical(res$language, c("python", "python"))
+  expect_identical(res$language_version, c("3.7.6", "3.7.7"))
+  expect_identical(res$name, c("absl-py", "absl-py"))
+  expect_identical(res$version, c("0.12.0", "0.8.1"))
+  expect_true(all(is.na(res$hash)))
+  expect_identical(res$bundle_id, c("9375", "6623"))
+  expect_identical(res$content_id, c("4906", "3652"))
+  expect_identical(res$content_guid, c("9bf33774", "1935b6cb"))
 })
 
 test_that("get_content only requests vanity URLs for Connect 2024.06.0 and up", {

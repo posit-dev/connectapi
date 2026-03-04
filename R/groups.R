@@ -53,7 +53,7 @@ get_groups <- function(src, page_size = 500, prefix = NULL, limit = Inf) {
     limit = limit
   )
 
-  parse_connectapi_typed(res, connectapi_ptypes$groups)
+  parse_connectapi_typed(res, connectapi_datetime_cols$groups)
 }
 
 #' Get users within a specific group
@@ -172,7 +172,7 @@ get_one_groups_content <- function(src, guid) {
       role = NA_character_
     ))
   }
-  parsed <- parse_connectapi_typed(res, connectapi_ptypes$group_content)
+  parsed <- parse_connectapi_typed(res, connectapi_datetime_cols$group_content)
 
   permissions_df <- purrr::list_rbind(
     purrr::map(
