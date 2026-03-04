@@ -25,7 +25,7 @@ the most recent are returned.}
 A list of usage records. Each record is a list with all elements
 as character strings unless otherwise specified.
 \itemize{
-\item \code{id}: An integer identifier for the hit.
+\item \code{id}: A string identifier for the hit.
 \item \code{user_guid}: The user GUID if the visitor is logged-in, \code{NULL} for
 anonymous hits.
 \item \code{content_guid}: The GUID of the visited content.
