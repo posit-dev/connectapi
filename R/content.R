@@ -788,7 +788,7 @@ get_jobs <- function(content) {
   validate_R6_class(content, "Content")
 
   jobs <- content$jobs()
-  parse_connectapi_typed(jobs, connectapi_ptypes$jobs, strict = TRUE)
+  parse_connectapi_typed(jobs, connectapi_datetime_cols$jobs)
 }
 
 #' Terminate Jobs
@@ -832,7 +832,7 @@ terminate_jobs <- function(content, keys = NULL) {
     keys <- all_jobs[all_jobs$status == 0, ]$key
     if (length(keys) == 0) {
       message("No active jobs found.")
-      return(vctrs::vec_ptype(connectapi_ptypes$job_termination))
+      return(tibble::tibble())
     }
   }
 
@@ -841,8 +841,7 @@ terminate_jobs <- function(content, keys = NULL) {
   res_df <- tibble::tibble(
     parse_connectapi_typed(
       res_content,
-      connectapi_ptypes$job_termination,
-      strict = TRUE
+      connectapi_datetime_cols$job_termination
     )
   )
   # Errors will not have the job_key.
@@ -896,7 +895,7 @@ get_log <- function(job, max_log_lines = NULL) {
     v1_url("content", job$app_guid, "jobs", job$key, "log"),
     query = query
   )
-  parse_connectapi_typed(res$entries, connectapi_ptypes$job_log)
+  parse_connectapi_typed(res$entries, connectapi_datetime_cols$job_log)
 }
 
 #' Set RunAs User
@@ -1141,7 +1140,7 @@ get_bundles <- function(content) {
   validate_R6_class(content, "Content")
   bundles <- content$get_bundles()
 
-  parse_connectapi_typed(bundles, connectapi_ptypes$bundles)
+  parse_connectapi_typed(bundles, connectapi_datetime_cols$bundles)
 }
 
 #' @rdname get_bundles
@@ -1347,7 +1346,7 @@ get_group_permission <- function(content, guid) {
 get_content_permissions <- function(content, add_owner = TRUE) {
   validate_R6_class(content, "Content")
   res <- content$permissions(add_owner = add_owner)
-  parse_connectapi_typed(res, connectapi_ptypes$permissions)
+  parse_connectapi_typed(res, connectapi_datetime_cols$permissions)
 }
 
 #' Render a content item.
@@ -1495,7 +1494,7 @@ content_restart <- function(content) {
 get_content_packages <- function(content) {
   error_if_less_than(content$connect$version, "2025.01.0")
   res <- content$packages()
-  parse_connectapi_typed(res, connectapi_ptypes$content_packages)
+  parse_connectapi_typed(res, connectapi_datetime_cols$content_packages)
 }
 
 #' Search for content on the Connect server
@@ -1627,5 +1626,5 @@ as.data.frame.connect_content_list <- function(
 #' @export
 as_tibble.connect_content_list <- function(x, ...) {
   content_data <- purrr::map(x, "content")
-  parse_connectapi_typed(content_data, connectapi_ptypes$content)
+  parse_connectapi_typed(content_data, connectapi_datetime_cols$content)
 }

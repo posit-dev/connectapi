@@ -1,11 +1,7 @@
-expect_ptype_equal <- function(actual, expected, exact = TRUE) {
-  if (!exact) {
-    # Keep only the columns from each that are in the other
-    shared_names <- intersect(names(actual), names(expected))
-    actual <- actual[, shared_names]
-    expected <- expected[, shared_names]
+expect_datetime_cols <- function(actual, datetime_cols) {
+  for (col in intersect(datetime_cols, names(actual))) {
+    expect_s3_class(actual[[col]], "POSIXct", info = paste("Column:", col))
   }
-  expect_equal(vctrs::vec_ptype(actual), vctrs::vec_ptype(expected))
 }
 
 skip_if_connect_older_than <- function(client, version) {

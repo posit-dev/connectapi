@@ -73,7 +73,7 @@ get_users <- function(
     limit = limit
   )
 
-  out <- parse_connectapi_typed(res, connectapi_ptypes$users)
+  out <- parse_connectapi_typed(res, connectapi_datetime_cols$users)
 
   return(out)
 }
@@ -229,12 +229,8 @@ get_content <- function(
   # v2024.06.0.
   if (compare_connect_version(src$version, "2024.06.0") < 0) {
     include <- "tags,owner"
-    content_ptype <- connectapi_ptypes$content[,
-      names(connectapi_ptypes$content) != "vanity_url"
-    ]
   } else {
     include <- "tags,owner,vanity_url"
-    content_ptype <- connectapi_ptypes$content
   }
 
   res <- src$content(
@@ -253,7 +249,7 @@ get_content <- function(
     res <- res %>% purrr::keep(.p = .p)
   }
 
-  out <- parse_connectapi_typed(res, content_ptype)
+  out <- parse_connectapi_typed(res, connectapi_datetime_cols$content)
 
   return(out)
 }
@@ -327,7 +323,7 @@ content_list_by_tag <- function(src, tag) {
 
   res <- src$GET(v1_url("tags", tag_id, "content"))
 
-  out <- parse_connectapi_typed(res, connectapi_ptypes$content)
+  out <- parse_connectapi_typed(res, connectapi_datetime_cols$content)
   return(out)
 }
 
@@ -425,7 +421,7 @@ get_usage_shiny <- function(
 
   res <- page_cursor(src, res, limit = limit)
 
-  out <- parse_connectapi_typed(res, connectapi_ptypes$usage_shiny)
+  out <- parse_connectapi_typed(res, connectapi_datetime_cols$usage_shiny)
 
   return(out)
 }
@@ -521,7 +517,7 @@ get_usage_static <- function(
 
   res <- page_cursor(src, res, limit = limit)
 
-  out <- parse_connectapi_typed(res, connectapi_ptypes$usage_static)
+  out <- parse_connectapi_typed(res, connectapi_datetime_cols$usage_static)
 
   return(out)
 }
@@ -658,7 +654,7 @@ as.data.frame.connect_list_hits <- function(
   ...,
   unnest = TRUE
 ) {
-  usage_df <- parse_connectapi_typed(x, connectapi_ptypes$usage)
+  usage_df <- parse_connectapi_typed(x, connectapi_datetime_cols$usage)
   if (unnest) {
     if (!requireNamespace("tidyr", quietly = TRUE)) {
       stop(
@@ -750,7 +746,7 @@ get_audit_logs <- function(
 
   res <- page_cursor(src, res, limit = limit)
 
-  out <- parse_connectapi_typed(res, connectapi_ptypes$audit_logs)
+  out <- parse_connectapi_typed(res, connectapi_datetime_cols$audit_logs)
 
   return(out)
 }
@@ -792,7 +788,7 @@ get_procs <- function(src) {
       c(list(pid = y), x)
     }
   )
-  tbl_data <- parse_connectapi_typed(proc_prep, connectapi_ptypes$procs)
+  tbl_data <- parse_connectapi_typed(proc_prep, connectapi_datetime_cols$procs)
 
   return(tbl_data)
 }
@@ -1203,7 +1199,7 @@ get_packages <- function(src, name = NULL, page_size = 100000, limit = Inf) {
       page_size = page_size
     )
   )
-  out <- parse_connectapi_typed(res, connectapi_ptypes$packages)
+  out <- parse_connectapi_typed(res, connectapi_datetime_cols$packages)
 
   # Connect is standardizing on using `content_id` and `content_guid`.
   # Handle that name change now in a forward-compatible way.
@@ -1239,5 +1235,5 @@ get_packages <- function(src, name = NULL, page_size = 100000, limit = Inf) {
 #' @export
 get_vanity_urls <- function(client) {
   res <- client$vanities()
-  parse_connectapi_typed(res, connectapi_ptypes$vanities)
+  parse_connectapi_typed(res, connectapi_datetime_cols$vanities)
 }

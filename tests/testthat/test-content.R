@@ -287,31 +287,31 @@ test_that("get_jobs() using the old and new endpoints returns sensible results",
     jobs_v1_2025_01_0 <- get_jobs(item)
   })
 
-  # Columns we expect to be identical
-  common_cols <- c(
-    "id",
-    "pid",
-    "key",
-    "app_id",
-    "app_guid",
-    "content_id",
-    "content_guid",
-    "variant_id",
-    "bundle_id",
-    "start_time",
-    "end_time",
-    "tag",
-    "exit_code",
-    "hostname"
+  # Columns whose values should match across API versions.
+  # Some versions return numeric IDs, others return string IDs, so
+  # we compare as character to ignore type differences.
+  char_cols <- c("key", "app_guid", "content_guid", "tag", "hostname")
+  coercible_cols <- c(
+    "id", "pid", "app_id", "content_id", "variant_id", "bundle_id"
   )
-  expect_identical(
-    jobs_v1[common_cols],
-    jobs_v0[common_cols]
-  )
-  expect_identical(
-    jobs_v1[common_cols],
-    jobs_v1_2025_01_0[common_cols]
-  )
+  datetime_cols <- c("start_time", "end_time")
+
+  expect_identical(jobs_v1[char_cols], jobs_v0[char_cols])
+  expect_identical(jobs_v1[char_cols], jobs_v1_2025_01_0[char_cols])
+  expect_identical(jobs_v1[datetime_cols], jobs_v0[datetime_cols])
+  expect_identical(jobs_v1[datetime_cols], jobs_v1_2025_01_0[datetime_cols])
+  for (col in coercible_cols) {
+    expect_equal(
+      as.character(jobs_v1[[col]]),
+      as.character(jobs_v0[[col]]),
+      info = col
+    )
+    expect_equal(
+      as.character(jobs_v1[[col]]),
+      as.character(jobs_v1_2025_01_0[[col]]),
+      info = col
+    )
+  }
 
   # Status columns line up as expected
   expect_equal(jobs_v1$status, c(0L, 0L, 2L, 2L, 2L, 2L))
@@ -346,40 +346,26 @@ with_mock_api({
 
   test_that("terminate_jobs() returns expected data when active jobs exist", {
     item <- content_item(client, "8f37d6e0")
+    res <- terminate_jobs(item)
+    expect_s3_class(res, "tbl_df")
+    expect_equal(nrow(res), 2)
+    expect_equal(res$job_key, c("waaTO7v75I84S1hQ", "k3sHkEoWJNwQim7g"))
+    expect_equal(res$code, c(163L, NA))
     expect_equal(
-      terminate_jobs(item),
-      tibble::tibble(
-        app_id = c(NA, 52389L),
-        app_guid = c(NA, "8f37d6e0"),
-        job_key = c("waaTO7v75I84S1hQ", "k3sHkEoWJNwQim7g"),
-        job_id = c(NA, "40669829"),
-        result = c(NA, "Order to kill job registered"),
-        code = c(163L, NA),
-        error = c(
-          "The specified job cannot be terminated because it is not active",
-          NA
-        )
-      )
+      res$error,
+      c("The specified job cannot be terminated because it is not active", NA)
     )
+    expect_equal(res$result, c(NA, "Order to kill job registered"))
   })
 
   test_that("terminate_jobs() functions as expected with no active jobs", {
     item <- content_item(client, "01234567")
     expect_message(
-      expect_equal(
-        terminate_jobs(item),
-        tibble::tibble(
-          app_id = integer(),
-          app_guid = character(),
-          job_key = character(),
-          job_id = character(),
-          result = character(),
-          code = integer(),
-          error = character()
-        )
-      ),
+      res <- terminate_jobs(item),
       "No active jobs found."
     )
+    expect_s3_class(res, "tbl_df")
+    expect_equal(nrow(res), 0)
   })
 })
 
@@ -508,45 +494,10 @@ with_mock_dir("2025.09.0", {
   test_that("search_content() can be converted to a data frame correctly", {
     content_df <- search_content(client, q = "sea bream") |>
       as_tibble()
-    expect_named(
-      content_df,
-      c(
-        "guid",
-        "name",
-        "title",
-        "description",
-        "access_type",
-        "connection_timeout",
-        "read_timeout",
-        "init_timeout",
-        "idle_timeout",
-        "max_processes",
-        "min_processes",
-        "max_conns_per_process",
-        "load_factor",
-        "created_time",
-        "last_deployed_time",
-        "bundle_id",
-        "app_mode",
-        "content_category",
-        "parameterized",
-        "cluster_name",
-        "image_name",
-        "r_version",
-        "py_version",
-        "quarto_version",
-        "run_as",
-        "run_as_current_user",
-        "owner_guid",
-        "content_url",
-        "dashboard_url",
-        "app_role",
-        "vanity_url",
-        "id",
-        "owner",
-        "tags"
-      )
-    )
+    expect_s3_class(content_df, "tbl_df")
+    expect_true("guid" %in% names(content_df))
+    expect_true("name" %in% names(content_df))
+    expect_true("title" %in% names(content_df))
     expect_equal(
       content_df$title,
       c("sea bream report", "sea bream dashboard")

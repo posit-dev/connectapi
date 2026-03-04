@@ -35,7 +35,7 @@ test_that("users works", {
   expect_type(colnames(users), "character")
   expect_gt(length(colnames(users)), 1)
 
-  expect_ptype_equal(users_local, connectapi_ptypes$users, exact = FALSE)
+  expect_datetime_cols(users_local, connectapi_datetime_cols$users)
 })
 
 test_that("usage_static works", {
@@ -49,12 +49,7 @@ test_that("usage_static works", {
   expect_type(colnames(content_visits), "character")
   expect_gt(length(colnames(content_visits)), 1)
 
-  # path was added in 2024
-  expect_ptype_equal(
-    content_visits_local,
-    connectapi_ptypes$usage_static,
-    exact = FALSE
-  )
+  expect_datetime_cols(content_visits_local, connectapi_datetime_cols$usage_static)
 })
 
 test_that("usage_shiny works", {
@@ -68,7 +63,7 @@ test_that("usage_shiny works", {
   expect_type(colnames(shiny_usage), "character")
   expect_gt(length(colnames(shiny_usage)), 1)
 
-  expect_ptype_equal(shiny_usage_local, connectapi_ptypes$usage_shiny)
+  expect_datetime_cols(shiny_usage_local, connectapi_datetime_cols$usage_shiny)
 })
 
 test_that("content works", {
@@ -83,13 +78,7 @@ test_that("content works", {
   expect_type(colnames(content_list), "character")
   expect_gt(length(colnames(content_list)), 1)
 
-  # various attributes have been added over the years, so exact match
-  # doesn't work against all versions of Connect
-  expect_ptype_equal(
-    content_list_local,
-    connectapi_ptypes$content,
-    exact = FALSE
-  )
+  expect_datetime_cols(content_list_local, connectapi_datetime_cols$content)
 })
 
 test_that("groups works", {
@@ -103,8 +92,6 @@ test_that("groups works", {
   expect_true(is.na(nrow(groups_list)))
   expect_type(colnames(groups_list), "character")
   expect_gt(length(colnames(groups_list)), 1)
-
-  expect_ptype_equal(groups_list_local, connectapi_ptypes$groups, exact = FALSE)
 })
 
 test_that("audit_logs works", {
@@ -119,7 +106,6 @@ test_that("audit_logs works", {
   expect_type(colnames(audit_list), "character")
   expect_gt(length(colnames(audit_list)), 1)
 
-  # This is different on older versions, not sure it's worth worrying about how
   skip_if_connect_older_than(client, "2022.09.0")
-  expect_ptype_equal(audit_list_local, connectapi_ptypes$audit_logs)
+  expect_datetime_cols(audit_list_local, connectapi_datetime_cols$audit_logs)
 })

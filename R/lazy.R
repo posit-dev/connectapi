@@ -37,8 +37,7 @@ tbl_connect <- function(
 
   from <- arg_match(from)
 
-  # TODO: go get the vars we should expect...
-  vars <- connectapi_ptypes[[from]]
+  vars <- connectapi_lazy_cols[[from]]
   if (is.null(vars)) vars <- character()
 
   # TODO: figure out number of rows...
@@ -81,7 +80,7 @@ api_build.op_base_connect <- function(op, con, ..., n) {
   } else {
     stop(glue::glue("'{op$x}' is not recognized"))
   }
-  parse_connectapi_typed(res, op$ptype)
+  parse_connectapi_typed(res, connectapi_datetime_cols[[op$x]])
 }
 
 cat_line <- function(...) {
@@ -124,13 +123,12 @@ op_base_connect <- function(x, vars) {
 }
 
 op_base <- function(x, vars, class = character()) {
-  stopifnot(is.character(vars) || is.character(names(vars)))
+  stopifnot(is.character(vars))
 
   structure(
     list(
       x = x,
-      vars = names(vars),
-      ptype = vars
+      vars = vars
     ),
     class = c(paste0("op_base_", class), "op_base", "op")
   )

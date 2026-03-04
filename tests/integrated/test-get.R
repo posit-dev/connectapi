@@ -10,7 +10,7 @@ test_that("get_users works", {
   users <- get_users(client)
 
   expect_s3_class(users, c("tbl_df", "tbl", "data.frame"))
-  expect_ptype_equal(users, connectapi_ptypes$users, exact = FALSE)
+  expect_datetime_cols(users, connectapi_datetime_cols$users)
 
   # Other tests create users, so specifying the exact number here is conditional
   # on the contents of other tests and the order that tests run in.
@@ -24,8 +24,6 @@ test_that("get_users works", {
 test_that("get_groups works", {
   groups_list <- get_groups(client)
   expect_s3_class(groups_list, c("tbl_df", "tbl", "data.frame"))
-
-  expect_ptype_equal(groups_list, connectapi_ptypes$groups)
 })
 
 test_that("get_content works", {
@@ -33,37 +31,29 @@ test_that("get_content works", {
   content_list <- get_content(client)
   expect_s3_class(content_list, c("tbl_df", "tbl", "data.frame"))
 
-  # various attributes have been added over the years, so exact match
-  # doesn't work against all versions of Connect
-  expect_ptype_equal(content_list, connectapi_ptypes$content, exact = FALSE)
+  expect_datetime_cols(content_list, connectapi_datetime_cols$content)
 })
 
 test_that("get_usage_shiny works", {
   shiny_usage <- get_usage_shiny(client)
   expect_s3_class(shiny_usage, c("tbl_df", "tbl", "data.frame"))
 
-  expect_ptype_equal(shiny_usage, connectapi_ptypes$usage_shiny)
+  expect_datetime_cols(shiny_usage, connectapi_datetime_cols$usage_shiny)
 })
 
 test_that("get_usage_static works", {
   content_visits <- get_usage_static(client)
   expect_s3_class(content_visits, c("tbl_df", "tbl", "data.frame"))
 
-  # path was added to usage_static in 2024
-  expect_ptype_equal(
-    content_visits,
-    connectapi_ptypes$usage_static,
-    exact = FALSE
-  )
+  expect_datetime_cols(content_visits, connectapi_datetime_cols$usage_static)
 })
 
 test_that("get_audit_logs works", {
   audit_list <- get_audit_logs(client)
   expect_s3_class(audit_list, c("tbl_df", "tbl", "data.frame"))
 
-  # This is different on older versions, not sure it's worth worrying about how
   skip_if_connect_older_than(client, "2022.09.0")
-  expect_ptype_equal(audit_list, connectapi_ptypes$audit_logs)
+  expect_datetime_cols(audit_list, connectapi_datetime_cols$audit_logs)
 })
 
 test_that("get_procs works", {
@@ -73,7 +63,6 @@ test_that("get_procs works", {
   # TODO: This is not a great test, since no processes are running
   # we could always start a content restoration...
   expect_s3_class(proc_data, "tbl_df")
-  expect_ptype_equal(proc_data, connectapi_ptypes$procs)
 })
 
 # experimental --------------------------------------------
