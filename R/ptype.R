@@ -41,7 +41,7 @@ connectapi_ptypes <- list(
     "data_version" = NA_integer_
   ),
   usage = tibble::tibble(
-    "id" = NA_integer_,
+    "id" = NA_character_,
     "user_guid" = NA_character_,
     "content_guid" = NA_character_,
     "timestamp" = NA_datetime_,

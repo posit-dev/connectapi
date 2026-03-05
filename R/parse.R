@@ -67,6 +67,14 @@ ensure_column <- function(data, default, name) {
       col <- bit64::as.integer64(col)
     }
 
+    if (is.character(default) && (is.integer(col) || is.double(col))) {
+      if (is.double(col)) {
+        col <- format(col, scientific = FALSE, trim = TRUE)
+      } else {
+        col <- as.character(col)
+      }
+    }
+
     if (inherits(default, "list") && !inherits(col, "list")) {
       col <- list(col)
     }

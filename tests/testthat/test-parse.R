@@ -344,3 +344,46 @@ test_that("parse_connectapi handles mixed null/non-null integer timestamps", {
   expect_type(result$end_time, "double")
   expect_identical(result$end_time, c(NA_real_, 1732556770))
 })
+
+test_that("ensure_column coerces integer to character when ptype expects character", {
+  # Old Connect returns integer IDs
+  int_data <- tibble::tibble(id = c(100L, 200L, 300L))
+  result <- ensure_column(int_data, NA_character_, "id")
+  expect_type(result$id, "character")
+  expect_identical(result$id, c("100", "200", "300"))
+
+  # New Connect returns character IDs
+
+  char_data <- tibble::tibble(id = c("100", "200", "300"))
+  result <- ensure_column(char_data, NA_character_, "id")
+  expect_type(result$id, "character")
+  expect_identical(result$id, c("100", "200", "300"))
+})
+
+test_that("parse_connectapi_typed produces character id for usage with integer input", {
+  # Simulates old Connect returning integer IDs
+  int_hits <- list(
+    list(id = 123L, user_guid = "abc", content_guid = "def",
+         timestamp = "2025-04-30T12:00:00Z", data = list(path = "/test")),
+    list(id = 456L, user_guid = "ghi", content_guid = "jkl",
+         timestamp = "2025-04-30T13:00:00Z", data = list(path = "/other"))
+  )
+
+  result <- parse_connectapi_typed(int_hits, connectapi_ptypes$usage)
+  expect_type(result$id, "character")
+  expect_identical(result$id, c("123", "456"))
+})
+
+test_that("parse_connectapi_typed produces character id for usage with character input", {
+  # Simulates new Connect returning character IDs
+  char_hits <- list(
+    list(id = "123", user_guid = "abc", content_guid = "def",
+         timestamp = "2025-04-30T12:00:00Z", data = list(path = "/test")),
+    list(id = "456", user_guid = "ghi", content_guid = "jkl",
+         timestamp = "2025-04-30T13:00:00Z", data = list(path = "/other"))
+  )
+
+  result <- parse_connectapi_typed(char_hits, connectapi_ptypes$usage)
+  expect_type(result$id, "character")
+  expect_identical(result$id, c("123", "456"))
+})
