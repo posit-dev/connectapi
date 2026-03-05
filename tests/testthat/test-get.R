@@ -389,6 +389,24 @@ with_mock_dir("2025.04.0", {
     expect_equal(usage[[1]]$id, 8966707L)
     expect_equal(usage[[1]]$content_guid, "475618c9")
 
+    expect_length(usage, 5)
+
+    # Check first element (raw list, before conversion to data.frame).
+    # The id is numeric in the JSON, so it stays numeric in the raw list.
+    expect_equal(
+      usage[[1]],
+      list(
+        id = 8966707L,
+        user_guid = NULL,
+        content_guid = "475618c9",
+        timestamp = "2025-04-30T12:49:16.269904Z",
+        data = list(
+          path = "/hello",
+          user_agent = "Datadog/Synthetics"
+        )
+      )
+    )
+
     # Check conversion to data.frame (with unnesting)
     usage_df <- as.data.frame(usage)
     expect_equal(

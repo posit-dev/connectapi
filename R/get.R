@@ -555,7 +555,7 @@ get_usage_static <- function(
 #' @return A list of usage records. Each record is a list with all elements
 #'   as character strings unless otherwise specified.
 #'
-#' * `id`: An integer identifier for the hit.
+#' * `id`: A string identifier for the hit.
 #' * `user_guid`: The user GUID if the visitor is logged-in, `NULL` for
 #'   anonymous hits.
 #' * `content_guid`: The GUID of the visited content.
