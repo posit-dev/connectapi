@@ -2,7 +2,13 @@
 
 ## connectapi (development version)
 
+- [`get_usage()`](https://posit-dev.github.io/connectapi/dev/reference/get_usage.md)
+  now returns the id column as a character to match other parts of the
+  API.
+
 ## connectapi 0.11.0
+
+CRAN release: 2026-02-25
 
 - [`get_usage()`](https://posit-dev.github.io/connectapi/dev/reference/get_usage.md)
   now allows for filtering by content GUID with the `content_guid`
