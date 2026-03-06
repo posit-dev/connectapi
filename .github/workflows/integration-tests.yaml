@@ -70,9 +70,9 @@ jobs:
           webhook: ${{ secrets.SLACK_WEBHOOK }}
           webhook-type: incoming-webhook
           payload: |
-            text: ":x: CI failed on ${{ github.ref_name }}"
+            text: ":x: connectapi nightly integration tests failed"
             blocks:
               - type: section
                 text:
                   type: mrkdwn
-                  text: ":x: connectapi integration tests failed: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                  text: "View run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
