@@ -5,6 +5,8 @@ on:
   pull_request:
     branches:
       - main
+  schedule:
+    - cron: "0 8 * * *" # daily at 8am UTC
 
 name: integration-tests
 
@@ -56,3 +58,21 @@ jobs:
           license: ${{ secrets.CONNECT_LICENSE_FILE }}
           command: |
             Rscript -e 'source("tests/test-integrated.R")'
+
+  slack-notification:
+    needs: integration-tests
+    if: ${{ failure() && github.event_name == 'schedule' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Slack of CI failure
+        uses: slackapi/slack-github-action@v2.1.1
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK }}
+          webhook-type: incoming-webhook
+          payload: |
+            text: ":x: CI failed on ${{ github.ref_name }}"
+            blocks:
+              - type: section
+                text:
+                  type: mrkdwn
+                  text: ":x: connectapi integration tests failed: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
