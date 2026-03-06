@@ -6,7 +6,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: "0 8 * * *" # daily at 8am UTC
+    - cron: "0 8 * * 1" # every monday at 8am UTC
 
 name: integration-tests
 
