@@ -20,3 +20,5 @@ Fixes #
 
 - [ ] Does this change update `NEWS.md` (referencing the connected issue if necessary)?
 - [ ] Does this change need documentation? Have you run `devtools::document()`?
+- [ ] Does this change resolve integration test failures for a preview build of Connect? 
+  - If so (and if you are on the Connect team), please be sure to update the Connect changelog to reflect that users will need to upgrade their version of `connectapi`.
