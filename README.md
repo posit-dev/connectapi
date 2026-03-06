@@ -9,8 +9,7 @@ maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lif
 status](https://www.r-pkg.org/badges/version/connectapi)](https://cran.r-project.org/package=connectapi)
 [![Codecov test
 coverage](https://codecov.io/gh/posit-dev/connectapi/branch/main/graph/badge.svg)](https://app.codecov.io/gh/posit-dev/connectapi?branch=main)
-[![R build
-status](https://github.com/posit-dev/connectapi/workflows/R-CMD-check/badge.svg)](https://github.com/posit-dev/connectapi/actions)
+[![R-CMD-check](https://github.com/posit-dev/connectapi/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/posit-dev/connectapi/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 # connectapi <img src='man/figures/logo.svg' align="right" height="139" />
