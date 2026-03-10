@@ -75,4 +75,4 @@ jobs:
               - type: section
                 text:
                   type: mrkdwn
-                  text: "View run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                  text: ":x: *connectapi nightly integration tests failed*\n\nView run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
