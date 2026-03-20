@@ -1,6 +1,8 @@
 # connectapi (development version)
 
-- `get_usage()` now returns the id column as a character to match other parts of the API.
+# connectapi 0.11.1
+
+- `get_usage()` now returns the id column as a character to match other parts of the API (#512).
 
 # connectapi 0.11.0
 
