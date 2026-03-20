@@ -15,7 +15,7 @@ If no date-times are provided, all usage data will be returned."><meta property=
 
     <a class="navbar-brand me-2" href="../index.html">connectapi</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.11.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.11.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,7 +44,7 @@ If no date-times are provided, all usage data will be returned."><meta property=
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.svg" class="logo" alt=""><h1>Get usage information for deployed content</h1>
-      <small class="dont-index">Source: <a href="https://github.com/posit-dev/connectapi/blob/v0.11.0/R/get.R" class="external-link"><code>R/get.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/posit-dev/connectapi/blob/main/R/get.R" class="external-link"><code>R/get.R</code></a></small>
       <div class="d-none name"><code>get_usage.Rd</code></div>
     </div>
 
@@ -90,7 +90,7 @@ the most recent are returned.</p></dd>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A list of usage records. Each record is a list with all elements
-as character strings unless otherwise specified.</p><ul><li><p><code>id</code>: An integer identifier for the hit.</p></li>
+as character strings unless otherwise specified.</p><ul><li><p><code>id</code>: A string identifier for the hit.</p></li>
 <li><p><code>user_guid</code>: The user GUID if the visitor is logged-in, <code>NULL</code> for
 anonymous hits.</p></li>
 <li><p><code>content_guid</code>: The GUID of the visited content.</p></li>
