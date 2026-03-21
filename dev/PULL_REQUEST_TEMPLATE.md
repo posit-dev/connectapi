@@ -24,7 +24,7 @@ Does this change update `NEWS.md` (referencing the connected issue if
 necessary)?
 
 Does this change need documentation? Have you run
-[`devtools::document()`](https://devtools.r-lib.org/reference/document.html)?
+`devtools::document()`?
 
 Does this change resolve integration test failures for a preview build
 of Connect? If so (and if you are on the Connect team), please be sure
