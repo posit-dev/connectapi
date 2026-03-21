@@ -1,7 +1,5 @@
 # Changelog
 
-## connectapi (development version)
-
 ## connectapi 0.11.1
 
 - [`get_usage()`](https://posit-dev.github.io/connectapi/reference/get_usage.md)
