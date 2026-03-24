@@ -18,7 +18,7 @@ set access controls, and tags:
 bnd <- bundle_static(system.file("logo.png", package = "connectapi"))
 ```
 
-    ## Bundling directory (/tmp/RtmpYgaYGI/bundledir2b9c41df448f)
+    ## Bundling directory (/tmp/RtmpkJJRpU/bundledir2bbf64226490)
 
 ``` r
 content_1 <- deploy(client, bnd, title = "App 1")
@@ -26,7 +26,7 @@ content_1 <- deploy(client, bnd, title = "App 1")
 
     ## Getting content endpoint
 
-    ## Found EXISTING content 23208dac-02ea-4cf2-ba80-dc1ec2da3fd3 with name mwlefoodfieexombwkkeulbfd on http://localhost:3939
+    ## Found EXISTING content c11cd0fe-2591-4501-b557-634432f74022 with name mwlefoodfieexombwkkeulbfd on http://localhost:3939
 
     ## Uploading bundle
 
@@ -38,7 +38,7 @@ content_2 <- deploy(client, bnd, title = "App 2")
 
     ## Getting content endpoint
 
-    ## Found EXISTING content 14df91aa-baa3-4ef6-889a-8e634d74b23b with name pbcyvkgufivjubqtxvafbsnay on http://localhost:3939
+    ## Found EXISTING content 4d607670-70b3-4be5-b9b4-7e4511a52394 with name pbcyvkgufivjubqtxvafbsnay on http://localhost:3939
 
     ## Uploading bundle
 
@@ -67,9 +67,9 @@ set_content_tags(content_1, tag_1)
     ##    └── Permissions
 
     ## Posit Connect Content Task: 
-    ##   Content GUID: 23208dac-02ea-4cf2-ba80-dc1ec2da3fd3
-    ##   URL: http://localhost:3939/connect/#/apps/23208dac-02ea-4cf2-ba80-dc1ec2da3fd3
-    ##   Task ID: U93VXUw58Bh0sdDc
+    ##   Content GUID: c11cd0fe-2591-4501-b557-634432f74022
+    ##   URL: http://localhost:3939/connect/#/apps/c11cd0fe-2591-4501-b557-634432f74022
+    ##   Task ID: eWoM5UOcIV5SnJVJ
 
 ``` r
 set_content_tags(content_2, tag_1)
@@ -80,42 +80,42 @@ set_content_tags(content_2, tag_1)
     ##    └── Permissions
 
     ## Posit Connect Content Task: 
-    ##   Content GUID: 14df91aa-baa3-4ef6-889a-8e634d74b23b
-    ##   URL: http://localhost:3939/connect/#/apps/14df91aa-baa3-4ef6-889a-8e634d74b23b
-    ##   Task ID: cKoLtb6Nq90ZCXwl
+    ##   Content GUID: 4d607670-70b3-4be5-b9b4-7e4511a52394
+    ##   URL: http://localhost:3939/connect/#/apps/4d607670-70b3-4be5-b9b4-7e4511a52394
+    ##   Task ID: A0hxA5p0htestih2
 
 ``` r
 content_add_user(content_1, user_restricted$guid, role = "viewer")
 ```
 
-    ## Adding permission for user 'ab7a2802-94d5-4cbb-80c6-d1a1a0304d6f' with role 'viewer'
+    ## Adding permission for user '77fe744f-9230-41cb-ac13-d7f9173c7b41' with role 'viewer'
 
     ## Posit Connect Content Task: 
-    ##   Content GUID: 23208dac-02ea-4cf2-ba80-dc1ec2da3fd3
-    ##   URL: http://localhost:3939/connect/#/apps/23208dac-02ea-4cf2-ba80-dc1ec2da3fd3
-    ##   Task ID: U93VXUw58Bh0sdDc
+    ##   Content GUID: c11cd0fe-2591-4501-b557-634432f74022
+    ##   URL: http://localhost:3939/connect/#/apps/c11cd0fe-2591-4501-b557-634432f74022
+    ##   Task ID: eWoM5UOcIV5SnJVJ
 
 ``` r
 content_add_user(content_1, user_all$guid, "viewer")
 ```
 
-    ## Adding permission for user '764dc316-e1c9-442c-b10b-162229c12c98' with role 'viewer'
+    ## Adding permission for user '620a5a3c-efe5-4c9b-8fd8-31d1a687bb83' with role 'viewer'
 
     ## Posit Connect Content Task: 
-    ##   Content GUID: 23208dac-02ea-4cf2-ba80-dc1ec2da3fd3
-    ##   URL: http://localhost:3939/connect/#/apps/23208dac-02ea-4cf2-ba80-dc1ec2da3fd3
-    ##   Task ID: U93VXUw58Bh0sdDc
+    ##   Content GUID: c11cd0fe-2591-4501-b557-634432f74022
+    ##   URL: http://localhost:3939/connect/#/apps/c11cd0fe-2591-4501-b557-634432f74022
+    ##   Task ID: eWoM5UOcIV5SnJVJ
 
 ``` r
 content_add_user(content_2, user_all$guid, "viewer")
 ```
 
-    ## Adding permission for user '764dc316-e1c9-442c-b10b-162229c12c98' with role 'viewer'
+    ## Adding permission for user '620a5a3c-efe5-4c9b-8fd8-31d1a687bb83' with role 'viewer'
 
     ## Posit Connect Content Task: 
-    ##   Content GUID: 14df91aa-baa3-4ef6-889a-8e634d74b23b
-    ##   URL: http://localhost:3939/connect/#/apps/14df91aa-baa3-4ef6-889a-8e634d74b23b
-    ##   Task ID: cKoLtb6Nq90ZCXwl
+    ##   Content GUID: 4d607670-70b3-4be5-b9b4-7e4511a52394
+    ##   URL: http://localhost:3939/connect/#/apps/4d607670-70b3-4be5-b9b4-7e4511a52394
+    ##   Task ID: A0hxA5p0htestih2
 
 ## Retrieve the Content List
 
@@ -162,16 +162,16 @@ c_with_p$permission
     ## # A tibble: 2 × 5
     ##   id    content_guid                         principal_guid principal_type role 
     ##   <chr> <chr>                                <chr>          <chr>          <chr>
-    ## 1 3     14df91aa-baa3-4ef6-889a-8e634d74b23b 764dc316-e1c9… user           view…
-    ## 2 NA    14df91aa-baa3-4ef6-889a-8e634d74b23b 1d25f686-05a4… user           owner
+    ## 1 3     4d607670-70b3-4be5-b9b4-7e4511a52394 620a5a3c-efe5… user           view…
+    ## 2 NA    4d607670-70b3-4be5-b9b4-7e4511a52394 3a2ff170-07ea… user           owner
     ## 
     ## [[2]]
     ## # A tibble: 3 × 5
     ##   id    content_guid                         principal_guid principal_type role 
     ##   <chr> <chr>                                <chr>          <chr>          <chr>
-    ## 1 1     23208dac-02ea-4cf2-ba80-dc1ec2da3fd3 ab7a2802-94d5… user           view…
-    ## 2 2     23208dac-02ea-4cf2-ba80-dc1ec2da3fd3 764dc316-e1c9… user           view…
-    ## 3 NA    23208dac-02ea-4cf2-ba80-dc1ec2da3fd3 1d25f686-05a4… user           owner
+    ## 1 1     c11cd0fe-2591-4501-b557-634432f74022 77fe744f-9230… user           view…
+    ## 2 2     c11cd0fe-2591-4501-b557-634432f74022 620a5a3c-efe5… user           view…
+    ## 3 NA    c11cd0fe-2591-4501-b557-634432f74022 3a2ff170-07ea… user           owner
 
 ## Filter the Content List
 

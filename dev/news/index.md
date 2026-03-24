@@ -2,7 +2,14 @@
 
 ## connectapi (development version)
 
+- When using integrations, prefer to read from
+  `CONNECT_CONTENT_SESSION_TOKEN_FILE` to find the session token. This
+  helps long-running processes ensure that they can maintain fresh
+  credentials.
+
 ## connectapi 0.11.1
+
+CRAN release: 2026-03-21
 
 - [`get_usage()`](https://posit-dev.github.io/connectapi/dev/reference/get_usage.md)
   now returns the id column as a character to match other parts of the
