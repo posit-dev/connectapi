@@ -58,6 +58,29 @@ with_mock_api({
     )
   })
 
+  test_that("if there is a session token file, we prefer that", {
+    token_file <- tempfile()
+    cat("content-session-token", file = token_file)
+    withr::local_options(list(rlib_warning_verbosity = "verbose"))
+    withr::local_envvar(
+      list(CONNECT_CONTENT_SESSION_TOKEN_FILE = token_file)
+    )
+
+    client <- Connect$new(server = "https://connect.example", api_key = "fake")
+    expect_true(validate_R6_class(client, "Connect"))
+    expect_warning(
+      credentials <- get_oauth_content_credentials(client)
+    )
+    expect_equal(
+      credentials,
+      list(
+        access_token = "content-access-token",
+        issued_token_type = "urn:ietf:params:oauth:token-type:access_token",
+        token_type = "Bearer"
+      )
+    )
+  })
+
   test_that("we cannot retrieve the oauth content credentials without a token or env var", {
     withr::local_options(list(rlib_warning_verbosity = "verbose"))
 
@@ -123,7 +146,6 @@ with_mock_api({
 
     client <- Connect$new(server = "https://connect.example", api_key = "fake")
     expect_true(validate_R6_class(client, "Connect"))
-
 
     credentials <- get_aws_content_credentials(client)
 
