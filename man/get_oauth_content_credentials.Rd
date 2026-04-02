@@ -18,8 +18,10 @@ get_oauth_content_credentials(
 \item{content_session_token}{Optional. The content session token. This token
 can only be obtained when the content is running on a Connect server. The
 token identifies the service account integration previously configured by
-the publisher on the Connect server. Defaults to the value from the
-environment variable: \code{CONNECT_CONTENT_SESSION_TOKEN}}
+the publisher on the Connect server. Defaults to the value found in the file
+indicated by the \code{CONNECT_CONTENT_SESSION_TOKEN_FILE} environment variable
+on Connect >= 2026.02.0, or from the value of the environment variable
+\code{CONNECT_CONTENT_SESSION_TOKEN} on earlier versions.}
 
 \item{requested_token_type}{Optional. The requested token type. If unset,
 will default to \code{urn:ietf:params:oauth:token-type:access_token}. Otherwise,

@@ -877,8 +877,10 @@ get_oauth_credentials <- function(
 #' @param content_session_token Optional. The content session token. This token
 #' can only be obtained when the content is running on a Connect server. The
 #' token identifies the service account integration previously configured by
-#' the publisher on the Connect server. Defaults to the value from the
-#' environment variable: `CONNECT_CONTENT_SESSION_TOKEN`
+#' the publisher on the Connect server. Defaults to the value found in the file
+#' indicated by the `CONNECT_CONTENT_SESSION_TOKEN_FILE` environment variable
+#' on Connect >= 2026.02.0, or from the value of the environment variable
+#' `CONNECT_CONTENT_SESSION_TOKEN` on earlier versions.
 #' @param requested_token_type Optional. The requested token type. If unset,
 #' will default to `urn:ietf:params:oauth:token-type:access_token`. Otherwise,
 #' this can be set to `urn:ietf:params:aws:token-type:credentials` for AWS
@@ -924,6 +926,14 @@ get_oauth_content_credentials <- function(
     error_if_less_than(connect$version, "2025.07.0")
   }
 
+  # First, try CONNECT_CONTENT_SESSION_TOKEN_FILE
+  if (is.null(content_session_token)) {
+    token_file <- Sys.getenv("CONNECT_CONTENT_SESSION_TOKEN_FILE")
+    if (nzchar(token_file)) {
+      content_session_token <- readLines(token_file, n = 1, warn = FALSE)
+    }
+  }
+  # If that doesn't exist (it was added in 2026.02.0), look for the token itself
   if (is.null(content_session_token)) {
     content_session_token <- Sys.getenv("CONNECT_CONTENT_SESSION_TOKEN")
     if (nchar(content_session_token) == 0) {
@@ -1076,7 +1086,11 @@ get_aws_credentials <- function(connect, user_session_token, audience = NULL) {
 #' }
 #'
 #' @export
-get_aws_content_credentials <- function(connect, content_session_token = NULL, audience = NULL) {
+get_aws_content_credentials <- function(
+  connect,
+  content_session_token = NULL,
+  audience = NULL
+) {
   error_if_less_than(connect$version, "2025.03.0")
 
   if (!is.null(audience)) {

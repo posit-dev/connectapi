@@ -1,10 +1,13 @@
 # connectapi (development version)
 
+- When using integrations, prefer to read from `CONNECT_CONTENT_SESSION_TOKEN_FILE` to find the session token. This helps long-running processes ensure that they can maintain fresh credentials.
+
 - Improved performance of API response parsing and pagination. Data frames
   returned by getter functions now include all columns from the server, so new
   fields added in future Connect releases will appear automatically. Column
   names and types are now determined by the server response rather than a
   hardcoded schema, so they may vary across Connect versions.
+
 
 # connectapi 0.11.1
 
@@ -12,15 +15,15 @@
 
 # connectapi 0.11.0
 
-- `get_usage()` now allows for filtering by content GUID with the `content_guid` 
-  argument. This is only available on Connect server versions 2026.01 and later. 
+- `get_usage()` now allows for filtering by content GUID with the `content_guid`
+  argument. This is only available on Connect server versions 2026.01 and later.
 - The `activate` argument to `set_schedule_*()` functions is deprecated and
   no longer has any effect, due to changes in the Connect API. It will be
   removed in a future release. (#500)
 - Added a single retry to `content_restart()` to more robustly clean up
   temporary environment variables. (#498)
 - Improved performance of `page_cursor()`. (#501)
-  
+
 ## Breaking changes
 
 - Removed `get_image`, `delete_image`, `has_image`, `set_image_path`,
