@@ -1007,7 +1007,7 @@ connect <- function(
 
   if (!missing(token)) {
     error_if_less_than(con$version, "2025.01.0")
-    if (on_connect()) {
+    if (on_connect() || on_connect_cloud()) {
       visitor_creds <- get_oauth_credentials(
         con,
         user_session_token = token,

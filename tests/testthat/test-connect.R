@@ -265,6 +265,56 @@ test_that("Visitor client can successfully be created running on Connect", {
   })
 })
 
+test_that("Visitor client can successfully be created running on Connect (POSIT_PRODUCT)", {
+  with_mock_api({
+    withr::local_options(list(rlib_warning_verbosity = "verbose"))
+    withr::local_envvar(
+      CONNECT_SERVER = "https://connect.example",
+      CONNECT_API_KEY = "fake",
+      POSIT_PRODUCT = "CONNECT"
+    )
+
+    expect_warning(
+      client <- connect(token = "my-token"),
+      "This feature requires Posit Connect version"
+    )
+
+    expect_equal(
+      client$server,
+      "https://connect.example"
+    )
+    expect_equal(
+      client$api_key,
+      "visitor-api-key"
+    )
+  })
+})
+
+test_that("Visitor client can successfully be created running on Connect Cloud", {
+  with_mock_api({
+    withr::local_options(list(rlib_warning_verbosity = "verbose"))
+    withr::local_envvar(
+      CONNECT_SERVER = "https://connect.example",
+      CONNECT_API_KEY = "fake",
+      POSIT_PRODUCT = "CONNECT_CLOUD"
+    )
+
+    expect_warning(
+      client <- connect(token = "my-token"),
+      "This feature requires Posit Connect version"
+    )
+
+    expect_equal(
+      client$server,
+      "https://connect.example"
+    )
+    expect_equal(
+      client$api_key,
+      "visitor-api-key"
+    )
+  })
+})
+
 test_that("Visitor client can successfully be created running on Connect with audience", {
   with_mock_dir("2025.07.0", {
     withr::local_options(list(rlib_warning_verbosity = "verbose"))

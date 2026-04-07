@@ -239,9 +239,16 @@ error_code <- function(res) {
 }
 
 # Returns `TRUE` if we're running on Connect as determined by the
-# `RSTUDIO_PRODUCT` env var, else `FALSE`.
+# `RSTUDIO_PRODUCT` or `POSIT_PRODUCT` env var, else `FALSE`.
 on_connect <- function() {
-  Sys.getenv("RSTUDIO_PRODUCT") == "CONNECT"
+  Sys.getenv("RSTUDIO_PRODUCT") == "CONNECT" ||
+    Sys.getenv("POSIT_PRODUCT") == "CONNECT"
+}
+
+# Returns `TRUE` if we're running on Connect Cloud as determined by the
+# `POSIT_PRODUCT` env var, else `FALSE`.
+on_connect_cloud <- function() {
+  Sys.getenv("POSIT_PRODUCT") == "CONNECT_CLOUD"
 }
 
 # Returns `TRUE` if running via testthat
