@@ -1018,7 +1018,7 @@ connect <- function(
     } else {
       con <- connect(server = server, api_key = token_local_testing_key)
       message(paste0(
-        "Called with `token` but not running on Connect. ",
+        "Called with `token` but not running on Connect or Connect Cloud. ",
         "Continuing with fallback API key."
       ))
     }
