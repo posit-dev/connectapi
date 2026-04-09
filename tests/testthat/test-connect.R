@@ -349,7 +349,7 @@ test_that("Visitor client uses fallback api key when running locally", {
     expect_warning(
       expect_message(
         client <- connect(token = NULL),
-        "Called with `token` but not running on Connect. Continuing with fallback API key."
+        "Called with `token` but not running on Connect or Connect Cloud. Continuing with fallback API key."
       ),
       "the server version is not exposed by this Posit Connect instance"
     )
@@ -370,7 +370,7 @@ test_that("Visitor client uses fallback api key when running locally", {
           token = NULL,
           token_local_testing_key = "fallback_fake"
         ),
-        "Called with `token` but not running on Connect. Continuing with fallback API key."
+        "Called with `token` but not running on Connect or Connect Cloud. Continuing with fallback API key."
       ),
       "the server version is not exposed by this Posit Connect instance"
     )
