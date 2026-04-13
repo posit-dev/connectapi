@@ -28,3 +28,4 @@
 ^CLAUDE.md$
 ^CONTRIBUTING.md$
 ^justfile$
+^revdep$
