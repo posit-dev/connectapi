@@ -1,6 +1,21 @@
 # Changelog
 
+## connectapi 0.12.0
+
+- Apps running on Connect Cloud are now supported for OAuth integrations
+  via the new `on_connect_cloud()` helper. The `POSIT_PRODUCT`
+  environment variable is now recognized as an alternative to
+  `RSTUDIO_PRODUCT` for detecting Connect
+  ([\#522](https://github.com/posit-dev/connectapi/issues/522)).
+- When using integrations, prefer to read from
+  `CONNECT_CONTENT_SESSION_TOKEN_FILE` to find the session token. This
+  helps long-running processes ensure that they can maintain fresh
+  credentials
+  ([\#518](https://github.com/posit-dev/connectapi/issues/518)).
+
 ## connectapi 0.11.1
+
+CRAN release: 2026-03-21
 
 - [`get_usage()`](https://posit-dev.github.io/connectapi/reference/get_usage.md)
   now returns the id column as a character to match other parts of the

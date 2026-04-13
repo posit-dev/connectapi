@@ -25,8 +25,11 @@ get_oauth_content_credentials(
   Optional. The content session token. This token can only be obtained
   when the content is running on a Connect server. The token identifies
   the service account integration previously configured by the publisher
-  on the Connect server. Defaults to the value from the environment
-  variable: `CONNECT_CONTENT_SESSION_TOKEN`
+  on the Connect server. Defaults to the value found in the file
+  indicated by the `CONNECT_CONTENT_SESSION_TOKEN_FILE` environment
+  variable on Connect \>= 2026.02.0, or from the value of the
+  environment variable `CONNECT_CONTENT_SESSION_TOKEN` on earlier
+  versions.
 
 - requested_token_type:
 
