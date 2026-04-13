@@ -45,11 +45,11 @@ Other deployment functions:
 
 ``` r
 bundle_static(system.file("logo.png", package = "connectapi"))
-#> Bundling directory (/tmp/RtmpiqhyDa/bundledir22b8533068e9)
+#> Bundling directory (/tmp/Rtmp2Ce1I6/bundledir22c25f3e532a)
 #> Posit Connect Bundle: 
-#>   Path: /tmp/RtmpiqhyDa/bundle22b8d375231.tar.gz
+#>   Path: /tmp/Rtmp2Ce1I6/bundle22c246092509.tar.gz
 #>   Size: 23.9K
 #> 
-#> bundle_path("/tmp/RtmpiqhyDa/bundle22b8d375231.tar.gz")
+#> bundle_path("/tmp/Rtmp2Ce1I6/bundle22c246092509.tar.gz")
 #> 
 ```
