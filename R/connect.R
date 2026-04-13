@@ -1007,7 +1007,7 @@ connect <- function(
 
   if (!missing(token)) {
     error_if_less_than(con$version, "2025.01.0")
-    if (on_connect()) {
+    if (on_connect() || on_connect_cloud()) {
       visitor_creds <- get_oauth_credentials(
         con,
         user_session_token = token,
@@ -1018,7 +1018,7 @@ connect <- function(
     } else {
       con <- connect(server = server, api_key = token_local_testing_key)
       message(paste0(
-        "Called with `token` but not running on Connect. ",
+        "Called with `token` but not running on Connect or Connect Cloud. ",
         "Continuing with fallback API key."
       ))
     }
