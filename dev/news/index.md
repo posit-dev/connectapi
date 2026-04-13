@@ -2,6 +2,10 @@
 
 ## connectapi (development version)
 
+- Apps running on Connect Cloud are now supported for OAuth integrations
+  via the new `on_connect_cloud()` helper. The `POSIT_PRODUCT`
+  environment variable is now recognized as an alternative to
+  `RSTUDIO_PRODUCT` for detecting Connect.
 - When using integrations, prefer to read from
   `CONNECT_CONTENT_SESSION_TOKEN_FILE` to find the session token. This
   helps long-running processes ensure that they can maintain fresh
