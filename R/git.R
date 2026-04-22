@@ -41,9 +41,8 @@ repo_check_branches <- function(client, repository) {
   branches_task <- Task$new(connect = client, task = branches_raw)
 
   task_res <- poll_task(branches_task, callback = NULL)
-  task_data <- task_res$get_data()
-  stopifnot(identical(task_data$type, "git-repo-ref-branch-array"))
-  branches <- purrr::map(task_data$data, ~ .x$branch)
+  branch_entries <- parse_repo_branches(task_res$get_data())
+  branches <- purrr::map(branch_entries, ~ .x$branch)
   purrr::set_names(branches, branches)
 }
 
@@ -56,11 +55,26 @@ repo_check_branches_ref <- function(client, repository) {
   branches_task <- Task$new(connect = client, task = branches_raw)
 
   task_res <- poll_task(branches_task, callback = NULL)
-  task_data <- task_res$get_data()
-  stopifnot(identical(task_data$type, "git-repo-ref-branch-array"))
-  branches <- purrr::map(task_data$data, ~ .x$branch)
-  refs <- purrr::map_chr(task_data$data, ~ .x$ref)
+  branch_entries <- parse_repo_branches(task_res$get_data())
+  branches <- purrr::map(branch_entries, ~ .x$branch)
+  refs <- purrr::map_chr(branch_entries, ~ .x$ref)
   purrr::set_names(refs, branches)
+}
+
+# Gracefully handle different formats of the /repo/branches task result
+parse_repo_branches <- function(task_data) {
+  if (identical(task_data$type, "git-repo-ref-branch-array")) {
+    task_data$data
+  } else if (identical(task_data$type, "git-repo-branches-result")) {
+    task_data$data$branches
+  } else {
+    stop(
+      glue::glue(
+        "Unexpected task result type '{task_data$type}' returned from the ",
+        "/repo/branches endpoint."
+      )
+    )
+  }
 }
 
 #' @rdname git
