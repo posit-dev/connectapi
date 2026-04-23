@@ -72,3 +72,18 @@ with_mock_api({
     )
   })
 })
+
+test_that("parse_repo_branches handles both result shapes", {
+  entries <- list(
+    list(branch = "main", ref = strrep("a", 40)),
+    list(branch = "dev", ref = strrep("b", 40))
+  )
+  task_data_old <- list(type = "git-repo-ref-branch-array", data = entries)
+  expect_identical(parse_repo_branches(task_data_old), entries)
+
+  task_data_new <- list(
+    type = "git-repo-branches-result",
+    data = list(branches = entries, default_branch = "main")
+  )
+  expect_identical(parse_repo_branches(task_data_new), entries)
+})
