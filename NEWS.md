@@ -10,6 +10,13 @@
   `CONNECT_CONTENT_SESSION_TOKEN_FILE` to find the session token. This helps
   long-running processes ensure that they can maintain fresh credentials (#518).
 
+- Improved performance of API response parsing and pagination. Data frames
+  returned by getter functions now include all columns from the server, so new
+  fields added in future Connect releases will appear automatically. Column
+  names and types are now determined by the server response rather than a
+  hardcoded schema, so they may vary across Connect versions.
+
+
 # connectapi 0.11.1
 
 - `get_usage()` now returns the id column as a character to match other parts of the API (#512).

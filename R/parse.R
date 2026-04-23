@@ -27,126 +27,119 @@ make_timestamp <- function(input) {
   safe_format(input, "%Y-%m-%dT%H:%M:%SZ", tz = "UTC", usetz = FALSE)
 }
 
-ensure_columns <- function(.data, ptype, strict = FALSE) {
-  # Given a prototype, ensure that all columns are present and cast to the correct type.
-  # If a column is missing in .data, it will be created with all missing values of the correct type.
-  # If a column is present in both, it will be cast to the correct type.
-  # If a column is present in .data but not in ptype, it will be left as is.
-  # If `strict == TRUE`, include only columns present in the ptype, in the order they occur.
-  for (i in names(ptype)) {
-    .data <- ensure_column(.data, ptype[[i]], i)
-  }
+# Post-parse helpers for special column types. These are used by individual
+# getter functions to coerce columns that jsonlite cannot infer automatically
+# (e.g. byte sizes, 64-bit integers, epoch timestamps).
 
-  if (strict) {
-    .data <- .data[, names(ptype), drop = FALSE]
+coerce_fs_bytes <- function(df, col) {
+  if (col %in% names(df)) {
+    df[[col]] <- fs::as_fs_bytes(df[[col]])
   }
-
-  .data
+  df
 }
 
-ensure_column <- function(data, default, name) {
-  stopifnot(length(default) == 1)
-  col <- data[[name]]
-  scoped_experimental_silence()
-  if (rlang::is_null(col)) {
-    col <- vctrs::vec_rep(default, nrow(data))
-    col <- vctrs::vec_cast(col, default)
+coerce_integer64 <- function(df, col) {
+  if (col %in% names(df)) {
+    df[[col]] <- bit64::as.integer64(df[[col]])
+  }
+  df
+}
+
+coerce_epoch_to_posixct <- function(df, cols) {
+  for (col in intersect(cols, names(df))) {
+    if (is.numeric(df[[col]])) {
+      df[[col]] <- .POSIXct(as.double(df[[col]]), tz = Sys.timezone())
+    }
+  }
+  df
+}
+
+coerce_to_character <- function(df, cols) {
+  for (col in intersect(cols, names(df))) {
+    if (is.numeric(df[[col]])) {
+      df[[col]] <- as.character(df[[col]])
+    }
+  }
+  df
+}
+
+# Datetime columns by endpoint, shared by getter functions (get_users, etc.)
+# and tbl_lazy_fetch(). Define once here so the two stay in sync.
+datetime_columns <- list(
+  users = c("created_time", "updated_time", "active_time"),
+  groups = character(),
+  content = c("created_time", "last_deployed_time"),
+  usage_shiny = c("started", "ended"),
+  usage_static = "time",
+  audit_logs = "time"
+)
+
+parse_connectapi_typed <- function(data, datetime_cols = character()) {
+  if (inherits(data, "data.frame")) {
+    # Strip custom S3 classes to avoid dispatch loops (e.g., connect_list_hits
+    # defines as_tibble which calls parse_connectapi_typed, causing recursion)
+    class(data) <- "data.frame"
+    df <- tibble::as_tibble(data)
   } else {
-    if (
-      vctrs::vec_is(default, NA_datetime_) && !vctrs::vec_is(col, NA_datetime_)
-    ) {
-      # manual fix because vctrs::vec_cast cannot cast double -> datetime or char -> datetime
-      col <- coerce_datetime(col, default, name = name)
-    }
-
-    if (inherits(default, "fs_bytes") && !inherits(col, "fs_bytes")) {
-      col <- coerce_fsbytes(col, default)
-    }
-
-    if (inherits(default, "integer64") && !inherits(col, "integer64")) {
-      col <- bit64::as.integer64(col)
-    }
-
-    if (is.character(default) && (is.integer(col) || is.double(col))) {
-      if (is.double(col)) {
-        col <- format(col, scientific = FALSE, trim = TRUE)
-      } else {
-        col <- as.character(col)
-      }
-    }
-
-    if (inherits(default, "list") && !inherits(col, "list")) {
-      col <- list(col)
-    }
-
-    col <- vctrs::vec_cast(col, default, x_arg = name)
+    # Fallback for list-of-lists (backward compat, non-simplified responses)
+    df <- parse_connectapi(data)
   }
-  data[[name]] <- col
-  data
+  for (col in intersect(datetime_cols, names(df))) {
+    df[[col]] <- coerce_datetime(df[[col]])
+  }
+  df
 }
 
-parse_connectapi_typed <- function(data, ptype, strict = FALSE) {
-  ensure_columns(parse_connectapi(data), ptype, strict)
+# Coerce a column to POSIXct. Handles character (RFC 3339), numeric (epoch
+# seconds), POSIXct (pass-through), and all-NA logical vectors.
+coerce_datetime <- function(x) {
+  if (is.null(x)) {
+    .POSIXct(double(), tz = Sys.timezone())
+  } else if (is.character(x)) {
+    parse_connect_rfc3339(x)
+  } else if (is.numeric(x)) {
+    .POSIXct(as.double(x), tz = Sys.timezone())
+  } else if (inherits(x, "POSIXct")) {
+    x
+  } else if (is.logical(x) && all(is.na(x))) {
+    .POSIXct(rep(NA_real_, length(x)), tz = Sys.timezone())
+  } else {
+    stop("Cannot coerce ", class(x)[[1]], " to POSIXct", call. = FALSE)
+  }
 }
 
 # Build a tibble column-by-column instead of row-by-row (via list_rbind).
 # This avoids type conflicts when the same field is NULL in some rows and
 # non-NULL in others: NULL -> NA, and unlist() coerces that NA to match the
-# type of the non-null values in the same column. ensure_columns() handles
-# any further type coercion (e.g. character -> POSIXct) after this step.
+# type of the non-null values in the same column.
 parse_connectapi <- function(data) {
   if (length(data) == 0) return(tibble::tibble())
 
-  all_names <- unique(unlist(lapply(data, names)))
-  cols <- stats::setNames(lapply(all_names, function(nm) {
-    # NULL / missing fields become NA; unlist() will coerce to the right type
-    values <- lapply(data, function(row) row[[nm]] %||% NA)
-    if (any(vapply(values, function(v) is.list(v) || length(v) > 1, logical(1)))) {
-      # List column: wrap scalars so every element is a list
+  all_names <- unique(unlist(lapply(data, names), use.names = FALSE))
+  n <- length(data)
+
+  cols <- lapply(all_names, function(nm) {
+    # .subset2 is the internal no-dispatch version of `[[`
+    values <- lapply(data, .subset2, nm)
+    nulls <- vapply(values, is.null, logical(1))
+
+    # Determine column type from first non-NULL value
+    is_list_col <- FALSE
+    if (!all(nulls)) {
+      first_val <- values[[which.min(nulls)]]
+      is_list_col <- is.list(first_val) || length(first_val) > 1L
+    }
+
+    values[nulls] <- list(NA)
+
+    if (is_list_col) {
       lapply(values, function(v) if (is.list(v)) v else list(v))
     } else {
-      # Scalar column: simplify to a vector
-      unlist(values)
+      unlist(values, use.names = FALSE)
     }
-  }), all_names)
-  tibble::as_tibble(cols)
-}
-
-coerce_fsbytes <- function(x, to, ...) {
-  if (is.numeric(x)) {
-    fs::as_fs_bytes(x)
-  } else {
-    vctrs::stop_incompatible_cast(x = x, to = to, x_arg = "x", to_arg = "to")
-  }
-}
-
-# name - optional. Must be named, the name of the variable / column being converted
-coerce_datetime <- function(x, to, ...) {
-  tmp_name <- rlang::dots_list(...)[["name"]]
-  if (is.null(tmp_name) || is.na(tmp_name) || !is.character(tmp_name)) {
-    tmp_name <- "x"
-  }
-
-  if (is.null(x)) {
-    as.POSIXct(character(), tz = tzone(to))
-  } else if (is.numeric(x)) {
-    vctrs::new_datetime(as.double(x), tzone = tzone(to))
-  } else if (is.character(x)) {
-    parse_connect_rfc3339(x)
-  } else if (inherits(x, "POSIXct")) {
-    x
-  } else if (
-    all(is.logical(x) & is.na(x)) && length(is.logical(x) & is.na(x)) > 0
-  ) {
-    NA_datetime_
-  } else {
-    vctrs::stop_incompatible_cast(
-      x = x,
-      to = to,
-      x_arg = tmp_name,
-      to_arg = "to"
-    )
-  }
+  })
+  names(cols) <- all_names
+  tibble::new_tibble(cols, nrow = n)
 }
 
 # nolint start: commented_code_linter
@@ -165,49 +158,41 @@ coerce_datetime <- function(x, to, ...) {
 # - "2020-01-01T00:02:03-01:00"
 # nolint end
 parse_connect_rfc3339 <- function(x) {
-  # Convert timestamps with offsets to a format recognized by `strptime`.
-  x <- gsub("([+-]\\d\\d):(\\d\\d)$", "\\1\\2", x)
-  x <- gsub("Z$", "+0000", x)
+  if (length(x) == 0) return(.POSIXct(double(), tz = Sys.timezone()))
 
-  # Parse with an inner call to `strptime()`, which returns a POSIXlt object,
-  # and convert that to `POSIXct`.
-  #
-  # We must specify `tz` in the inner call to correctly compute date math.
-  # Specifying `tz` when in the outer call just changes the time zone without
-  # doing any date math!
-  #
-  # > xlt [1] "2024-08-29 16:36:33 EDT" tzone(xlt) [1] "America/New_York"
-  # as.POSIXct(xlt, tz = "UTC") [1] "2024-08-29 16:36:33 UTC"
-  format_string <- "%Y-%m-%dT%H:%M:%OS%z"
-  as.POSIXct(x, format = format_string, tz = Sys.timezone())
-}
-
-vec_cast.POSIXct.double <- # nolint: object_name_linter
-  function(x, to, ...) {
-    warn_experimental("vec_cast.POSIXct.double")
-    vctrs::new_datetime(x, tzone = tzone(to))
+  na_mask <- is.na(x)
+  if (all(na_mask)) {
+    return(.POSIXct(rep(NA_real_, length(x)), tz = Sys.timezone()))
   }
 
-vec_cast.POSIXct.character <- # nolint: object_name_linter
-  function(x, to, ...) {
-    as.POSIXct(x, tz = tzone(to))
+  result <- rep(NA_real_, length(x))
+  xn <- x[!na_mask]
+
+  # The date portion is always at fixed positions: YYYY-MM-DDTHH:MM:SS
+  dates <- as.Date(substr(xn, 1, 10))
+  hour <- as.integer(substr(xn, 12, 13))
+  min <- as.integer(substr(xn, 15, 16))
+
+  # Seconds (with optional fractional part) run from position 18 to just before
+  # the timezone suffix. The suffix is either "Z" (1 char) or "+HH:MM" (6 chars).
+  nc <- nchar(xn)
+  is_utc <- endsWith(xn, "Z")
+  tz_len <- ifelse(is_utc, 1L, 6L)
+  sec <- as.double(substr(xn, 18, nc - tz_len))
+
+  # Compute timezone offset in seconds for non-UTC timestamps
+  tz_offset <- rep(0, length(xn))
+  non_utc <- which(!is_utc)
+  if (length(non_utc) > 0) {
+    tz_str <- substr(xn[non_utc], nc[non_utc] - 5, nc[non_utc])
+    tz_sign <- ifelse(substr(tz_str, 1, 1) == "+", 1, -1)
+    tz_h <- as.integer(substr(tz_str, 2, 3))
+    tz_m <- as.integer(substr(tz_str, 5, 6))
+    tz_offset[non_utc] <- tz_sign * (tz_h * 3600L + tz_m * 60L)
   }
 
-tzone <- function(x) {
-  attr(x, "tzone")[[1]] %||% ""
-}
-
-vec_cast.character.integer <- # nolint: object_name_linter
-  function(x, to, ...) {
-    as.character(x)
-  }
-
-new_datetime <- function(x = double(), tzone = "") {
-  tzone <- tzone %||% ""
-  if (is.integer(x)) {
-    x <- as.double(x)
-  }
-  stopifnot(is.double(x))
-  stopifnot(is.character(tzone))
-  structure(x, tzone = tzone, class = c("POSIXct", "POSIXt"))
+  # Build epoch seconds directly: date days * 86400 + time of day - tz offset
+  epoch <- as.double(dates) * 86400 + hour * 3600 + min * 60 + sec - tz_offset
+  result[!na_mask] <- epoch
+  .POSIXct(result, tz = Sys.timezone())
 }
