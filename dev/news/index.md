@@ -4,6 +4,8 @@
 
 ## connectapi 0.12.0
 
+CRAN release: 2026-04-13
+
 - Apps running on Connect Cloud are now supported for OAuth integrations
   via the new `on_connect_cloud()` helper. The `POSIT_PRODUCT`
   environment variable is now recognized as an alternative to

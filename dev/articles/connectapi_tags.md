@@ -56,7 +56,7 @@ tree_project_1
 
     ## Posit Connect API Client: 
     ##   Posit Connect Server: http://localhost:3939
-    ##   Posit Connect API Key: ***********icmP
+    ##   Posit Connect API Key: ***********4PDn
 
 ``` r
 tmp_tags <- get_tags(client)
@@ -74,7 +74,7 @@ tree_project_2
 
     ## Posit Connect API Client: 
     ##   Posit Connect Server: http://localhost:3939
-    ##   Posit Connect API Key: ***********icmP
+    ##   Posit Connect API Key: ***********4PDn
 
 ``` r
 tree_audience_1 <- create_tag_tree(client, "DemoAudience", "Sales")
@@ -112,7 +112,7 @@ In order to show how tags work, we need some content to work with.
 bnd <- bundle_static(system.file("logo.png", package = "connectapi"))
 ```
 
-    ## Bundling directory (/tmp/Rtmpzye0IK/bundledir294348ca3feb)
+    ## Bundling directory (/tmp/RtmpLunn2V/bundledir29772cb7591c)
 
 ``` r
 content_1 <- deploy(client, bnd)
@@ -120,7 +120,7 @@ content_1 <- deploy(client, bnd)
 
     ## Getting content endpoint
 
-    ## Found EXISTING content 3c0340de-49a3-4b30-a33a-c1cec90c027a with name mwlefoodfieexombwkkeulbfd on http://localhost:3939
+    ## Found EXISTING content 8af3da5e-8031-40e9-b923-ebab6466e450 with name mwlefoodfieexombwkkeulbfd on http://localhost:3939
 
     ## Uploading bundle
 
@@ -154,9 +154,9 @@ set_content_tag_tree(content_1, "DemoProject", "project_1")
     ##    └── project_1
 
     ## Posit Connect Content Task: 
-    ##   Content GUID: 3c0340de-49a3-4b30-a33a-c1cec90c027a
-    ##   URL: http://localhost:3939/connect/#/apps/3c0340de-49a3-4b30-a33a-c1cec90c027a
-    ##   Task ID: flqIAkHqCzjNtceR
+    ##   Content GUID: 8af3da5e-8031-40e9-b923-ebab6466e450
+    ##   URL: http://localhost:3939/connect/#/apps/8af3da5e-8031-40e9-b923-ebab6466e450
+    ##   Task ID: yZjAraA36c59r1NB
 
 ``` r
 set_content_tags(content_1, all_tags$DemoAudience$Sales)
@@ -169,9 +169,9 @@ set_content_tags(content_1, all_tags$DemoAudience$Sales)
     ##    └── Sales
 
     ## Posit Connect Content Task: 
-    ##   Content GUID: 3c0340de-49a3-4b30-a33a-c1cec90c027a
-    ##   URL: http://localhost:3939/connect/#/apps/3c0340de-49a3-4b30-a33a-c1cec90c027a
-    ##   Task ID: flqIAkHqCzjNtceR
+    ##   Content GUID: 8af3da5e-8031-40e9-b923-ebab6466e450
+    ##   URL: http://localhost:3939/connect/#/apps/8af3da5e-8031-40e9-b923-ebab6466e450
+    ##   Task ID: yZjAraA36c59r1NB
 
 Content 2 is for `project_2` and both Audiences (`Sales` and `Finance`).
 
@@ -192,9 +192,9 @@ set_content_tags(
     ##    └── Finance
 
     ## Posit Connect Content Task: 
-    ##   Content GUID: d3defab9-6e90-4a96-9c80-31cbb6b3011a
-    ##   URL: http://localhost:3939/connect/#/apps/d3defab9-6e90-4a96-9c80-31cbb6b3011a
-    ##   Task ID: lrS2ZNPUX8wVQCa8
+    ##   Content GUID: cece71ec-dd64-4250-8bc1-3bbaa7ed9a84
+    ##   URL: http://localhost:3939/connect/#/apps/cece71ec-dd64-4250-8bc1-3bbaa7ed9a84
+    ##   Task ID: E5euJCrzq7vWnlEf
 
 ### See the tags associated with content
 
@@ -240,8 +240,8 @@ content_list_by_tag(client, all_tags$DemoAudience$Sales)
     ## # A tibble: 2 × 53
     ##   guid                 name  title description access_type locked locked_message
     ##   <chr>                <chr> <chr> <chr>       <chr>       <lgl>  <chr>         
-    ## 1 d3defab9-6e90-4a96-… pbcy… pbcy… ""          acl         FALSE  ""            
-    ## 2 3c0340de-49a3-4b30-… mwle… mwle… ""          acl         FALSE  ""            
+    ## 1 cece71ec-dd64-4250-… pbcy… pbcy… ""          acl         FALSE  ""            
+    ## 2 8af3da5e-8031-40e9-… mwle… mwle… ""          acl         FALSE  ""            
     ## # ℹ 46 more variables: connection_timeout <int>, read_timeout <int>,
     ## #   init_timeout <int>, idle_timeout <int>, max_processes <int>,
     ## #   min_processes <int>, max_conns_per_process <int>, load_factor <dbl>,
@@ -257,7 +257,7 @@ content_list_by_tag(client, all_tags$DemoProject$project_1)
     ## # A tibble: 1 × 53
     ##   guid                 name  title description access_type locked locked_message
     ##   <chr>                <chr> <chr> <chr>       <chr>       <lgl>  <chr>         
-    ## 1 3c0340de-49a3-4b30-… mwle… mwle… ""          acl         FALSE  ""            
+    ## 1 8af3da5e-8031-40e9-… mwle… mwle… ""          acl         FALSE  ""            
     ## # ℹ 46 more variables: connection_timeout <int>, read_timeout <int>,
     ## #   init_timeout <int>, idle_timeout <int>, max_processes <int>,
     ## #   min_processes <int>, max_conns_per_process <int>, load_factor <dbl>,
@@ -295,7 +295,7 @@ delete_tag(client, latest_tags$DemoProject)
 
     ## Posit Connect API Client: 
     ##   Posit Connect Server: http://localhost:3939
-    ##   Posit Connect API Key: ***********icmP
+    ##   Posit Connect API Key: ***********4PDn
 
 ``` r
 delete_tag(client, latest_tags$DemoAudience)
@@ -303,7 +303,7 @@ delete_tag(client, latest_tags$DemoAudience)
 
     ## Posit Connect API Client: 
     ##   Posit Connect Server: http://localhost:3939
-    ##   Posit Connect API Key: ***********icmP
+    ##   Posit Connect API Key: ***********4PDn
 
 ``` r
 # TODO: delete content
