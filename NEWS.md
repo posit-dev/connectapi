@@ -1,4 +1,4 @@
-# connectapi (development version)
+# connectapi 0.12.1
 
 - Fixed `repo_check_branches()` and `repo_check_branches_ref()` to handle the
   updated response format from newer versions of Connect (#524).
