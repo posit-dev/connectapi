@@ -1,5 +1,8 @@
 # connectapi (development version)
 
+- Fixed `repo_check_branches()` and `repo_check_branches_ref()` to handle the
+  updated response format from newer versions of Connect (#524).
+
 # connectapi 0.12.0
 
 - Apps running on Connect Cloud are now supported for OAuth integrations via the
