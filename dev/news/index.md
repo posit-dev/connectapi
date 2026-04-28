@@ -2,6 +2,13 @@
 
 ## connectapi (development version)
 
+- Fixed
+  [`repo_check_branches()`](https://posit-dev.github.io/connectapi/dev/reference/git.md)
+  and
+  [`repo_check_branches_ref()`](https://posit-dev.github.io/connectapi/dev/reference/git.md)
+  to handle the updated response format from newer versions of Connect
+  ([\#524](https://github.com/posit-dev/connectapi/issues/524)).
+
 ## connectapi 0.12.0
 
 CRAN release: 2026-04-13
