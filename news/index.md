@@ -1,6 +1,17 @@
 # Changelog
 
+## connectapi 0.12.1
+
+- Fixed
+  [`repo_check_branches()`](https://posit-dev.github.io/connectapi/reference/git.md)
+  and
+  [`repo_check_branches_ref()`](https://posit-dev.github.io/connectapi/reference/git.md)
+  to handle the updated response format from newer versions of Connect
+  ([\#524](https://github.com/posit-dev/connectapi/issues/524)).
+
 ## connectapi 0.12.0
+
+CRAN release: 2026-04-13
 
 - Apps running on Connect Cloud are now supported for OAuth integrations
   via the new `on_connect_cloud()` helper. The `POSIT_PRODUCT`
