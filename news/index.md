@@ -2,6 +2,8 @@
 
 ## connectapi 0.12.1
 
+CRAN release: 2026-04-29
+
 - Fixed
   [`repo_check_branches()`](https://posit-dev.github.io/connectapi/reference/git.md)
   and
