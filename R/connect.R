@@ -792,9 +792,14 @@ Connect <- R6::R6Class(
       self$GET(path, query = query)
     },
 
-    #' @description Get running processes.
+    #' @description Get running processes. Deprecated; use
+    #' [get_processes()] instead.
     procs = function() {
-      warn_experimental("procs")
+      lifecycle::deprecate_warn(
+        "0.13.0",
+        I("`Connect$procs()`"),
+        "get_processes()"
+      )
       path <- unversioned_url("metrics", "procs")
       self$GET(path)
     },
