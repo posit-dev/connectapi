@@ -5,6 +5,9 @@
   fields added in future Connect releases will appear automatically. Column
   names and types are now determined by the server response rather than a
   hardcoded schema, so they may vary across Connect versions.
+- Corrected the `get_procs()` documentation, which incorrectly stated that only
+  processes on the responding node of a Highly Available cluster are returned
+  (#529).
   
 # connectapi 0.12.1
 

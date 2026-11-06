@@ -165,17 +165,23 @@ export(users_create_remote)
 export(vanity_is_available)
 export(variant_render)
 export(verify_content_name)
-importFrom(lifecycle,deprecate_warn)
-importFrom(lifecycle,deprecated)
+importFrom(lifecycle,
+  deprecate_warn,
+  deprecated
+)
 importFrom(magrittr,"%>%")
-importFrom(rlang,"%||%")
-importFrom(rlang,":=")
-importFrom(rlang,arg_match)
-importFrom(rlang,is_string)
+importFrom(rlang,
+  "%||%",
+  ":=",
+  arg_match,
+  is_string
+)
 importFrom(tibble,as_tibble)
-importFrom(utils,browseURL)
-importFrom(utils,capture.output)
-importFrom(utils,compareVersion)
-importFrom(utils,head)
-importFrom(utils,untar)
+importFrom(utils,
+  browseURL,
+  capture.output,
+  compareVersion,
+  head,
+  untar
+)
 importFrom(uuid,UUIDgenerate)
