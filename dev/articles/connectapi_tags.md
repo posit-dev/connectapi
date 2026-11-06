@@ -60,7 +60,7 @@ tree_project_1
 
     ## Posit Connect API Client: 
     ##   Posit Connect Server: http://localhost:3939
-    ##   Posit Connect API Key: ***********gQBJ
+    ##   Posit Connect API Key: ***********rg1i
 
 ``` r
 
@@ -80,7 +80,7 @@ tree_project_2
 
     ## Posit Connect API Client: 
     ##   Posit Connect Server: http://localhost:3939
-    ##   Posit Connect API Key: ***********gQBJ
+    ##   Posit Connect API Key: ***********rg1i
 
 ``` r
 
@@ -122,7 +122,7 @@ In order to show how tags work, we need some content to work with.
 bnd <- bundle_static(system.file("logo.png", package = "connectapi"))
 ```
 
-    ## Bundling directory (/tmp/RtmpgTAViC/bundledir29af64bcbd11)
+    ## Bundling directory (/tmp/RtmpqmCCbr/bundledir22a3ddeceed)
 
 ``` r
 
@@ -131,7 +131,7 @@ content_1 <- deploy(client, bnd)
 
     ## Getting content endpoint
 
-    ## Found EXISTING content 83bde7c9-b895-4598-9083-8e478e244c64 with name mwlefoodfieexombwkkeulbfd on http://localhost:3939
+    ## Found EXISTING content b5627b82-5557-4c9c-a7f8-e20babed4a43 with name mwlefoodfieexombwkkeulbfd on http://localhost:3939
 
     ## Uploading bundle
 
@@ -167,9 +167,9 @@ set_content_tag_tree(content_1, "DemoProject", "project_1")
     ##    └── project_1
 
     ## Posit Connect Content Task: 
-    ##   Content GUID: 83bde7c9-b895-4598-9083-8e478e244c64
-    ##   URL: http://localhost:3939/connect/#/apps/83bde7c9-b895-4598-9083-8e478e244c64
-    ##   Task ID: U0fQUptQMxstbTNL
+    ##   Content GUID: b5627b82-5557-4c9c-a7f8-e20babed4a43
+    ##   URL: http://localhost:3939/connect/#/apps/b5627b82-5557-4c9c-a7f8-e20babed4a43
+    ##   Task ID: ZEgWLpLMRMYFylZI
 
 ``` r
 
@@ -183,9 +183,9 @@ set_content_tags(content_1, all_tags$DemoAudience$Sales)
     ##    └── Sales
 
     ## Posit Connect Content Task: 
-    ##   Content GUID: 83bde7c9-b895-4598-9083-8e478e244c64
-    ##   URL: http://localhost:3939/connect/#/apps/83bde7c9-b895-4598-9083-8e478e244c64
-    ##   Task ID: U0fQUptQMxstbTNL
+    ##   Content GUID: b5627b82-5557-4c9c-a7f8-e20babed4a43
+    ##   URL: http://localhost:3939/connect/#/apps/b5627b82-5557-4c9c-a7f8-e20babed4a43
+    ##   Task ID: ZEgWLpLMRMYFylZI
 
 Content 2 is for `project_2` and both Audiences (`Sales` and `Finance`).
 
@@ -207,9 +207,9 @@ set_content_tags(
     ##    └── Finance
 
     ## Posit Connect Content Task: 
-    ##   Content GUID: 44f650b2-18c3-4b5c-a027-936035c37d88
-    ##   URL: http://localhost:3939/connect/#/apps/44f650b2-18c3-4b5c-a027-936035c37d88
-    ##   Task ID: MiBfo94jO4bGhHYg
+    ##   Content GUID: 3b511610-e8cd-4b62-ae16-ffc5e8283248
+    ##   URL: http://localhost:3939/connect/#/apps/3b511610-e8cd-4b62-ae16-ffc5e8283248
+    ##   Task ID: rDMXVKmXZAMNB3bg
 
 ### See the tags associated with content
 
@@ -255,35 +255,35 @@ associated with a tag.
 content_list_by_tag(client, all_tags$DemoAudience$Sales)
 ```
 
-    ## # A tibble: 2 × 54
-    ##   guid                 name  title description access_type locked locked_message
-    ##   <chr>                <chr> <chr> <chr>       <chr>       <lgl>  <chr>         
-    ## 1 44f650b2-18c3-4b5c-… pbcy… pbcy… ""          acl         FALSE  ""            
-    ## 2 83bde7c9-b895-4598-… mwle… mwle… ""          acl         FALSE  ""            
-    ## # ℹ 47 more variables: connection_timeout <lgl>, read_timeout <lgl>,
-    ## #   init_timeout <lgl>, idle_timeout <lgl>, max_processes <lgl>,
-    ## #   min_processes <lgl>, max_conns_per_process <lgl>, load_factor <lgl>,
-    ## #   memory_request <lgl>, memory_limit <lgl>, cpu_request <lgl>,
-    ## #   cpu_limit <lgl>, amd_gpu_limit <lgl>, nvidia_gpu_limit <lgl>,
-    ## #   service_account_name <lgl>, default_image_name <lgl>,
-    ## #   default_environment_guid <lgl>, created_time <dttm>, …
+    ## # A tibble: 2 × 59
+    ##   guid        name  title description access_type locked locked_message archived
+    ##   <chr>       <chr> <chr> <chr>       <chr>       <lgl>  <chr>          <lgl>   
+    ## 1 3b511610-e… pbcy… pbcy… ""          acl         FALSE  ""             FALSE   
+    ## 2 b5627b82-5… mwle… mwle… ""          acl         FALSE  ""             FALSE   
+    ## # ℹ 51 more variables: archived_at <lgl>, connection_timeout <lgl>,
+    ## #   read_timeout <lgl>, init_timeout <lgl>, idle_timeout <lgl>,
+    ## #   max_processes <lgl>, min_processes <lgl>, max_conns_per_process <lgl>,
+    ## #   load_factor <lgl>, memory_request <lgl>, memory_limit <lgl>,
+    ## #   cpu_request <lgl>, cpu_limit <lgl>, amd_gpu_limit <lgl>,
+    ## #   nvidia_gpu_limit <lgl>, service_account_name <lgl>,
+    ## #   default_image_name <lgl>, default_environment_guid <lgl>, …
 
 ``` r
 
 content_list_by_tag(client, all_tags$DemoProject$project_1)
 ```
 
-    ## # A tibble: 1 × 54
-    ##   guid                 name  title description access_type locked locked_message
-    ##   <chr>                <chr> <chr> <chr>       <chr>       <lgl>  <chr>         
-    ## 1 83bde7c9-b895-4598-… mwle… mwle… ""          acl         FALSE  ""            
-    ## # ℹ 47 more variables: connection_timeout <lgl>, read_timeout <lgl>,
-    ## #   init_timeout <lgl>, idle_timeout <lgl>, max_processes <lgl>,
-    ## #   min_processes <lgl>, max_conns_per_process <lgl>, load_factor <lgl>,
-    ## #   memory_request <lgl>, memory_limit <lgl>, cpu_request <lgl>,
-    ## #   cpu_limit <lgl>, amd_gpu_limit <lgl>, nvidia_gpu_limit <lgl>,
-    ## #   service_account_name <lgl>, default_image_name <lgl>,
-    ## #   default_environment_guid <lgl>, created_time <dttm>, …
+    ## # A tibble: 1 × 59
+    ##   guid        name  title description access_type locked locked_message archived
+    ##   <chr>       <chr> <chr> <chr>       <chr>       <lgl>  <chr>          <lgl>   
+    ## 1 b5627b82-5… mwle… mwle… ""          acl         FALSE  ""             FALSE   
+    ## # ℹ 51 more variables: archived_at <lgl>, connection_timeout <lgl>,
+    ## #   read_timeout <lgl>, init_timeout <lgl>, idle_timeout <lgl>,
+    ## #   max_processes <lgl>, min_processes <lgl>, max_conns_per_process <lgl>,
+    ## #   load_factor <lgl>, memory_request <lgl>, memory_limit <lgl>,
+    ## #   cpu_request <lgl>, cpu_limit <lgl>, amd_gpu_limit <lgl>,
+    ## #   nvidia_gpu_limit <lgl>, service_account_name <lgl>,
+    ## #   default_image_name <lgl>, default_environment_guid <lgl>, …
 
 ``` r
 
@@ -309,7 +309,7 @@ delete_tag(client, latest_tags$DemoProject)
 
     ## Posit Connect API Client: 
     ##   Posit Connect Server: http://localhost:3939
-    ##   Posit Connect API Key: ***********gQBJ
+    ##   Posit Connect API Key: ***********rg1i
 
 ``` r
 
@@ -318,7 +318,7 @@ delete_tag(client, latest_tags$DemoAudience)
 
     ## Posit Connect API Client: 
     ##   Posit Connect Server: http://localhost:3939
-    ##   Posit Connect API Key: ***********gQBJ
+    ##   Posit Connect API Key: ***********rg1i
 
 ``` r
 
