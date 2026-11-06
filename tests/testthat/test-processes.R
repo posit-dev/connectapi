@@ -286,12 +286,24 @@ test_that("get_processes() fallback applies the filters client-side", {
     client <- MockConnect$new()
     mock_v1_processes_missing(client)
     client$mock_response("GET", "metrics/procs", content = legacy_procs_json)
+    for (guid in purrr::map_chr(legacy_procs_json, "app_guid")) {
+      client$mock_response("GET", paste0("v1/content/", guid), content = list(guid = guid))
+    }
     client
   }
 
+  # content_guid is checked to exist before filtering.
   client <- mock_fallback()
   procs <- get_processes(client, content_guid = "a1b2c3d4-0000-4000-8000-000000000000")
   expect_identical(procs$job_key, "Jz3kQ9xYwPq1LmNo")
+  expect_identical(
+    client$call_log,
+    c(
+      "GET https://connect.example/__api__/v1/system/processes",
+      "GET https://connect.example/__api__/v1/content/a1b2c3d4-0000-4000-8000-000000000000",
+      "GET https://connect.example/__api__/metrics/procs"
+    )
+  )
 
   client <- mock_fallback()
   procs <- get_processes(client, hostname = "node-1")
@@ -302,18 +314,25 @@ test_that("get_processes() fallback applies the filters client-side", {
   expect_equal(nrow(procs), 0)
   expect_process_types(procs)
 
-  # owner_guid is resolved to the owner's content items.
+  # owner_guid is checked to exist, then resolved to the owner's content items.
+  owner <- "0d2c5e1a-7b4f-4f3e-9a8b-1c2d3e4f5a6b"
   client <- mock_fallback()
+  client$mock_response("GET", paste0("v1/users/", owner), content = list(guid = owner))
   client$mock_response(
     "GET",
     "v1/content",
     content = list(list(guid = "6f300623-1e0c-48e6-a473-ddf630c0c0c3"))
   )
-  procs <- get_processes(client, owner_guid = "0d2c5e1a-7b4f-4f3e-9a8b-1c2d3e4f5a6b")
+  procs <- get_processes(client, owner_guid = owner)
   expect_identical(procs$job_key, "tHawGvHZTosJA2Dx")
   expect_identical(
-    client$call_log[[3]],
-    "GET https://connect.example/__api__/v1/content"
+    client$call_log,
+    c(
+      "GET https://connect.example/__api__/v1/system/processes",
+      paste0("GET https://connect.example/__api__/v1/users/", owner),
+      "GET https://connect.example/__api__/v1/content",
+      "GET https://connect.example/__api__/metrics/procs"
+    )
   )
 
   # Filters are ANDed.
@@ -324,6 +343,24 @@ test_that("get_processes() fallback applies the filters client-side", {
     hostname = "node-2"
   )
   expect_equal(nrow(procs), 0)
+})
+
+test_that("get_processes() fallback errors on an unknown content or owner GUID, like v1", {
+  not_found <- list(code = 4, error = "The requested object does not exist.")
+  guid <- "00000000-0000-0000-0000-000000000000"
+
+  client <- MockConnect$new()
+  mock_v1_processes_missing(client)
+  client$mock_response("GET", paste0("v1/content/", guid), content = not_found, status_code = 404L)
+  expect_error(get_processes(client, content_guid = guid), "404")
+  # It fails before fetching the processes.
+  expect_false(any(grepl("metrics/procs", client$call_log)))
+
+  client <- MockConnect$new()
+  mock_v1_processes_missing(client)
+  client$mock_response("GET", paste0("v1/users/", guid), content = not_found, status_code = 404L)
+  expect_error(get_processes(client, owner_guid = guid), "404")
+  expect_false(any(grepl("metrics/procs", client$call_log)))
 })
 
 test_that("get_procs() is deprecated in favor of get_processes()", {
@@ -368,4 +405,10 @@ test_that("get_procs() handles the old response keyed by PID", {
     procs$appGuid,
     c("6f300623-1e0c-48e6-a473-ddf630c0c0c3", "a1b2c3d4-0000-4000-8000-000000000000")
   )
+})
+
+test_that("Connect$procs() is deprecated in favor of get_processes()", {
+  client <- MockConnect$new()
+  client$mock_response("GET", "metrics/procs", content = legacy_procs_json)
+  lifecycle::expect_deprecated(client$procs(), "get_processes")
 })

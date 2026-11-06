@@ -1200,7 +1200,8 @@ will be returned. Otherwise, the argument is forwarded to
 \if{html}{\out{<a id="method-Connect-procs"></a>}}
 \if{latex}{\out{\hypertarget{method-Connect-procs}{}}}
 \subsection{\code{Connect$procs()}}{
-  Get running processes.
+  Get running processes. Deprecated; use
+  \code{\link[=get_processes]{get_processes()}} instead.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{Connect$procs()}

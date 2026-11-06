@@ -121,6 +121,8 @@ deploy_running_python_api <- function(client) {
 
 test_that("get_processes and get_procs return running processes", {
   content <- deploy_running_python_api(client)
+  # Stop the process even if an expectation below fails.
+  withr::defer(content_update(content, min_processes = 0))
   guid <- content$content$guid
 
   procs <- NULL
@@ -178,6 +180,13 @@ test_that("get_processes and get_procs return running processes", {
     0
   )
 
+  # A content or owner GUID that names nothing is an error, as with the v1
+  # endpoint, even when falling back. (Not the nil GUID: older Connect rejects
+  # it as invalid, with a 400.)
+  unknown_guid <- uuid::UUIDgenerate()
+  expect_error(get_processes(client, content_guid = unknown_guid), "404")
+  expect_error(get_processes(client, owner_guid = unknown_guid), "404")
+
   # get_procs() is deprecated but returns the same process, with the server's
   # pid rather than the row index (#532).
   lifecycle::expect_deprecated(old <- get_procs(client))
@@ -186,8 +195,6 @@ test_that("get_processes and get_procs return running processes", {
   expect_identical(old_proc$app_guid, guid)
   expect_equal(as.integer(old_proc$pid), proc$pid)
   expect_s3_class(old_proc$start_time, "POSIXct")
-
-  content_update(content, min_processes = 0)
 })
 
 # experimental --------------------------------------------

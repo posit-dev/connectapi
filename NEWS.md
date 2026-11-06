@@ -13,10 +13,10 @@
   can filter by `content_guid`, `owner_guid`, and `hostname`. On older Connect
   versions, it falls back to the unversioned `GET /metrics/procs` endpoint and
   returns the same columns (#531).
-- `get_procs()` is deprecated in favor of `get_processes()`. It now returns the
-  server's `pid` instead of the row index, parses `start_time` and `heartbeat`
-  as datetimes, and its documentation lists the columns it actually returns
-  (#532).
+- `get_procs()` and the `Connect$procs()` method are deprecated in favor of
+  `get_processes()`. `get_procs()` now returns the server's `pid` instead of
+  the row index, parses `start_time` and `heartbeat` as datetimes, and its
+  documentation lists the columns it actually returns (#532).
   
 # connectapi 0.12.1
 

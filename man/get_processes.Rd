@@ -10,10 +10,10 @@ get_processes(src, content_guid = NULL, owner_guid = NULL, hostname = NULL)
 \item{src}{A Connect R6 client object.}
 
 \item{content_guid}{Optional. Return only processes for the content item
-with this GUID.}
+with this GUID. It is an error if no content item has this GUID.}
 
 \item{owner_guid}{Optional. Return only processes for content owned by the
-user with this GUID.}
+user with this GUID. It is an error if no user has this GUID.}
 
 \item{hostname}{Optional. Return only processes running on the Connect node
 with this hostname.}

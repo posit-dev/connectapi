@@ -787,9 +787,9 @@ get_audit_logs <- function(
 #'
 #' @param src A Connect R6 client object.
 #' @param content_guid Optional. Return only processes for the content item
-#'   with this GUID.
+#'   with this GUID. It is an error if no content item has this GUID.
 #' @param owner_guid Optional. Return only processes for content owned by the
-#'   user with this GUID.
+#'   user with this GUID. It is an error if no user has this GUID.
 #' @param hostname Optional. Return only processes running on the Connect node
 #'   with this hostname.
 #'
@@ -856,16 +856,14 @@ get_processes <- function(
 
   if (endpoint_does_not_exist(res)) {
     # Connect versions before the v1 endpoint only have the unversioned one.
-    out <- legacy_processes(src, content_guid, owner_guid, hostname)
-  } else {
-    src$raise_error(res)
-    out <- parse_processes_csv(httr::content(
-      res,
-      as = "text",
-      encoding = "UTF-8"
-    ))
+    return(legacy_processes(src, content_guid, owner_guid, hostname))
   }
-  type_processes(out)
+  src$raise_error(res)
+  type_processes(parse_processes_csv(httr::content(
+    res,
+    as = "text",
+    encoding = "UTF-8"
+  )))
 }
 
 #' Get Real-Time Process Data
@@ -979,6 +977,17 @@ fetch_legacy_procs <- function(src) {
 # `GET /v1/system/processes`: fetch `GET /metrics/procs`, convert it to the v1
 # columns and conventions, and apply the filters client-side.
 legacy_processes <- function(src, content_guid, owner_guid, hostname) {
+  # Like the v1 endpoint, reject a content or owner GUID that names nothing
+  # rather than returning no processes. These requests raise a 404 if so.
+  if (!is.null(content_guid)) {
+    src$content(guid = content_guid, include = NULL)
+  }
+  if (!is.null(owner_guid)) {
+    src$user(owner_guid)
+    owned <- src$content(owner_guid = owner_guid, include = NULL)
+    owned_guids <- purrr::map_chr(owned, "guid")
+  }
+
   df <- fetch_legacy_procs(src)
 
   renames <- c(
@@ -1015,8 +1024,6 @@ legacy_processes <- function(src, content_guid, owner_guid, hostname) {
     keep <- keep & df$hostname %in% hostname
   }
   if (!is.null(owner_guid)) {
-    owned <- src$content(owner_guid = owner_guid, include = NULL)
-    owned_guids <- purrr::map_chr(owned, "guid")
     keep <- keep & df$content_guid %in% owned_guids
   }
   df[keep, ]
