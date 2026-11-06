@@ -27,6 +27,19 @@ A tibble with the following columns:
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 This returns real-time process data from the Posit Connect API. It requires
-administrator privileges to use. NOTE that this only returns data for the
-server that responds to the request (i.e. in a Highly Available cluster)
+administrator privileges to use. Processes are returned across all nodes in
+a Highly Available cluster and across execution modes (including off-host
+execution, e.g. Kubernetes).
+}
+\details{
+Note that:
+\itemize{
+\item Usage metrics (e.g. CPU and RAM) are the values most recently reported by
+each process, so they may be stale, or \code{NA} if the process has not yet
+reported any metrics.
+\item Processes that have recently ended but have not yet been finalized may
+still appear in the results.
+\item This function uses an internal, unversioned API endpoint, so its behavior
+and the returned columns may change in future versions of Connect.
+}
 }
