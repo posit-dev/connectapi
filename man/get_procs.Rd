@@ -10,36 +10,22 @@ get_procs(src)
 \item{src}{The source object}
 }
 \value{
-A tibble with the following columns:
-\itemize{
-\item \code{pid}: The PID of the current process
-\item \code{appId}: The application ID
-\item \code{appGuid}: The application GUID
-\item \code{appName}: The application name
-\item \code{appUrl}: The application URL
-\item \code{appRunAs}: The application RunAs user
-\item \code{type}: The type of process
-\item \code{cpuCurrent}: The current CPU usage
-\item \code{cpuTotal}: The total CPU usage
-\item \code{ram}: The current RAM usage
-}
+A tibble with one row per process. The columns are those sent by the server,
+which in recent versions of Connect are \code{pid}, \code{app_id}, \code{app_guid},
+\code{app_name}, \code{app_url}, \code{app_run_as}, \code{type}, \code{cpu_current}, \code{ram},
+\code{hostname}, \code{job_key}, \code{image}, \code{start_time}, and \code{heartbeat}.
 }
 \description{
-\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
-This returns real-time process data from the Posit Connect API. It requires
-administrator privileges to use. Processes are returned across all nodes in
-a Highly Available cluster and across execution modes (including off-host
-execution, e.g. Kubernetes).
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \details{
-Note that:
-\itemize{
-\item Usage metrics (e.g. CPU and RAM) are the values most recently reported by
-each process, so they may be stale, or \code{NA} if the process has not yet
-reported any metrics.
-\item Processes that have recently ended but have not yet been finalized may
-still appear in the results.
-\item This function uses an internal, unversioned API endpoint, so its behavior
-and the returned columns may change in future versions of Connect.
+This function is deprecated; please use \code{\link[=get_processes]{get_processes()}}, which uses the
+supported \code{GET /v1/system/processes} endpoint, can filter its results, and
+returns the same columns across Connect versions.
+
+\code{get_procs()} uses the internal, unversioned \code{GET /metrics/procs} endpoint,
+so its behavior and the returned columns may change in future versions of
+Connect. It requires administrator privileges, and returns processes across
+all nodes in a Highly Available cluster.
 }
-}
+\keyword{internal}
