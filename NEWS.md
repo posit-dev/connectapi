@@ -1,10 +1,5 @@
 # connectapi 0.13.0
 
-- Improved performance of API response parsing and pagination. Data frames
-  returned by getter functions now include all columns from the server, so new
-  fields added in future Connect releases will appear automatically. Column
-  names and types are now determined by the server response rather than a
-  hardcoded schema, so they may vary across Connect versions (#483).
 - Corrected the `get_procs()` documentation, which incorrectly stated that only
   processes on the responding node of a Highly Available cluster are returned
   (#529).
@@ -17,7 +12,15 @@
   `get_processes()`. `get_procs()` now returns the server's `pid` instead of
   the row index, parses `start_time` and `heartbeat` as datetimes, and its
   documentation lists the columns it actually returns (#532).
-  
+
+## Breaking changes
+
+- Improved performance of API response parsing and pagination. Data frames
+  returned by getter functions now include all columns from the server, so new
+  fields added in future Connect releases will appear automatically. Column
+  names and types are now determined by the server response rather than a
+  hardcoded schema, so they may vary across Connect versions (#483).
+
 # connectapi 0.12.1
 
 - Fixed `repo_check_branches()` and `repo_check_branches_ref()` to handle the
