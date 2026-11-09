@@ -4,7 +4,7 @@
   returned by getter functions now include all columns from the server, so new
   fields added in future Connect releases will appear automatically. Column
   names and types are now determined by the server response rather than a
-  hardcoded schema, so they may vary across Connect versions.
+  hardcoded schema, so they may vary across Connect versions (#483).
 - Corrected the `get_procs()` documentation, which incorrectly stated that only
   processes on the responding node of a Highly Available cluster are returned
   (#529).
