@@ -1342,7 +1342,9 @@ Get (non-interactive) content visits.
 
 ### `Connect$procs()`
 
-Get running processes.
+Get running processes. Deprecated; use
+[`get_processes()`](https://posit-dev.github.io/connectapi/dev/reference/get_processes.md)
+instead.
 
 #### Usage
 

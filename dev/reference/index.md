@@ -285,8 +285,8 @@ Helpers to “get” data out of Connect
   access token.
 - [`get_packages()`](https://posit-dev.github.io/connectapi/dev/reference/get_packages.md)
   : All package dependencies on the server
-- [`get_procs()`](https://posit-dev.github.io/connectapi/dev/reference/get_procs.md)
-  **\[experimental\]** : Get Real-Time Process Data
+- [`get_processes()`](https://posit-dev.github.io/connectapi/dev/reference/get_processes.md)
+  : Get running processes
 - [`get_runtime_caches()`](https://posit-dev.github.io/connectapi/dev/reference/get_runtime_caches.md)
   : Get runtime caches
 - [`get_runtimes()`](https://posit-dev.github.io/connectapi/dev/reference/get_runtimes.md)
