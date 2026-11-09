@@ -1,4 +1,4 @@
-# connectapi (development version)
+# connectapi 0.13.0
 
 - Improved performance of API response parsing and pagination. Data frames
   returned by getter functions now include all columns from the server, so new
