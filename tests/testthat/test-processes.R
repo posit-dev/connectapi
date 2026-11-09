@@ -198,6 +198,12 @@ test_that("get_processes() validates filters", {
   client <- MockConnect$new()
   expect_error(get_processes(client, content_guid = 1), "`content_guid`")
   expect_error(get_processes(client, hostname = c("a", "b")), "`hostname`")
+  # An empty string would request the list endpoints when checking GUIDs in
+  # the fallback, and an empty query parameter on the v1 endpoint.
+  expect_error(get_processes(client, content_guid = ""), "`content_guid`")
+  expect_error(get_processes(client, owner_guid = ""), "`owner_guid`")
+  expect_error(get_processes(client, hostname = ""), "`hostname`")
+  expect_error(get_processes(client, content_guid = NA_character_), "`content_guid`")
   expect_length(client$call_log, 0)
 })
 

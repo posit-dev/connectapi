@@ -76,8 +76,13 @@ get_processes <- function(
   validate_R6_class(src, "Connect")
   for (arg in c("content_guid", "owner_guid", "hostname")) {
     value <- get(arg)
-    if (!is.null(value) && !is_string(value)) {
-      stop("`", arg, "` must be a single string or `NULL`.", call. = FALSE)
+    if (!is.null(value) && !(is_string(value) && nzchar(value))) {
+      stop(
+        "`",
+        arg,
+        "` must be a single non-empty string or `NULL`.",
+        call. = FALSE
+      )
     }
   }
 

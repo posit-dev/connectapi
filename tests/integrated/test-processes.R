@@ -1,10 +1,12 @@
 # Deploy a dependency-free Python API and keep a process for it running, so
 # the process endpoints have something to return.
 #
-# This needs content that keeps a process running. Any R content of that kind
+# This needs content that keeps a process running. The other content these
+# tests deploy is static or rendered (R Markdown), so no process stays up after
+# deploying it. The Shiny example (used by test-run-as.R) pins R 3.6.3, which
+# newer images don't have, and any R content that keeps a process running
 # (Shiny, Plumber) depends on packages that Connect would have to install on
-# deploy, and the only other content these tests deploy is static. A WSGI app
-# with an empty requirements.txt installs nothing.
+# deploy. A WSGI app with an empty requirements.txt installs nothing.
 deploy_running_python_api <- function(client) {
   py <- get_runtimes(client, runtimes = "python")
   if (is.null(py) || nrow(py) == 0) {
