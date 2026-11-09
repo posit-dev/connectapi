@@ -73,17 +73,6 @@ test_that("get_audit_logs works", {
   expect_s3_class(audit_list$time, "POSIXct")
 })
 
-test_that("get_procs works", {
-  scoped_experimental_silence()
-  proc_data <- get_procs(client)
-
-  # No long-running processes on a fresh test server, so this is usually empty.
-  expect_s3_class(proc_data, "tbl_df")
-  if (nrow(proc_data) > 0) {
-    expect_true(all(c("pid", "appId", "appGuid") %in% names(proc_data)))
-  }
-})
-
 # experimental --------------------------------------------
 
 test_that("content_list_with_permissions works", {

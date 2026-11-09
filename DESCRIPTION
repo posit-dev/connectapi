@@ -86,6 +86,7 @@ Collate:
     'lazy.R'
     'page.R'
     'parse.R'
+    'processes.R'
     'promote.R'
     'remote.R'
     'runtime-caches.R'

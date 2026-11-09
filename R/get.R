@@ -760,60 +760,6 @@ get_audit_logs <- function(
   return(out)
 }
 
-#' Get Real-Time Process Data
-#'
-#' `r lifecycle::badge('experimental')`
-#' This returns real-time process data from the Posit Connect API. It requires
-#' administrator privileges to use. Processes are returned across all nodes in
-#' a Highly Available cluster and across execution modes (including off-host
-#' execution, e.g. Kubernetes).
-#'
-#' Note that:
-#'
-#' * Usage metrics (e.g. CPU and RAM) are the values most recently reported by
-#'   each process, so they may be stale, or `NA` if the process has not yet
-#'   reported any metrics.
-#' * Processes that have recently ended but have not yet been finalized may
-#'   still appear in the results.
-#' * This function uses an internal, unversioned API endpoint, so its behavior
-#'   and the returned columns may change in future versions of Connect.
-#'
-#' @param src The source object
-#'
-#' @return
-#' A tibble with the following columns:
-#'
-#'   * `pid`: The PID of the current process
-#'   * `appId`: The application ID
-#'   * `appGuid`: The application GUID
-#'   * `appName`: The application name
-#'   * `appUrl`: The application URL
-#'   * `appRunAs`: The application RunAs user
-#'   * `type`: The type of process
-#'   * `cpuCurrent`: The current CPU usage
-#'   * `cpuTotal`: The total CPU usage
-#'   * `ram`: The current RAM usage
-#'
-#' @export
-get_procs <- function(src) {
-  validate_R6_class(src, "Connect")
-  warn_experimental("get_procs")
-
-  scoped_experimental_silence()
-  raw_proc_data <- src$procs()
-
-  proc_prep <- purrr::imap(
-    raw_proc_data,
-    function(x, y) {
-      c(list(pid = y), x)
-    }
-  )
-  tbl_data <- parse_connectapi_typed(proc_prep)
-  tbl_data <- coerce_fs_bytes(tbl_data, "ram")
-
-  return(tbl_data)
-}
-
 #' Perform an OAuth credential exchange to obtain a visitor's OAuth access token.
 #'
 #' @param connect A Connect R6 object.
