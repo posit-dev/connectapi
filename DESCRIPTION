@@ -1,7 +1,7 @@
 Type: Package
 Package: connectapi
 Title: Utilities for Interacting with the 'Posit Connect' Server API
-Version: 0.12.1.9000
+Version: 0.13.0
 Authors@R: c(
     person(given = "Kara",
            family = "Woo",
@@ -68,7 +68,6 @@ VignetteBuilder:
     knitr
 Encoding: UTF-8
 Language: en-US
-RoxygenNote: 7.3.3
 Roxygen: list(markdown = TRUE)
 Config/testthat/edition: 3
 Collate:
@@ -97,3 +96,4 @@ Collate:
     'user.R'
     'utils-pipe.R'
     'variant.R'
+Config/roxygen2/version: 8.1.1
