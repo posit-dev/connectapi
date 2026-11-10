@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">connectapi</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.12.1.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.13.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,12 +41,18 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="connectapi-development-version">connectapi (development version)<a class="anchor" aria-label="anchor" href="#connectapi-development-version"></a></h2>
-<ul><li>Improved performance of API response parsing and pagination. Data frames returned by getter functions now include all columns from the server, so new fields added in future Connect releases will appear automatically. Column names and types are now determined by the server response rather than a hardcoded schema, so they may vary across Connect versions.</li>
-<li>Corrected the <code><a href="../reference/get_procs.html">get_procs()</a></code> documentation, which incorrectly stated that only processes on the responding node of a Highly Available cluster are returned (<a href="https://github.com/posit-dev/connectapi/issues/529" class="external-link">#529</a>).</li>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.13.0" id="connectapi-0130">connectapi 0.13.0<a class="anchor" aria-label="anchor" href="#connectapi-0130"></a></h2>
+<ul><li>Corrected the <code><a href="../reference/get_procs.html">get_procs()</a></code> documentation, which incorrectly stated that only processes on the responding node of a Highly Available cluster are returned (<a href="https://github.com/posit-dev/connectapi/issues/529" class="external-link">#529</a>).</li>
 <li>New <code><a href="../reference/get_processes.html">get_processes()</a></code> returns the processes Connect is running for content, using the <code>GET /v1/system/processes</code> endpoint added in Connect 2026.11.0. It can filter by <code>content_guid</code>, <code>owner_guid</code>, and <code>hostname</code>. On older Connect versions, it falls back to the unversioned <code>GET /metrics/procs</code> endpoint and returns the same columns (<a href="https://github.com/posit-dev/connectapi/issues/531" class="external-link">#531</a>).</li>
 <li>
 <code><a href="../reference/get_procs.html">get_procs()</a></code> and the <code>Connect$procs()</code> method are deprecated in favor of <code><a href="../reference/get_processes.html">get_processes()</a></code>. <code><a href="../reference/get_procs.html">get_procs()</a></code> now returns the server’s <code>pid</code> instead of the row index, parses <code>start_time</code> and <code>heartbeat</code> as datetimes, and its documentation lists the columns it actually returns (<a href="https://github.com/posit-dev/connectapi/issues/532" class="external-link">#532</a>).</li>
+</ul><div class="section level3">
+<h3 id="breaking-changes-0-13-0">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-13-0"></a></h3>
+<ul><li>Improved performance of API response parsing and pagination. As a result, getter functions no longer use a fixed list of columns. Data frames now contain the fields that the server returns. If your Connect version does not return a field, that column is not in the data frame. Some column types can also be different across Connect versions. For example, IDs can be integers on older versions (<a href="https://github.com/posit-dev/connectapi/issues/483" class="external-link">#483</a>).</li>
 </ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.12.1" id="connectapi-0121">connectapi 0.12.1<a class="anchor" aria-label="anchor" href="#connectapi-0121"></a></h2><p class="text-muted">CRAN release: 2026-04-29</p>
 <ul><li>Fixed <code><a href="../reference/git.html">repo_check_branches()</a></code> and <code><a href="../reference/git.html">repo_check_branches_ref()</a></code> to handle the updated response format from newer versions of Connect (<a href="https://github.com/posit-dev/connectapi/issues/524" class="external-link">#524</a>).</li>
