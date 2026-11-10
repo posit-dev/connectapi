@@ -15,12 +15,12 @@
 
 ## Breaking changes
 
-- Improved performance of API response parsing and pagination. Getter functions
-  no longer use a fixed list of columns. Data frames now contain the fields that
-  the server returns. If your Connect version does not return a field, that
-  column is not in the data frame. Some column types can also be different
-  across Connect versions. For example, IDs can be integers on older versions
-  (#483).
+- Improved performance of API response parsing and pagination. As a result,
+  getter functions no longer use a fixed list of columns. Data frames now
+  contain the fields that the server returns. If your Connect version does not
+  return a field, that column is not in the data frame. Some column types can
+  also be different across Connect versions. For example, IDs can be integers on
+  older versions (#483).
 
 # connectapi 0.12.1
 
