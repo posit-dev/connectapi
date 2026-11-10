@@ -1,9 +1,6 @@
 # Get Real-Time Process Data
 
-**\[experimental\]** This returns real-time process data from the Posit
-Connect API. It requires administrator privileges to use. NOTE that this
-only returns data for the server that responds to the request (i.e. in a
-Highly Available cluster)
+**\[deprecated\]**
 
 ## Usage
 
@@ -19,24 +16,19 @@ get_procs(src)
 
 ## Value
 
-A tibble with the following columns:
+A tibble with one row per process. The columns are those sent by the
+server, which in recent versions of Connect are `pid`, `app_id`,
+`app_guid`, `app_name`, `app_url`, `app_run_as`, `type`, `cpu_current`,
+`ram`, `hostname`, `job_key`, `image`, `start_time`, and `heartbeat`.
 
-- `pid`: The PID of the current process
+## Details
 
-- `appId`: The application ID
+This function is deprecated; please use
+[`get_processes()`](https://posit-dev.github.io/connectapi/reference/get_processes.md),
+which uses the supported `GET /v1/system/processes` endpoint, can filter
+its results, and returns the same columns across Connect versions.
 
-- `appGuid`: The application GUID
-
-- `appName`: The application name
-
-- `appUrl`: The application URL
-
-- `appRunAs`: The application RunAs user
-
-- `type`: The type of process
-
-- `cpuCurrent`: The current CPU usage
-
-- `cpuTotal`: The total CPU usage
-
-- `ram`: The current RAM usage
+`get_procs()` uses the internal, unversioned `GET /metrics/procs`
+endpoint, so its behavior and the returned columns may change in future
+versions of Connect. It requires administrator privileges, and returns
+processes across all nodes in a Highly Available cluster.

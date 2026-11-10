@@ -15,36 +15,40 @@ We will start by deploying a few pieces of test content, two test users,
 set access controls, and tags:
 
 ``` r
+
 bnd <- bundle_static(system.file("logo.png", package = "connectapi"))
 ```
 
-    ## Bundling directory (/tmp/Rtmpq8ogdk/bundledir2a595027476a)
+    ## Bundling directory (/tmp/RtmpyYOA5z/bundledir21403c35a254)
 
 ``` r
+
 content_1 <- deploy(client, bnd, title = "App 1")
 ```
 
     ## Getting content endpoint
 
-    ## Found EXISTING content ced166de-922d-4911-a363-9a411287366a with name mwlefoodfieexombwkkeulbfd on http://localhost:3939
+    ## Found EXISTING content b9843cda-a760-42b9-9e8d-8076a8a2beed with name mwlefoodfieexombwkkeulbfd on http://localhost:3939
 
     ## Uploading bundle
 
     ## Deploying bundle
 
 ``` r
+
 content_2 <- deploy(client, bnd, title = "App 2")
 ```
 
     ## Getting content endpoint
 
-    ## Found EXISTING content 7eb9b1c0-ea86-4b8f-b3db-914bde37ed7b with name pbcyvkgufivjubqtxvafbsnay on http://localhost:3939
+    ## Found EXISTING content ae6c4ba0-8f98-4d40-af22-7a2dfda33698 with name pbcyvkgufivjubqtxvafbsnay on http://localhost:3939
 
     ## Uploading bundle
 
     ## Deploying bundle
 
 ``` r
+
 user_restricted <- client$users_create("example_restricted", "restricted@example.com", password = create_random_name())
 user_all <- client$users_create("example_all", "all@example.com", password = create_random_name())
 
@@ -56,6 +60,7 @@ invisible(create_tag_tree(client, "Example", "Permissions"))
     ##    └── Permissions
 
 ``` r
+
 tags <- get_tags(client)
 tag_1 <- tags$Example$Permissions
 
@@ -67,11 +72,12 @@ set_content_tags(content_1, tag_1)
     ##    └── Permissions
 
     ## Posit Connect Content Task: 
-    ##   Content GUID: ced166de-922d-4911-a363-9a411287366a
-    ##   URL: http://localhost:3939/connect/#/apps/ced166de-922d-4911-a363-9a411287366a
-    ##   Task ID: kjcn1cGrS5bWIU8W
+    ##   Content GUID: b9843cda-a760-42b9-9e8d-8076a8a2beed
+    ##   URL: http://localhost:3939/connect/#/apps/b9843cda-a760-42b9-9e8d-8076a8a2beed
+    ##   Task ID: pHUYEu9cPI8YXmuu
 
 ``` r
+
 set_content_tags(content_2, tag_1)
 ```
 
@@ -80,42 +86,45 @@ set_content_tags(content_2, tag_1)
     ##    └── Permissions
 
     ## Posit Connect Content Task: 
-    ##   Content GUID: 7eb9b1c0-ea86-4b8f-b3db-914bde37ed7b
-    ##   URL: http://localhost:3939/connect/#/apps/7eb9b1c0-ea86-4b8f-b3db-914bde37ed7b
-    ##   Task ID: WevzB0GNH64TiNlA
+    ##   Content GUID: ae6c4ba0-8f98-4d40-af22-7a2dfda33698
+    ##   URL: http://localhost:3939/connect/#/apps/ae6c4ba0-8f98-4d40-af22-7a2dfda33698
+    ##   Task ID: nSBeOdU9R5rB1eNU
 
 ``` r
+
 content_add_user(content_1, user_restricted$guid, role = "viewer")
 ```
 
-    ## Adding permission for user '40462a44-2a0c-4481-85a6-e12b31658a3d' with role 'viewer'
+    ## Adding permission for user 'b9fdc467-378b-44ca-a99b-f58fbdf94a5c' with role 'viewer'
 
     ## Posit Connect Content Task: 
-    ##   Content GUID: ced166de-922d-4911-a363-9a411287366a
-    ##   URL: http://localhost:3939/connect/#/apps/ced166de-922d-4911-a363-9a411287366a
-    ##   Task ID: kjcn1cGrS5bWIU8W
+    ##   Content GUID: b9843cda-a760-42b9-9e8d-8076a8a2beed
+    ##   URL: http://localhost:3939/connect/#/apps/b9843cda-a760-42b9-9e8d-8076a8a2beed
+    ##   Task ID: pHUYEu9cPI8YXmuu
 
 ``` r
+
 content_add_user(content_1, user_all$guid, "viewer")
 ```
 
-    ## Adding permission for user '44f7cf83-d2af-4364-b907-a046f2bf0093' with role 'viewer'
+    ## Adding permission for user '413e1066-ce84-4f3e-b9e3-896ecb2bb4b5' with role 'viewer'
 
     ## Posit Connect Content Task: 
-    ##   Content GUID: ced166de-922d-4911-a363-9a411287366a
-    ##   URL: http://localhost:3939/connect/#/apps/ced166de-922d-4911-a363-9a411287366a
-    ##   Task ID: kjcn1cGrS5bWIU8W
+    ##   Content GUID: b9843cda-a760-42b9-9e8d-8076a8a2beed
+    ##   URL: http://localhost:3939/connect/#/apps/b9843cda-a760-42b9-9e8d-8076a8a2beed
+    ##   Task ID: pHUYEu9cPI8YXmuu
 
 ``` r
+
 content_add_user(content_2, user_all$guid, "viewer")
 ```
 
-    ## Adding permission for user '44f7cf83-d2af-4364-b907-a046f2bf0093' with role 'viewer'
+    ## Adding permission for user '413e1066-ce84-4f3e-b9e3-896ecb2bb4b5' with role 'viewer'
 
     ## Posit Connect Content Task: 
-    ##   Content GUID: 7eb9b1c0-ea86-4b8f-b3db-914bde37ed7b
-    ##   URL: http://localhost:3939/connect/#/apps/7eb9b1c0-ea86-4b8f-b3db-914bde37ed7b
-    ##   Task ID: WevzB0GNH64TiNlA
+    ##   Content GUID: ae6c4ba0-8f98-4d40-af22-7a2dfda33698
+    ##   URL: http://localhost:3939/connect/#/apps/ae6c4ba0-8f98-4d40-af22-7a2dfda33698
+    ##   Task ID: nSBeOdU9R5rB1eNU
 
 ## Retrieve the Content List
 
@@ -133,6 +142,7 @@ is the “content list” itself, we will retrieve a list of Content GUIDs
 first.
 
 ``` r
+
 my_tag_content <- content_list_by_tag(client, tag_1)
 content_guids <- my_tag_content$guid
 
@@ -144,6 +154,7 @@ c_with_p <- content_list_with_permissions(client, .p = ~ .x$guid %in% content_gu
     ## Getting permission list
 
 ``` r
+
 # another approach, with a function
 c_with_p <- content_list_with_permissions(client, .p = function(.x) {
   .x$guid %in% content_guids
@@ -154,6 +165,7 @@ c_with_p <- content_list_with_permissions(client, .p = function(.x) {
     ## Getting permission list
 
 ``` r
+
 # notice the "permission" column:
 c_with_p$permission
 ```
@@ -162,16 +174,16 @@ c_with_p$permission
     ## # A tibble: 2 × 5
     ##   id    content_guid                         principal_guid principal_type role 
     ##   <chr> <chr>                                <chr>          <chr>          <chr>
-    ## 1 3     7eb9b1c0-ea86-4b8f-b3db-914bde37ed7b 44f7cf83-d2af… user           view…
-    ## 2 NA    7eb9b1c0-ea86-4b8f-b3db-914bde37ed7b bff49875-a714… user           owner
+    ## 1 3     ae6c4ba0-8f98-4d40-af22-7a2dfda33698 413e1066-ce84… user           view…
+    ## 2 NA    ae6c4ba0-8f98-4d40-af22-7a2dfda33698 646c25be-dd35… user           owner
     ## 
     ## [[2]]
     ## # A tibble: 3 × 5
     ##   id    content_guid                         principal_guid principal_type role 
     ##   <chr> <chr>                                <chr>          <chr>          <chr>
-    ## 1 1     ced166de-922d-4911-a363-9a411287366a 40462a44-2a0c… user           view…
-    ## 2 2     ced166de-922d-4911-a363-9a411287366a 44f7cf83-d2af… user           view…
-    ## 3 NA    ced166de-922d-4911-a363-9a411287366a bff49875-a714… user           owner
+    ## 1 1     b9843cda-a760-42b9-9e8d-8076a8a2beed b9fdc467-378b… user           view…
+    ## 2 2     b9843cda-a760-42b9-9e8d-8076a8a2beed 413e1066-ce84… user           view…
+    ## 3 NA    b9843cda-a760-42b9-9e8d-8076a8a2beed 646c25be-dd35… user           owner
 
 ## Filter the Content List
 
@@ -184,6 +196,7 @@ In a Shiny application or other personalized context (i.e. using
 should see (using the `permissions` column returned above)
 
 ``` r
+
 # restricted has access
 content_list_guid_has_access(c_with_p, user_restricted$guid) %>% .$title
 ```
@@ -191,6 +204,7 @@ content_list_guid_has_access(c_with_p, user_restricted$guid) %>% .$title
     ## [1] "mwlefoodfieexombwkkeulbfd"
 
 ``` r
+
 # "all" has access
 content_list_guid_has_access(c_with_p, user_all$guid) %>% .$title
 ```

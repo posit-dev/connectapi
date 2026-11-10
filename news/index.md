@@ -1,5 +1,39 @@
 # Changelog
 
+## connectapi 0.13.0
+
+- Corrected the
+  [`get_procs()`](https://posit-dev.github.io/connectapi/reference/get_procs.md)
+  documentation, which incorrectly stated that only processes on the
+  responding node of a Highly Available cluster are returned
+  ([\#529](https://github.com/posit-dev/connectapi/issues/529)).
+- New
+  [`get_processes()`](https://posit-dev.github.io/connectapi/reference/get_processes.md)
+  returns the processes Connect is running for content, using the
+  `GET /v1/system/processes` endpoint added in Connect 2026.11.0. It can
+  filter by `content_guid`, `owner_guid`, and `hostname`. On older
+  Connect versions, it falls back to the unversioned
+  `GET /metrics/procs` endpoint and returns the same columns
+  ([\#531](https://github.com/posit-dev/connectapi/issues/531)).
+- [`get_procs()`](https://posit-dev.github.io/connectapi/reference/get_procs.md)
+  and the `Connect$procs()` method are deprecated in favor of
+  [`get_processes()`](https://posit-dev.github.io/connectapi/reference/get_processes.md).
+  [`get_procs()`](https://posit-dev.github.io/connectapi/reference/get_procs.md)
+  now returns the server’s `pid` instead of the row index, parses
+  `start_time` and `heartbeat` as datetimes, and its documentation lists
+  the columns it actually returns
+  ([\#532](https://github.com/posit-dev/connectapi/issues/532)).
+
+### Breaking changes
+
+- Improved performance of API response parsing and pagination. Getter
+  functions no longer use a fixed list of columns. Data frames now
+  contain the fields that the server returns. If your Connect version
+  does not return a field, that column is not in the data frame. Some
+  column types can also be different across Connect versions. For
+  example, IDs can be integers on older versions
+  ([\#483](https://github.com/posit-dev/connectapi/issues/483)).
+
 ## connectapi 0.12.1
 
 CRAN release: 2026-04-29
